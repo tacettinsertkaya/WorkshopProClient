@@ -11,12 +11,13 @@ import { Subject } from "app/models/subject";
 declare var $: any;
 @Component({
   moduleId: module.id,
+  // tslint:disable-next-line: component-selector
   selector: "brainstorm-cmp",
   templateUrl: "brainstorm.component.html",
 })
 export class BrainstormComponent implements OnInit {
   title = "ClientApp";
-  txtMessage: string = "";
+  txtMessage = "";
   uniqueID: string = new Date().getTime().toString();
   messages = new Array<Message>();
   message = new Message();
@@ -68,9 +69,9 @@ export class BrainstormComponent implements OnInit {
   }
 
   sendMessage(headerId: string): void {
-    let msg = this.inputText[headerId];
+    const msg = this.inputText[headerId];
     console.log("this.selectedSubject", this.selectedSubject);
-    if (this.filterTrim(msg) != "") {
+    if (this.filterTrim(msg) !== "") {
       console.log("txt", msg);
       this.message = new Message();
       this.message.clientuniqueid = headerId;
@@ -78,6 +79,7 @@ export class BrainstormComponent implements OnInit {
       this.message.messageText = msg;
       this.message.subjectId = this.selectedSubject.id;
       this.message.date = new Date();
+      this.message.isCategorized = false;
       console.log("this.message", this.message);
       this.chatService.sendMessage(this.message);
       this.inputText[headerId] = "";

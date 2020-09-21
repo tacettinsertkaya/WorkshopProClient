@@ -23,6 +23,7 @@ import { TemplateDetailService } from "../services/template-detail.service";
 import { SubjectsService } from "../services/subject.service";
 import { CommentService } from "../services/comment.service";
 import { SharedService } from "../services/shared.service";
+import { CategorizedComponent } from "./categorized/categorized.component";
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(WorkshopRoutes), FormsModule],
@@ -34,6 +35,7 @@ import { SharedService } from "../services/shared.service";
     TemplatesComponent,
     SubjectComponent,
     SubjectListComponent,
+    CategorizedComponent,
   ],
   providers: [
     ChatService,

@@ -6,4 +6,5 @@ export class Message {
   messageText: string;
   date: Date;
   comments = [];
+  isCategorized: boolean;
 }

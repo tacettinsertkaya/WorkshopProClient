@@ -1,0 +1,133 @@
+<div class="row">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header">
+        <h4 class="card-title">Kategorize Bölümü</h4>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngFor="let msg of messages">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <input type="checkbox" 
+          class="checkbox" 
+          [(ngModel)]="msg.isCategorized"
+          aria-label="Checkbox for following text input">
+          {{ msg.messageText }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="container-fluid">
+  <div class="row">
+    <div class="col-md-4">
+   
+      <button  data-toggle="modal" 
+      data-target="#categorizeModal" 
+      (click)="selectMessage()"
+      class="btn btn-round btn-success">
+        Kategorize Et
+      </button>
+    </div>
+    <div class="col-md-4"></div>
+    <div class="col-md-4"></div>
+  </div>
+</div>
+
+
+<div class="modal fade" id="categorizeModal" 
+tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+  aria-hidden="true">
+  <form #templateForm="ngForm" 
+  (ngSubmit)="saveCategorized()"
+  class="container mt-3">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header justify-content-center">
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <i class="nc-icon nc-simple-remove"></i>
+          </button>
+          <h4 class="title title-up">
+            Kategorize Edilecek Liste
+          </h4>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="categorized-title">Başlık Giriniz</label>
+                <input style="max-height: max-content" rows="10" class="form-control textarea"
+                  [(ngModel)]="categorized.title" [ngModelOptions]="{ standalone: true }" />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label class="messaje-list-title">Mesaj Listleri</label>
+                <div *ngFor="let slct of selectedMessages">
+                  <div class="row">
+                    <div class="col-md-12">
+                      <div class="card">
+                        <div class="card-header message-list">
+                          {{ slct.messageText }}
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="modal-footer">
+          <div class="left-side">
+            <button type="button" class="btn btn-default btn-link" data-dismiss="modal">
+              Vazgeç
+            </button>
+          </div>
+          <div class="divider"></div>
+          <div class="right-side">
+            <button type="submit" class="btn btn-danger btn-link">
+              Kaydet
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+
+<style>
+  .modal-body {
+    padding: 20px 10px;
+  }
+
+  .checkbox {
+    margin-right: 20px;
+    margin-bottom: 10px;
+  }
+
+  .messaje-list-title {
+    font-weight: bold;
+    font-size: 16px;
+  }
+
+  .message-list {
+    margin: 10px 10px 10px 10px;
+  }
+
+  .categorized-title {
+    font-weight: bold;
+    font-size: 16px;
+    margin-bottom: 10px;
+  }
+</style>

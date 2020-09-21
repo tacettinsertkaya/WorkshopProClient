@@ -6,6 +6,7 @@ import { AuthLayoutComponent } from "app/layouts/auth/auth-layout.component";
 import { TemplatesComponent } from "./templates/templates.component";
 import { SubjectComponent } from "./subject/subject.component";
 
+
 export const WorkshopRoutes: Routes = [
   {
     path: "",

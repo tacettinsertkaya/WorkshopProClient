@@ -11,6 +11,7 @@ import { isNullOrUndefined } from "util";
 export class MessageService {
   constructor(private http: HttpClient, private baseService: BaseService) {}
 
+  // tslint:disable-next-line:no-shadowed-variable
   create(Message: Message) {
     console.log("Endpoint", EndPoints);
     console.log("EndPoints.Message", EndPoints.MESSAGE);
@@ -21,6 +22,7 @@ export class MessageService {
     );
   }
 
+  // tslint:disable-next-line: no-shadowed-variable
   update(Message: Message) {
     return this.baseService.update<Message>(
       Message,

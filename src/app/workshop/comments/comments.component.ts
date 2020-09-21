@@ -19,6 +19,7 @@ declare interface DataTable {
 
 @Component({
   moduleId: module.id,
+  // tslint:disable-next-line:component-selector
   selector: "comments-cmp",
   templateUrl: "comments.component.html",
 })

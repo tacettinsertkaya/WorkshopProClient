@@ -4,4 +4,6 @@ export const EndPoints = {
   TEMPLATE_DETAIL: "TemplateDetail",
   SUBJECT: "Subject",
   COMMENT: "Comment",
+  CATEGORY: "Category",
+  CATEGORYMESSAGE: "CategoryMessage",
 };

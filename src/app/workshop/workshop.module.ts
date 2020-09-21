@@ -12,6 +12,7 @@ import { CommentsComponent } from "./comments/comments.component";
 import { TemplatesComponent } from "./templates/templates.component";
 import { SubjectComponent } from "./subject/subject.component";
 import { SubjectListComponent } from "./subject/subject-list/subject-list.component";
+import { CategorizedComponent } from "./categorized/categorized.component";
 
 import { WorkshopRoutes } from "./workshop.routing";
 
@@ -22,8 +23,8 @@ import { TemplateService } from "../services/template.service";
 import { TemplateDetailService } from "../services/template-detail.service";
 import { SubjectsService } from "../services/subject.service";
 import { CommentService } from "../services/comment.service";
+import { CategoryService } from "../services/category.service";
 import { SharedService } from "../services/shared.service";
-import { CategorizedComponent } from "./categorized/categorized.component";
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(WorkshopRoutes), FormsModule],
@@ -46,6 +47,8 @@ import { CategorizedComponent } from "./categorized/categorized.component";
     SubjectsService,
     CommentService,
     SharedService,
+    CategoryService,
+
     TemplateDetailService,
   ],
 })

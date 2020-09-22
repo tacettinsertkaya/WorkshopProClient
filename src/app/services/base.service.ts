@@ -56,7 +56,7 @@ export class BaseService {
     );
   }
   public delete(id: number, base_url, end_point) {
-    return this.http.post(
+    return this.http.delete(
       `${base_url}/${end_point}/${id}`,
       this.createTokenOptions()
     );

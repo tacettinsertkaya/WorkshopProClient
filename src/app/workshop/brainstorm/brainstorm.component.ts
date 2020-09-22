@@ -90,6 +90,7 @@ export class BrainstormComponent implements OnInit {
       this._ngZone.run(() => {
         message.subjectId = this.selectedSubject.id;
         this.messages.push(message);
+        this.sharedService.allMessage.next(this.messages);
         this.sortedlist();
       });
     });

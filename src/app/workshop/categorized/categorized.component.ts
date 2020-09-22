@@ -7,6 +7,7 @@ import { Message } from "app/models/message";
 import { Subject } from "app/models/subject";
 import { CategoryService } from "app/services/category.service";
 import { MessageService } from "app/services/message.service";
+import { SharedService } from "app/services/shared.service";
 import { first } from "rxjs/operators";
 
 declare var $: any;
@@ -28,8 +29,13 @@ export class CategorizedComponent implements OnInit {
 
   constructor(
     private messageService: MessageService,
-    private categoryService: CategoryService
-  ) {}
+    private categoryService: CategoryService,
+    private sharedService: SharedService,
+  ) {
+    this.sharedService.allMessage.subscribe((data) => {
+      this.getMessage();
+    });
+  }
 
   ngOnInit() {
     this.getMessage();
@@ -71,7 +77,7 @@ export class CategorizedComponent implements OnInit {
 
   deleteCategory(item) {
     this.categoryService
-      .delete(item.category.id)
+      .deleteCategoryMessage(item)
       .pipe(first())
       .subscribe(
         (data) => {

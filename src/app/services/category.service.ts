@@ -32,6 +32,16 @@ export class CategoryService {
     );
   }
 
+  deleteCategoryMessage(category: CategorizedMessage) {
+    console.log("Endpoint", EndPoints);
+    console.log("EndPoints.CATEGORY", EndPoints.CATEGORY);
+    return this.baseService.post<CategorizedMessage>(
+      category,
+      environment.serverBaseUrl,
+      EndPoints.CATEGORY + "/DeleteCategoryMessage"
+    );
+  }
+
   update(Category: Category) {
     return this.baseService.update<Category>(
       Category,
@@ -44,7 +54,7 @@ export class CategoryService {
     return this.baseService.delete(
       id,
       environment.serverBaseUrl,
-      EndPoints.CATEGORY + "/Delete"
+      EndPoints.CATEGORY
     );
   }
 

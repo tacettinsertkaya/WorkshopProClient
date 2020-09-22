@@ -6,6 +6,7 @@ import { environment } from "../../environments/environment";
 import { EndPoints } from "./end-points";
 import { Message } from "../models/message";
 import { isNullOrUndefined } from "util";
+import { CategorizedMessage } from "app/models/dto/categorized-message";
 
 @Injectable()
 export class MessageService {
@@ -52,6 +53,22 @@ export class MessageService {
       "",
       environment.serverBaseUrl,
       EndPoints.MESSAGE
+    );
+  }
+
+  getAllNonCategoryMessage() {
+    return this.baseService.list<Message>(
+      "",
+      environment.serverBaseUrl,
+      EndPoints.MESSAGE + "/NonCategoryMessage"
+    );
+  }
+
+  getAllCategoryMessage() {
+    return this.baseService.list<CategorizedMessage>(
+      "",
+      environment.serverBaseUrl,
+      EndPoints.MESSAGE + "/CategoryMessage"
     );
   }
 }

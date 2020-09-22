@@ -33,11 +33,12 @@ export class CategorizedComponent implements OnInit {
 
   ngOnInit() {
     this.getMessage();
+    this.getCategory();
   }
 
   private getMessage() {
     this.messageService
-      .getAllMessage()
+      .getAllNonCategoryMessage()
       .pipe(first())
       .subscribe(
         (data) => {
@@ -50,13 +51,13 @@ export class CategorizedComponent implements OnInit {
   }
 
   private getCategory() {
-    this.categoryService
-      .getAllCategory()
+    this.messageService
+      .getAllCategoryMessage()
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log("category", data);
-          // this.categorys = data;
+          console.log("xxxx", data);
+          this.categorizedMessages = data;
         },
         (error) => {}
       );
@@ -94,54 +95,27 @@ export class CategorizedComponent implements OnInit {
     console.log("messages --->:", this.messages);
   }
 
-  createCategoryMessage(category) {
-    let data = new CategorizedMessage();
-
-    let categoryMessages = Array<Message>();
-
-    this.selectedMessages.forEach((item) => {
-      item.categoryId = item.id;
-
-      this.messageService
-        .update(item)
-        .pipe(first())
-        .subscribe(
-          (res) => {
-            // categoryMessages.push(item);
-            // const index = this.messages.indexOf(item);
-            // this.messages.splice(index, 1);
-          },
-          (error) => {}
-        );
-    });
-
-    // data.category = category;
-    // data.categoryMessages = categoryMessages;
-
-    // this.categorizedMessages.push(data);
-
-    this.getMessage();
-    this.getCategory();
-
-    this.categorized.title = "";
-    this.selectedMessages = [];
-  }
-
   saveCategorized() {
     console.log("save categorized");
 
+    let categoryMessage = new CategorizedMessage();
     let category = new Category();
-
     category.categoryTitle = this.categorized.title;
 
+    categoryMessage.category = category;
+    categoryMessage.messages = this.selectedMessages;
+
     this.categoryService
-      .create(category)
+      .createCategoryMessage(categoryMessage)
       .pipe(first())
       .subscribe(
         (data) => {
           console.log("category", data);
-          let category = data;
-          this.createCategoryMessage(category);
+          this.selectedMessages = [];
+          this.categorized.title = "";
+          this.getMessage();
+          this.getCategory();
+          $("#categorizeModal").modal("hide");
         },
         (error) => {}
       );

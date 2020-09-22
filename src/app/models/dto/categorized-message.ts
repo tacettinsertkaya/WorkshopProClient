@@ -3,5 +3,5 @@ import { Message } from "../message";
 
 export class CategorizedMessage {
   category: Category;
-  categoryMessages: Array<Message>;
+  messages: Array<Message> = new Array<Message>();
 }

@@ -6,6 +6,7 @@ import { environment } from "../../environments/environment";
 import { EndPoints } from "./end-points";
 import { Category } from "../models/Category";
 import { isNullOrUndefined } from "util";
+import { CategorizedMessage } from "app/models/dto/categorized-message";
 
 @Injectable()
 export class CategoryService {
@@ -21,6 +22,16 @@ export class CategoryService {
     );
   }
 
+  createCategoryMessage(categoryMessage: CategorizedMessage) {
+    console.log("Endpoint", EndPoints);
+    console.log("EndPoints.CATEGORY", EndPoints.CATEGORY);
+    return this.baseService.post<Category>(
+      categoryMessage,
+      environment.serverBaseUrl,
+      EndPoints.CATEGORY + "/CreateCategoryMessage"
+    );
+  }
+
   update(Category: Category) {
     return this.baseService.update<Category>(
       Category,
@@ -33,7 +44,7 @@ export class CategoryService {
     return this.baseService.delete(
       id,
       environment.serverBaseUrl,
-      EndPoints.CATEGORY
+      EndPoints.CATEGORY + "/Delete"
     );
   }
 

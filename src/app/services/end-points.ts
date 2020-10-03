@@ -3,6 +3,7 @@ export const EndPoints = {
   TEMPLATE: "Template",
   TEMPLATE_DETAIL: "TemplateDetail",
   SUBJECT: "Subject",
+  RETRO_CONFIGURATION: "RetroConfiguration",
   COMMENT: "Comment",
   CATEGORY: "Category",
   CATEGORYMESSAGE: "CategoryMessage",

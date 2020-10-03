@@ -32,7 +32,7 @@ export const ROUTES: RouteInfo[] = [
     icontype: "nc-icon nc-bank",
   },
   {
-    path: "/retrospectives",
+    path: "/retro-start",
     title: "Retro",
     type: "link",
     icontype: "nc-icon nc-chat-33",

@@ -5,6 +5,7 @@ import { FormsModule } from "@angular/forms";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 
 import { RetrospectivesComponent } from "./retrospectives/retrospectives.component";
+import { RetrospectivesInitComponent } from "./retrospectives/retrospectives-init.component";
 
 import { SchemaComponent } from "./schema/schema.component";
 import { BrainstormComponent } from "./brainstorm/brainstorm.component";
@@ -24,12 +25,14 @@ import { TemplateDetailService } from "../services/template-detail.service";
 import { SubjectsService } from "../services/subject.service";
 import { CommentService } from "../services/comment.service";
 import { CategoryService } from "../services/category.service";
+import { RetroConfigurationService } from "../services/retro-configuration";
 import { SharedService } from "../services/shared.service";
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(WorkshopRoutes), FormsModule],
   declarations: [
     RetrospectivesComponent,
+    RetrospectivesInitComponent,
     SchemaComponent,
     BrainstormComponent,
     CommentsComponent,
@@ -48,7 +51,7 @@ import { SharedService } from "../services/shared.service";
     CommentService,
     SharedService,
     CategoryService,
-
+    RetroConfigurationService,
     TemplateDetailService,
   ],
 })

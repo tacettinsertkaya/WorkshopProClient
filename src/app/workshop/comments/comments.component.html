@@ -2,12 +2,27 @@
   <div class="col-md-12">
     <div class="card">
       <div class="card-header">
-        <h4 class="card-title">ELEKTRONİK YAZI TAHTASI</h4>
-        <p>
-          Bu oturumda fikirler anonim olarak alınmaktadır. Şu ana kadar
-          aşağıdaki {{ messageCount }} fikir ileri sürülmüştür. Yorumlarınızı
-          “Yorum Yap” linkini tıklayarak ekleyebilirsiniz.
-        </p>
+        <div class="row">
+          <div class="col-sm-6">
+            <h5 class="card-title">ELEKTRONİK YAZI TAHTASI</h5>
+            <p>
+              Bu oturumda fikirler anonim olarak alınmaktadır. Şu ana kadar
+              aşağıdaki {{ this.messages.length }} fikir ileri sürülmüştür.
+              Yorumlarınızı “Yorum Yap” linkini tıklayarak ekleyebilirsiniz.
+            </p>
+          </div>
+          <div class="col-sm-6">
+            <h5
+              *ngIf="retroRight != null"
+              class="float-right"
+              [ngClass]="
+                retroRight.commentRight > 0 ? 'text-success' : 'text-danger'
+              "
+            >
+              Yorum Hakkı:{{ retroRight.commentRight }}
+            </h5>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -25,6 +40,7 @@
         <div class="card-footer">
           <button
             type="button"
+            [disabled]="retroRight.commentRight <= 0"
             (click)="addCommentModal(msg)"
             class="btn btn-primary float-right btn-round"
           >
@@ -73,6 +89,7 @@
         <textarea
           style="padding: 5px; max-height: 300px !important; height: 200px"
           class="form-control textarea"
+          [disabled]="retroRight.commentRight == 0"
           [(ngModel)]="commentText"
           (keydown.enter)="sendComment()"
         ></textarea>

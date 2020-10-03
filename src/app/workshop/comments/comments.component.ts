@@ -8,6 +8,7 @@ import { TemplateService } from "app/services/template.service";
 import { Template } from "app/models/template";
 import { SharedService } from "app/services/shared.service";
 import { Subject } from "app/models/subject";
+import { RetroConfigration } from "app/models/retro-configuration";
 
 declare var $: any;
 
@@ -29,6 +30,7 @@ export class CommentsComponent implements OnInit {
   messageCount = 0;
   commentText: string = "";
   comment: Comment = new Comment();
+  retroRight: RetroConfigration;
 
   constructor(
     private chatService: ChatService,
@@ -39,6 +41,10 @@ export class CommentsComponent implements OnInit {
   ) {
     this.subscribeToEvents();
     this.commentToEvents();
+    this.retroConfigurationToEvents();
+    this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
+      this.retroRight = right;
+    });
   }
 
   ngOnInit() {
@@ -69,7 +75,7 @@ export class CommentsComponent implements OnInit {
       this.comment.messageId = this.selectedMessage.id;
       this.comment.commentText = this.commentText;
       this.comment.date = new Date();
-
+      this.comment.retroId = this.retroRight.retroId;
       this.chatService.sendComment(this.comment);
       this.commentText = "";
       $("#commentModal").modal("hide");
@@ -89,9 +95,25 @@ export class CommentsComponent implements OnInit {
     this.chatService.commentReceived.subscribe((comment: Comment) => {
       this._ngZone.run(() => {
         let message = this.messages.filter((p) => p.id == comment.messageId);
+        let myShallowClonedObject = { ...this.messages }; // Will do a shallow copy
+
+        console.log("message", myShallowClonedObject);
+
         message[0].comments.push(comment);
+        let myShallowClonedObject2 = { ...this.messages };
+        console.log("message-2", myShallowClonedObject2);
       });
     });
+  }
+
+  private retroConfigurationToEvents(): void {
+    this.chatService.retroConfigurationReceived.subscribe(
+      (retro: RetroConfigration) => {
+        this._ngZone.run(() => {
+          this.retroRight = retro;
+        });
+      }
+    );
   }
 
   private getMessage() {
@@ -100,7 +122,7 @@ export class CommentsComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log("message", data);
+          console.log("xxx", data);
           this.messages = data;
           this.messageCount = this.messages.length;
           this.sortedlist();

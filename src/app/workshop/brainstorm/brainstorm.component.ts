@@ -7,6 +7,7 @@ import { TemplateService } from "app/services/template.service";
 import { Template } from "app/models/template";
 import { SharedService } from "app/services/shared.service";
 import { Subject } from "app/models/subject";
+import { RetroConfigration } from "app/models/retro-configuration";
 
 declare var $: any;
 @Component({
@@ -22,7 +23,7 @@ export class BrainstormComponent implements OnInit {
   messages = new Array<Message>();
   message = new Message();
   inputText = {};
-
+  retroRight: RetroConfigration = new RetroConfigration();
   selectedSubject: Subject;
   template = new Template();
   constructor(
@@ -33,6 +34,7 @@ export class BrainstormComponent implements OnInit {
     private sharedService: SharedService
   ) {
     this.subscribeToEvents();
+    this.retroConfigurationToEvents();
 
     this.sharedService.messageSource.subscribe((message: string) => {
       this.getTemplate(message);
@@ -41,10 +43,15 @@ export class BrainstormComponent implements OnInit {
     this.sharedService.selectSubject.subscribe((subject: Subject) => {
       this.selectedSubject = subject;
     });
+
+    this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
+      this.retroRight = right;
+    });
   }
 
   ngOnInit(): void {
     this.getMessage();
+    console.log("retroRight", this.retroRight);
   }
 
   getTemplate(templateId: any) {
@@ -80,6 +87,7 @@ export class BrainstormComponent implements OnInit {
       this.message.subjectId = this.selectedSubject.id;
       this.message.date = new Date();
       this.message.isCategorized = false;
+      this.message.retroId = this.retroRight.retroId;
       console.log("this.message", this.message);
       this.chatService.sendMessage(this.message);
       this.inputText[headerId] = "";
@@ -100,6 +108,16 @@ export class BrainstormComponent implements OnInit {
     this.messages.sort(function (a, b) {
       return new Date(b.date).getTime() - new Date(a.date).getTime();
     });
+  }
+
+  private retroConfigurationToEvents(): void {
+    this.chatService.retroConfigurationReceived.subscribe(
+      (retro: RetroConfigration) => {
+        this._ngZone.run(() => {
+          this.retroRight = retro;
+        });
+      }
+    );
   }
 
   private getMessage() {

@@ -3,6 +3,7 @@ import { HubConnection, HubConnectionBuilder } from "@aspnet/signalr";
 import { Message } from "../models/message";
 import { Comment } from "../models/comment";
 import { environment } from "../../environments/environment";
+import { RetroConfigration } from "app/models/retro-configuration";
 
 @Injectable()
 export class ChatService {
@@ -11,6 +12,7 @@ export class ChatService {
   connectionEstablished = new EventEmitter<Boolean>();
 
   commentReceived = new EventEmitter<Comment>();
+  retroConfigurationReceived = new EventEmitter<RetroConfigration>();
 
   private connectionIsEstablished = false;
   private _hubConnection: HubConnection;
@@ -19,6 +21,7 @@ export class ChatService {
     this.createConnection();
     this.registerOnServerEvents();
     this.commentOnServerEvents();
+    this.RetroConfigurationOnServerEvents();
     this.startConnection();
   }
 
@@ -65,6 +68,12 @@ export class ChatService {
   private commentOnServerEvents(): void {
     this._hubConnection.on("CommentReceived", (data: any) => {
       this.commentReceived.emit(data);
+    });
+  }
+
+  private RetroConfigurationOnServerEvents(): void {
+    this._hubConnection.on("RetroConfig", (data: any) => {
+      this.retroConfigurationReceived.emit(data);
     });
   }
 }

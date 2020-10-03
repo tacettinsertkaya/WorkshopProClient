@@ -18,13 +18,13 @@
   <div class="col-md-12">
     <button
       (click)="selectSubject(subject)"
-      class="card text-center p-3 btn"
+      class="card text-center p-3 btn w-100"
       [ngClass]="{ active: selectSubjectId == subject.id }"
     >
       <div class="card-header">
-        <h6 class="title">{{ subject.subjectTitle }}</h6>
+        <h5 class="title">{{ subject.subjectTitle }}</h5>
       </div>
-      <div class="card-body w-100">
+      <div class="card-body">
         <span style="text-transform: initial; font-weight: 400">{{
           subject.subjectDescription
         }}</span>

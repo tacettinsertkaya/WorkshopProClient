@@ -10,6 +10,7 @@ declare var $: any;
   moduleId: module.id,
   selector: "retro-cmp",
   templateUrl: "retrospectives.component.html",
+  styleUrls: ["./retrospectives.component.css"],
 })
 export class RetrospectivesComponent implements OnInit {
   /**

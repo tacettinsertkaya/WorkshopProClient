@@ -48,6 +48,16 @@ export class MessageService {
     );
   }
 
+  getMessageById(id: number) {
+    return this.baseService.get<Message>(
+      id,
+      environment.serverBaseUrl,
+      EndPoints.MESSAGE+'/GetMessage'
+    );
+  }
+
+  
+
   getAllMessage() {
     return this.baseService.list<Message>(
       "",
@@ -69,6 +79,14 @@ export class MessageService {
       "",
       environment.serverBaseUrl,
       EndPoints.MESSAGE + "/CategoryMessage"
+    );
+  }
+
+  getAllCategoryMessageOrderVote() {
+    return this.baseService.list<CategorizedMessage>(
+      "",
+      environment.serverBaseUrl,
+      EndPoints.MESSAGE + "/CategoryMessageOrderVote"
     );
   }
 }

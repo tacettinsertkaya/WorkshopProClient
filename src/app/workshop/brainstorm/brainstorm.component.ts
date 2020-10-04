@@ -72,7 +72,7 @@ export class BrainstormComponent implements OnInit {
   }
 
   nextComment() {
-    this.sharedService.tabSource.next(".comments");
+    this.sharedService.tabSource.next("comments");
   }
 
   sendMessage(headerId: string): void {

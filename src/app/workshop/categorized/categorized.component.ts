@@ -126,4 +126,8 @@ export class CategorizedComponent implements OnInit {
         (error) => {}
       );
   }
+
+  Vote(){
+    this.sharedService.tabSource.next(".multi-vote");
+  }
 }

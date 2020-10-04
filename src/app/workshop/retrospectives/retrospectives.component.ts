@@ -23,6 +23,7 @@ export class RetrospectivesComponent implements OnInit {
     private configService: RetroConfigurationService
   ) {
     this.sharedService.tabSource.subscribe((tab: string) => {
+      
       $(tab).click();
       $(".tab-progress").find(".nav-item").removeClass("active");
     });

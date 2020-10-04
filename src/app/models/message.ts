@@ -9,4 +9,5 @@ export class Message {
   date: Date;
   comments = [];
   isCategorized: boolean;
+  commentCount:number;
 }

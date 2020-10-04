@@ -4,6 +4,7 @@ import { Message } from "../models/message";
 import { Comment } from "../models/comment";
 import { environment } from "../../environments/environment";
 import { RetroConfigration } from "app/models/retro-configuration";
+import { VoteDto } from "app/models/dto/vote-dto";
 
 @Injectable()
 export class ChatService {
@@ -12,6 +13,7 @@ export class ChatService {
   connectionEstablished = new EventEmitter<Boolean>();
 
   commentReceived = new EventEmitter<Comment>();
+  voteReceived = new EventEmitter<Comment>();
   retroConfigurationReceived = new EventEmitter<RetroConfigration>();
 
   private connectionIsEstablished = false;
@@ -22,6 +24,7 @@ export class ChatService {
     this.registerOnServerEvents();
     this.commentOnServerEvents();
     this.RetroConfigurationOnServerEvents();
+    this.voteOnServerEvents();
     this.startConnection();
   }
 
@@ -31,6 +34,10 @@ export class ChatService {
 
   sendComment(comment: Comment) {
     this._hubConnection.invoke("NewComment", comment);
+  }
+
+  setVote(data:VoteDto) {
+    this._hubConnection.invoke("setVote", data);
   }
 
   getMessage() {
@@ -71,9 +78,18 @@ export class ChatService {
     });
   }
 
+
   private RetroConfigurationOnServerEvents(): void {
     this._hubConnection.on("RetroConfig", (data: any) => {
       this.retroConfigurationReceived.emit(data);
     });
   }
+
+  private voteOnServerEvents(): void {
+    this._hubConnection.on("VoteReceived", (data: any) => {
+      this.voteReceived.emit(data);
+    });
+  }
+
+  
 }

@@ -14,6 +14,7 @@ import { TemplatesComponent } from "./templates/templates.component";
 import { SubjectComponent } from "./subject/subject.component";
 import { SubjectListComponent } from "./subject/subject-list/subject-list.component";
 import { CategorizedComponent } from "./categorized/categorized.component";
+import { VoteComponent } from "./vote/vote.component";
 
 import { WorkshopRoutes } from "./workshop.routing";
 
@@ -40,6 +41,7 @@ import { SharedService } from "../services/shared.service";
     SubjectComponent,
     SubjectListComponent,
     CategorizedComponent,
+    VoteComponent
   ],
   providers: [
     ChatService,

@@ -82,11 +82,37 @@ export class MessageService {
     );
   }
 
+
+  getArchiveMessage() {
+    return this.baseService.list<CategorizedMessage>(
+      "",
+      environment.serverBaseUrl,
+      EndPoints.MESSAGE +"/GetMessageArchive"
+    );
+  }
+
+  getFavoriteArchiveMessagea() {
+    return this.baseService.list<CategorizedMessage>(
+      "",
+      environment.serverBaseUrl,
+      EndPoints.MESSAGE +  "/GetMessageFavoriteArchive"
+    );
+  }
+
+
   getAllCategoryMessageOrderVote() {
     return this.baseService.list<CategorizedMessage>(
       "",
       environment.serverBaseUrl,
       EndPoints.MESSAGE + "/CategoryMessageOrderVote"
+    );
+  }
+
+  messageArchive(messages:any) {
+    return this.baseService.post<Message>(
+      messages,
+      environment.serverBaseUrl,
+      EndPoints.MESSAGE + "/MessageArchive"
     );
   }
 }

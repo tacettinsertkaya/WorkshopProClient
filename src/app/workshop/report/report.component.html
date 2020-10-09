@@ -1,0 +1,167 @@
+<div class="row">
+    <div class="col-sm-6">
+      <h4 class="card-title">Raporla</h4>
+    </div>
+    <div class="col-sm-6">
+       
+    </div>
+  </div>
+
+<div class="row">
+
+    <div class="col-sm-6">
+        <h3 class="header-title text-center" *ngIf="categorizedMessages.length>0">Arşiv</h3>
+        <div *ngFor="let item of categorizedMessages" >
+         
+          <div class="row" *ngIf="item.messages.length>0">
+            <div class="col-md-12">
+              <div class="card">
+                <div class="card-header">
+                  <h4 class="card-title">
+                    <div class="row">
+                      <div class="col-sm-6">
+                        <h6 class="card-title">{{ item.category.categoryTitle }}</h6>
+                      </div>
+                      <div class="col-sm-6">
+        
+                      </div>
+                    </div>
+                  </h4>
+        
+                  <div *ngFor="let categoryMessage of item.messages">
+
+                  <div class="alert alert-primary "   *ngIf="!categoryMessage.isCategorized">
+      
+                      <div class="form-check mt-3">
+                          <div class="form-check">
+                            <label class="form-check-label w-100">
+                              <input
+                                (change)="changeCategory(categoryMessage,item)"
+                                class="form-check-input"
+                                [(ngModel)]="categoryMessage.isCategorized"
+                                type="checkbox"
+                              />
+                              <span class="form-check-sign"></span>
+                           
+                                <span class="text-white " >
+                                    {{ categoryMessage.messageText }}</span>
+                                  
+                                    <span class="badge badge-pill badge-warning float-right"  style="margin: 0 5px !important; font-size:1.2em"><i class="fa fa-heart"></i> Oy ({{categoryMessage.voteCount}}) </span>
+                                    <span class="badge badge-pill badge-danger float-right" style=" font-size:1.2em">Yorum 
+                                    ({{categoryMessage.commentCount}}) </span>
+                             
+                            </label>
+                            
+                          </div>
+                        </div>
+                 
+                      
+                  </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        
+       </div>
+   <div class="col-sm-6">
+    <h3 class="header-title text-center" *ngIf="categorizedFavoriMessages.length>0">Kategoriler</h3>
+    <div *ngFor="let item of categorizedFavoriMessages">
+      
+       <div class="row" *ngIf="item.messages.length>0">
+         <div class="col-md-12">
+           <div class="card">
+             <div class="card-header">
+               <h4 class="card-title">
+                 <div class="row">
+                   <div class="col-sm-6">
+                     <h6 class="card-title">{{ item.category.categoryTitle }}</h6>
+                   </div>
+                   <div class="col-sm-6">
+     
+                   </div>
+                 </div>
+               </h4>
+
+
+     <div *ngFor="let categoryMessage of item.messages">
+
+    
+               <div class="alert alert-primary " *ngIf="categoryMessage.isCategorized">
+   
+                   <div class="form-check mt-3">
+                       <div class="form-check">
+                         <label class="form-check-label w-100">
+                           <input
+                             (change)="changeCategoryRemove(categoryMessage,item)"
+                             class="form-check-input"
+                             [(ngModel)]="categoryMessage.isCategorized"
+                             type="checkbox"
+                           />
+                           <span class="form-check-sign"></span>
+                           <span class="text-white">
+                               {{ categoryMessage.messageText }}</span>
+                 
+                               <span class="badge badge-pill badge-warning float-right"  style="margin: 0 5px !important; font-size:1.2em"><i class="fa fa-heart"></i> Oy ({{categoryMessage.voteCount}}) </span>
+                               <span class="badge badge-pill badge-danger float-right" style=" font-size:1.2em">Yorum 
+                               ({{categoryMessage.commentCount}}) </span>
+                         </label>
+                         
+                       </div>
+                     </div>
+              
+                   
+               </div>
+            </div>
+             </div>
+           </div>
+         </div>
+       </div>
+     </div>
+   </div>
+
+  
+</div>
+<div class="row">
+    <div class="col-md-3 offset-9">
+      <button
+       
+        (click)="archiveMessage()"
+        class="btn btn-round btn-success btn-block btn-lg float-right"
+      >
+        RAPORLA
+      </button>
+    </div>
+  </div>
+
+
+ 
+
+
+  
+  <style>
+    .modal-body {
+      padding: 20px 10px;
+    }
+  
+    .checkbox {
+      margin-right: 20px;
+      margin-bottom: 10px;
+    }
+  
+    .messaje-list-title {
+      font-weight: bold;
+      font-size: 16px;
+    }
+  
+    .message-list {
+      margin: 10px 10px 10px 10px;
+    }
+  
+    .categorized-title {
+      font-weight: bold;
+      font-size: 16px;
+      margin-bottom: 10px;
+    }
+  </style>

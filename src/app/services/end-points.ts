@@ -7,4 +7,5 @@ export const EndPoints = {
   COMMENT: "Comment",
   CATEGORY: "Category",
   CATEGORYMESSAGE: "CategoryMessage",
+ USERS: 'USERS',
 };

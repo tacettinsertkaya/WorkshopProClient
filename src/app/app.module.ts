@@ -17,8 +17,10 @@ import { AdminLayoutComponent } from "./layouts/admin/admin-layout.component";
 import { AuthLayoutComponent } from "./layouts/auth/auth-layout.component";
 import { AppRoutes } from "./app.routing";
 
-import { HttpClientModule } from "@angular/common/http";
-
+import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { UserService } from './services/user.service';
+import { JwtInterceptor } from './helpers/jwt.interceptor';
+import { ErrorInterceptor } from './helpers/error.interceptor';
 
 @NgModule({
   imports: [
@@ -38,6 +40,12 @@ import { HttpClientModule } from "@angular/common/http";
     AdminLayoutComponent,
     AuthLayoutComponent,
     LoginComponent,
+  ],
+  providers: [
+    UserService,
+    { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
+    { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
+
   ],
   bootstrap: [AppComponent],
 })

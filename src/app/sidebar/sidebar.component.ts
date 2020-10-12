@@ -49,6 +49,12 @@ export const ROUTES: RouteInfo[] = [
     type: "link",
     icontype: "nc-icon nc-single-copy-04",
   },
+  {
+    path: "/users",
+    title: "Kullanıcılar",
+    type: "link",
+    icontype: "nc-icon nc-single-02",
+  },
 
   // {
   //   path: "/components",

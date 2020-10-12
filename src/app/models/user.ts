@@ -5,7 +5,11 @@ export class User {
     userName: string;
     email: string;
     phone: string;
-    password: string;
+    rawPassword: string;
     token:string;
+    statu:string;
+
+    
+
   }
   

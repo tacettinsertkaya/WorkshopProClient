@@ -6,6 +6,7 @@ import { LoginComponent } from "./login/login.component";
 import { AuthLayoutComponent } from "app/layouts/auth/auth-layout.component";
 import { TemplatesComponent } from "./templates/templates.component";
 import { SubjectComponent } from "./subject/subject.component";
+import { UserManagementComponent } from "./user-management/user-management.component";
 
 export const WorkshopRoutes: Routes = [
   {
@@ -26,6 +27,10 @@ export const WorkshopRoutes: Routes = [
       {
         path: "subjects",
         component: SubjectComponent,
+      },
+      {
+        path: "users",
+        component: UserManagementComponent,
       },
     ],
   },

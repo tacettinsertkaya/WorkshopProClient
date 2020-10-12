@@ -81,11 +81,11 @@ export class UserService {
 
   // tslint:disable-next-line: typedef
   create(user: User) {
-    console.log('User service', user);
+   
     return this.baseService.post<User>(
       user,
       environment.serverBaseUrl,
-      EndPoints.USERS
+      EndPoints.USERS+'/register'
     );
   }
 
@@ -95,7 +95,7 @@ export class UserService {
     return this.baseService.update<User>(
       user,
       environment.serverBaseUrl,
-      EndPoints.USERS
+      EndPoints.USERS+'/updateUser'
     );
   }
 
@@ -104,7 +104,7 @@ export class UserService {
     return this.baseService.delete(
       id,
       environment.serverBaseUrl,
-      EndPoints.USERS
+      EndPoints.USERS+'/deleteUser'
     );
   }
 
@@ -116,6 +116,15 @@ export class UserService {
       EndPoints.USERS+'/GetUserById'
     );
   }
+
+    // tslint:disable-next-line:typedef
+    getAllUser() {
+      return this.baseService.list<User>("",
+        environment.serverBaseUrl,
+        EndPoints.USERS+'/GetAllUser'
+      );
+    }
+  
 
   profileUpdate(user: User) {
     return this.baseService.post<User>(

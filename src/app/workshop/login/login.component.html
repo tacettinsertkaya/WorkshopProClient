@@ -25,11 +25,11 @@
     <div class="content">
       <div class="container">
         <div class="col-lg-4 col-md-6 ml-auto mr-auto">
-          <form class="form" method="" action="">
+          <form [formGroup]="loginForm" (ngSubmit)="logIn()">
             <div class="card card-login">
               <div class="card-header">
                 <div class="card-header">
-                  <h3 class="header text-center">Login</h3>
+                  <h3 class="header text-center">GİRİŞ</h3>
                 </div>
               </div>
               <div class="card-body">
@@ -45,11 +45,20 @@
                   <input
                     type="text"
                     class="form-control"
-                    placeholder="UserName"
+                    formControlName="username"
+                    placeholder="Kullanıcı Adı"
                     (focus)="focus = true"
                     (blur)="focus = false"
                   />
+                  
+                
                 </div>
+                <div
+                *ngIf="(loginForm.get('username').invalid && ( loginForm.get('username').touched) || loginForm.get('username').dirty)">
+
+     
+                <small *ngIf="loginForm.get('username').errors?.required" class="text-danger">Kullanıcı adı giriniz</small>
+            </div>
                 <div
                   class="input-group"
                   [ngClass]="{ 'input-group-focus': focus1 === true }"
@@ -61,12 +70,21 @@
                   </div>
                   <input
                     type="password"
-                    placeholder="Password"
+                    placeholder="Şifre"
+                    formControlName="password"
                     class="form-control"
                     (focus)="focus1 = true"
                     (blur)="focus1 = false"
                   />
+                 
+                  
                 </div>
+                <div
+                *ngIf="(loginForm.get('password').invalid && ( loginForm.get('password').touched) || loginForm.get('password').dirty)">
+
+     
+                <small *ngIf="loginForm.get('password').errors?.required" class="text-danger">Şifre giriniz</small>
+            </div>
                 <div
                   class="input-group"
                   [ngClass]="{ 'input-group-focus': focus1 === true }"
@@ -78,18 +96,21 @@
                   </div>
                   <input
                     type="text"
-                    placeholder="Alias"
+                    placeholder="Takma Ad"
+                    formControlName="alias"
                     class="form-control"
                     (focus)="focus1 = true"
                     (blur)="focus1 = false"
                   />
+
+             
+             
                 </div>
               </div>
               <div class="card-footer">
-                <a
-                  href="#dashboard"
+                <button type="submit" [disabled]="loading"
                   class="btn btn-warning btn-round btn-block mb-3"
-                  >Login</a
+                  >GİRİŞ</button
                 >
               </div>
             </div>

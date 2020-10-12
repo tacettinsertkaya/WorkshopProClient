@@ -29,6 +29,7 @@
     "@aspnet/signalr": "^1.1.4",
     "@ng-bootstrap/ng-bootstrap": "^2.1.0",
     "@ngui/map": "0.30.3",
+    "@ngx-loading-bar/router": "^5.1.0",
     "@types/googlemaps": "3.26.14",
     "ajv": "6.5.0",
     "angular-cli": "^1.0.0-beta.28.3",

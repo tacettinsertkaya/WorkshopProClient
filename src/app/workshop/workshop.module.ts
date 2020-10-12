@@ -1,7 +1,7 @@
 import { NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { HttpClient, HttpClientModule } from "@angular/common/http";
 
 import { RetrospectivesComponent } from "./retrospectives/retrospectives.component";
@@ -16,6 +16,7 @@ import { SubjectListComponent } from "./subject/subject-list/subject-list.compon
 import { CategorizedComponent } from "./categorized/categorized.component";
 import { VoteComponent } from "./vote/vote.component";
 import { ReportComponent } from "./report/report.component";
+import { UserManagementComponent } from "./user-management/user-management.component";
 
 import { WorkshopRoutes } from "./workshop.routing";
 
@@ -29,9 +30,10 @@ import { CommentService } from "../services/comment.service";
 import { CategoryService } from "../services/category.service";
 import { RetroConfigurationService } from "../services/retro-configuration";
 import { SharedService } from "../services/shared.service";
+import { UserService } from "app/services/user.service";
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(WorkshopRoutes), FormsModule],
+  imports: [CommonModule, RouterModule.forChild(WorkshopRoutes), FormsModule,ReactiveFormsModule],
   declarations: [
     RetrospectivesComponent,
     RetrospectivesInitComponent,
@@ -43,13 +45,13 @@ import { SharedService } from "../services/shared.service";
     SubjectListComponent,
     CategorizedComponent,
     VoteComponent,
-    ReportComponent
+    ReportComponent,
+    UserManagementComponent
   ],
   providers: [
     ChatService,
     MessageService,
     HttpClient,
-    BaseService,
     TemplateService,
     SubjectsService,
     CommentService,
@@ -57,6 +59,7 @@ import { SharedService } from "../services/shared.service";
     CategoryService,
     RetroConfigurationService,
     TemplateDetailService,
+
   ],
 })
 export class WorkshopModule {}

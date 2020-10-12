@@ -3,6 +3,7 @@ import { ROUTES } from '../.././sidebar/sidebar.component';
 import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
+import { UserService } from 'app/services/user.service';
 
 var misc:any ={
     navbar_menu_visible: 0,
@@ -23,16 +24,26 @@ export class NavbarComponent implements OnInit{
     private toggleButton;
     private sidebarVisible: boolean;
     private _router: Subscription;
-
+    userName:string;
     @ViewChild("navbar-cmp") button;
 
-    constructor(location:Location, private renderer : Renderer, private element : ElementRef, private router: Router) {
+    constructor(location:Location, private renderer : Renderer, private element : ElementRef, private router: Router,
+        private userService: UserService) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
     }
 
     ngOnInit(){
+
+
+        console.log("username",this.userService.currentUser);
+
+        if(this.userService.currentUserValue!=null)
+        {
+            this.userName=this.userService.currentUserValue.userName;
+        }
+
         this.listTitles = ROUTES.filter(listTitle => listTitle);
 
         const navbar: HTMLElement = this.element.nativeElement;
@@ -49,6 +60,11 @@ export class NavbarComponent implements OnInit{
         });
     }
 
+    logout() {
+        localStorage.removeItem('currentUser');
+        this.userService.currentUserSetValue(null);
+        this.router.navigate(['/login']);
+      }
     minimizeSidebar(){
       const body = document.getElementsByTagName('body')[0];
 

@@ -47,7 +47,7 @@
 
 
                   <button
-                    (click)="ChangePassword(row.id)"
+                    (click)="OpenPasswordModal(row)"
                     type="button"
                     class="btn btn-secondary btn-icon btn-sm edit mr-1"
                   >
@@ -211,6 +211,98 @@
     </div>
   </form>
 </div>
+
+
+
+<div
+  class="modal fade"
+  id="changePasswordModal"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="ModalLabel"
+  aria-hidden="true"
+>
+  
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header justify-content-center">
+          <button
+            type="button"
+            class="close"
+            data-dismiss="modal"
+            aria-label="Close"
+          >
+            <i class="nc-icon nc-simple-remove"></i>
+          </button>
+          <h4 class="title title-up">
+             Şifre Güncelle
+          </h4>
+        </div>
+        <div class="modal-body">
+
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label>Yeni Şifre</label>
+                <input
+                  style="max-height: max-content"
+                  rows="10"
+                  class="form-control textarea"
+                  [(ngModel)]="resetPassword.newPassword"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label>Şifre Tekrar</label>
+                <input
+                  type="text"
+                  style="max-height: max-content"
+                  rows="10"
+                  class="form-control"
+                  [(ngModel)]="resetPassword.confirmPassword"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+            </div>
+          </div>
+
+         
+
+
+       
+
+
+  
+        </div>
+
+        <div class="modal-footer">
+          <div class="left-side">
+            <button
+              type="button"
+              class="btn btn-default btn-link"
+              data-dismiss="modal"
+            >
+              Vazgeç
+            </button>
+          </div>
+          <div class="divider"></div>
+          <div class="right-side">
+            <button type="button" (click)="changePassword()" class="btn btn-danger btn-link">
+              Kaydet
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+ 
+</div>
+
 
 
 

@@ -117,6 +117,16 @@ export class UserService {
     );
   }
 
+   // tslint:disable-next-line:typedef
+   sendUserInfo(id: string) {
+    return this.baseService.get<any>(
+      id,
+      environment.serverBaseUrl,
+      EndPoints.USERS+'/SendUserInfo'
+    );
+  }
+
+
     // tslint:disable-next-line:typedef
     getAllUser(roles) {
       return this.baseService.post<User[]>(roles,

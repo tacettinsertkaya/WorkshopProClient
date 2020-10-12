@@ -116,6 +116,7 @@ export class LoginComponent implements OnInit {
               console.log('user', user);
               console.log('this.returnUrl', this.returnUrl);
               localStorage.setItem('currentUser', JSON.stringify(user));
+              localStorage.setItem('token', user.token);
               this.userService.currentUserSetValue(user);
               this.router.navigate(['/']);
               this.loading = false;
@@ -133,6 +134,7 @@ export class LoginComponent implements OnInit {
 
   logout() {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
     this.userService.currentUserSetValue(null);
   }
 

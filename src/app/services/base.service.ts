@@ -2,12 +2,16 @@ import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
+import { UserService } from "./user.service";
 
 @Injectable()
 export class BaseService {
   constructor(private http: HttpClient) {}
 
   private createTokenOptions() {
+
+    console.log("localStorage.getItem()",localStorage.getItem("token"));
+
     return {
       headers: new HttpHeaders().set(
         "Authorization",

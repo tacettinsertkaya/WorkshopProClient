@@ -6,6 +6,7 @@ import { SharedService } from "app/services/shared.service";
 import swal from "sweetalert2";
 import { UserService } from "app/services/user.service";
 import { User } from "app/models/user";
+import { ResetPassword } from "app/models/reset-password";
 
 declare var $: any;
 
@@ -19,6 +20,9 @@ export class SuperUserManagementComponent implements OnInit {
   users: Array<User> = [];
   user: User = new User();
   isUpdate: boolean = false;
+  userId:string;
+  selectedUser=new User();
+  resetPassword:ResetPassword=new ResetPassword();
   constructor(
     private userService: UserService,
     private sharedService: SharedService
@@ -60,13 +64,57 @@ export class SuperUserManagementComponent implements OnInit {
       );
   }
 
+  OpenPasswordModal(user){
+   this.selectedUser=user;
+   $('#changePasswordModal').modal('show');
+  }
   
-  ChangePassword(userId: any){
-    
+  changePassword(){
+  
+    this.resetPassword.Id=this.selectedUser.id;
+    this.resetPassword.username=this.selectedUser.userName;
+  
+    this.userService
+    .resetpassword(this.resetPassword)
+    .pipe(first())
+    .subscribe(
+      (user) => {
+
+        this.resetPassword.newPassword='';
+        this.resetPassword.confirmPassword='';
+     
+        $('#changePasswordModal').modal('hide');
+
+      },
+      (error) => {
+
+      }
+    );
   } 
   
   SendMail(userId: any){
-    
+    this.userService
+    .sendUserInfo(userId)
+    .pipe(first())
+    .subscribe((res) => {
+      $.notify(
+        {
+          icon: "ti-gift",
+          message: "Kullanıcı bilgileri  başarılı bir şekilde gönderildi..",
+        },
+        {
+          type: "success",
+          timer: 4000,
+          placement: {
+            from: "top",
+            align: "right",
+          },
+          template:
+            '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
+        }
+      );
+      
+    });
   }
 
 

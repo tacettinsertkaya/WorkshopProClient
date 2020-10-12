@@ -118,8 +118,8 @@ export class UserService {
   }
 
     // tslint:disable-next-line:typedef
-    getAllUser() {
-      return this.baseService.list<User>("",
+    getAllUser(roles) {
+      return this.baseService.post<User[]>(roles,
         environment.serverBaseUrl,
         EndPoints.USERS+'/GetAllUser'
       );

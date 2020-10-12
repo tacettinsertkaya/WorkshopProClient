@@ -12,10 +12,10 @@ declare var $: any;
 
 @Component({
   moduleId: module.id,
-  selector: "user-management-cmp",
-  templateUrl: "user-management.component.html",
+  selector: "super-user-management-cmp",
+  templateUrl: "super-user-management.component.html",
 })
-export class UserManagementComponent implements OnInit {
+export class SuperUserManagementComponent implements OnInit {
   users: Array<User> = [];
   user: User = new User();
   isUpdate: boolean = false;
@@ -25,13 +25,12 @@ export class UserManagementComponent implements OnInit {
   ) {}
   ngOnInit() {
     this.getAllUser();
+    this.user.statu="SuperAdmin";
   }
 
 
   getAllUser() {
-    let filterRoles=["Admin","Leader","Member"];
-
-    
+    let filterRoles=["SuperAdmin"];
     this.userService
       .getAllUser(filterRoles)
       .pipe(first())
@@ -61,6 +60,19 @@ export class UserManagementComponent implements OnInit {
       );
   }
 
+  
+  ChangePassword(userId: any){
+    
+  } 
+  
+  SendMail(userId: any){
+    
+  }
+
+
+
+
+
 
   editUser(userId: any) {
     this.userService
@@ -72,6 +84,8 @@ export class UserManagementComponent implements OnInit {
         $("#userModal").modal("show");
       });
   }
+
+
   removeUser(userId: any) {
     this.userService
       .delete(userId)
@@ -120,7 +134,6 @@ export class UserManagementComponent implements OnInit {
   saveUser() {
     let data = this.user;
 
-    this.user.email=this.user.userName+'@gmail.com';
     this.user.name=this.user.userName;
     this.user.surname=this.user.userName;
 

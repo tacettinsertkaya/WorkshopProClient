@@ -17,6 +17,7 @@ import { CategorizedComponent } from "./categorized/categorized.component";
 import { VoteComponent } from "./vote/vote.component";
 import { ReportComponent } from "./report/report.component";
 import { UserManagementComponent } from "./user-management/user-management.component";
+import { SuperUserManagementComponent } from "./super-user-management/super-user-management.component";
 
 import { WorkshopRoutes } from "./workshop.routing";
 
@@ -46,7 +47,8 @@ import { UserService } from "app/services/user.service";
     CategorizedComponent,
     VoteComponent,
     ReportComponent,
-    UserManagementComponent
+    UserManagementComponent,
+    SuperUserManagementComponent
   ],
   providers: [
     ChatService,

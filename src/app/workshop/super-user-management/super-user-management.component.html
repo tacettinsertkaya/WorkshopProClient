@@ -5,7 +5,7 @@
         <div class="card-header">
           <div class="row">
             <div class="col-sm-6">
-              <h4 class="card-title float-left">Kullanıcılar</h4>
+              <h4 class="card-title float-left">Super Adminler</h4>
             </div>
             <div class="col-sm-6">
               <button
@@ -14,7 +14,7 @@
                 data-target="#userModal"
                 class="btn btn-round btn-primary float-right btn-create"
               >
-                Kullanıcı Ekle
+                Admin Ekle
               </button>
             </div>
           </div>
@@ -31,7 +31,7 @@
               <tr>
                 <th>Kullanıcı Adı</th>
                 <th>Şifre</th>
-                <th>Statu</th>
+                <th>Eposta</th>
               
                 <th>İşlemler</th>
               </tr>
@@ -41,9 +41,27 @@
               <tr *ngFor="let row of users">
                 <td>{{ row.userName }}</td>
                 <td>{{ row.rawPassword }}</td>
-                <td>{{ row.statu }}</td>
+                <td>{{ row.email }}</td>
 
                 <td class="text-left">
+
+
+                  <button
+                    (click)="ChangePassword(row.id)"
+                    type="button"
+                    class="btn btn-secondary btn-icon btn-sm edit mr-1"
+                  >
+                    <i class="fa fa-key fa-2x"></i>
+                  </button>
+
+                  <button
+                  (click)="SendMail(row.id)"
+                  type="button"
+                  class="btn btn-success btn-icon btn-sm edit mr-1"
+                >
+                  <i class="fa fa-paper-plane fa-2x"></i>
+                </button>
+
                   <button
                     (click)="editUser(row.id)"
                     type="button"
@@ -99,7 +117,7 @@
             <i class="nc-icon nc-simple-remove"></i>
           </button>
           <h4 class="title title-up">
-            {{ isUpdate ? "Kullanıcı Güncelle" : "Kullanıcı Ekle" }}
+            {{ isUpdate ? " Admin Güncelle" : "Admin Ekle" }}
           </h4>
         </div>
         <div class="modal-body">
@@ -136,17 +154,32 @@
             </div>
           </div>
 
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label>Email</label>
+                <input
+                  type="text"
+                  style="max-height: max-content"
+                  rows="10"
+                  class="form-control"
+                  [(ngModel)]="user.email"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+            </div>
+          </div>
+
 
           <div class="row">
             <div class="col-12">
               <div class="form-group">
                 <label>Statü</label>
 
-                <select class="form-control"    [(ngModel)]="user.statu"  [ngModelOptions]="{ standalone: true }">
-                       <option value="" selected>Statü Seçiniz</option>
-                       <option value="Admin"> Admin</option>
-                       <option value="Leader">Lider</option>
-                       <option value="Member">Üye</option>
+                <select class="form-control" disabled    [(ngModel)]="user.statu"  [ngModelOptions]="{ standalone: true }">
+                       
+                       <option value="SuperAdmin" selected>Super Admin</option>
+          
                 </select>
 
               </div>

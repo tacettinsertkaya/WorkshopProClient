@@ -7,6 +7,7 @@ import { AuthLayoutComponent } from "app/layouts/auth/auth-layout.component";
 import { TemplatesComponent } from "./templates/templates.component";
 import { SubjectComponent } from "./subject/subject.component";
 import { UserManagementComponent } from "./user-management/user-management.component";
+import { SuperUserManagementComponent } from "./super-user-management/super-user-management.component";
 
 export const WorkshopRoutes: Routes = [
   {
@@ -31,6 +32,10 @@ export const WorkshopRoutes: Routes = [
       {
         path: "users",
         component: UserManagementComponent,
+      },
+      {
+        path: "super-users",
+        component: SuperUserManagementComponent,
       },
     ],
   },

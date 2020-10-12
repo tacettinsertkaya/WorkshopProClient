@@ -47,13 +47,19 @@ export const ROUTES: RouteInfo[] = [
     path: "/subjects",
     title: "Konular",
     type: "link",
-    icontype: "nc-icon nc-single-copy-04",
+    icontype: "fa fa-copy",
   },
   {
     path: "/users",
     title: "Kullanıcılar",
     type: "link",
-    icontype: "nc-icon nc-single-02",
+    icontype: "fa fa-users",
+  },
+  {
+    path: "/super-users",
+    title: "Super Adminler",
+    type: "link",
+    icontype: "fa fa-id-card",
   },
 
   // {

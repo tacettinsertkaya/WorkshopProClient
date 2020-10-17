@@ -84,7 +84,7 @@ export class SuperUserManagementComponent implements OnInit {
         this.resetPassword.confirmPassword='';
      
         $('#changePasswordModal').modal('hide');
-
+           this.getAllUser();
       },
       (error) => {
 

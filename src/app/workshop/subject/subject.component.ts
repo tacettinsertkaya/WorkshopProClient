@@ -1,9 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 import { Subject } from "app/models/subject";
 import { SubjectsService } from "app/services/subject.service";
 import { first } from "rxjs/operators";
 import { SharedService } from "app/services/shared.service";
 import swal from "sweetalert2";
+import { UserService } from "app/services/user.service";
+import { ChatService } from "app/services/chat.service";
+import { Retro } from "app/models/retro";
 
 declare var $: any;
 
@@ -16,13 +19,39 @@ export class SubjectComponent implements OnInit {
   subjects: Array<Subject> = [];
   subject: Subject = new Subject();
   isUpdate: boolean = false;
+  isUser:boolean=false;
+
   constructor(
     private subjectService: SubjectsService,
-    private sharedService: SharedService
-  ) {}
+    private authService: UserService,
+    private sharedService: SharedService,
+    private chatService: ChatService,
+    private _ngZone: NgZone,
+  ) {
+    this.subscribeToCurrentRetroEvents()
+  }
   ngOnInit() {
     this.getSubjects();
+    this.existUser()
+  
   }
+
+  existUser() {
+    this.isUser=this.authService.hasRole("Member");
+ }
+
+ private subscribeToCurrentRetroEvents(): void {
+  this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+    this._ngZone.run(() => {
+      if(this.authService.hasRole("Member")) {
+        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+
+      }
+           
+    });
+  });
+}
+
 
   getSubjects() {
     this.subjectService
@@ -114,7 +143,7 @@ export class SubjectComponent implements OnInit {
       /[\t\r\n]/g,
       ""
     );
-    console.log("data", data);
+    
 
     if (!this.isUpdate) {
       this.subjectService

@@ -8,7 +8,7 @@
   </a>
 </div>
 
-<div class="sidebar-wrapper">
+<div class="sidebar-wrapper" >
   <!-- <div class="user">
     <div class="photo">
       <img src="./assets/img/faces/ayo-ogunseinde-2.jpg" />
@@ -86,8 +86,9 @@
             </li>
         </ul>
     </div> -->
-  <ul class="nav">
-    <li routerLinkActive="active" *ngFor="let menuitem of menuItems">
+    
+  <ul class="nav" >
+    <li routerLinkActive="active" *ngFor="let menuitem of menuItems" >
       <!--If is a single link-->
       <a [routerLink]="[menuitem.path]" *ngIf="menuitem.type === 'link'">
         <i class="{{ menuitem.icontype }}"></i>

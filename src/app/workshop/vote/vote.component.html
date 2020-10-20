@@ -41,19 +41,18 @@
 
 
 
-<!-- <div class="row">
-    <div class="col-md-3 offset-9">
-      <button
-        data-toggle="modal"
-        data-target="#categorizeModal"
-        (click)="selectMessage()"
-        class="btn btn-round btn-success btn-block btn-lg float-right"
-      >
-        OYLA
-      </button>
-    </div>
+<div class="row"  *ngIf="!isUser">
+  <div class="col-md-3 offset-9">
+    <button
+      type="button"
+      (click)="nextReport()"
+      class="btn btn-round btn-success btn-block btn-lg float-right"
+    >
+      RAPORLA
+    </button>
   </div>
-   -->
+</div>
+
 <div class="modal fade" id="modalComment" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
   <form #templateForm="ngForm" class="container mt-3">
     <div class="modal-dialog modal-lg">

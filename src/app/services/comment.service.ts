@@ -12,8 +12,7 @@ export class CommentService {
   constructor(private http: HttpClient, private baseService: BaseService) {}
 
   create(comment: Comment) {
-    console.log("Endpoint", EndPoints);
-    console.log("EndPoints.Comment", EndPoints.COMMENT);
+   
     return this.baseService.post<Comment>(
       comment,
       environment.serverBaseUrl,

@@ -9,6 +9,8 @@ import { Template } from "app/models/template";
 import { SharedService } from "app/services/shared.service";
 import { Subject } from "app/models/subject";
 import { RetroConfigration } from "app/models/retro-configuration";
+import { Retro } from "app/models/retro";
+import { UserService } from "app/services/user.service";
 
 declare var $: any;
 
@@ -31,10 +33,12 @@ export class CommentsComponent implements OnInit {
   commentText: string = "";
   comment: Comment = new Comment();
   retroRight: RetroConfigration;
-
+  isUser:boolean=false;
+  
   constructor(
     private chatService: ChatService,
     private _ngZone: NgZone,
+    private authService: UserService,
     private messageService: MessageService,
     private templateService: TemplateService,
     private sharedService: SharedService
@@ -45,10 +49,22 @@ export class CommentsComponent implements OnInit {
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
       this.retroRight = right;
     });
+    this.subscribeToCurrentRetroEvents();
   }
 
   ngOnInit() {
     this.getMessage();
+  }
+  
+  private subscribeToCurrentRetroEvents(): void {
+    this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+      this._ngZone.run(() => {
+        
+        if(this.authService.hasRole("Member")) 
+        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+
+      });
+    });
   }
 
   sortedlist() {
@@ -69,7 +85,6 @@ export class CommentsComponent implements OnInit {
 
   sendComment() {
     if (this.filterTrim(this.commentText) != "") {
-      console.log("txt", this.commentText);
       this.comment = new Comment();
 
       this.comment.messageId = this.selectedMessage.id;
@@ -81,6 +96,9 @@ export class CommentsComponent implements OnInit {
       $("#commentModal").modal("hide");
     }
   }
+  existUser() {
+    this.isUser=this.authService.hasRole("Member");
+ }
 
   private subscribeToEvents(): void {
     this.chatService.messageReceived.subscribe((message: Message) => {
@@ -97,11 +115,9 @@ export class CommentsComponent implements OnInit {
         let message = this.messages.filter((p) => p.id == comment.messageId);
         let myShallowClonedObject = { ...this.messages }; // Will do a shallow copy
 
-        console.log("message", myShallowClonedObject);
 
         message[0].comments.push(comment);
         let myShallowClonedObject2 = { ...this.messages };
-        console.log("message-2", myShallowClonedObject2);
       });
     });
   }
@@ -116,13 +132,23 @@ export class CommentsComponent implements OnInit {
     );
   }
 
+  nextCategorize(){
+    this.sharedService.tabSource.next(".categorize");
+    if(this.authService.hasRole("Leader")){
+    
+      let retro=new Retro();
+      retro.id=this.retroRight.retroId;
+      retro.state=2;
+      retro.currentPage="/categorize"
+      this.chatService.setCurrentRetro(retro);
+     }
+  }
   private getMessage() {
     this.messageService
       .getAllMessage()
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log("xxx", data);
           this.messages = data;
           this.messageCount = this.messages.length;
           this.sortedlist();

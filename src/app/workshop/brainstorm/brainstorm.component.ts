@@ -8,6 +8,9 @@ import { Template } from "app/models/template";
 import { SharedService } from "app/services/shared.service";
 import { Subject } from "app/models/subject";
 import { RetroConfigration } from "app/models/retro-configuration";
+import { UserService } from "app/services/user.service";
+import { Retro } from "app/models/retro";
+import { Router } from "@angular/router";
 
 declare var $: any;
 @Component({
@@ -26,15 +29,20 @@ export class BrainstormComponent implements OnInit {
   retroRight: RetroConfigration = new RetroConfigration();
   selectedSubject: Subject;
   template = new Template();
+  isUser:boolean=false;
+  
   constructor(
     private chatService: ChatService,
     private _ngZone: NgZone,
     private messageService: MessageService,
+    private authService: UserService,
     private templateService: TemplateService,
-    private sharedService: SharedService
+    private sharedService: SharedService,
+    private router: Router,
   ) {
     this.subscribeToEvents();
     this.retroConfigurationToEvents();
+    this.subscribeToCurrentRetroEvents();
 
     this.sharedService.messageSource.subscribe((message: string) => {
       this.getTemplate(message);
@@ -51,7 +59,25 @@ export class BrainstormComponent implements OnInit {
 
   ngOnInit(): void {
     this.getMessage();
-    console.log("retroRight", this.retroRight);
+    
+  
+       
+  }
+
+  existUser() {
+    this.isUser=this.authService.hasRole("Member");
+ }
+
+
+  private subscribeToCurrentRetroEvents(): void {
+    this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+      this._ngZone.run(() => {
+       
+        if(this.authService.hasRole("Member")) 
+           this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+
+      });
+    });
   }
 
   getTemplate(templateId: any) {
@@ -61,7 +87,7 @@ export class BrainstormComponent implements OnInit {
       .subscribe(
         (data) => {
           this.template = data;
-          console.log("this.template", this.template);
+        
         },
         (error) => {}
       );
@@ -72,14 +98,21 @@ export class BrainstormComponent implements OnInit {
   }
 
   nextComment() {
-    this.sharedService.tabSource.next("comments");
+    this.sharedService.tabSource.next(".comments");
+    if(this.authService.hasRole("Leader")){
+    
+          let retro=new Retro();
+          retro.id=this.retroRight.retroId;
+          retro.state=2;
+          retro.currentPage="/comments"
+          this.chatService.setCurrentRetro(retro);
+    }
+
   }
 
   sendMessage(headerId: string): void {
     const msg = this.inputText[headerId];
-    console.log("this.selectedSubject", this.selectedSubject);
     if (this.filterTrim(msg) !== "") {
-      console.log("txt", msg);
       this.message = new Message();
       this.message.clientuniqueid = headerId;
       this.message.type = "sent";
@@ -88,7 +121,6 @@ export class BrainstormComponent implements OnInit {
       this.message.date = new Date();
       this.message.isCategorized = false;
       this.message.retroId = this.retroRight.retroId;
-      console.log("this.message", this.message);
       this.chatService.sendMessage(this.message);
       this.inputText[headerId] = "";
     }

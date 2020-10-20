@@ -37,7 +37,6 @@ export class NavbarComponent implements OnInit{
     ngOnInit(){
 
 
-        console.log("username",this.userService.currentUser);
 
         if(this.userService.currentUserValue!=null)
         {
@@ -156,7 +155,6 @@ export class NavbarComponent implements OnInit{
     }
 
     getPath(){
-        // console.log(this.location);
         return this.location.prepareExternalUrl(this.location.path());
     }
 }

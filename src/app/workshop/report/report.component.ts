@@ -80,9 +80,7 @@ export class ReportComponent implements OnInit {
     }
 
     changeCategory(message, category) {
-        console.log("messagex", message);
-        console.log("category", category);
-
+       
         for (var i = category.messages.length - 1; i >= 0; i--) {
             if (category.messages[i].id === message.id) {
                 category.messages.splice(i, 1);
@@ -92,9 +90,7 @@ export class ReportComponent implements OnInit {
          
 
         let cat = this.categorizedFavoriMessages.filter(p => p.category.id == category.category.id)[0];
-        console.log("cat", cat);
-        console.log("this.categorizedFavoriMessages", this.categorizedFavoriMessages);
-
+      
         if (cat != undefined) {
             cat.messages.push(message);
         }
@@ -111,8 +107,7 @@ export class ReportComponent implements OnInit {
 
     
     changeCategoryRemove(message, category) {
-        console.log("messagex", message);
-        console.log("category", category);
+       
 
         for (var i = category.messages.length - 1; i >= 0; i--) {
             if (category.messages[i].id === message.id) {
@@ -123,9 +118,7 @@ export class ReportComponent implements OnInit {
          
 
         let cat = this.categorizedMessages.filter(p => p.category.id == category.category.id)[0];
-        console.log("cat", cat);
-        console.log("this.categorizedFavoriMessages", this.categorizedFavoriMessages);
-
+     
         if (cat != undefined) {
             cat.messages.push(message);
         }
@@ -150,7 +143,6 @@ export class ReportComponent implements OnInit {
             .pipe(first())
             .subscribe(
                 (data) => {
-                    console.log("report", data);
                     this.router.navigate(['/'])
 
                 },

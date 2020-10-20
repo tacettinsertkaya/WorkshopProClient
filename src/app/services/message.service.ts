@@ -14,8 +14,7 @@ export class MessageService {
 
   // tslint:disable-next-line:no-shadowed-variable
   create(Message: Message) {
-    console.log("Endpoint", EndPoints);
-    console.log("EndPoints.Message", EndPoints.MESSAGE);
+  
     return this.baseService.post<Message>(
       Message,
       environment.serverBaseUrl,

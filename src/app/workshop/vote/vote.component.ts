@@ -5,11 +5,14 @@ import { CategorizedMessage } from "app/models/dto/categorized-message";
 import { VoteDto } from "app/models/dto/vote-dto";
 
 import { Message } from "app/models/message";
+import { Retro } from "app/models/retro";
+import { RetroConfigration } from "app/models/retro-configuration";
 import { Subject } from "app/models/subject";
 import { CategoryService } from "app/services/category.service";
 import { ChatService } from "app/services/chat.service";
 import { MessageService } from "app/services/message.service";
 import { SharedService } from "app/services/shared.service";
+import { UserService } from "app/services/user.service";
 import { first } from "rxjs/operators";
 
 declare var $: any;
@@ -26,15 +29,21 @@ export class VoteComponent implements OnInit {
   categorized: Categorized = new Categorized();
   categorizedMessages = new Array<CategorizedMessage>();
   comments=new Array<any>();
-
+  retroRight: RetroConfigration = new RetroConfigration();
+  isUser:boolean=false;
   constructor(
     private _ngZone: NgZone,
     private chatService: ChatService,
     private messageService: MessageService,
     private categoryService: CategoryService,
     private sharedService: SharedService,
+    private authService: UserService,
   ) {
     this.subscribeToEvents();
+    this.subscribeToCurrentRetroEvents();
+    this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
+      this.retroRight = right;
+    });
   }
 
   ngOnInit() {
@@ -43,11 +52,38 @@ export class VoteComponent implements OnInit {
   }
 
   getComment(message:any){
-   console.log("comment",message);
+  
    this.getMessage(message.id);
     $('#modalComment').modal('show');
   }
 
+  private subscribeToCurrentRetroEvents(): void {
+    this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+      this._ngZone.run(() => {
+
+        if(this.authService.hasRole("Member")) 
+          this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+
+      });
+    });
+  }
+  existUser() {
+    this.isUser=this.authService.hasRole("Member");
+ }
+
+  nextReport(){
+    this.sharedService.tabSource.next(".idea-archive");
+    if(this.authService.hasRole("Leader")){
+    
+      let retro=new Retro();
+      retro.id=this.retroRight.retroId;
+      retro.state=2;
+      retro.currentPage="/idea-archive"
+      this.chatService.setCurrentRetro(retro);
+     }
+
+     
+  }
 
   setVote(message:any){
       let data=new VoteDto();
@@ -62,7 +98,6 @@ export class VoteComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-         console.log("data",data);
           this.message = data;
           
         },
@@ -79,9 +114,7 @@ export class VoteComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (data) => {
-            console.log("xxxx", data);
             this.categorizedMessages = data;
-            console.log(" this.categorizedMessages",  this.categorizedMessages);
           },
           (error) => {}
         );
@@ -96,7 +129,6 @@ export class VoteComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log("xxxx", data);
           this.categorizedMessages = data;
           console.log(" this.categorizedMessages",  this.categorizedMessages);
         },

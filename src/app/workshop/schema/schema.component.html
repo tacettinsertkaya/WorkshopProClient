@@ -5,6 +5,7 @@
     </div>
     <div class="col-sm-6">
       <button
+       *ngIf="!isUser"
         type="button"
         data-toggle="modal"
         data-target="#templateModal"
@@ -18,7 +19,8 @@
 
 <div class="row" *ngIf="templates.length > 0">
   <div class="col-md-3" *ngFor="let template of templates; let i = index">
-    <button
+    <button 
+    [disabled]="isUser"
       *ngIf="
         template.templateDetail.length >= 1 &&
         template.templateDetail[0].header != ''

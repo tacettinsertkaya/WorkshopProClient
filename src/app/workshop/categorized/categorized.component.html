@@ -4,6 +4,7 @@
   </div>
   <div class="col-sm-6">
     <button
+     *ngIf="!isUser"
       data-toggle="modal"
       data-target="#categorizeModal"
       (click)="selectMessage()"
@@ -14,8 +15,8 @@
   </div>
 </div>
 
-<div *ngFor="let item of categorizedMessages">
-  <div class="row">
+<div  *ngFor="let item of categorizedMessages">
+  <div class="row" [ngClass]="{'disabled': isUser }">
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
@@ -27,6 +28,7 @@
               <div class="col-sm-6">
                 <button
                   (click)="deleteCategory(item)"
+                  *ngIf="!isUser"
                   class="btn btn-round btn-danger float-right"
                 >
                   <i class="nc-icon nc-simple-remove"></i>
@@ -51,7 +53,7 @@
 </div>
 
 <div *ngFor="let msg of messages">
-  <div class="row">
+  <div class="row"  [ngClass]="{'disabled': isUser }">
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
@@ -59,11 +61,12 @@
             <div class="form-check">
               <label class="form-check-label">
                 <input
+                  *ngIf="!isUser"
                   class="form-check-input"
                   [(ngModel)]="msg.isCategorized"
                   type="checkbox"
                 />
-                {{ msg.messageText }} <span class="form-check-sign"></span>
+                {{ msg.messageText }} <span class="form-check-sign" *ngIf="!isUser"></span>
               </label>
             </div>
           </div>
@@ -73,11 +76,11 @@
   </div>
 </div>
 
-<div class="row">
+<div class="row" *ngIf="!isUser"  >
   <div class="col-md-3 offset-9">
     <button
      
-      (click)="selectMessage()"
+      (click)="Vote()"
       class="btn btn-round btn-success btn-block btn-lg float-right"
     >
       OYLA

@@ -37,7 +37,6 @@ export class UserManagementComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (res) => {
-          console.log("res",res);
           this.users = res;
         },
         (error) => {

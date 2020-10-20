@@ -1,9 +1,12 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 import { SharedService } from "app/services/shared.service";
 import { Subject } from "app/models/subject";
 import { RetroConfigration } from "app/models/retro-configuration";
 import { RetroConfigurationService } from "app/services/retro-configuration";
 import { first } from "rxjs/operators";
+import { UserService } from "app/services/user.service";
+import { ChatService } from "app/services/chat.service";
+import { Retro } from "app/models/retro";
 
 declare var $: any;
 @Component({
@@ -19,9 +22,14 @@ export class RetrospectivesComponent implements OnInit {
   config: RetroConfigration = new RetroConfigration();
   selectSubject: Subject = null;
   isShow: boolean = false;
+  isUser:boolean=false;
+
   constructor(
     private sharedService: SharedService,
-    private configService: RetroConfigurationService
+    private authService: UserService,
+    private configService: RetroConfigurationService,
+    private chatService: ChatService,
+    private _ngZone: NgZone,
   ) {
     this.sharedService.tabSource.subscribe((tab: string) => {
       
@@ -30,17 +38,34 @@ export class RetrospectivesComponent implements OnInit {
     });
 
     this.sharedService.selectSubject.subscribe((subject: any) => {
-      console.log("subject", subject);
+    
       this.selectSubject = subject;
     });
 
     this.sharedService.isShowSubject.subscribe((isShow: any) => {
-      console.log("isShow", isShow);
       this.isShow = isShow;
+    });
+    this.subscribeToCurrentRetroEvents()
+  }
+
+  existUser() {
+     this.isUser=this.authService.hasRole("Member");
+  }
+
+  private subscribeToCurrentRetroEvents(): void {
+    this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+      this._ngZone.run(() => {
+        if(this.authService.hasRole("Member")) {
+          this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+        }
+      });
     });
   }
 
-  ngOnInit(): void {}
+
+  ngOnInit(): void {
+    this.existUser()
+  }
 
   getConfig() {
     let id = localStorage.getItem("config-id");

@@ -16,7 +16,7 @@ export class Hub {
       });
 
     this.hubConnection.on("postMessage", (res) => {
-      console.log("test", res);
+     
     });
   }
 }

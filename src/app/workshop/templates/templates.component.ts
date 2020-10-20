@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, NgZone, OnInit } from '@angular/core';
 import { Template } from 'app/models/template';
 import { TemplateDetail } from 'app/models/template-detail';
 import { TemplateService } from 'app/services/template.service';
@@ -6,6 +6,9 @@ import { first } from 'rxjs/operators';
 import { SharedService } from 'app/services/shared.service';
 import swal from 'sweetalert2';
 import { TemplateDetailService } from 'app/services/template-detail.service';
+import { ChatService } from 'app/services/chat.service';
+import { UserService } from 'app/services/user.service';
+import { Retro } from 'app/models/retro';
 
 declare var $: any;
 
@@ -28,14 +31,21 @@ export class TemplatesComponent implements OnInit {
   template: Template = new Template();
   selectTemplateId: string;
   isUpdate: boolean = false;
+  isUser:boolean=false;
   /**
    *
    */
   constructor(
     private templateService: TemplateService,
     private templateDetailService: TemplateDetailService,
-    private sharedService: SharedService
-  ) {}
+    private sharedService: SharedService,
+    private chatService: ChatService,
+    private _ngZone: NgZone,
+    private authService: UserService,
+
+  ) {
+    this.subscribeToCurrentRetroEvents();
+  }
   orderlist = [];
 
   ngOnInit(): void {
@@ -44,6 +54,21 @@ export class TemplatesComponent implements OnInit {
     for (let i = 1; i <= 10; i++) {
       this.orderlist.push(i);
     }
+  }
+  existUser() {
+    this.isUser=this.authService.hasRole("Member");
+ }
+
+
+  private subscribeToCurrentRetroEvents(): void {
+    this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+      this._ngZone.run(() => {
+        
+        if(this.authService.hasRole("Member")) 
+        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+  
+      });
+    });
   }
 
   editTemplate(templateId: any) {
@@ -122,7 +147,6 @@ export class TemplatesComponent implements OnInit {
   }
 
   selectTemplate(templateId) {
-    console.log('templateId', templateId);
     localStorage.setItem('templateId', templateId);
     this.sharedService.messageSource.next(templateId);
     this.sharedService.tabSource.next('.brainstorm');
@@ -226,12 +250,10 @@ export class TemplatesComponent implements OnInit {
   }
 
   saveTemplate() {
-    console.log(this.headers);
     let data = new Template();
 
     data.templateDetail = this.headers;
     data.templateName = new Date().getTime().toString();
-    console.log('data', data);
     this.templateService
       .create(data)
       .pipe(first())
@@ -285,7 +307,6 @@ export class TemplatesComponent implements OnInit {
   }
 
   updateTemplate() {
-    console.log('this.template', this.template);
 
     let templateId = this.template.id;
     this.templateService

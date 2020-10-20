@@ -8,7 +8,7 @@ export class User {
     rawPassword: string;
     token:string;
     statu:string;
-
+    roles:Array<string>=[];
     
 
   }

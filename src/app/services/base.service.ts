@@ -10,7 +10,7 @@ export class BaseService {
 
   private createTokenOptions() {
 
-    console.log("localStorage.getItem()",localStorage.getItem("token"));
+    
 
     return {
       headers: new HttpHeaders().set(
@@ -21,8 +21,7 @@ export class BaseService {
   }
 
   public post<T>(item, base_url, end_point): Observable<T> {
-    console.log("this.createTokenOptions()", this.createTokenOptions());
-    console.log("token", localStorage.getItem("token"));
+  
 
     return this.http.post<T>(
       `${base_url}/${end_point}`,

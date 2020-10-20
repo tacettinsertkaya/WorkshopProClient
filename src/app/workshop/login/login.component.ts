@@ -30,14 +30,14 @@ export class LoginComponent implements OnInit {
   returnUrl: string = '';
   error = '';
   loginForm: FormGroup;
-  
+
   login: Login = new Login();
   constructor(private element: ElementRef,
     private formBuilder: FormBuilder,
     private userService: UserService,
     private route: ActivatedRoute,
     private router: Router,
-    
+
   ) {
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
@@ -104,29 +104,31 @@ export class LoginComponent implements OnInit {
     if (this.loginForm.valid) {
       this.login = Object.assign({}, this.loginForm.value);
 
-      if (this.login.alias==""){
-          this.login.alias=this.login.username;
+      if (this.login.alias == "") {
+        this.login.alias = this.login.username;
       }
 
-        this.userService
-          .login(this.login)
-          .pipe(first())
-          .subscribe(
-            (user) => {
-              console.log('user', user);
-              console.log('this.returnUrl', this.returnUrl);
-              localStorage.setItem('currentUser', JSON.stringify(user));
-              localStorage.setItem('token', user.token);
-              this.userService.currentUserSetValue(user);
+      this.userService
+        .login(this.login)
+        .pipe(first())
+        .subscribe(
+          (user) => {
+         
+            localStorage.setItem('currentUser', JSON.stringify(user));
+            localStorage.setItem('token', user.token);
+            this.userService.currentUserSetValue(user);
+            if (this.userService.hasRole("Leader") || this.userService.hasRole("Member"))
+              this.router.navigate(['/retro-start']);
+            else
               this.router.navigate(['/']);
-              this.loading = false;
+            this.loading = false;
 
-            },
-            (error) => {
-              this.error = error;
-              this.loading = false;
-            }
-          );
+          },
+          (error) => {
+            this.error = error;
+            this.loading = false;
+          }
+        );
 
 
     }

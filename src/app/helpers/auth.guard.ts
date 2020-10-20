@@ -12,7 +12,8 @@ import { UserService } from '../services/user.service';
 export class AuthGuard implements CanActivate {
     public currentUserSubject: BehaviorSubject<AuthenticateResponse>;
     public currentUser: Observable<AuthenticateResponse>;
-  
+    isUser:boolean=false;
+
     constructor(
         private router: Router,
         private userService: UserService
@@ -28,16 +29,22 @@ export class AuthGuard implements CanActivate {
     return this.currentUserSubject.value;
   }
 
+  existUser() {
+    this.isUser=this.userService.hasRole("Member");
+ }
 
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
         const currentUser = this.userService.currentUserValue;
-        console.log("currentUser",currentUser);
+       
         if (currentUser) {
             // logged in so return true
+            
             return true;
         }
 
+       
+            
         // not logged in so redirect to login page with the return url
         this.router.navigate(['/login'], { queryParams: { returnUrl: state.url } });
         return false;

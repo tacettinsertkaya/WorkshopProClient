@@ -13,8 +13,7 @@ export class TemplateService {
   constructor(private http: HttpClient, private baseService: BaseService) {}
 
   create(Template: Template) {
-    console.log("Endpoint", EndPoints);
-    console.log("EndPoints.Template", EndPoints.TEMPLATE);
+   
     return this.baseService.post<Template>(
       Template,
       environment.serverBaseUrl,

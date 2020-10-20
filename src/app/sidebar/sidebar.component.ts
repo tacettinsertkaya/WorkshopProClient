@@ -5,6 +5,8 @@ import {
   AfterViewChecked,
   AfterContentInit,
 } from "@angular/core";
+import { Router } from "@angular/router";
+import { UserService } from "app/services/user.service";
 
 //Metadata
 export interface RouteInfo {
@@ -150,6 +152,7 @@ export const ROUTES: RouteInfo[] = [
   templateUrl: "sidebar.component.html",
 })
 export class SidebarComponent {
+  constructor(private router: Router, private authService: UserService) { }
   public menuItems: any[];
   isNotMobileMenu() {
     if (window.outerWidth > 991) {
@@ -158,8 +161,30 @@ export class SidebarComponent {
     return true;
   }
 
+
+ 
+  get isAuthorized() {
+    return this.authService.isAuthorized();
+  }
+   isAdmin() {
+  
+    return this.authService.hasRole("Admin") || this.authService.hasRole("SuperAdmin");
+
+  }
+
   ngOnInit() {
-    this.menuItems = ROUTES.filter((menuItem) => menuItem);
+    if(this.isAdmin()){
+      this.menuItems = ROUTES.filter((menuItem) => menuItem);
+    }
+   else{
+    this.menuItems=[{
+      path: "/retro-start",
+      title: "Retro",
+      type: "link",
+      icontype: "nc-icon nc-chat-33",
+    },]
+
+   }
   }
   ngAfterViewInit() {}
 }

@@ -13,8 +13,7 @@ export class CategoryService {
   constructor(private http: HttpClient, private baseService: BaseService) {}
 
   create(category: Category) {
-    console.log("Endpoint", EndPoints);
-    console.log("EndPoints.CATEGORY", EndPoints.CATEGORY);
+   
     return this.baseService.post<Category>(
       category,
       environment.serverBaseUrl,
@@ -23,8 +22,7 @@ export class CategoryService {
   }
 
   createCategoryMessage(categoryMessage: CategorizedMessage) {
-    console.log("Endpoint", EndPoints);
-    console.log("EndPoints.CATEGORY", EndPoints.CATEGORY);
+    
     return this.baseService.post<Category>(
       categoryMessage,
       environment.serverBaseUrl,
@@ -33,8 +31,7 @@ export class CategoryService {
   }
 
   deleteCategoryMessage(category: CategorizedMessage) {
-    console.log("Endpoint", EndPoints);
-    console.log("EndPoints.CATEGORY", EndPoints.CATEGORY);
+  
     return this.baseService.post<CategorizedMessage>(
       category,
       environment.serverBaseUrl,

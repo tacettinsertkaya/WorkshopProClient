@@ -1,13 +1,17 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 import { Categorized } from "app/models/categorized";
 import { Category } from "app/models/category";
 import { CategorizedMessage } from "app/models/dto/categorized-message";
 
 import { Message } from "app/models/message";
+import { Retro } from "app/models/retro";
+import { RetroConfigration } from "app/models/retro-configuration";
 import { Subject } from "app/models/subject";
 import { CategoryService } from "app/services/category.service";
+import { ChatService } from "app/services/chat.service";
 import { MessageService } from "app/services/message.service";
 import { SharedService } from "app/services/shared.service";
+import { UserService } from "app/services/user.service";
 import { first } from "rxjs/operators";
 
 declare var $: any;
@@ -23,24 +27,52 @@ export class CategorizedComponent implements OnInit {
   subject: Subject = new Subject();
   selectedMessages1 = new Array<Categorized>();
   selectedMessages = new Array<Message>();
+  isUser:boolean=false;
 
   categorized: Categorized = new Categorized();
   categorizedMessages = new Array<CategorizedMessage>();
+  retroRight: RetroConfigration = new RetroConfigration();
 
   constructor(
     private messageService: MessageService,
     private categoryService: CategoryService,
     private sharedService: SharedService,
+    private authService: UserService,
+    private chatService: ChatService,
+    private _ngZone: NgZone,
+
   ) {
+    this.subscribeToCurrentRetroEvents();
     this.sharedService.allMessage.subscribe((data) => {
       this.getMessage();
+    });
+
+    this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
+      this.retroRight = right;
     });
   }
 
   ngOnInit() {
     this.getMessage();
     this.getCategory();
+    this.existUser();
   }
+
+  
+  private subscribeToCurrentRetroEvents(): void {
+    this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+      this._ngZone.run(() => {
+      
+        if(this.authService.hasRole("Member")) 
+        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+
+      });
+    });
+  }
+
+  existUser() {
+    this.isUser=this.authService.hasRole("Member");
+ }
 
   private getMessage() {
     this.messageService
@@ -48,7 +80,7 @@ export class CategorizedComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log("message", data);
+         
           this.messages = data;
           this.sortedlist();
         },
@@ -62,7 +94,7 @@ export class CategorizedComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log("xxxx", data);
+          
           this.categorizedMessages = data;
         },
         (error) => {}
@@ -91,18 +123,15 @@ export class CategorizedComponent implements OnInit {
   selectMessage() {
     this.selectedMessages = [];
     this.messages.filter((p) => {
-      console.log("isCategorized -->:", p.isCategorized);
+     
       if (p.isCategorized) {
         this.selectedMessages.push(p);
-        console.log("selected  messages -->:", this.selectedMessages);
       }
     });
-    console.log("denememe", this.categorized);
-    console.log("messages --->:", this.messages);
+    
   }
 
   saveCategorized() {
-    console.log("save categorized");
 
     let categoryMessage = new CategorizedMessage();
     let category = new Category();
@@ -116,7 +145,6 @@ export class CategorizedComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log("category", data);
           this.selectedMessages = [];
           this.categorized.title = "";
           this.getMessage();
@@ -129,5 +157,13 @@ export class CategorizedComponent implements OnInit {
 
   Vote(){
     this.sharedService.tabSource.next(".multi-vote");
+    if(this.authService.hasRole("Leader")){
+    
+      let retro=new Retro();
+      retro.id=this.retroRight.retroId;
+      retro.state=2;
+      retro.currentPage="/multi-vote"
+      this.chatService.setCurrentRetro(retro);
+     }
   }
 }

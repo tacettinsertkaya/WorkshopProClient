@@ -11,6 +11,8 @@ import { ForgotPassword } from '../models/forgot-password';
 import { AuthenticateResponse } from '../models/authenticate-response';
 import { ResetPassword } from '../models/reset-password';
 import { UserResetPassword } from '../models/user-reset-password';
+import { ResolveStart, Router } from '@angular/router';
+import { Role } from 'app/models/role';
 
 @Injectable(
   {
@@ -21,7 +23,7 @@ export class UserService {
   private currentUserSubject: BehaviorSubject<AuthenticateResponse>;
   public currentUser: Observable<AuthenticateResponse>;
 
-  constructor(private http: HttpClient, private baseService: BaseService) {
+  constructor(private http: HttpClient, private baseService: BaseService,private router:Router) {
     this.currentUserSubject = new BehaviorSubject<AuthenticateResponse>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
 
@@ -35,9 +37,27 @@ export class UserService {
   public currentUserSetValue(value) {
     this.currentUserSubject.next(value);
   }
+
+  public isAuthorized() {
+    const currentUser = this.currentUserValue;
+        
+        if (currentUser) {
+            // logged in so return true
+            return true;
+        }
+
+  }
+
+  public hasRole(role) {
+    let roles= this.currentUserValue.roles;
+      
+    return this.isAuthorized() && roles.filter(p=>p==role).length>0;
+
+  }
+
   // tslint:disable-next-line: typedef
   login(login: Login) {
-    console.log('User service', login);
+   
     return this.baseService.post<AuthenticateResponse>(
       login,
       environment.serverBaseUrl,

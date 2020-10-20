@@ -1,9 +1,13 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 import { Subject } from "app/models/subject";
 import { SubjectsService } from "app/services/subject.service";
 import { first } from "rxjs/operators";
 import { SharedService } from "app/services/shared.service";
 import swal from "sweetalert2";
+import { UserService } from "app/services/user.service";
+import { ChatService } from "app/services/chat.service";
+import { Retro } from "app/models/retro";
+import { RetroConfigration } from "app/models/retro-configuration";
 
 declare var $: any;
 
@@ -16,19 +20,61 @@ export class SubjectListComponent implements OnInit {
   subjects: Array<Subject> = [];
   subject: Subject = new Subject();
   isUpdate: boolean = false;
+  isUser:boolean=false;
+  retroRight: RetroConfigration = new RetroConfigration();
+
+  
   constructor(
     private subjectService: SubjectsService,
-    private sharedService: SharedService
-  ) {}
+    private sharedService: SharedService,
+    private authService: UserService,
+    private chatService: ChatService,
+    private _ngZone: NgZone
+  ) {
+    this.subscribeToCurrentRetroEvents();
+    this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
+      this.retroRight = right;
+    });
+  }
   ngOnInit() {
     this.getSubjects();
+    this.existUser()
   }
 
   selectSubject(subject: any) {
     this.sharedService.selectSubject.next(subject);
     this.sharedService.isShowSubject.next(true);
     this.sharedService.tabSource.next(".select-template");
+    if(this.authService.hasRole("Leader")){
+    
+      let retro=new Retro();
+      retro.id=this.retroRight.retroId;
+      retro.state=2;
+      retro.currentPage="/select-template"
+      this.chatService.setCurrentRetro(retro);
+     }
   }
+
+  existUser() {
+    this.isUser=this.authService.hasRole("Member");
+ }
+
+ private subscribeToCurrentRetroEvents(): void {
+  this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+    this._ngZone.run(() => {
+    
+      if(this.authService.hasRole("Member")) {
+        console.log("retroinit",retro);
+        console.log("isMember",this.authService.hasRole("Member"));
+        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+      }
+         
+
+    });
+  });
+}
+
+
 
   getSubjects() {
     this.subjectService
@@ -124,7 +170,7 @@ export class SubjectListComponent implements OnInit {
       /[\t\r\n]/g,
       ""
     );
-    console.log("data", data);
+  
 
     if (!this.isUpdate) {
       this.subjectService

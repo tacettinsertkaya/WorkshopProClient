@@ -1,10 +1,14 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, NgZone, OnInit } from "@angular/core";
 import { Template } from "app/models/template";
 import { TemplateDetail } from "app/models/template-detail";
 import { TemplateService } from "app/services/template.service";
 import { first } from "rxjs/operators";
 import { SharedService } from "app/services/shared.service";
 import swal from "sweetalert2";
+import { UserService } from "app/services/user.service";
+import { ChatService } from "app/services/chat.service";
+import { Retro } from "app/models/retro";
+import { RetroConfigration } from "app/models/retro-configuration";
 
 declare var $: any;
 
@@ -23,13 +27,24 @@ export class SchemaComponent implements OnInit {
 
   templates: Template[] = [];
   selectTemplateId: string;
+  isUser:boolean=false;
+  retroRight: RetroConfigration = new RetroConfigration();
+
   /**
    *
    */
   constructor(
     private templateService: TemplateService,
-    private sharedService: SharedService
-  ) {}
+    private sharedService: SharedService,
+    private authService: UserService,
+    private chatService: ChatService,
+    private _ngZone: NgZone,
+  ) {
+    this.subscribeToCurrentRetroEvents();
+    this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
+      this.retroRight = right;
+    });
+  }
   orderlist = [];
 
   ngOnInit(): void {
@@ -38,13 +53,38 @@ export class SchemaComponent implements OnInit {
     for (let i = 1; i <= 10; i++) {
       this.orderlist.push(i);
     }
+    
+    this.existUser()
   }
 
+  
+  existUser() {
+    this.isUser=this.authService.hasRole("Member");
+ }
+
+ private subscribeToCurrentRetroEvents(): void {
+  this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+    this._ngZone.run(() => {
+      
+      if(this.authService.hasRole("Member")) 
+      this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+
+    });
+  });
+}
+
   selectTemplate(templateId) {
-    console.log("templateId", templateId);
     localStorage.setItem("templateId", templateId);
     this.sharedService.messageSource.next(templateId);
     this.sharedService.tabSource.next(".brainstorm");
+    if(this.authService.hasRole("Leader")){
+    
+      let retro=new Retro();
+      retro.id=this.retroRight.retroId;
+      retro.state=2;
+      retro.currentPage="/brainstorm"
+      this.chatService.setCurrentRetro(retro);
+     }
   }
 
   showSwal(type) {
@@ -117,12 +157,10 @@ export class SchemaComponent implements OnInit {
   }
 
   saveTemplate() {
-    console.log(this.headers);
     let data = new Template();
 
     data.templateDetail = this.headers;
     data.templateName = new Date().getTime().toString();
-    console.log("data", data);
     this.templateService
       .create(data)
       .pipe(first())

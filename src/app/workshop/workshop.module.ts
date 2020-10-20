@@ -48,7 +48,9 @@ import { UserService } from "app/services/user.service";
     VoteComponent,
     ReportComponent,
     UserManagementComponent,
-    SuperUserManagementComponent
+    SuperUserManagementComponent,
+
+    
   ],
   providers: [
     ChatService,

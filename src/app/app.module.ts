@@ -26,6 +26,8 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { UserService } from "./services/user.service";
 import { BaseService } from "./services/base.service";
+import { UserDirectiveDirective } from "./workshop/directive/user-directive.directive";
+import { UserRoleDirective } from "./workshop/directive/user-role-directive.directive";
 
 
 
@@ -43,13 +45,16 @@ import { BaseService } from "./services/base.service";
     NavbarModule,
     FooterModule,
     FixedPluginModule,
-    BrowserModule
+    BrowserModule,
+   
   ],
   declarations: [
     AppComponent,
     AdminLayoutComponent,
     AuthLayoutComponent,
     LoginComponent,
+    UserRoleDirective,
+    UserDirectiveDirective
   ],
   providers: [
     UserService,

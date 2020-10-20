@@ -4,6 +4,7 @@
   </div>
   <div class="col-sm-6">
     <button
+     *ngIf="!isUser"
       type="button"
       data-toggle="modal"
       data-target="#subjectModal"
@@ -17,6 +18,7 @@
 <div class="row" *ngFor="let subject of subjects; let i = index">
   <div class="col-md-12">
     <button
+     [disabled]="isUser"
       (click)="selectSubject(subject)"
       class="card text-center p-3 btn w-100"
       [ngClass]="{ active: selectSubjectId == subject.id }"

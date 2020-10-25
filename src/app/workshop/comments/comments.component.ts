@@ -145,7 +145,7 @@ export class CommentsComponent implements OnInit {
   }
   private getMessage() {
     this.messageService
-      .getAllMessage()
+      .getAllMessage(1)
       .pipe(first())
       .subscribe(
         (data) => {

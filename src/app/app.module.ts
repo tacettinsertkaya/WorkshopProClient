@@ -26,6 +26,7 @@ import { JwtInterceptor } from './helpers/jwt.interceptor';
 import { ErrorInterceptor } from './helpers/error.interceptor';
 import { UserService } from "./services/user.service";
 import { BaseService } from "./services/base.service";
+
 import { UserDirectiveDirective } from "./workshop/directive/user-directive.directive";
 import { UserRoleDirective } from "./workshop/directive/user-role-directive.directive";
 
@@ -59,6 +60,7 @@ import { UserRoleDirective } from "./workshop/directive/user-role-directive.dire
   providers: [
     UserService,
     BaseService,
+    
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     

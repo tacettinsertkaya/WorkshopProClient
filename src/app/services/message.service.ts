@@ -57,27 +57,27 @@ export class MessageService {
 
   
 
-  getAllMessage() {
+  getAllMessage(retroId) {
     return this.baseService.list<Message>(
       "",
       environment.serverBaseUrl,
-      EndPoints.MESSAGE
+      EndPoints.MESSAGE+'/GetAllMessage/'+retroId
     );
   }
 
-  getAllNonCategoryMessage() {
+  getAllNonCategoryMessage(retroId) {
     return this.baseService.list<Message>(
       "",
       environment.serverBaseUrl,
-      EndPoints.MESSAGE + "/NonCategoryMessage"
+      EndPoints.MESSAGE + "/NonCategoryMessage/"+retroId
     );
   }
 
-  getAllCategoryMessage() {
+  getAllCategoryMessage(retroId) {
     return this.baseService.list<CategorizedMessage>(
       "",
       environment.serverBaseUrl,
-      EndPoints.MESSAGE + "/CategoryMessage"
+      EndPoints.MESSAGE + "/CategoryMessage/"+retroId
     );
   }
 

@@ -46,6 +46,7 @@ export class RetrospectivesComponent implements OnInit {
       this.isShow = isShow;
     });
     this.subscribeToCurrentRetroEvents()
+
   }
 
   existUser() {

@@ -32,6 +32,7 @@ export class CategorizedComponent implements OnInit {
   categorized: Categorized = new Categorized();
   categorizedMessages = new Array<CategorizedMessage>();
   retroRight: RetroConfigration = new RetroConfigration();
+  retro:Retro=new Retro();
 
   constructor(
     private messageService: MessageService,
@@ -42,19 +43,25 @@ export class CategorizedComponent implements OnInit {
     private _ngZone: NgZone,
 
   ) {
+
+    this.sharedService.currentRetro.subscribe((retro: Retro) => {
+      this.retro = retro;
+    });
+
     this.subscribeToCurrentRetroEvents();
     this.sharedService.allMessage.subscribe((data) => {
-      this.getMessage();
+      this.getMessage(this.retro.id);
     });
 
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
       this.retroRight = right;
     });
+ 
   }
 
   ngOnInit() {
-    this.getMessage();
-    this.getCategory();
+    this.getMessage(this.retro.id);
+    this.getCategory(this.retro.id);
     this.existUser();
   }
 
@@ -62,7 +69,10 @@ export class CategorizedComponent implements OnInit {
   private subscribeToCurrentRetroEvents(): void {
     this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
       this._ngZone.run(() => {
-      
+        this.sharedService.currentRetro.next(retro);
+        this.getMessage(retro.id);
+        this.getCategory(retro.id);
+       
         if(this.authService.hasRole("Member")) 
         this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
 
@@ -74,9 +84,10 @@ export class CategorizedComponent implements OnInit {
     this.isUser=this.authService.hasRole("Member");
  }
 
-  private getMessage() {
+  private getMessage(retroId) {
+
     this.messageService
-      .getAllNonCategoryMessage()
+      .getAllNonCategoryMessage(retroId)
       .pipe(first())
       .subscribe(
         (data) => {
@@ -88,9 +99,9 @@ export class CategorizedComponent implements OnInit {
       );
   }
 
-  private getCategory() {
+  private getCategory(retroId) {
     this.messageService
-      .getAllCategoryMessage()
+      .getAllCategoryMessage(retroId)
       .pipe(first())
       .subscribe(
         (data) => {
@@ -113,8 +124,11 @@ export class CategorizedComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          this.getMessage();
-          this.getCategory();
+          
+          let retro=new Retro();
+          retro.id=this.retroRight.retroId;
+          retro.state=2;
+          this.chatService.setCurrentRetro(retro);
         },
         (error) => {}
       );
@@ -147,9 +161,15 @@ export class CategorizedComponent implements OnInit {
         (data) => {
           this.selectedMessages = [];
           this.categorized.title = "";
-          this.getMessage();
-          this.getCategory();
+          this.getMessage(this.retro.id);
+          this.getCategory(this.retro.id);
           $("#categorizeModal").modal("hide");
+          
+          let retro=new Retro();
+          retro.id=this.retroRight.retroId;
+          retro.state=2;
+          this.chatService.setCurrentRetro(retro);
+
         },
         (error) => {}
       );

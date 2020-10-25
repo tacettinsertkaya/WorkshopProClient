@@ -46,6 +46,15 @@ export class RetroConfigurationService {
     );
   }
 
+   getCurrentRetro() {
+    return this.baseService.get<RetroConfigration>(
+      "",
+      environment.serverBaseUrl,
+      EndPoints.RETRO_CONFIGURATION+'/GetCurrentRetro'
+    );
+  }
+
+
   getAllRetroConfigration() {
     return this.baseService.list<RetroConfigration>(
       "",

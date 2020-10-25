@@ -16,6 +16,7 @@ export class ChatService {
   commentReceived = new EventEmitter<Comment>();
   voteReceived = new EventEmitter<Comment>();
   currentRetroReceived = new EventEmitter<Retro>();
+  currentRetro = new EventEmitter<RetroConfigration>();
   retroConfigurationReceived = new EventEmitter<RetroConfigration>();
 
   private connectionIsEstablished = false;
@@ -26,6 +27,7 @@ export class ChatService {
     this.registerOnServerEvents();
     this.commentOnServerEvents();
     this.RetroConfigurationOnServerEvents();
+    this.getCurrentRetroEvents();
     this.voteOnServerEvents();
     this.currentRetroEvents();
     this.startConnection();
@@ -44,7 +46,13 @@ export class ChatService {
   }
 
   setCurrentRetro(data:Retro) {
+  
     this._hubConnection.invoke("setCurrentRetro", data);
+  }
+
+  setCurrentRetroConfig(data:Retro) {
+    
+    this._hubConnection.invoke("setCurrentRetroConfig",data);
   }
 
 
@@ -102,6 +110,12 @@ export class ChatService {
   private currentRetroEvents(): void {
     this._hubConnection.on("currentRetroReceived", (data: any) => {
       this.currentRetroReceived.emit(data);
+    });
+  }
+
+ private getCurrentRetroEvents(): void {
+    this._hubConnection.on("getCurrentRetroReceived", (data: any) => {
+      this.currentRetro.emit(data);
     });
   }
 

@@ -82,6 +82,7 @@ export class SchemaComponent implements OnInit {
       let retro=new Retro();
       retro.id=this.retroRight.retroId;
       retro.state=2;
+      retro.templateId=templateId;
       retro.currentPage="/brainstorm"
       this.chatService.setCurrentRetro(retro);
      }

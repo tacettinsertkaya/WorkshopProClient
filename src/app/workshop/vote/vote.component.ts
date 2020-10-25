@@ -125,7 +125,7 @@ export class VoteComponent implements OnInit {
 
   private getCategory() {
     this.messageService
-      .getAllCategoryMessage()
+      .getAllCategoryMessage(1)
       .pipe(first())
       .subscribe(
         (data) => {

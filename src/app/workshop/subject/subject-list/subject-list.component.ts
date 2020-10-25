@@ -22,7 +22,7 @@ export class SubjectListComponent implements OnInit {
   isUpdate: boolean = false;
   isUser:boolean=false;
   retroRight: RetroConfigration = new RetroConfigration();
-
+  retro:Retro=new Retro();
   
   constructor(
     private subjectService: SubjectsService,
@@ -34,6 +34,9 @@ export class SubjectListComponent implements OnInit {
     this.subscribeToCurrentRetroEvents();
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
       this.retroRight = right;
+    });
+    this.sharedService.currentRetro.subscribe((retro: Retro) => {
+      this.retro = retro;
     });
   }
   ngOnInit() {
@@ -65,6 +68,8 @@ export class SubjectListComponent implements OnInit {
     
       if(this.authService.hasRole("Member")) {
         console.log("retroinit",retro);
+
+        this.sharedService.currentRetro.next(retro);
         console.log("isMember",this.authService.hasRole("Member"));
         this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
       }

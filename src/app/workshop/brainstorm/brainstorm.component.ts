@@ -30,7 +30,9 @@ export class BrainstormComponent implements OnInit {
   selectedSubject: Subject;
   template = new Template();
   isUser:boolean=false;
-  
+  retro:Retro=new Retro();
+  templateId:string;
+
   constructor(
     private chatService: ChatService,
     private _ngZone: NgZone,
@@ -55,6 +57,10 @@ export class BrainstormComponent implements OnInit {
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
       this.retroRight = right;
     });
+    this.sharedService.currentRetro.subscribe((retro: Retro) => {
+      this.retro = retro;
+    });
+
   }
 
   ngOnInit(): void {
@@ -72,7 +78,8 @@ export class BrainstormComponent implements OnInit {
   private subscribeToCurrentRetroEvents(): void {
     this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
       this._ngZone.run(() => {
-       
+          this.sharedService.currentRetro.next(retro);
+          this.getTemplate(retro.templateId);
         if(this.authService.hasRole("Member")) 
            this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
 
@@ -81,6 +88,7 @@ export class BrainstormComponent implements OnInit {
   }
 
   getTemplate(templateId: any) {
+
     this.templateService
       .getTemplate(templateId)
       .pipe(first())
@@ -153,8 +161,9 @@ export class BrainstormComponent implements OnInit {
   }
 
   private getMessage() {
+
     this.messageService
-      .getAllMessage()
+      .getAllMessage(this.retroRight.retroId)
       .pipe(first())
       .subscribe(
         (data) => {

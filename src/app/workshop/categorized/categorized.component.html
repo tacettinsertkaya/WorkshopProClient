@@ -16,7 +16,7 @@
 </div>
 
 <div  *ngFor="let item of categorizedMessages">
-  <div class="row" [ngClass]="{'disabled': isUser }">
+  <div class="row" [ngClass]="{'disabled': isUser }" *ngIf="item.messages.length>0">
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
@@ -162,7 +162,7 @@
           </div>
           <div class="divider"></div>
           <div class="right-side">
-            <button type="submit" (click)="Vote()" class="btn btn-success btn-link">
+            <button type="button" (click)="saveCategorized()" class="btn btn-success btn-link">
               Oluştur
             </button>
           </div>

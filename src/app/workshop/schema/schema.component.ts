@@ -9,6 +9,7 @@ import { UserService } from "app/services/user.service";
 import { ChatService } from "app/services/chat.service";
 import { Retro } from "app/models/retro";
 import { RetroConfigration } from "app/models/retro-configuration";
+import { Subject } from "app/models/subject";
 
 declare var $: any;
 
@@ -25,6 +26,7 @@ export class SchemaComponent implements OnInit {
     },
   ];
 
+  subject:Subject=new Subject();
   templates: Template[] = [];
   selectTemplateId: string;
   isUser:boolean=false;
@@ -41,6 +43,7 @@ export class SchemaComponent implements OnInit {
     private _ngZone: NgZone,
   ) {
     this.subscribeToCurrentRetroEvents();
+
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
       this.retroRight = right;
     });
@@ -72,6 +75,8 @@ export class SchemaComponent implements OnInit {
     });
   });
 }
+
+
 
   selectTemplate(templateId) {
     localStorage.setItem("templateId", templateId);

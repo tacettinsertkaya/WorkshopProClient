@@ -4,11 +4,17 @@
   </div>
   <div class="col-sm-6">
 
+    <h5 *ngIf="retroRight != null" class="float-right" [ngClass]="
+          retroRight.voteRight > 0 ? 'text-success' : 'text-danger'
+        ">
+      Oylama Hakkı:{{ retroRight.voteRight }}
+    </h5>
+
   </div>
 </div>
 
 <div *ngFor="let item of categorizedMessages">
-  <div class="row">
+  <div class="row" >
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
@@ -27,11 +33,17 @@
             <span><i class="nc-icon nc-bulb-63"></i>
               {{ categoryMessage.messageText }}</span>
 
-              <button class="btn btn-warning btn-round float-right btn-sm" (click)="setVote(categoryMessage)" style="margin: 0 5px !important;"><i class="fa fa-heart"></i> Oyla ({{categoryMessage.voteCount}}) </button>
+            <button class="btn btn-warning btn-round float-right btn-sm"   [disabled]="retroRight.voteRight <= 0 "
+              (click)="setVote(categoryMessage)" style="margin: 0 5px !important;"><i class="fa fa-heart" [ngClass]="{
+                'text-danger':isVotedCheck(categoryMessage.id) === true
+                
+              }"></i> Oyla
+              ({{categoryMessage.voteCount}}) </button>
+
             <button type="button" (click)="getComment(categoryMessage)"
-              class="btn btn-danger btn-round float-right btn-sm" style="margin:0 !important">Yorumlar 
+              class="btn btn-danger btn-round float-right btn-sm" style="margin:0 !important">Yorumlar
               ({{categoryMessage.commentCount}}) </button>
-              
+
           </div>
         </div>
       </div>
@@ -41,13 +53,9 @@
 
 
 
-<div class="row"  *ngIf="!isUser">
+<div class="row" *ngIf="!isUser">
   <div class="col-md-3 offset-9">
-    <button
-      type="button"
-      (click)="nextReport()"
-      class="btn btn-round btn-success btn-block btn-lg float-right"
-    >
+    <button type="button" (click)="nextReport()" class="btn btn-round btn-success btn-block btn-lg float-right">
       RAPORLA
     </button>
   </div>

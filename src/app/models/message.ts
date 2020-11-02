@@ -10,4 +10,5 @@ export class Message {
   comments = [];
   isCategorized: boolean;
   commentCount:number;
+  userId:string;
 }

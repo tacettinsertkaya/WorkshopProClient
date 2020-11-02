@@ -4,4 +4,5 @@ export class RetroConfigration {
   ideaRight: number;
   commentRight: number;
   voteRight: number;
+  userId:string;
 }

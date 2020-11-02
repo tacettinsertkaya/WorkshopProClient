@@ -8,4 +8,5 @@ export class Comment {
   commentText: string;
   message: Message;
   date: Date;
+  userId:string;
 }

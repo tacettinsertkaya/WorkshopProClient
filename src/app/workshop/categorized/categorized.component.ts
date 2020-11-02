@@ -27,12 +27,12 @@ export class CategorizedComponent implements OnInit {
   subject: Subject = new Subject();
   selectedMessages1 = new Array<Categorized>();
   selectedMessages = new Array<Message>();
-  isUser:boolean=false;
+  isUser: boolean = false;
 
   categorized: Categorized = new Categorized();
   categorizedMessages = new Array<CategorizedMessage>();
   retroRight: RetroConfigration = new RetroConfigration();
-  retro:Retro=new Retro();
+  retro: Retro = new Retro();
 
   constructor(
     private messageService: MessageService,
@@ -49,6 +49,8 @@ export class CategorizedComponent implements OnInit {
     });
 
     this.subscribeToCurrentRetroEvents();
+    this.subscribeCategorizedMessagesRetroEvents();
+
     this.sharedService.allMessage.subscribe((data) => {
       this.getMessage(this.retro.id);
     });
@@ -56,7 +58,7 @@ export class CategorizedComponent implements OnInit {
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
       this.retroRight = right;
     });
- 
+
   }
 
   ngOnInit() {
@@ -65,24 +67,31 @@ export class CategorizedComponent implements OnInit {
     this.existUser();
   }
 
-  
   private subscribeToCurrentRetroEvents(): void {
     this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
       this._ngZone.run(() => {
-        this.sharedService.currentRetro.next(retro);
-        this.getMessage(retro.id);
-        this.getCategory(retro.id);
-       
-        if(this.authService.hasRole("Member")) 
-        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+        this.retro=retro;
+          this.sharedService.currentRetro.next(retro);
+        if(this.authService.hasRole("Member") && retro.currentPage!=null) 
+           this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+
+      });
+    });
+  }
+
+  private subscribeCategorizedMessagesRetroEvents(): void {
+    this.chatService.categorizedMessage.subscribe((retro: Retro) => {
+      this._ngZone.run(() => {
+        this.getMessage(this.retro.id);
+        this.getCategory(this.retro.id);
 
       });
     });
   }
 
   existUser() {
-    this.isUser=this.authService.hasRole("Member");
- }
+    this.isUser = this.authService.hasRole("Member");
+  }
 
   private getMessage(retroId) {
 
@@ -91,11 +100,11 @@ export class CategorizedComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-         
+
           this.messages = data;
           this.sortedlist();
         },
-        (error) => {}
+        (error) => { }
       );
   }
 
@@ -105,10 +114,10 @@ export class CategorizedComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          
+
           this.categorizedMessages = data;
         },
-        (error) => {}
+        (error) => { }
       );
   }
 
@@ -124,26 +133,30 @@ export class CategorizedComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          
-          let retro=new Retro();
-          retro.id=this.retroRight.retroId;
-          retro.state=2;
+
+          let retro = new Retro();
+          retro.id = this.retroRight.retroId;
+          retro.state = 2;
           this.chatService.setCurrentRetro(retro);
+          this.chatService.getCategorizedMessage();     
         },
-        (error) => {}
+        (error) => { }
       );
   }
 
   selectMessage() {
     this.selectedMessages = [];
     this.messages.filter((p) => {
-     
+
       if (p.isCategorized) {
         this.selectedMessages.push(p);
       }
     });
-    
+
   }
+
+
+  
 
   saveCategorized() {
 
@@ -164,26 +177,24 @@ export class CategorizedComponent implements OnInit {
           this.getMessage(this.retro.id);
           this.getCategory(this.retro.id);
           $("#categorizeModal").modal("hide");
-          
-          let retro=new Retro();
-          retro.id=this.retroRight.retroId;
-          retro.state=2;
-          this.chatService.setCurrentRetro(retro);
+         
+           this.chatService.getCategorizedMessage();     
 
         },
-        (error) => {}
+        (error) => { }
       );
   }
 
-  Vote(){
-    this.sharedService.tabSource.next(".multi-vote");
+  Vote() {
+    this.sharedService.tabSource.next(".comments");
     if(this.authService.hasRole("Leader")){
     
-      let retro=new Retro();
-      retro.id=this.retroRight.retroId;
-      retro.state=2;
-      retro.currentPage="/multi-vote"
-      this.chatService.setCurrentRetro(retro);
-     }
+          let retro=new Retro();
+          retro.id=this.retroRight.retroId;
+          retro.state=2;
+          retro.currentPage="/comments"
+          this.chatService.setCurrentRetro(retro);
+    }
+
   }
 }

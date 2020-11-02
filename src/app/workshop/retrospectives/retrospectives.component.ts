@@ -7,6 +7,7 @@ import { first } from "rxjs/operators";
 import { UserService } from "app/services/user.service";
 import { ChatService } from "app/services/chat.service";
 import { Retro } from "app/models/retro";
+import { UserRight } from "app/models/userRight";
 
 declare var $: any;
 @Component({
@@ -23,7 +24,7 @@ export class RetrospectivesComponent implements OnInit {
   selectSubject: Subject = null;
   isShow: boolean = false;
   isUser:boolean=false;
-
+  retroRights:UserRight=new UserRight();
   constructor(
     private sharedService: SharedService,
     private authService: UserService,
@@ -46,19 +47,54 @@ export class RetrospectivesComponent implements OnInit {
       this.isShow = isShow;
     });
     this.subscribeToCurrentRetroEvents()
-
+    this.subscribeToSelectedSubjectEvents();
+    this.allUserRightsToEvents();
   }
 
   existUser() {
      this.isUser=this.authService.hasRole("Member");
   }
 
+
+  
+  private allUserRightsToEvents(): void {
+    let currentUser = this.authService.currentUserValue;
+    this.chatService.allUserRight.subscribe(
+      (retro: Array<UserRight>) => {
+        this._ngZone.run(() => {
+        
+          let userights=retro.filter(p=>p.userId==currentUser.userId)[0];
+          
+          this.sharedService.retroRight.next(userights);
+            this.retroRights = userights;
+        });
+      }
+    );
+  }
+
+  
   private subscribeToCurrentRetroEvents(): void {
     this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
       this._ngZone.run(() => {
+        this.sharedService.currentRetro.next(retro);
         if(this.authService.hasRole("Member")) {
           this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
         }
+      });
+    });
+  }
+
+  private subscribeToSelectedSubjectEvents(): void {
+    this.chatService.subjectReceived.subscribe((subject: Subject) => {
+      this._ngZone.run(() => {
+     
+  
+        if(this.authService.hasRole("Member")) {
+         
+          this.selectSubject=subject;
+          this.isShow=true;
+        }
+  
       });
     });
   }

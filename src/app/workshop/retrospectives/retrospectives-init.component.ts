@@ -9,6 +9,7 @@ import { UserService } from "app/services/user.service";
 import { ChatService } from "app/services/chat.service";
 import { Retro } from "app/models/retro";
 import { RetroState } from "app/models/enums/retroState";
+import { UserRight } from "app/models/userRight";
 
 declare var $: any;
 @Component({
@@ -23,6 +24,8 @@ export class RetrospectivesInitComponent implements OnInit {
   config: RetroConfigration = new RetroConfigration();
   selectSubject: Subject = null;
   isShow: boolean = false;
+  retroRight: UserRight = new UserRight();
+
   constructor(
     private sharedService: SharedService,
     private authService: UserService,
@@ -31,7 +34,10 @@ export class RetrospectivesInitComponent implements OnInit {
     private chatService: ChatService,
     private _ngZone: NgZone
 
-  ) { this.subscribeToCurrentRetroEvents()}
+  ) {
+    this.subscribeToCurrentRetroEvents();
+    this.retroConfigurationToEvents();
+  }
 
   ngOnInit(): void {
     if (this.isUser())
@@ -48,16 +54,31 @@ export class RetrospectivesInitComponent implements OnInit {
       this._ngZone.run(() => {
         this.sharedService.currentRetro.next(retro);
 
-       
-        if(this.authService.hasRole("Member")) 
-        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
-  
+
+        if (this.authService.hasRole("Member"))
+          this.sharedService.tabSource.next("." + retro.currentPage.replace("/", ""));
+
       });
     });
   }
-  
+
+  private retroConfigurationToEvents(): void {
+    let currentUser = this.authService.currentUserValue;
+    this.chatService.retroConfigurationReceived.subscribe(
+      (retro: UserRight) => {
+        this._ngZone.run(() => {
+          if (currentUser.userId == retro.userId)
+            this.retroRight = retro;
+        });
+      }
+    );
+  }
+
 
   saveConfig() {
+    let currentUser = this.authService.currentUserValue;
+    this.config.userId = currentUser.userId;
+
     this.configService
       .create(this.config)
       .pipe(first())
@@ -80,13 +101,21 @@ export class RetrospectivesInitComponent implements OnInit {
             }
           );
           this.config = res;
-          this.sharedService.retroRight.next(this.config);
+          let userRight = new UserRight();
+          userRight.retroId = this.config.retroId;
+          userRight.ideaRight = this.config.ideaRight;
+          userRight.commentRight = this.config.commentRight;
+          userRight.voteRight = this.config.voteRight;
+          this.sharedService.retroRight.next(userRight);
 
-          let retro=new Retro();
-          retro.id=res.retroId;
-          retro.state=2;
-          retro.currentPage="/retro"
+          let currentUser = this.authService.currentUserValue;
+          let retro = new Retro();
+          retro.id = res.retroId;
+          retro.userId = currentUser.userId;
+          retro.state = 2;
+          retro.currentPage = "/retro"
           this.chatService.setCurrentRetro(retro);
+          this.chatService.getAllUserRights(retro);
 
 
           this.router.navigate(["/retro"]);

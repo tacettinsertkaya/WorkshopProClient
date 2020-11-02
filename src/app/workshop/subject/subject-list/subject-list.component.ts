@@ -55,6 +55,7 @@ export class SubjectListComponent implements OnInit {
       retro.state=2;
       retro.currentPage="/select-template"
       this.chatService.setCurrentRetro(retro);
+      this.chatService.setSelectedSubject(subject);
      }
   }
 
@@ -67,10 +68,8 @@ export class SubjectListComponent implements OnInit {
     this._ngZone.run(() => {
     
       if(this.authService.hasRole("Member")) {
-        console.log("retroinit",retro);
 
         this.sharedService.currentRetro.next(retro);
-        console.log("isMember",this.authService.hasRole("Member"));
         this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
       }
          

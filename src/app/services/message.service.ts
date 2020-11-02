@@ -99,11 +99,11 @@ export class MessageService {
   }
 
 
-  getAllCategoryMessageOrderVote() {
+  getAllCategoryMessageOrderVote(retroId) {
     return this.baseService.list<CategorizedMessage>(
       "",
       environment.serverBaseUrl,
-      EndPoints.MESSAGE + "/CategoryMessageOrderVote"
+      EndPoints.MESSAGE + "/CategoryMessageOrderVote/"+retroId
     );
   }
 

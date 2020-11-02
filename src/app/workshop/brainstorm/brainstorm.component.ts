@@ -11,6 +11,8 @@ import { RetroConfigration } from "app/models/retro-configuration";
 import { UserService } from "app/services/user.service";
 import { Retro } from "app/models/retro";
 import { Router } from "@angular/router";
+import { UserRight } from "app/models/userRight";
+import { RetroConfigurationService } from "app/services/retro-configuration";
 
 declare var $: any;
 @Component({
@@ -26,7 +28,7 @@ export class BrainstormComponent implements OnInit {
   messages = new Array<Message>();
   message = new Message();
   inputText = {};
-  retroRight: RetroConfigration = new RetroConfigration();
+  retroRight: UserRight = new UserRight();
   selectedSubject: Subject;
   template = new Template();
   isUser:boolean=false;
@@ -36,6 +38,7 @@ export class BrainstormComponent implements OnInit {
   constructor(
     private chatService: ChatService,
     private _ngZone: NgZone,
+    private retroService: RetroConfigurationService,
     private messageService: MessageService,
     private authService: UserService,
     private templateService: TemplateService,
@@ -54,7 +57,7 @@ export class BrainstormComponent implements OnInit {
       this.selectedSubject = subject;
     });
 
-    this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
+    this.sharedService.retroRight.subscribe((right: UserRight) => {
       this.retroRight = right;
     });
     this.sharedService.currentRetro.subscribe((retro: Retro) => {
@@ -64,10 +67,8 @@ export class BrainstormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.getMessage();
-    
-  
-       
+    this.getMessage();    
+    this.existUser();
   }
 
   existUser() {
@@ -75,9 +76,12 @@ export class BrainstormComponent implements OnInit {
  }
 
 
+ 
+
   private subscribeToCurrentRetroEvents(): void {
     this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
       this._ngZone.run(() => {
+        this.retro=retro;
           this.sharedService.currentRetro.next(retro);
           this.getTemplate(retro.templateId);
         if(this.authService.hasRole("Member")) 
@@ -106,13 +110,13 @@ export class BrainstormComponent implements OnInit {
   }
 
   nextComment() {
-    this.sharedService.tabSource.next(".comments");
+    this.sharedService.tabSource.next(".categorize");
     if(this.authService.hasRole("Leader")){
     
           let retro=new Retro();
           retro.id=this.retroRight.retroId;
           retro.state=2;
-          retro.currentPage="/comments"
+          retro.currentPage="/categorize"
           this.chatService.setCurrentRetro(retro);
     }
 
@@ -121,14 +125,19 @@ export class BrainstormComponent implements OnInit {
   sendMessage(headerId: string): void {
     const msg = this.inputText[headerId];
     if (this.filterTrim(msg) !== "") {
+
+      let currentUser=this.authService.currentUserValue;
+     
+    
       this.message = new Message();
+      this.message.userId=currentUser.userId;
       this.message.clientuniqueid = headerId;
       this.message.type = "sent";
       this.message.messageText = msg;
       this.message.subjectId = this.selectedSubject.id;
       this.message.date = new Date();
       this.message.isCategorized = false;
-      this.message.retroId = this.retroRight.retroId;
+      this.message.retroId = this.retro.id;
       this.chatService.sendMessage(this.message);
       this.inputText[headerId] = "";
     }
@@ -151,9 +160,12 @@ export class BrainstormComponent implements OnInit {
   }
 
   private retroConfigurationToEvents(): void {
+    let currentUser=this.authService.currentUserValue;
     this.chatService.retroConfigurationReceived.subscribe(
-      (retro: RetroConfigration) => {
+      (retro: UserRight) => {
         this._ngZone.run(() => {
+
+         if(currentUser.userId==retro.userId)
           this.retroRight = retro;
         });
       }

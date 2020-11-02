@@ -6,6 +6,8 @@ import { environment } from "../../environments/environment";
 import { EndPoints } from "./end-points";
 import { RetroConfigration } from "../models/retro-configuration";
 import { isNullOrUndefined } from "util";
+import { Retro } from "app/models/retro";
+import { UserRight } from "app/models/userRight";
 
 @Injectable()
 export class RetroConfigurationService {
@@ -35,6 +37,14 @@ export class RetroConfigurationService {
       data,
       environment.serverBaseUrl,
       EndPoints.RETRO_CONFIGURATION + "/Delete?Id=" + id
+    );
+  }
+
+  getUserRight(retro:Retro){
+    return this.baseService.post<UserRight>(
+      retro,
+      environment.serverBaseUrl,
+      EndPoints.RETRO_CONFIGURATION+'/GetUserRight'
     );
   }
 

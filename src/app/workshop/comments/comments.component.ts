@@ -11,6 +11,7 @@ import { Subject } from "app/models/subject";
 import { RetroConfigration } from "app/models/retro-configuration";
 import { Retro } from "app/models/retro";
 import { UserService } from "app/services/user.service";
+import { UserRight } from "app/models/userRight";
 
 declare var $: any;
 
@@ -32,7 +33,7 @@ export class CommentsComponent implements OnInit {
   messageCount = 0;
   commentText: string = "";
   comment: Comment = new Comment();
-  retroRight: RetroConfigration;
+  retroRight: UserRight;
   isUser:boolean=false;
   
   constructor(
@@ -46,7 +47,7 @@ export class CommentsComponent implements OnInit {
     this.subscribeToEvents();
     this.commentToEvents();
     this.retroConfigurationToEvents();
-    this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
+    this.sharedService.retroRight.subscribe((right: UserRight) => {
       this.retroRight = right;
     });
     this.subscribeToCurrentRetroEvents();
@@ -54,6 +55,7 @@ export class CommentsComponent implements OnInit {
 
   ngOnInit() {
     this.getMessage();
+    this.existUser();
   }
   
   private subscribeToCurrentRetroEvents(): void {
@@ -84,9 +86,11 @@ export class CommentsComponent implements OnInit {
   }
 
   sendComment() {
+    let currentUser=this.authService.currentUserValue;
+
     if (this.filterTrim(this.commentText) != "") {
       this.comment = new Comment();
-
+      this.comment.userId=currentUser.userId;
       this.comment.messageId = this.selectedMessage.id;
       this.comment.commentText = this.commentText;
       this.comment.date = new Date();
@@ -113,33 +117,34 @@ export class CommentsComponent implements OnInit {
     this.chatService.commentReceived.subscribe((comment: Comment) => {
       this._ngZone.run(() => {
         let message = this.messages.filter((p) => p.id == comment.messageId);
-        let myShallowClonedObject = { ...this.messages }; // Will do a shallow copy
-
 
         message[0].comments.push(comment);
-        let myShallowClonedObject2 = { ...this.messages };
       });
     });
   }
 
   private retroConfigurationToEvents(): void {
+    let currentUser=this.authService.currentUserValue;
     this.chatService.retroConfigurationReceived.subscribe(
-      (retro: RetroConfigration) => {
+      (retro: UserRight) => {
         this._ngZone.run(() => {
+          if(currentUser.userId==retro.userId)
           this.retroRight = retro;
         });
       }
     );
   }
 
+
+
   nextCategorize(){
-    this.sharedService.tabSource.next(".categorize");
+    this.sharedService.tabSource.next(".vote");
     if(this.authService.hasRole("Leader")){
     
       let retro=new Retro();
       retro.id=this.retroRight.retroId;
       retro.state=2;
-      retro.currentPage="/categorize"
+      retro.currentPage="/vote"
       this.chatService.setCurrentRetro(retro);
      }
   }

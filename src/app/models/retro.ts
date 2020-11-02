@@ -7,5 +7,5 @@ export class Retro {
    currentPage:string;
    state:number;
    createDate:Date;
-
+   userId:string;
 }

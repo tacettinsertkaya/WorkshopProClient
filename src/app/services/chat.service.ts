@@ -6,6 +6,8 @@ import { environment } from "../../environments/environment";
 import { RetroConfigration } from "app/models/retro-configuration";
 import { VoteDto } from "app/models/dto/vote-dto";
 import { Retro } from "app/models/retro";
+import { Subject } from "app/models/subject";
+import { UserRight } from "app/models/userRight";
 
 @Injectable()
 export class ChatService {
@@ -14,10 +16,13 @@ export class ChatService {
   connectionEstablished = new EventEmitter<Boolean>();
 
   commentReceived = new EventEmitter<Comment>();
+  subjectReceived = new EventEmitter<Subject>();
   voteReceived = new EventEmitter<Comment>();
   currentRetroReceived = new EventEmitter<Retro>();
   currentRetro = new EventEmitter<RetroConfigration>();
-  retroConfigurationReceived = new EventEmitter<RetroConfigration>();
+  retroConfigurationReceived = new EventEmitter<UserRight>();
+  allUserRight = new EventEmitter<Array<UserRight>>();
+  categorizedMessage = new EventEmitter<string>();
 
   private connectionIsEstablished = false;
   private _hubConnection: HubConnection;
@@ -30,6 +35,9 @@ export class ChatService {
     this.getCurrentRetroEvents();
     this.voteOnServerEvents();
     this.currentRetroEvents();
+    this.getSelectedSubjectEvents();
+    this.AllUserRightOnServerEvents();
+    this.getCategorizedMessageEvents();
     this.startConnection();
   }
 
@@ -50,14 +58,28 @@ export class ChatService {
     this._hubConnection.invoke("setCurrentRetro", data);
   }
 
+  setSelectedSubject(data:Subject) {
+  
+    this._hubConnection.invoke("setSelectedSubject", data);
+  }
+
   setCurrentRetroConfig(data:Retro) {
     
     this._hubConnection.invoke("setCurrentRetroConfig",data);
   }
 
+  
+
+  getCategorizedMessage() {
+    this._hubConnection.invoke("getCategorizedMessage");
+  }
 
   getMessage() {
     this._hubConnection.invoke("GetMessage");
+  }
+
+  getAllUserRights(retro) {
+    this._hubConnection.invoke("allUserRight",retro);
   }
 
   private createConnection() {
@@ -100,6 +122,12 @@ export class ChatService {
       this.retroConfigurationReceived.emit(data);
     });
   }
+  
+  private AllUserRightOnServerEvents(): void {
+    this._hubConnection.on("allUserRight", (data: any) => {
+      this.allUserRight.emit(data);
+    });
+  }
 
   private voteOnServerEvents(): void {
     this._hubConnection.on("VoteReceived", (data: any) => {
@@ -119,5 +147,16 @@ export class ChatService {
     });
   }
 
+  private getSelectedSubjectEvents(): void {
+    this._hubConnection.on("getSelectedSubjectReceived", (data: any) => {
+      this.subjectReceived.emit(data);
+    });
+  }
+
   
+  private getCategorizedMessageEvents(): void {
+    this._hubConnection.on("categorizedMessageReceived", (data: any) => {
+      this.categorizedMessage.emit(data);
+    });
+  }
 }

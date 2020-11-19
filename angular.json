@@ -56,7 +56,7 @@
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/sweetalert2/dist/sweetalert2.js",
               "src/assets/js/jquery.validate.min.js"
-            ]
+                     ]
           },
           "configurations": {
             "production": {
@@ -131,7 +131,8 @@
               "node_modules/@adactive/bootstrap-tagsinput/dist/bootstrap-tagsinput.js",
               "node_modules/jasny-bootstrap/dist/js/jasny-bootstrap.min.js",
               "node_modules/sweetalert2/dist/sweetalert2.js",
-              "src/assets/js/jquery.validate.min.js"
+              "src/assets/js/jquery.validate.min.js",
+              "node_modules/jspdf/dist/jspdf.min.js"
             ],
             "styles": [
               "node_modules/perfect-scrollbar/css/perfect-scrollbar.css",

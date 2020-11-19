@@ -92,7 +92,7 @@
               <app-vote-cmp></app-vote-cmp>
             </div>
             <div class="tab-pane" id="idea-archive">
-              <app-report-cmp></app-report-cmp>
+              <app-report-cmp *ngIf="isReport"></app-report-cmp>
             </div>
           </div>
         </div>
@@ -100,3 +100,4 @@
     </div>
   </div>
 </div>
+

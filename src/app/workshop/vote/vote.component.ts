@@ -117,11 +117,8 @@ export class VoteComponent implements OnInit {
 
 
   isVotedCheck(messageId:any){
-    console.log("check-messageId",messageId);
-    console.log("this.votedMessages", this.votedMessages);
 
     let existVoted = this.votedMessages.filter(p => p == messageId)[0];
-    console.log("existVoted",existVoted);
     if (existVoted == null || existVoted == undefined) {
           return false
     }

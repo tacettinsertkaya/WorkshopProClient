@@ -23,8 +23,9 @@ export class RetrospectivesComponent implements OnInit {
   config: RetroConfigration = new RetroConfigration();
   selectSubject: Subject = null;
   isShow: boolean = false;
-  isUser:boolean=false;
-  retroRights:UserRight=new UserRight();
+  isReport: boolean = false;
+  isUser: boolean = false;
+  retroRights: UserRight = new UserRight();
   constructor(
     private sharedService: SharedService,
     private authService: UserService,
@@ -33,15 +34,27 @@ export class RetrospectivesComponent implements OnInit {
     private _ngZone: NgZone,
   ) {
     this.sharedService.tabSource.subscribe((tab: string) => {
-      
+      if (".idea-archive" == tab) {
+        this.isReport = true;
+        this.isShow=false;
+      }
+      else {
+        this.isReport = false;
+        this.isShow=true;
+
+      }
       $(tab).click();
       $(".tab-progress").find(".nav-item").removeClass("active");
+
+
     });
 
     this.sharedService.selectSubject.subscribe((subject: any) => {
-    
+
       this.selectSubject = subject;
     });
+
+    
 
     this.sharedService.isShowSubject.subscribe((isShow: any) => {
       this.isShow = isShow;
@@ -52,33 +65,33 @@ export class RetrospectivesComponent implements OnInit {
   }
 
   existUser() {
-     this.isUser=this.authService.hasRole("Member");
+    this.isUser = this.authService.hasRole("Member");
   }
 
 
-  
+
   private allUserRightsToEvents(): void {
     let currentUser = this.authService.currentUserValue;
     this.chatService.allUserRight.subscribe(
       (retro: Array<UserRight>) => {
         this._ngZone.run(() => {
-        
-          let userights=retro.filter(p=>p.userId==currentUser.userId)[0];
-          
+
+          let userights = retro.filter(p => p.userId == currentUser.userId)[0];
+
           this.sharedService.retroRight.next(userights);
-            this.retroRights = userights;
+          this.retroRights = userights;
         });
       }
     );
   }
 
-  
+
   private subscribeToCurrentRetroEvents(): void {
     this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
       this._ngZone.run(() => {
         this.sharedService.currentRetro.next(retro);
-        if(this.authService.hasRole("Member")) {
-          this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+        if (this.authService.hasRole("Member")) {
+          this.sharedService.tabSource.next("." + retro.currentPage.replace("/", ""));
         }
       });
     });
@@ -87,14 +100,14 @@ export class RetrospectivesComponent implements OnInit {
   private subscribeToSelectedSubjectEvents(): void {
     this.chatService.subjectReceived.subscribe((subject: Subject) => {
       this._ngZone.run(() => {
-     
-  
-        if(this.authService.hasRole("Member")) {
-         
-          this.selectSubject=subject;
-          this.isShow=true;
+
+
+        if (this.authService.hasRole("Member")) {
+
+          this.selectSubject = subject;
+          this.isShow = true;
         }
-  
+
       });
     });
   }

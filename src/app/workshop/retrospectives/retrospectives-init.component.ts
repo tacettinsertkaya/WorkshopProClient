@@ -10,6 +10,9 @@ import { ChatService } from "app/services/chat.service";
 import { Retro } from "app/models/retro";
 import { RetroState } from "app/models/enums/retroState";
 import { UserRight } from "app/models/userRight";
+import { Report } from "app/models/dto/report";
+import { MessageService } from "app/services/message.service";
+import { CategorizedMessage } from "app/models/dto/categorized-message";
 
 declare var $: any;
 @Component({
@@ -21,10 +24,14 @@ export class RetrospectivesInitComponent implements OnInit {
   /**
    *
    */
+
+  report=new Report();
   config: RetroConfigration = new RetroConfigration();
   selectSubject: Subject = null;
   isShow: boolean = false;
   retroRight: UserRight = new UserRight();
+
+  categorizedMessages = new Array<CategorizedMessage>();
 
   constructor(
     private sharedService: SharedService,
@@ -32,7 +39,9 @@ export class RetrospectivesInitComponent implements OnInit {
     private configService: RetroConfigurationService,
     private router: Router,
     private chatService: ChatService,
-    private _ngZone: NgZone
+    private _ngZone: NgZone,
+  
+    private messageService: MessageService,
 
   ) {
     this.subscribeToCurrentRetroEvents();
@@ -42,7 +51,15 @@ export class RetrospectivesInitComponent implements OnInit {
   ngOnInit(): void {
     if (this.isUser())
       this.router.navigate(["/retro"]);
+
+      
+      
   }
+
+
+
+ 
+
 
 
   isUser() {
@@ -78,7 +95,7 @@ export class RetrospectivesInitComponent implements OnInit {
   saveConfig() {
     let currentUser = this.authService.currentUserValue;
     this.config.userId = currentUser.userId;
-
+    
     this.configService
       .create(this.config)
       .pipe(first())

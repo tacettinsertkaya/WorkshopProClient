@@ -46,6 +46,15 @@ export class SubjectsService {
     );
   }
 
+  getRetroSubject(id: any) {
+    return this.baseService.get<Subject>(
+      id,
+      environment.serverBaseUrl,
+      EndPoints.SUBJECT+'/RetroSubject'
+    );
+  }
+
+
   getAllSubject() {
     return this.baseService.list<Subject>(
       "",

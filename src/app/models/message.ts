@@ -10,5 +10,6 @@ export class Message {
   comments = [];
   isCategorized: boolean;
   commentCount:number;
+  voteCount:number;
   userId:string;
 }

@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { RouterModule } from "@angular/router";
 import { CommonModule } from "@angular/common";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -32,6 +32,7 @@ import { CategoryService } from "../services/category.service";
 import { RetroConfigurationService } from "../services/retro-configuration";
 import { SharedService } from "../services/shared.service";
 import { UserService } from "app/services/user.service";
+import { LoaderComponent } from './loader/loader.component';
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(WorkshopRoutes), FormsModule,ReactiveFormsModule],
@@ -65,5 +66,7 @@ import { UserService } from "app/services/user.service";
     TemplateDetailService,
 
   ],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+
 })
 export class WorkshopModule {}

@@ -1,4 +1,8 @@
 <div class="main-content">
+
+
+ 
+
   <div class="row">
     <div class="col-md-12 ml-auto mr-auto">
       <div class="card">
@@ -6,21 +10,13 @@
           <h4 class="card-title">RETRO BAŞLAT</h4>
         </div>
         <div class="card-body">
-          <form
-            #configForm="ngForm"
-            class="container mt-3"
-            (ngSubmit)="saveConfig()"
-          >
+          <form #configForm="ngForm" class="container mt-3" (ngSubmit)="saveConfig()">
             <div class="row">
               <div class="col-12">
                 <div class="form-group">
                   <label>Fikir Hakkı Sayısı</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    [(ngModel)]="config.ideaRight"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
+                  <input type="number" class="form-control" [(ngModel)]="config.ideaRight"
+                    [ngModelOptions]="{ standalone: true }" />
                 </div>
               </div>
             </div>
@@ -29,12 +25,8 @@
               <div class="col-12">
                 <div class="form-group">
                   <label>Yorum Hakkı Sayısı</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    [(ngModel)]="config.commentRight"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
+                  <input type="number" class="form-control" [(ngModel)]="config.commentRight"
+                    [ngModelOptions]="{ standalone: true }" />
                 </div>
               </div>
             </div>
@@ -43,22 +35,15 @@
               <div class="col-12">
                 <div class="form-group">
                   <label>Oylama Hakkı Sayısı</label>
-                  <input
-                    type="number"
-                    class="form-control"
-                    [(ngModel)]="config.voteRight"
-                    [ngModelOptions]="{ standalone: true }"
-                  />
+                  <input type="number" class="form-control" [(ngModel)]="config.voteRight"
+                    [ngModelOptions]="{ standalone: true }" />
                 </div>
               </div>
             </div>
             <div class="row">
               <div class="col-sm-6"></div>
               <div class="col-sm-6 right-side">
-                <button
-                  type="submit"
-                  class="btn btn-round btn-success btn-lg float-right"
-                >
+                <button type="submit" class="btn btn-round btn-success btn-lg float-right">
                   Başlat
                 </button>
               </div>
@@ -69,3 +54,4 @@
     </div>
   </div>
 </div>
+

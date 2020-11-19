@@ -1,4 +1,4 @@
-import { NgModule } from "@angular/core";
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
 import { HttpModule } from "@angular/http";
@@ -31,6 +31,9 @@ import { UserDirectiveDirective } from "./workshop/directive/user-directive.dire
 import { UserRoleDirective } from "./workshop/directive/user-role-directive.directive";
 
 
+import { LoaderInterceptorService } from './helpers/loaderinceptor.service';
+import { LoaderComponent } from "./workshop/loader/loader.component";
+import { NgxSpinnerModule } from "ngx-spinner";
 
 
 @NgModule({
@@ -47,7 +50,7 @@ import { UserRoleDirective } from "./workshop/directive/user-role-directive.dire
     FooterModule,
     FixedPluginModule,
     BrowserModule,
-   
+    NgxSpinnerModule
   ],
   declarations: [
     AppComponent,
@@ -55,15 +58,20 @@ import { UserRoleDirective } from "./workshop/directive/user-role-directive.dire
     AuthLayoutComponent,
     LoginComponent,
     UserRoleDirective,
-    UserDirectiveDirective
+    UserDirectiveDirective,
+    LoaderComponent,
+
   ],
   providers: [
     UserService,
     BaseService,
-    
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
-    
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: LoaderInterceptorService,
+      multi: true
+    }
   ],
   exports: [
     CommonModule,
@@ -71,5 +79,7 @@ import { UserRoleDirective } from "./workshop/directive/user-role-directive.dire
     ReactiveFormsModule
   ],
   bootstrap: [AppComponent],
+  schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
+
 })
 export class AppModule {}

@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from "@angular/core";
+import { Component, ModuleWithComponentFactories, NgZone, OnInit } from "@angular/core";
 import { Categorized } from "app/models/categorized";
 import { Category } from "app/models/category";
 import { CategorizedMessage } from "app/models/dto/categorized-message";
@@ -11,154 +11,167 @@ import { ChatService } from "app/services/chat.service";
 import { MessageService } from "app/services/message.service";
 import { SharedService } from "app/services/shared.service";
 import { first } from "rxjs/operators";
-import {Router} from "@angular/router"
+import { Router } from "@angular/router"
+import { Retro } from "app/models/retro";
+import { SubjectsService } from "app/services/subject.service";
+import * as moment from 'moment'
+
+import { ViewChild, ElementRef } from '@angular/core';
+import { jsPDF } from "jspdf";
+import { RetroConfigurationService } from "app/services/retro-configuration";
+import { NgxSpinnerService } from "ngx-spinner";
 
 declare var $: any;
 
+
 @Component({
-    selector: "app-report-cmp",
-    templateUrl: "./report.component.html",
+  selector: "app-report-cmp",
+  templateUrl: "./report.component.html",
+  styleUrls:["./report.component.css"]
 })
 export class ReportComponent implements OnInit {
-    message = new Message();
-    categorys = new Array<CategorizedMessage>();
-    subject: Subject = new Subject();
-    archiveMessagesList=Array<Message>();
-    categorized: Categorized = new Categorized();
-    categorizedMessages = new Array<CategorizedMessage>();
-    categorizedFavoriMessages = new Array<CategorizedMessage>();
-    comments = new Array<any>();
+  message = new Message();
+  messages = new Array<Message>();
 
-    constructor(
-        private _ngZone: NgZone,
-        private router: Router,
-        private chatService: ChatService,
-        private messageService: MessageService,
-        private categoryService: CategoryService,
-        private sharedService: SharedService,
-    ) {
-    }
+  categorys = new Array<CategorizedMessage>();
+  subject: Subject = new Subject();
+  archiveMessagesList = Array<Message>();
+  categorized: Categorized = new Categorized();
+  categorizedMessages = new Array<Message>();
+  allMessages = new Array<Message>();
+  nonCategorizedMessages = new Array<CategorizedMessage>();
+  comments = new Array<any>();
+  selectSubject: Subject = null;
+  retro: Retro = new Retro();
 
-    ngOnInit() {
-        this.getArchive();
-        this.getArchiveFavorite();
-
-    }
+  public showOverlay = true;
 
 
-
-
-  
-
-    private getArchive() {
-        this.messageService
-            .getArchiveMessage()
-            .pipe(first())
-            .subscribe(
-                (data) => {
-
-                    this.categorizedMessages = data;
-                },
-                (error) => { }
-            );
-    }
- 
-
-
-
-    private getArchiveFavorite() {
-        this.messageService
-            .getFavoriteArchiveMessagea()
-            .pipe(first())
-            .subscribe(
-                (data) => {
-
-                    this.categorizedFavoriMessages = data;
-                },
-                (error) => { }
-            );
-    }
-
-    changeCategory(message, category) {
-       
-        for (var i = category.messages.length - 1; i >= 0; i--) {
-            if (category.messages[i].id === message.id) {
-                category.messages.splice(i, 1);
-            }
-           }
-        
-         
-
-        let cat = this.categorizedFavoriMessages.filter(p => p.category.id == category.category.id)[0];
-      
-        if (cat != undefined) {
-            cat.messages.push(message);
-        }
-        else {
-            let fav = new CategorizedMessage();
-            fav.category = category.category;
-            fav.messages.push(message);
-
-            this.categorizedFavoriMessages.push(fav);
-        }
-
-
-    }
-
+  constructor(
     
-    changeCategoryRemove(message, category) {
-       
+    private _ngZone: NgZone,
+    private router: Router,
+    private chatService: ChatService,
+    private messageService: MessageService,
+    private retroConfigurationService: RetroConfigurationService,
+    private subjectService: SubjectsService,
+    private categoryService: CategoryService,
+    private sharedService: SharedService) {
+    this.sharedService.currentRetro.subscribe((retro: Retro) => {
+      this.retro = retro;
+    });
 
-        for (var i = category.messages.length - 1; i >= 0; i--) {
-            if (category.messages[i].id === message.id) {
-                category.messages.splice(i, 1);
-            }
-           }
-        
-         
+    this.sharedService.tabSource.subscribe((tab: string) => {
+      if (".idea-archive" == tab) {
+        this.getCategory(this.retro.id);
+        this.getMessage(this.retro.id);
+        this.getSubject(this.retro.id);
+      }
 
-        let cat = this.categorizedMessages.filter(p => p.category.id == category.category.id)[0];
-     
-        if (cat != undefined) {
-            cat.messages.push(message);
-        }
-        else {
-            let fav = new CategorizedMessage();
-            fav.category = category.category;
-            fav.messages.push(message);
+    });
 
-            this.categorizedMessages.push(fav);
-        }
+  }
 
 
-    }
+  @ViewChild('content') content: ElementRef;
+  public SavePDF(): void {
 
-    archiveMessage(){
-        
-        this.getSplitMessage(this.categorizedMessages);
-        this.getSplitMessage(this.categorizedFavoriMessages);
+    var pdf = new jsPDF('l', 'pt', 'a4');
+    console.log("test", pdf);
+    var options = {
+      pagesplit: true
+    };
 
-        this.messageService
-            .messageArchive(this.archiveMessagesList)
-            .pipe(first())
-            .subscribe(
-                (data) => {
-                    this.router.navigate(['/'])
+    pdf.addHTML(document.getElementById('report-content'), 0, 0, options, function () {
+      pdf.save("report.pdf");
+    });
 
-                },
-                (error) => { }
-            );
-    }
 
-    getSplitMessage(data){
-        data.forEach(category => {
-            category.messages.forEach(message => {
-                this.archiveMessagesList.push(message);  
-            });
-           
-        });
+  }
 
-    }
+
+
+
+  ngOnInit() {
+   
+
+  }
+
+
+
+
+  private getSubject(retroId) {
+    this.subjectService
+      .getRetroSubject(retroId)
+      .pipe(first())
+      .subscribe(
+        (data) => {
+
+          this.subject = data;
+          this.sortedlist();
+        },
+        (error) => { }
+      );
+  }
+
+
+  private getMessage(retroId) {
+
+    this.messageService
+      .getAllNonCategoryMessage(retroId)
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          console.log("non-category", data);
+          this.messages = data;
+          this.sortedlist();
+        },
+        (error) => { }
+      );
+  }
+
+  private getCategory(retroId) {
+    this.messageService
+      .getAllCategoryMessage(retroId)
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          console.log("category", data);
+          data.forEach(item => {
+            this.categorizedMessages.push(...item.messages);
+          });
+          this.showOverlay = false;
+        },
+        (error) => { }
+      );
+  }
+
+  sortedlist() {
+    this.messages.sort(function (a, b) {
+      return new Date(b.date).getTime() - new Date(a.date).getTime();
+    });
+  }
+
+
+  createPdf() {
+    this.showOverlay = true;
+    this.retroConfigurationService.getRetroReport(this.retro.id).subscribe((data) => {
+
+      let blob = new Blob([data], { type: 'application/pdf' });
+
+      var downloadURL = window.URL.createObjectURL(data);
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "report.pdf";
+      link.click();
+      this.showOverlay = false;
+
+    });
+  }
+
+
+
+
 
 
 

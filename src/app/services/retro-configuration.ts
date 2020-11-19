@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 
 import { BaseService } from "./base.service";
 import { environment } from "../../environments/environment";
@@ -8,10 +8,11 @@ import { RetroConfigration } from "../models/retro-configuration";
 import { isNullOrUndefined } from "util";
 import { Retro } from "app/models/retro";
 import { UserRight } from "app/models/userRight";
+import { Report } from "app/models/dto/report";
 
 @Injectable()
 export class RetroConfigurationService {
-  constructor(private http: HttpClient, private baseService: BaseService) {}
+  constructor(private http: HttpClient, private baseService: BaseService) { }
 
   create(RetroConfigration: RetroConfigration) {
     return this.baseService.post<RetroConfigration>(
@@ -40,11 +41,11 @@ export class RetroConfigurationService {
     );
   }
 
-  getUserRight(retro:Retro){
+  getUserRight(retro: Retro) {
     return this.baseService.post<UserRight>(
       retro,
       environment.serverBaseUrl,
-      EndPoints.RETRO_CONFIGURATION+'/GetUserRight'
+      EndPoints.RETRO_CONFIGURATION + '/GetUserRight'
     );
   }
 
@@ -56,11 +57,20 @@ export class RetroConfigurationService {
     );
   }
 
-   getCurrentRetro() {
+  getRetroReport(id: string) {
+
+  const httpOptions = {
+    responseType: 'blob' as 'json',
+  };
+
+  return this.http.get<any>(`${environment.serverBaseUrl}/RetroConfiguration/CreatePDF/${id}`, httpOptions);
+  }
+
+  getCurrentRetro() {
     return this.baseService.get<RetroConfigration>(
       "",
       environment.serverBaseUrl,
-      EndPoints.RETRO_CONFIGURATION+'/GetCurrentRetro'
+      EndPoints.RETRO_CONFIGURATION + '/GetCurrentRetro'
     );
   }
 

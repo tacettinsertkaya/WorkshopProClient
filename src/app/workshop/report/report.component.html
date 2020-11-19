@@ -49,8 +49,8 @@
       </div>
     </div>
   
-    <div class="row" *ngFor=" let message of categorizedMessages">
-      <div class="col-sm-12">
+    <div class="row" *ngFor=" let message of categorizedMessages;let index" >
+      <div class="col-sm-12" >
         <div class="alert alert-success" role="alert">
           <div class="row">
             <p class="col-sm-11"> {{message.messageText}}

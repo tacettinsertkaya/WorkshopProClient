@@ -100,7 +100,7 @@ export class CategorizedComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-
+            console.log("categorized-messages",data);
           this.messages = data;
           this.sortedlist();
         },
@@ -172,13 +172,28 @@ export class CategorizedComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          this.selectedMessages = [];
-          this.categorized.title = "";
-          this.getMessage(this.retro.id);
-          this.getCategory(this.retro.id);
+  
           $("#categorizeModal").modal("hide");
          
            this.chatService.getCategorizedMessage();     
+           let currentUser=this.authService.currentUserValue;
+     
+        
+           let message= new Message();
+           message.userId=currentUser.userId;
+           message.clientuniqueid = this.selectedMessages[0].clientuniqueid;
+           message.type = "category";
+           message.messageText = this.categorized.title;
+           message.subjectId = this.selectedMessages[0].subjectId;
+           message.date = new Date();
+           message.isCategorized = false;
+           message.retroId =  this.selectedMessages[0].retroId;
+           this.chatService.sendMessage(message);
+
+           this.selectedMessages = [];
+           this.categorized.title = "";
+           this.getMessage(this.retro.id);
+          //  this.getCategory(this.retro.id);
 
         },
         (error) => { }

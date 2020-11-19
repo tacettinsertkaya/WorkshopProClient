@@ -34,7 +34,7 @@ export class VoteComponent implements OnInit {
   retroRight: RetroConfigration = new RetroConfigration();
   isUser: boolean = false;
   votedMessages = new Array<any>();
-
+  messages:Array<Message>=[];
   constructor(
     private _ngZone: NgZone,
     private chatService: ChatService,
@@ -170,11 +170,11 @@ export class VoteComponent implements OnInit {
       this._ngZone.run(() => {
 
         this.messageService
-          .getAllCategoryMessageOrderVote(this.retroRight.retroId)
+          .getAllNonCategoryMessage(this.retroRight.retroId)
           .pipe(first())
           .subscribe(
             (data) => {
-              this.categorizedMessages = data;
+              this.messages = data;
             },
             (error) => { }
           );
@@ -186,11 +186,11 @@ export class VoteComponent implements OnInit {
   private getCategory() {
 
     this.messageService
-      .getAllCategoryMessage(this.retroRight.retroId)
+      .getAllNonCategoryMessage(this.retroRight.retroId)
       .pipe(first())
       .subscribe(
         (data) => {
-          this.categorizedMessages = data;
+          this.messages = data;
         },
         (error) => { }
       );

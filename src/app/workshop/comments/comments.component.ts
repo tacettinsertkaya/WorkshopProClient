@@ -107,8 +107,11 @@ export class CommentsComponent implements OnInit {
   private subscribeToEvents(): void {
     this.chatService.messageReceived.subscribe((message: Message) => {
       this._ngZone.run(() => {
+  
+        if(message.isCategorized==false){
         this.messages.push(message);
         this.sortedlist();
+        }
       });
     });
   }
@@ -149,16 +152,20 @@ export class CommentsComponent implements OnInit {
      }
   }
   private getMessage() {
+
     this.messageService
-      .getAllMessage(1)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          this.messages = data;
-          this.messageCount = this.messages.length;
-          this.sortedlist();
-        },
-        (error) => {}
-      );
+    .getAllNonCategoryMessage(this.retroRight.retroId)
+    .pipe(first())
+    .subscribe(
+      (data) => {
+       console.log("getAllNonCategoryMessage",data);
+        this.messages = data.filter(p=>p.isCategorized==false);
+        console.log("filter",this.messages);
+        this.messageCount =  this.messages.length;
+        this.sortedlist();
+      },
+      (error) => { }
+    );
+
   }
 }

@@ -63,7 +63,6 @@ export class ReportComponent implements OnInit {
 
     this.sharedService.tabSource.subscribe((tab: string) => {
       if (".idea-archive" == tab) {
-        this.getCategory(this.retro.id);
         this.getMessage(this.retro.id);
         this.getSubject(this.retro.id);
       }
@@ -123,28 +122,37 @@ export class ReportComponent implements OnInit {
       .subscribe(
         (data) => {
           console.log("non-category", data);
-          this.messages = data;
-          this.sortedlist();
-        },
-        (error) => { }
-      );
-  }
+          this.messages = data.filter(p=>p.voteCount==0);
+          this.categorizedMessages=data.filter(p=>p.voteCount>0);
 
-  private getCategory(retroId) {
-    this.messageService
-      .getAllCategoryMessage(retroId)
-      .pipe(first())
-      .subscribe(
-        (data) => {
-          console.log("category", data);
-          data.forEach(item => {
-            this.categorizedMessages.push(...item.messages);
-          });
+          if(this.categorizedMessages.length>10){
+            let  overdata =this.categorizedMessages.slice(11,this.categorizedMessages.length);
+            this.categorizedMessages=this.categorizedMessages.slice(0,10);;
+            this.messages.push(...overdata);
+
+          }
+          this.sortedlist();
           this.showOverlay = false;
         },
         (error) => { }
       );
   }
+
+  // private getCategory(retroId) {
+  //   this.messageService
+  //     .getAllCategoryMessage(retroId)
+  //     .pipe(first())
+  //     .subscribe(
+  //       (data) => {
+  //         console.log("category", data);
+  //         data.forEach(item => {
+  //           this.categorizedMessages.push(...item.messages);
+  //         });
+  //        
+  //       },
+  //       (error) => { }
+  //     );
+  // }
 
   sortedlist() {
     this.messages.sort(function (a, b) {

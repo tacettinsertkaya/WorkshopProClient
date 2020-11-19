@@ -24,6 +24,8 @@ export class RetrospectivesComponent implements OnInit {
   selectSubject: Subject = null;
   isShow: boolean = false;
   isReport: boolean = false;
+  isVote: boolean = false;
+  isComment:boolean=false;
   isUser: boolean = false;
   retroRights: UserRight = new UserRight();
   constructor(
@@ -43,6 +45,27 @@ export class RetrospectivesComponent implements OnInit {
         this.isShow=true;
 
       }
+
+      if (".comments" == tab) {
+        this.isComment = true;
+      
+      }
+      else {
+        this.isComment = false;
+
+      }
+
+      
+      if (".vote" == tab) {
+        this.isVote = true;
+      }
+      else {
+        this.isVote = false;
+
+      }
+
+
+
       $(tab).click();
       $(".tab-progress").find(".nav-item").removeClass("active");
 

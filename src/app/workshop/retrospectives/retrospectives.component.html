@@ -83,13 +83,13 @@
               <brainstorm-cmp></brainstorm-cmp>
             </div>
             <div class="tab-pane" id="comments">
-              <comments-cmp></comments-cmp>
+              <comments-cmp *ngIf="isComment"></comments-cmp>
             </div>
             <div class="tab-pane" id="categorize">
               <app-categorized-cmp></app-categorized-cmp>
             </div>
             <div class="tab-pane" id="vote">
-              <app-vote-cmp></app-vote-cmp>
+              <app-vote-cmp *ngIf="isVote"></app-vote-cmp>
             </div>
             <div class="tab-pane" id="idea-archive">
               <app-report-cmp *ngIf="isReport"></app-report-cmp>

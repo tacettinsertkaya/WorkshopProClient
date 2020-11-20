@@ -6,6 +6,30 @@
   background-color: #777777;
 }
 
+.online-user{
+  position: absolute;
+  width: 100%;
+  bottom: 10px;
+}
+
+.online-user::after {
+  content: '';
+  position: absolute;
+  right: 15px;
+  height: 1px;
+  width: calc(100% - 30px);
+  background-color: rgba(255,255,255,0.5);
+}
+
+.online-user::before {
+  content: '';
+  position: absolute;
+  right: 15px;
+  height: 1px;
+  width: calc(100% - 30px);
+  background-color: rgba(255,255,255,0.5);
+}
+
 .typography-line {
   padding-left: 25%;
   margin-bottom: 35px;

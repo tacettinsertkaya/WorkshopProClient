@@ -33,6 +33,8 @@ import { RetroConfigurationService } from "../services/retro-configuration";
 import { SharedService } from "../services/shared.service";
 import { UserService } from "app/services/user.service";
 import { LoaderComponent } from './loader/loader.component';
+import { CompanyService } from "app/services/company.service";
+import { CompanyManagementComponent } from "./company-management/company-management.component";
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(WorkshopRoutes), FormsModule,ReactiveFormsModule],
@@ -50,12 +52,11 @@ import { LoaderComponent } from './loader/loader.component';
     ReportComponent,
     UserManagementComponent,
     SuperUserManagementComponent,
-
+    CompanyManagementComponent
     
   ],
   providers: [
-    ChatService,
-    MessageService,
+
     HttpClient,
     TemplateService,
     SubjectsService,
@@ -64,7 +65,7 @@ import { LoaderComponent } from './loader/loader.component';
     CategoryService,
     RetroConfigurationService,
     TemplateDetailService,
-
+    CompanyService
   ],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 

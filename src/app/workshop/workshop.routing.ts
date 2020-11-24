@@ -8,6 +8,7 @@ import { TemplatesComponent } from "./templates/templates.component";
 import { SubjectComponent } from "./subject/subject.component";
 import { UserManagementComponent } from "./user-management/user-management.component";
 import { SuperUserManagementComponent } from "./super-user-management/super-user-management.component";
+import { CompanyManagementComponent } from "./company-management/company-management.component";
 
 export const WorkshopRoutes: Routes = [
   {
@@ -18,9 +19,14 @@ export const WorkshopRoutes: Routes = [
         component: RetrospectivesComponent,
       },
       {
+        path: "retro/:id",
+        component: RetrospectivesComponent,
+      },
+      {
         path: "retro-start",
         component: RetrospectivesInitComponent,
       },
+     
       {
         path: "templates",
         component: TemplatesComponent,
@@ -30,6 +36,10 @@ export const WorkshopRoutes: Routes = [
         component: SubjectComponent,
       },
       {
+        path: "companys",
+        component: CompanyManagementComponent,
+      },
+      {
         path: "users",
         component: UserManagementComponent,
       },
@@ -37,6 +47,7 @@ export const WorkshopRoutes: Routes = [
         path: "super-users",
         component: SuperUserManagementComponent,
       },
+      
     ],
   },
 ];

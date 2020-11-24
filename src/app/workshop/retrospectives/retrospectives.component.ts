@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from "@angular/core";
+import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
 import { SharedService } from "app/services/shared.service";
 import { Subject } from "app/models/subject";
 import { RetroConfigration } from "app/models/retro-configuration";
@@ -8,6 +8,8 @@ import { UserService } from "app/services/user.service";
 import { ChatService } from "app/services/chat.service";
 import { Retro } from "app/models/retro";
 import { UserRight } from "app/models/userRight";
+import { environment } from "../../../environments/environment";
+import { ActivatedRoute } from "@angular/router";
 
 declare var $: any;
 @Component({
@@ -20,12 +22,16 @@ export class RetrospectivesComponent implements OnInit {
   /**
    *
    */
+
+  inviteLink: string = "";
+  isLeader: boolean = false;
+  currentRetro: Retro = new Retro();
   config: RetroConfigration = new RetroConfigration();
   selectSubject: Subject = null;
   isShow: boolean = false;
   isReport: boolean = false;
   isVote: boolean = false;
-  isComment:boolean=false;
+  isComment: boolean = false;
   isUser: boolean = false;
   retroRights: UserRight = new UserRight();
   constructor(
@@ -33,29 +39,30 @@ export class RetrospectivesComponent implements OnInit {
     private authService: UserService,
     private configService: RetroConfigurationService,
     private chatService: ChatService,
+    private route: ActivatedRoute,
     private _ngZone: NgZone,
   ) {
     this.sharedService.tabSource.subscribe((tab: string) => {
       if (".idea-archive" == tab) {
         this.isReport = true;
-        this.isShow=false;
+        this.isShow = false;
       }
       else {
         this.isReport = false;
-        this.isShow=true;
+        this.isShow = true;
 
       }
 
       if (".comments" == tab) {
         this.isComment = true;
-      
+
       }
       else {
         this.isComment = false;
 
       }
 
-      
+
       if (".vote" == tab) {
         this.isVote = true;
       }
@@ -65,9 +72,9 @@ export class RetrospectivesComponent implements OnInit {
       }
 
 
-
       $(tab).click();
       $(".tab-progress").find(".nav-item").removeClass("active");
+
 
 
     });
@@ -77,7 +84,12 @@ export class RetrospectivesComponent implements OnInit {
       this.selectSubject = subject;
     });
 
-    
+    this.sharedService.currentRetro.subscribe((retro: any) => {
+      this.currentRetro = retro;
+      this.inviteLink = environment.appUrl + "login/" + this.currentRetro.id;
+
+    });
+    this.chatService.userOnline();
 
     this.sharedService.isShowSubject.subscribe((isShow: any) => {
       this.isShow = isShow;
@@ -85,13 +97,41 @@ export class RetrospectivesComponent implements OnInit {
     this.subscribeToCurrentRetroEvents()
     this.subscribeToSelectedSubjectEvents();
     this.allUserRightsToEvents();
+
+    let routeId = this.route.snapshot.params.id;
+    console.log("params", this.route.snapshot.params);
+    console.log("routeId",routeId);
+
+    if (this.authService.hasRole("Member") && routeId != undefined) {
+    
+      this.getCurrentRetroStep(routeId)
+    }
   }
+
+  isExistLeader() {
+
+    return this.authService.hasRole("Leader");
+  }
+
 
   existUser() {
     this.isUser = this.authService.hasRole("Member");
   }
 
+  private getCurrentRetroStep(retroId) {
+    this.configService
+      .getCurrentRetroStep(retroId)
+      .pipe(first())
+      .subscribe(
+        (res) => {
 
+          this.sharedService.tabSource.next("." + res.currentPage.replace("/", ""));
+
+        },
+        (error) => {
+
+        });
+  }
 
   private allUserRightsToEvents(): void {
     let currentUser = this.authService.currentUserValue;

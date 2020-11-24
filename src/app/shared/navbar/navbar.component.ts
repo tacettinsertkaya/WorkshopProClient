@@ -4,6 +4,7 @@ import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
 import { Subscription } from 'rxjs/Subscription';
 import { UserService } from 'app/services/user.service';
+import { ChatService } from 'app/services/chat.service';
 
 var misc:any ={
     navbar_menu_visible: 0,
@@ -28,7 +29,9 @@ export class NavbarComponent implements OnInit{
     @ViewChild("navbar-cmp") button;
 
     constructor(location:Location, private renderer : Renderer, private element : ElementRef, private router: Router,
-        private userService: UserService) {
+        private userService: UserService,
+        private chatService: ChatService
+        ) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
@@ -60,9 +63,12 @@ export class NavbarComponent implements OnInit{
     }
 
     logout() {
+        this.chatService.userOffline();
+
         localStorage.removeItem('currentUser');
         this.userService.currentUserSetValue(null);
         this.router.navigate(['/login']);
+      
       }
     minimizeSidebar(){
       const body = document.getElementsByTagName('body')[0];

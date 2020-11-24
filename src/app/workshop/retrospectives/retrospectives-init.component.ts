@@ -4,7 +4,7 @@ import { Subject } from "app/models/subject";
 import { RetroConfigration } from "app/models/retro-configuration";
 import { RetroConfigurationService } from "app/services/retro-configuration";
 import { first } from "rxjs/operators";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { UserService } from "app/services/user.service";
 import { ChatService } from "app/services/chat.service";
 import { Retro } from "app/models/retro";
@@ -24,8 +24,8 @@ export class RetrospectivesInitComponent implements OnInit {
   /**
    *
    */
-
-  report=new Report();
+  currentRetro: Retro = new Retro();
+  report = new Report();
   config: RetroConfigration = new RetroConfigration();
   selectSubject: Subject = null;
   isShow: boolean = false;
@@ -40,25 +40,36 @@ export class RetrospectivesInitComponent implements OnInit {
     private router: Router,
     private chatService: ChatService,
     private _ngZone: NgZone,
-  
+    private route: ActivatedRoute,
     private messageService: MessageService,
 
   ) {
     this.subscribeToCurrentRetroEvents();
     this.retroConfigurationToEvents();
+
+    this.sharedService.currentRetro.subscribe((retro: any) => {
+
+      this.currentRetro = retro;
+    });
   }
 
   ngOnInit(): void {
-    if (this.isUser())
-      this.router.navigate(["/retro"]);
+    let id = this.route.snapshot.params.id;
+    localStorage.setItem("retro", "");
+    console.log("let id ", id );
+    if (this.isUser()) {
+      if (id == undefined)
+        this.router.navigate(["/retro"]);
+      else
+        this.router.navigate(["/retro", id]);
+    }
 
-      
-      
+
   }
 
 
 
- 
+
 
 
 
@@ -95,7 +106,9 @@ export class RetrospectivesInitComponent implements OnInit {
   saveConfig() {
     let currentUser = this.authService.currentUserValue;
     this.config.userId = currentUser.userId;
-    
+
+
+
     this.configService
       .create(this.config)
       .pipe(first())
@@ -117,6 +130,8 @@ export class RetrospectivesInitComponent implements OnInit {
                 '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
             }
           );
+
+
           this.config = res;
           let userRight = new UserRight();
           userRight.retroId = this.config.retroId;

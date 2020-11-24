@@ -34,6 +34,8 @@ import { UserRoleDirective } from "./workshop/directive/user-role-directive.dire
 import { LoaderInterceptorService } from './helpers/loaderinceptor.service';
 import { LoaderComponent } from "./workshop/loader/loader.component";
 import { NgxSpinnerModule } from "ngx-spinner";
+import { ChatService } from "./services/chat.service";
+import { MessageService } from "./services/message.service";
 
 
 @NgModule({
@@ -65,6 +67,8 @@ import { NgxSpinnerModule } from "ngx-spinner";
   providers: [
     UserService,
     BaseService,
+    ChatService,
+    MessageService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {

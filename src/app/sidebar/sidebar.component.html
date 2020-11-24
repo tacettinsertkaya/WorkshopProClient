@@ -53,17 +53,10 @@
   </ul>
   <ul class="nav online-user" *ngIf="users.length>0" >
    
-    <li *ngFor="let user of users" >
-      <a href="#"  class="text-success">
-          <i class="nc-icon nc-circle-10 text-success"></i>
-          <p class="hidden-md hidden-lg">
-              {{user.name}}  {{user.surname}}
-          </p>
-      </a>
-  </li>
+    
   <li *ngFor="let user of users" >
-    <a href="#" class="text-danger">
-        <i class="nc-icon nc-circle-10 text-danger"></i>
+    <a href="#" [ngClass]="onlineExist(user)">
+        <i class="nc-icon nc-circle-10 " [ngClass]="onlineExist(user)"></i>
         <p class="hidden-md hidden-lg">
             {{user.name}}  {{user.surname}}
         </p>

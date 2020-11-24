@@ -74,6 +74,14 @@ export class RetroConfigurationService {
     );
   }
 
+  getCurrentRetroStep(retroId) {
+    return this.baseService.get<Retro>(
+      retroId,
+      environment.serverBaseUrl,
+      EndPoints.RETRO_CONFIGURATION + '/GetCurrentRetroStep'
+    );
+  }
+
 
   getAllRetroConfigration() {
     return this.baseService.list<RetroConfigration>(

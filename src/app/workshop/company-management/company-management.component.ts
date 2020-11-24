@@ -6,34 +6,30 @@ import { SharedService } from "app/services/shared.service";
 import swal from "sweetalert2";
 import { UserService } from "app/services/user.service";
 import { User } from "app/models/user";
+import { Company } from "app/models/Company";
 import { CompanyService } from "app/services/company.service";
-import { Company } from "app/models/company";
 
 declare var $: any;
 
 
 @Component({
   moduleId: module.id,
-  selector: "user-management-cmp",
-  templateUrl: "user-management.component.html",
+  selector: "company-management-cmp",
+  templateUrl: "company-management.component.html",
 })
-export class UserManagementComponent implements OnInit {
-  users: Array<User> = [];
+export class CompanyManagementComponent implements OnInit {
   companys: Array<Company> = [];
-  user: User = new User();
+  company: Company = new Company();
   isUpdate: boolean = false;
   constructor(
     private userService: UserService,
-    private sharedService: SharedService,
     private companyService: CompanyService,
-    
-
+    private sharedService: SharedService
   ) {}
   ngOnInit() {
-    this.user.companyId="";
-    this.getAllUser();
     this.getAllCompany();
   }
+
 
   getAllCompany() {
 
@@ -67,53 +63,19 @@ export class UserManagementComponent implements OnInit {
   }
 
 
-
-  getAllUser() {
-    let filterRoles=["Admin","Leader","Member"];
-
-    
-    this.userService
-      .getAllUser(filterRoles)
-      .pipe(first())
-      .subscribe(
-        (res) => {
-          this.users = res;
-        },
-        (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
-        }
-      );
-  }
-
-
-  editUser(userId: any) {
-    this.userService
-      .getUserById(userId)
+  editCompany(companyId: any) {
+    this.companyService
+      .getCompany(companyId)
       .pipe(first())
       .subscribe((res) => {
-        this.user = res;
+        this.company = res;
         this.isUpdate = true;
         $("#userModal").modal("show");
       });
   }
-  removeUser(userId: any) {
-    this.userService
-      .delete(userId)
+  removeCompany(companyId: any) {
+    this.companyService
+      .delete(companyId)
       .pipe(first())
       .subscribe(
         (res) => {
@@ -133,7 +95,7 @@ export class UserManagementComponent implements OnInit {
                 '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
             }
           );
-          this.getAllUser();
+          this.getAllCompany();
         },
         (error) => {
           $.notify(
@@ -156,22 +118,17 @@ export class UserManagementComponent implements OnInit {
       );
   }
 
-  saveUser() {
-    let data = this.user;
+  saveCompany() {
+  
 
-    this.user.email=this.user.userName+'@gmail.com';
-    this.user.name=this.user.userName;
-    this.user.surname=this.user.userName;
-   
     if (!this.isUpdate) {
-      this.userService
-        .create(data)
+      this.companyService
+        .create(this.company)
         .pipe(first())
         .subscribe(
           (res) => {
-            this.user.userName = "";
-            this.user.rawPassword = "";
-            this.user.statu = "";
+            this.company.companyName = "";
+          
             $.notify(
               {
                 icon: "ti-gift",
@@ -188,7 +145,7 @@ export class UserManagementComponent implements OnInit {
                   '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
               }
             );
-          this.getAllUser();
+          this.getAllCompany();
             $("#userModal").modal("hide");
           },
           (error) => {
@@ -211,14 +168,13 @@ export class UserManagementComponent implements OnInit {
           }
         );
     } else {
-      this.userService
-        .update(data)
+      this.companyService
+        .update(this.company)
         .pipe(first())
         .subscribe(
           (res) => {
-            this.user.userName = "";
-            this.user.rawPassword = "";
-            this.user.statu = "";
+            this.company.companyName = "";
+       
             $.notify(
               {
                 icon: "ti-gift",
@@ -235,7 +191,7 @@ export class UserManagementComponent implements OnInit {
                   '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
               }
             );
-            this.getAllUser();
+            this.getAllCompany();
             this.isUpdate = false;
             $("#userModal").modal("hide");
           },
@@ -275,7 +231,7 @@ export class UserManagementComponent implements OnInit {
         cancelButtonText: "Hayır",
       }).then((result) => {
         if (result.value) {
-          this.removeUser(id);
+          this.removeCompany(id);
         }
       });
     }

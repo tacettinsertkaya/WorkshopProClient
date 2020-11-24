@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
   returnUrl: string = '';
   error = '';
   loginForm: FormGroup;
-
+  id: string = "";
   login: Login = new Login();
   constructor(private element: ElementRef,
     private formBuilder: FormBuilder,
@@ -38,14 +38,19 @@ export class LoginComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
 
+
   ) {
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
+    this.id = this.route.snapshot.params.id;
+
+    
+    if (this.id != undefined && this.userService.hasRole("Member")){
+      this.router.navigate(["/retro",this.id]);
+    }
 
     if (this.userService.currentUserValue) {
-      // this.router.navigate(['/']);
       this.router.navigateByUrl('/');
-
     }
   }
 
@@ -94,6 +99,7 @@ export class LoginComponent implements OnInit {
   }
 
   logIn() {
+    console.log("test");
     this.submitted = true;
     if (this.loginForm.invalid) {
       return;
@@ -113,7 +119,7 @@ export class LoginComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (user) => {
-         
+
             localStorage.setItem('currentUser', JSON.stringify(user));
             localStorage.setItem('token', user.token);
             this.userService.currentUserSetValue(user);

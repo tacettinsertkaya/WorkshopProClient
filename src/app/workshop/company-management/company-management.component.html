@@ -5,7 +5,7 @@
         <div class="card-header">
           <div class="row">
             <div class="col-sm-6">
-              <h4 class="card-title float-left">Kullanıcılar</h4>
+              <h4 class="card-title float-left">Şirketler</h4>
             </div>
             <div class="col-sm-6">
               <button
@@ -14,7 +14,7 @@
                 data-target="#userModal"
                 class="btn btn-round btn-primary float-right btn-create"
               >
-                Kullanıcı Ekle
+                Şirket Ekle
               </button>
             </div>
           </div>
@@ -29,23 +29,20 @@
           >
             <thead>
               <tr>
-                <th>Kullanıcı Adı</th>
-                <th>Şifre</th>
-                <th>Statu</th>
+                <th>Şirket Adı</th>
+              
               
                 <th>İşlemler</th>
               </tr>
             </thead>
    
             <tbody>
-              <tr *ngFor="let row of users">
-                <td>{{ row.userName }}</td>
-                <td>{{ row.rawPassword }}</td>
-                <td>{{ row.statu }}</td>
-
+              <tr *ngFor="let row of companys">
+                <td>{{ row.companyName }}</td>
+              
                 <td class="text-left">
                   <button
-                    (click)="editUser(row.id)"
+                    (click)="editCompany(row.id)"
                     type="button"
                     class="btn btn-warning btn-icon btn-sm edit mr-1"
                   >
@@ -85,7 +82,7 @@
   <form
     #templateForm="ngForm"
     class="container mt-3"
-    (ngSubmit)="saveUser()"
+    (ngSubmit)="saveCompany()"
   >
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -99,51 +96,21 @@
             <i class="nc-icon nc-simple-remove"></i>
           </button>
           <h4 class="title title-up">
-            {{ isUpdate ? "Kullanıcı Güncelle" : "Kullanıcı Ekle" }}
+            {{ isUpdate ? "Şirket Güncelle" : "Şirket Ekle" }}
           </h4>
         </div>
         <div class="modal-body">
 
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Şirket</label>
-                <select class="form-control"   [(ngModel)]="user.companyId"  [ngModelOptions]="{ standalone: true }">
-                       <option value="" selected>Şirket Seçiniz</option>
-                       <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
-                     
-                </select>
-
-              </div>
-            </div>
-          </div>
-
 
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Kullanıcı Adı</label>
+                <label>Şirket Adı</label>
                 <input
                   style="max-height: max-content"
                   rows="10"
                   class="form-control textarea"
-                  [(ngModel)]="user.userName"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Şifre</label>
-                <input
-                  type="text"
-                  style="max-height: max-content"
-                  rows="10"
-                  class="form-control"
-                  [(ngModel)]="user.rawPassword"
+                  [(ngModel)]="company.companyName"
                   [ngModelOptions]="{ standalone: true }"
                 />
               </div>
@@ -151,21 +118,6 @@
           </div>
 
 
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Statü</label>
-
-                <select class="form-control"    [(ngModel)]="user.statu"  [ngModelOptions]="{ standalone: true }">
-                       <option value="" selected>Statü Seçiniz</option>
-                       <option value="Admin"> Admin</option>
-                       <option value="Leader">Lider</option>
-                       <option value="Member">Üye</option>
-                </select>
-
-              </div>
-            </div>
-          </div>
 
 
   

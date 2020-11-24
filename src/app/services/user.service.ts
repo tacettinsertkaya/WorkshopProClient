@@ -23,7 +23,7 @@ export class UserService {
   private currentUserSubject: BehaviorSubject<AuthenticateResponse>;
   public currentUser: Observable<AuthenticateResponse>;
 
-  constructor(private http: HttpClient, private baseService: BaseService,private router:Router) {
+  constructor(private http: HttpClient, private baseService: BaseService, private router: Router) {
     this.currentUserSubject = new BehaviorSubject<AuthenticateResponse>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
 
@@ -40,24 +40,32 @@ export class UserService {
 
   public isAuthorized() {
     const currentUser = this.currentUserValue;
-        
-        if (currentUser) {
-            // logged in so return true
-            return true;
-        }
+
+    if (currentUser) {
+      // logged in so return true
+      return true;
+    }
 
   }
 
   public hasRole(role) {
-    let roles= this.currentUserValue.roles;
-      
-    return this.isAuthorized() && roles.filter(p=>p==role).length>0;
-
+    if (this.currentUserValue != null) {
+      let roles = this.currentUserValue.roles;
+      if (roles != null) {
+        return this.isAuthorized() && roles.filter(p => p == role).length > 0;
+      }
+      else {
+        return false;
+      }
+    }
+    else{
+      return false;
+    }
   }
 
   // tslint:disable-next-line: typedef
   login(login: Login) {
-   
+
     return this.baseService.post<AuthenticateResponse>(
       login,
       environment.serverBaseUrl,
@@ -101,11 +109,11 @@ export class UserService {
 
   // tslint:disable-next-line: typedef
   create(user: User) {
-   
+
     return this.baseService.post<User>(
       user,
       environment.serverBaseUrl,
-      EndPoints.USERS+'/register'
+      EndPoints.USERS + '/register'
     );
   }
 
@@ -115,7 +123,7 @@ export class UserService {
     return this.baseService.update<User>(
       user,
       environment.serverBaseUrl,
-      EndPoints.USERS+'/updateUser'
+      EndPoints.USERS + '/updateUser'
     );
   }
 
@@ -124,7 +132,7 @@ export class UserService {
     return this.baseService.delete(
       id,
       environment.serverBaseUrl,
-      EndPoints.USERS+'/deleteUser'
+      EndPoints.USERS + '/deleteUser'
     );
   }
 
@@ -133,43 +141,43 @@ export class UserService {
     return this.baseService.get<User>(
       id,
       environment.serverBaseUrl,
-      EndPoints.USERS+'/GetUserById'
+      EndPoints.USERS + '/GetUserById'
     );
   }
 
-   // tslint:disable-next-line:typedef
-   sendUserInfo(id: string) {
+  // tslint:disable-next-line:typedef
+  sendUserInfo(id: string) {
     return this.baseService.get<any>(
       id,
       environment.serverBaseUrl,
-      EndPoints.USERS+'/SendUserInfo'
+      EndPoints.USERS + '/SendUserInfo'
     );
   }
 
 
-    // tslint:disable-next-line:typedef
-    getAllUser(roles) {
-      return this.baseService.post<User[]>(roles,
-        environment.serverBaseUrl,
-        EndPoints.USERS+'/GetAllUser'
-      );
-    }
-  
+  // tslint:disable-next-line:typedef
+  getAllUser(roles) {
+    return this.baseService.post<User[]>(roles,
+      environment.serverBaseUrl,
+      EndPoints.USERS + '/GetAllUser'
+    );
+  }
+
 
   profileUpdate(user: User) {
     return this.baseService.post<User>(
       user,
       environment.serverBaseUrl,
-      EndPoints.USERS+"/UpdateProfile"
+      EndPoints.USERS + "/UpdateProfile"
     );
 
   }
 
-resetPassword(resetUser: UserResetPassword) {
+  resetPassword(resetUser: UserResetPassword) {
     return this.baseService.post<any>(
       resetUser,
       environment.serverBaseUrl,
-      EndPoints.USERS+"/ResetPassword"
+      EndPoints.USERS + "/ResetPassword"
     );
   }
 

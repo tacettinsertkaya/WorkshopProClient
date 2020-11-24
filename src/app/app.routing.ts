@@ -66,6 +66,10 @@ export const AppRoutes: Routes = [
     component: AuthLayoutComponent,
     children: [
       {
+        path: "login/:id",
+        component: LoginComponent,
+      },
+      {
         path: "login",
         component: LoginComponent,
       },

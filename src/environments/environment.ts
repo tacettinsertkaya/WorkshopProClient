@@ -6,5 +6,6 @@
 export const environment = {
   production: false,
   serverBaseUrl: "http://localhost:5000",
+  appUrl:"http://localhost:4200/#/"
   //serverBaseUrl: "https://api.happyplacetomeet.com",
 };

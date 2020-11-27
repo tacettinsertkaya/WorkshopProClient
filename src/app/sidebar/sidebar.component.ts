@@ -113,7 +113,6 @@ export class SidebarComponent {
   }
 
   isLeader() {
-  
     return this.authService.hasRole("Leader");
 
   }
@@ -145,7 +144,7 @@ export class SidebarComponent {
     this.chatService.onlineUserReceived.subscribe((data:Array<string>) => {
       this._ngZone.run(() => {
         this.onlineUser=data;
-       
+        this.getAllUser();
       });
     });
   }

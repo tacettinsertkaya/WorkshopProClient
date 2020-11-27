@@ -35,6 +35,9 @@ export class CommentsComponent implements OnInit {
   comment: Comment = new Comment();
   retroRight: UserRight;
   isUser:boolean=false;
+
+  retro: Retro = new Retro();
+  template: Template = new Template();
   
   constructor(
     private chatService: ChatService,
@@ -56,7 +59,30 @@ export class CommentsComponent implements OnInit {
   ngOnInit() {
     this.getMessage();
     this.existUser();
+    this.getRetroTemplate( this.retroRight.retroId);
+
   }
+
+  
+  private GetHeaderMessage(headerId){
+  
+      let filteredData=this.messages.filter(p=>p.clientuniqueid==headerId);
+    return filteredData;
+  }
+
+  private getRetroTemplate(retroId){
+    this.templateService
+    .getTemplateByRetroId(retroId)
+    .pipe(first())
+    .subscribe(
+      (data) => {
+        this.template = data;
+        this.sortedlist();
+      },
+      (error) => { }
+    );
+  }
+
   
   private subscribeToCurrentRetroEvents(): void {
     this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
@@ -158,9 +184,7 @@ export class CommentsComponent implements OnInit {
     .pipe(first())
     .subscribe(
       (data) => {
-       console.log("getAllNonCategoryMessage",data);
         this.messages = data.filter(p=>p.isCategorized==false);
-        console.log("filter",this.messages);
         this.messageCount =  this.messages.length;
         this.sortedlist();
       },

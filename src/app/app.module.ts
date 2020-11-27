@@ -36,6 +36,8 @@ import { LoaderComponent } from "./workshop/loader/loader.component";
 import { NgxSpinnerModule } from "ngx-spinner";
 import { ChatService } from "./services/chat.service";
 import { MessageService } from "./services/message.service";
+import { MemberLoginComponent } from "./workshop/member-login/member-login.component";
+import { RetroConfigurationService } from "./services/retro-configuration";
 
 
 @NgModule({
@@ -59,6 +61,7 @@ import { MessageService } from "./services/message.service";
     AdminLayoutComponent,
     AuthLayoutComponent,
     LoginComponent,
+    MemberLoginComponent,
     UserRoleDirective,
     UserDirectiveDirective,
     LoaderComponent,
@@ -69,6 +72,7 @@ import { MessageService } from "./services/message.service";
     BaseService,
     ChatService,
     MessageService,
+    RetroConfigurationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
     { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
     {

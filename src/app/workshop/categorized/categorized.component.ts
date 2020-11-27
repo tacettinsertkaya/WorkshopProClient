@@ -7,10 +7,12 @@ import { Message } from "app/models/message";
 import { Retro } from "app/models/retro";
 import { RetroConfigration } from "app/models/retro-configuration";
 import { Subject } from "app/models/subject";
+import { Template } from "app/models/template";
 import { CategoryService } from "app/services/category.service";
 import { ChatService } from "app/services/chat.service";
 import { MessageService } from "app/services/message.service";
 import { SharedService } from "app/services/shared.service";
+import { TemplateService } from "app/services/template.service";
 import { UserService } from "app/services/user.service";
 import { first } from "rxjs/operators";
 
@@ -33,9 +35,13 @@ export class CategorizedComponent implements OnInit {
   categorizedMessages = new Array<CategorizedMessage>();
   retroRight: RetroConfigration = new RetroConfigration();
   retro: Retro = new Retro();
+  template: Template = new Template();
+  
+
 
   constructor(
     private messageService: MessageService,
+    private templateService: TemplateService,
     private categoryService: CategoryService,
     private sharedService: SharedService,
     private authService: UserService,
@@ -65,6 +71,26 @@ export class CategorizedComponent implements OnInit {
     this.getMessage(this.retro.id);
     this.getCategory(this.retro.id);
     this.existUser();
+    this.getRetroTemplate(this.retro.templateId);
+  }
+
+  private GetHeaderMessage(headerId){
+
+      let filteredData=this.messages.filter(p=>p.clientuniqueid==headerId);
+    return filteredData;
+  }
+
+  private getRetroTemplate(templateId){
+    this.templateService
+    .getTemplate(templateId)
+    .pipe(first())
+    .subscribe(
+      (data) => {
+        this.template = data;
+        this.sortedlist();
+      },
+      (error) => { }
+    );
   }
 
   private subscribeToCurrentRetroEvents(): void {
@@ -84,7 +110,7 @@ export class CategorizedComponent implements OnInit {
       this._ngZone.run(() => {
         this.getMessage(this.retro.id);
         this.getCategory(this.retro.id);
-
+        this.getRetroTemplate(this.retro.templateId);
       });
     });
   }
@@ -100,7 +126,6 @@ export class CategorizedComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-            console.log("categorized-messages",data);
           this.messages = data;
           this.sortedlist();
         },

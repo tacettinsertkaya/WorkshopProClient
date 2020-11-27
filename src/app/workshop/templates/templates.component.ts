@@ -150,6 +150,9 @@ export class TemplatesComponent implements OnInit {
     localStorage.setItem('templateId', templateId);
     this.sharedService.messageSource.next(templateId);
     this.sharedService.tabSource.next('.brainstorm');
+
+
+    
   }
 
   showSwal(type, id = 0) {

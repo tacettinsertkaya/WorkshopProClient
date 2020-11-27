@@ -56,7 +56,6 @@ export class RetrospectivesInitComponent implements OnInit {
   ngOnInit(): void {
     let id = this.route.snapshot.params.id;
     localStorage.setItem("retro", "");
-    console.log("let id ", id );
     if (this.isUser()) {
       if (id == undefined)
         this.router.navigate(["/retro"]);

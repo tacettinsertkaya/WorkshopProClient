@@ -12,6 +12,9 @@ export class Hub {
       .start()
       .then(() => {})
       .catch((err) => {
+        setTimeout(function () {
+          this.startConnection();
+        }, 5000);
         return console.error(err.toString());
       });
 

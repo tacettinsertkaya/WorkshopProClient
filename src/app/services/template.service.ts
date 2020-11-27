@@ -49,6 +49,14 @@ export class TemplateService {
     );
   }
 
+  getTemplateByRetroId(id: any) {
+    return this.baseService.get<Template>(
+      id,
+      environment.serverBaseUrl,
+      EndPoints.TEMPLATE+'/GetByRetroId'
+    );
+  }
+
   getAllTemplate() {
     return this.baseService.list<Template>(
       "",

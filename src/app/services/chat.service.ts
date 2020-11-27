@@ -56,8 +56,8 @@ export class ChatService {
 
 
 
-  private startConnection(): void {
-    this._hubConnection
+  private async startConnection(): Promise<void> {
+    await this._hubConnection
       .start()
       .then(() => {
         this.connectionIsEstablished = true;

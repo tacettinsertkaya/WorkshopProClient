@@ -145,6 +145,15 @@ export class UserService {
     );
   }
 
+   // tslint:disable-next-line:typedef
+   getUserByRetro(id: string) {
+    return this.baseService.get<User>(
+      id,
+      environment.serverBaseUrl,
+      EndPoints.USERS + '/GetUserByRetro'
+    );
+  }
+
   // tslint:disable-next-line:typedef
   sendUserInfo(id: string) {
     return this.baseService.get<any>(
@@ -193,6 +202,8 @@ export class UserService {
   // tslint:disable-next-line:typedef
   logout() {
     localStorage.removeItem('currentUser');
+    localStorage.removeItem('token');
+
     this.currentUserSubject.next(null);
   }
 }

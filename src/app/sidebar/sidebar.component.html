@@ -51,21 +51,18 @@
 
 
   </ul>
-  <ul class="nav online-user" *ngIf="users.length>0" >
+  <ul class="nav online-user "  >
    
-    
-  <li *ngFor="let user of users" >
-    <a href="#" [ngClass]="onlineExist(user)">
-        <i class="nc-icon nc-circle-10 " [ngClass]="onlineExist(user)"></i>
-        <p class="hidden-md hidden-lg">
-            {{user.name}}  {{user.surname}}
-        </p>
-    </a>
-</li>
-  
+    <div  *ngIf="users.length>0 && isLeader()" style="max-height:50vh; overflow-y: scroll;">
+      <li *ngFor="let user of users"  >
+        <a href="#" [ngClass]="onlineExist(user)"> 
+            <i class="nc-icon nc-circle-10 " [ngClass]="onlineExist(user)"></i>
+            <p class="hidden-md hidden-lg">
+                {{user.userName}} 
+            </p>
+        </a>
+      </li>
+   </div>
 
   </ul>
-
-
-
 </div>

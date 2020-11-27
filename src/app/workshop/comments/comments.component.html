@@ -27,8 +27,9 @@
     </div>
   </div>
 </div>
-
-<div *ngFor="let msg of messages">
+<div *ngFor="let tmp of template.templateDetail">
+  <h3>{{tmp.header}}</h3>
+<div *ngFor="let msg of GetHeaderMessage(tmp.id)">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -62,6 +63,7 @@
       </div>
     </div>
   </div>
+</div>
 </div>
 
 <div class="row" *ngIf="!isUser"  >

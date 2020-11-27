@@ -31,6 +31,11 @@ export class RetrospectivesComponent implements OnInit {
   isShow: boolean = false;
   isReport: boolean = false;
   isVote: boolean = false;
+  isCategorized: boolean = false;
+  isBrainstorm: boolean = false;
+  isSelectSubject: boolean = false;
+  
+  isSelectTemplate: boolean = false;
   isComment: boolean = false;
   isUser: boolean = false;
   retroRights: UserRight = new UserRight();
@@ -53,6 +58,30 @@ export class RetrospectivesComponent implements OnInit {
 
       }
 
+        
+      if (".select-subject" == tab) {
+        this.isSelectSubject = true;
+      }
+      else {
+        this.isSelectSubject = false;
+      } 
+      
+      if (".select-template" == tab) {
+        this.isSelectTemplate = true;
+      }
+      else {
+        this.isSelectTemplate = false;
+      } 
+      
+      if (".brainstorm" == tab) {
+        this.isBrainstorm = true;
+
+      }
+      else {
+        this.isBrainstorm = false;
+
+      }
+
       if (".comments" == tab) {
         this.isComment = true;
 
@@ -71,6 +100,15 @@ export class RetrospectivesComponent implements OnInit {
 
       }
 
+      if (".categorize" == tab) {
+        this.isCategorized = true;
+      }
+      else {
+        this.isCategorized = false;
+      }
+
+      
+
 
       $(tab).click();
       $(".tab-progress").find(".nav-item").removeClass("active");
@@ -86,9 +124,12 @@ export class RetrospectivesComponent implements OnInit {
 
     this.sharedService.currentRetro.subscribe((retro: any) => {
       this.currentRetro = retro;
-      this.inviteLink = environment.appUrl + "login/" + this.currentRetro.id;
+      this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
 
     });
+
+
+
     this.chatService.userOnline();
 
     this.sharedService.isShowSubject.subscribe((isShow: any) => {
@@ -99,9 +140,7 @@ export class RetrospectivesComponent implements OnInit {
     this.allUserRightsToEvents();
 
     let routeId = this.route.snapshot.params.id;
-    console.log("params", this.route.snapshot.params);
-    console.log("routeId",routeId);
-
+  
     if (this.authService.hasRole("Member") && routeId != undefined) {
     
       this.getCurrentRetroStep(routeId)
@@ -154,7 +193,8 @@ export class RetrospectivesComponent implements OnInit {
       this._ngZone.run(() => {
         this.sharedService.currentRetro.next(retro);
         if (this.authService.hasRole("Member")) {
-          this.sharedService.tabSource.next("." + retro.currentPage.replace("/", ""));
+            this.sharedService.tabSource.next("." + retro.currentPage.replace("/", ""));
+            this.inviteLink = environment.appUrl + "member/" +retro.id;
         }
       });
     });
@@ -164,7 +204,7 @@ export class RetrospectivesComponent implements OnInit {
     this.chatService.subjectReceived.subscribe((subject: Subject) => {
       this._ngZone.run(() => {
 
-
+     
         if (this.authService.hasRole("Member")) {
 
           this.selectSubject = subject;

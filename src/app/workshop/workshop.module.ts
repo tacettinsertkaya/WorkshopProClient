@@ -63,7 +63,7 @@ import { CompanyManagementComponent } from "./company-management/company-managem
     CommentService,
     SharedService,
     CategoryService,
-    RetroConfigurationService,
+
     TemplateDetailService,
     CompanyService
   ],

@@ -8,11 +8,13 @@ import { Message } from "app/models/message";
 import { Retro } from "app/models/retro";
 import { RetroConfigration } from "app/models/retro-configuration";
 import { Subject } from "app/models/subject";
+import { Template } from "app/models/template";
 import { UserRight } from "app/models/userRight";
 import { CategoryService } from "app/services/category.service";
 import { ChatService } from "app/services/chat.service";
 import { MessageService } from "app/services/message.service";
 import { SharedService } from "app/services/shared.service";
+import { TemplateService } from "app/services/template.service";
 import { UserService } from "app/services/user.service";
 import { first } from "rxjs/operators";
 
@@ -35,6 +37,10 @@ export class VoteComponent implements OnInit {
   isUser: boolean = false;
   votedMessages = new Array<any>();
   messages:Array<Message>=[];
+
+  retro: Retro = new Retro();
+  template: Template = new Template();
+  
   constructor(
     private _ngZone: NgZone,
     private chatService: ChatService,
@@ -42,6 +48,8 @@ export class VoteComponent implements OnInit {
     private categoryService: CategoryService,
     private sharedService: SharedService,
     private authService: UserService,
+    private templateService: TemplateService,
+
   ) {
     this.retroConfigurationToEvents();
     this.subscribeToEvents();
@@ -55,12 +63,32 @@ export class VoteComponent implements OnInit {
 
     this.getCategory();
     this.existUser();
+    this.getRetroTemplate( this.retroRight.retroId);
+
   }
 
   getComment(message: any) {
 
     this.getMessage(message.id);
     $('#modalComment').modal('show');
+  }
+
+  private GetHeaderMessage(headerId){
+
+      let filteredData=this.messages.filter(p=>p.clientuniqueid==headerId);
+    return filteredData;
+  }
+
+  private getRetroTemplate(retroId){
+    this.templateService
+    .getTemplateByRetroId(retroId)
+    .pipe(first())
+    .subscribe(
+      (data) => {
+        this.template = data;
+      },
+      (error) => { }
+    );
   }
 
 

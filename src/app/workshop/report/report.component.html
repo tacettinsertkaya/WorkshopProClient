@@ -1,134 +1,148 @@
 <div class="row">
-    <div class="col-sm-9">
-      <h4 class="card-title"></h4>
-    </div>
-    <div class="col-sm-3">
+  <div class="col-sm-9">
+    <h4 class="card-title"></h4>
+  </div>
+  <div class="col-sm-3">
 
-  <button id="generate"  class="btn btn-success" (click)="createPdf()">CREATE PDF</button>
+    <button id="generate" class="btn btn-success" (click)="createPdf()">CREATE PDF</button>
+
+  </div>
+</div>
+
+<div id="report-content" name="report-content" #content class="container form">
+  <div class="row">
+    <div class="col-sm-12">
+      <h2 class="text-center text-danger">YÖNETİCİ ÖZETİ</h2>
+      <p>
+        Raporun bu bölümünde atölye çalışmasında ele alınan her bir konuya ait öneriler, sonunda yapılan oylama
+        sonuçlarına
+        bağlı olarak
+        “öncelikli” olarak tanımlanan fikirler ve her bir fikir için verilen oy sayıları özetlenmiştir.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <h3 class="float-left"> Konu</h3>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="alert alert-warning" role="alert">
+        <b>Başlık:</b> {{subject.subjectTitle}}
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="alert alert-warning" role="alert">
+        <b>Açıklama:</b> {{subject.subjectDescription}}
+      </div>
+    </div>
+  </div>
+
+
+  <div class="row" *ngIf="categorizedMessages.length>0">
+    <div class="col-sm-12">
+      <h2 class="float-left">Öncelikli Fikirler</h2>
+    </div>
+  </div>
+
+  <div *ngFor="let tmp of template.templateDetail">
+    <div *ngIf="GetHeaderCategorizedMessages(tmp.id).length>0">
+      <h3>{{tmp.header}}</h3>
+      <div class="row" *ngFor=" let message of GetHeaderCategorizedMessages(tmp.id);let index">
+        <div class="col-sm-12">
+          <div class="alert alert-success" role="alert">
+            <div class="row">
+              <p class="col-sm-11"> {{message.messageText}}
+              </p>
+              <span class="float-right col-sm-1"> <i class="fa fa-thumbs-up fa-2x "></i>({{message.voteCount}})</span>
+            </div>
+
+          </div>
+        </div>
+      </div>
 
     </div>
   </div>
 
-  <div id="report-content" name="report-content" #content class="container form">
-    <div class="row">
-      <div class="col-sm-12">
-        <h2 class="text-center text-danger">YÖNETİCİ ÖZETİ</h2>
-        <p>
-          Raporun bu bölümünde atölye çalışmasında ele alınan her bir konuya ait öneriler, sonunda yapılan oylama
-          sonuçlarına
-          bağlı olarak
-          “öncelikli” olarak tanımlanan fikirler ve her bir fikir için verilen oy sayıları özetlenmiştir.
-        </p>
-      </div>
+
+  <div class="row" *ngIf="messages.length>0">
+    <div class="col-sm-12">
+      <h2 class="float-left">Diğer Fikirler</h2>
     </div>
-  
-    <div class="row">
-      <div class="col-sm-12">
-        <h3 class="float-left"> Konu</h3>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="alert alert-warning" role="alert">
-          <b>Başlık:</b> {{subject.subjectTitle}}
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="alert alert-warning" role="alert">
-          <b>Açıklama:</b> {{subject.subjectDescription}}
-        </div>
-      </div>
-    </div>
-  
-  
-    <div class="row">
-      <div class="col-sm-12">
-        <h2 class="float-left">Öncelikli Fikirler</h2>
-      </div>
-    </div>
-  
-    <div class="row" *ngFor=" let message of categorizedMessages;let index" >
-      <div class="col-sm-12" >
-        <div class="alert alert-success" role="alert">
-          <div class="row">
-            <p class="col-sm-11"> {{message.messageText}}
-            </p>
-            <span class="float-right col-sm-1"> <i class="fa fa-thumbs-up fa-2x "></i>({{message.voteCount}})</span>
+  </div>
+
+  <div *ngFor="let tmp of template.templateDetail">
+    <div *ngIf="GetHeaderMessage(tmp.id).length>0">
+      <h3>{{tmp.header}}</h3>
+      <div *ngFor="let message of GetHeaderMessage(tmp.id)">
+        <div class="col-sm-12">
+          <div class="alert alert-success" role="alert">
+            <div class="row">
+              <p class="col-sm-11"> {{message.messageText}}
+              </p>
+              <span class="float-right col-sm-1"> <i class="fa fa-thumbs-up fa-2x "></i>({{message.voteCount}})</span>
+            </div>
+
           </div>
-  
         </div>
       </div>
     </div>
-  
-  
-    <div class="row">
-      <div class="col-sm-12">
-        <h2 class="float-left">Diğer Fikirler</h2>
+  </div>
+
+
+
+
+
+
+
+
+
+  <div class="row">
+    <div class="col-sm-12">
+
+      <h2 class="text-center text-danger">RAPOR</h2>
+      <p>
+        Bu bölümünde atölye çalışmasının sonunda ortaya çıkan fikirler, bu fikirlere ait yorumlar, her bir fikire ait
+        oylama sonuçları sunulmuştur.
+      </p>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="alert alert-warning" role="alert">
+        <b>Başlık:</b> {{subject.subjectTitle}}
       </div>
     </div>
-  
-    <div class="row" *ngFor=" let message of messages">
-      <div class="col-sm-12">
-        <div class="alert alert-success" role="alert">
-          <div class="row">
-            <p class="col-sm-11"> {{message.messageText}}
-            </p>
-            <span class="float-right col-sm-1"> <i class="fa fa-thumbs-up fa-2x "></i>({{message.voteCount}})</span>
-          </div>
-  
-        </div>
+  </div>
+  <div class="row">
+    <div class="col-sm-12">
+      <div class="alert alert-warning" role="alert">
+        <b>Açıklama:</b> {{subject.subjectDescription}}
       </div>
     </div>
-  
-  
-  
-   
-   
-  
-   
-   
-  
-  
-    <div class="row">
-      <div class="col-sm-12">
-  
-        <h2 class="text-center text-danger">RAPOR</h2>
-        <p>
-          Bu bölümünde atölye çalışmasının sonunda ortaya çıkan fikirler, bu fikirlere ait yorumlar, her bir fikire ait
-          oylama sonuçları sunulmuştur.
-        </p>
-      </div>
+  </div>
+
+
+
+
+
+  <div class="row" *ngIf="categorizedMessages.length>0">
+    <div class="col-sm-12">
+      <h3 class="float-left">Öncelikli Fikirler</h3>
     </div>
-  
-    <div class="row">
+  </div>
+
+  <div *ngFor="let tmp of template.templateDetail">
+
+    <div *ngIf="GetHeaderCategorizedMessages(tmp.id).length>0">
+    <h3>{{tmp.header}}</h3>
+    <div class="row" *ngFor=" let message of GetHeaderCategorizedMessages(tmp.id);let index">
       <div class="col-sm-12">
-        <div class="alert alert-warning" role="alert">
-          <b>Başlık:</b> {{subject.subjectTitle}}
-        </div>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-12">
-        <div class="alert alert-warning" role="alert">
-          <b>Açıklama:</b> {{subject.subjectDescription}}
-        </div>
-      </div>
-    </div>
-  
-  
-  
-  
-  
-    <div class="row" >
-      <div class="col-sm-12">
-        <h3 class="float-left">Öncelikli Fikirler</h3>
-      </div>
-    </div>
-  
-    <div class="row" *ngFor=" let message of categorizedMessages">
-      <div class="col-sm-12" >
         <div class="alert alert-success" role="alert">
           <div class="row">
             <p class="col-sm-11"> {{message.messageText}}
@@ -136,32 +150,38 @@
             <span class="float-right col-sm-1"> <i class="fa fa-thumbs-up fa-2x "></i>({{message.voteCount}})</span>
           </div>
         </div>
-  
+
         <div class="row" *ngFor="let comment of message.comments">
           <div class="col-sm-9 offset-sm-3">
             <div class="alert alert-primary" role="alert">
-  
+
               <p> {{comment.commentText}}
               </p>
-  
-  
-  
+
+
+
             </div>
           </div>
         </div>
-      
-  
-      </div>
-    </div>
 
-    
-    <div class="row">
-      <div class="col-sm-12">
-        <h2 class="float-left">Diğer Fikirler</h2>
+
       </div>
     </div>
-  
-    <div class="row" *ngFor="let message of messages">
+  </div>
+
+  </div>
+
+
+  <div class="row" *ngIf="messages.length>0">
+    <div class="col-sm-12">
+      <h2 class="float-left">Diğer Fikirler</h2>
+    </div>
+  </div>
+
+  <div *ngFor="let tmp of template.templateDetail">
+    <div *ngIf="GetHeaderMessage(tmp.id).length>0">
+    <h3>{{tmp.header}}</h3>
+    <div *ngFor="let message of GetHeaderMessage(tmp.id)">
       <div class="col-sm-12">
         <div class="alert alert-success" role="alert">
           <div class="row">
@@ -169,28 +189,30 @@
             </p>
             <span class="float-right col-sm-1"> <i class="fa fa-thumbs-up fa-2x "></i>({{message.voteCount}})</span>
           </div>
-  
+
         </div>
 
-        
+
         <div class="row" *ngFor="let comment of message.comments">
           <div class="col-sm-9 offset-sm-3">
             <div class="alert alert-primary" role="alert">
-  
+
               <p> {{comment.commentText}}
               </p>
-  
-  
-  
+
+
+
             </div>
           </div>
         </div>
       </div>
     </div>
-  
-  
   </div>
-  <div id="editor"></div>
-  <div class="my-overlay" *ngIf="showOverlay">
-    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
   </div>
+
+
+</div>
+<div id="editor"></div>
+<div class="my-overlay" *ngIf="showOverlay">
+  <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+</div>

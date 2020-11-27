@@ -20,6 +20,8 @@ import { ViewChild, ElementRef } from '@angular/core';
 import { jsPDF } from "jspdf";
 import { RetroConfigurationService } from "app/services/retro-configuration";
 import { NgxSpinnerService } from "ngx-spinner";
+import { TemplateService } from "app/services/template.service";
+import { Template } from "app/models/template";
 
 declare var $: any;
 
@@ -46,6 +48,8 @@ export class ReportComponent implements OnInit {
 
   public showOverlay = true;
 
+  
+  template: Template = new Template();
 
   constructor(
     
@@ -56,6 +60,7 @@ export class ReportComponent implements OnInit {
     private retroConfigurationService: RetroConfigurationService,
     private subjectService: SubjectsService,
     private categoryService: CategoryService,
+    private templateService: TemplateService,
     private sharedService: SharedService) {
     this.sharedService.currentRetro.subscribe((retro: Retro) => {
       this.retro = retro;
@@ -65,6 +70,8 @@ export class ReportComponent implements OnInit {
       if (".idea-archive" == tab) {
         this.getMessage(this.retro.id);
         this.getSubject(this.retro.id);
+        this.getRetroTemplate( this.retro.id);
+
       }
 
     });
@@ -76,7 +83,6 @@ export class ReportComponent implements OnInit {
   public SavePDF(): void {
 
     var pdf = new jsPDF('l', 'pt', 'a4');
-    console.log("test", pdf);
     var options = {
       pagesplit: true
     };
@@ -93,6 +99,7 @@ export class ReportComponent implements OnInit {
 
   ngOnInit() {
    
+    this.getRetroTemplate( this.retro.id);
 
   }
 
@@ -114,6 +121,30 @@ export class ReportComponent implements OnInit {
   }
 
 
+  private GetHeaderCategorizedMessages(headerId){
+ 
+      let filteredData=this.categorizedMessages.filter(p=>p.clientuniqueid==headerId);
+    return filteredData;
+  }
+
+  private GetHeaderMessage(headerId){
+
+      let filteredData=this.messages.filter(p=>p.clientuniqueid==headerId);
+    return filteredData;
+  }
+
+  private getRetroTemplate(retroId){
+    this.templateService
+    .getTemplateByRetroId(retroId)
+    .pipe(first())
+    .subscribe(
+      (data) => {
+        this.template = data;
+      },
+      (error) => { }
+    );
+  }
+
   private getMessage(retroId) {
 
     this.messageService
@@ -121,7 +152,6 @@ export class ReportComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log("non-category", data);
           this.messages = data.filter(p=>p.voteCount==0);
           this.categorizedMessages=data.filter(p=>p.voteCount>0);
 
@@ -138,21 +168,7 @@ export class ReportComponent implements OnInit {
       );
   }
 
-  // private getCategory(retroId) {
-  //   this.messageService
-  //     .getAllCategoryMessage(retroId)
-  //     .pipe(first())
-  //     .subscribe(
-  //       (data) => {
-  //         console.log("category", data);
-  //         data.forEach(item => {
-  //           this.categorizedMessages.push(...item.messages);
-  //         });
-  //        
-  //       },
-  //       (error) => { }
-  //     );
-  // }
+
 
   sortedlist() {
     this.messages.sort(function (a, b) {

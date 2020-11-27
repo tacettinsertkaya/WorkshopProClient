@@ -5,6 +5,7 @@ import { AdminLayoutComponent } from "./layouts/admin/admin-layout.component";
 import { AuthLayoutComponent } from "./layouts/auth/auth-layout.component";
 
 import { LoginComponent } from "./workshop/login/login.component";
+import { MemberLoginComponent } from "./workshop/member-login/member-login.component";
 
 export const AppRoutes: Routes = [
   {
@@ -66,8 +67,8 @@ export const AppRoutes: Routes = [
     component: AuthLayoutComponent,
     children: [
       {
-        path: "login/:id",
-        component: LoginComponent,
+        path: "member/:id",
+        component: MemberLoginComponent,
       },
       {
         path: "login",

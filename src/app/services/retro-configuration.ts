@@ -83,6 +83,15 @@ export class RetroConfigurationService {
   }
 
 
+  createUserRight(userRight:UserRight) {
+    return this.baseService.post<UserRight>(
+      userRight,
+      environment.serverBaseUrl,
+      EndPoints.RETRO_CONFIGURATION + '/createUserRight'
+    );
+  }
+
+
   getAllRetroConfigration() {
     return this.baseService.list<RetroConfigration>(
       "",

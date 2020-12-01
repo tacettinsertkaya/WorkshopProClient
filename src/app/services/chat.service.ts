@@ -9,6 +9,7 @@ import { Retro } from "app/models/retro";
 import { Subject } from "app/models/subject";
 import { UserRight } from "app/models/userRight";
 import { UserService } from "./user.service";
+import { SubjectDto } from "app/models/dto/subject-dto";
 
 @Injectable()
 export class ChatService {
@@ -101,7 +102,7 @@ export class ChatService {
     this._hubConnection.invoke("setCurrentRetro", data);
   }
 
-  setSelectedSubject(data: Subject) {
+  setSelectedSubject(data:SubjectDto) {
 
     this._hubConnection.invoke("setSelectedSubject", data);
   }

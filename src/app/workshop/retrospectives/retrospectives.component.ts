@@ -5,6 +5,7 @@ import { RetroConfigration } from "app/models/retro-configuration";
 import { RetroConfigurationService } from "app/services/retro-configuration";
 import { first } from "rxjs/operators";
 import { UserService } from "app/services/user.service";
+import { SubjectsService } from "app/services/subject.service";
 import { ChatService } from "app/services/chat.service";
 import { Retro } from "app/models/retro";
 import { UserRight } from "app/models/userRight";
@@ -34,13 +35,13 @@ export class RetrospectivesComponent implements OnInit {
   isCategorized: boolean = false;
   isBrainstorm: boolean = false;
   isSelectSubject: boolean = false;
-  
   isSelectTemplate: boolean = false;
   isComment: boolean = false;
   isUser: boolean = false;
   retroRights: UserRight = new UserRight();
   constructor(
     private sharedService: SharedService,
+    private subjectService: SubjectsService,
     private authService: UserService,
     private configService: RetroConfigurationService,
     private chatService: ChatService,
@@ -60,10 +61,13 @@ export class RetrospectivesComponent implements OnInit {
 
         
       if (".select-subject" == tab) {
+        this.isShow = false;
         this.isSelectSubject = true;
       }
       else {
         this.isSelectSubject = false;
+        this.isShow = true;
+
       } 
       
       if (".select-template" == tab) {
@@ -130,6 +134,8 @@ export class RetrospectivesComponent implements OnInit {
 
 
 
+
+
     this.chatService.userOnline();
 
     this.sharedService.isShowSubject.subscribe((isShow: any) => {
@@ -139,17 +145,48 @@ export class RetrospectivesComponent implements OnInit {
     this.subscribeToSelectedSubjectEvents();
     this.allUserRightsToEvents();
 
-    let routeId = this.route.snapshot.params.id;
-  
-    if (this.authService.hasRole("Member") && routeId != undefined) {
     
+
+    let routeId = this.route.snapshot.params.id;
+    
+    if (this.authService.hasRole("Member") && routeId != undefined) {
+      this.getRetroSubject(routeId);
       this.getCurrentRetroStep(routeId)
     }
   }
 
+  ngOnInit(): void {
+    this.existUser();
+    
+  }
+
+  copyLink(inputElement){
+    inputElement.select();
+    document.execCommand('copy');
+    inputElement.setSelectionRange(0, 0);
+
+    $.notify(
+      {
+        icon: "ti-info",
+        message: "Başarılı bir kopyalandı.",
+      },
+      {
+        type: "info",
+        timer: 4000,
+        placement: {
+          from: "top",
+          align: "right",
+        },
+        template:
+          '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
+      }
+    );
+  }
+
+
   isExistLeader() {
 
-    return this.authService.hasRole("Leader");
+    return this.authService.hasRole("Leader") && this.isShow;
   }
 
 
@@ -166,6 +203,21 @@ export class RetrospectivesComponent implements OnInit {
 
           this.sharedService.tabSource.next("." + res.currentPage.replace("/", ""));
 
+        },
+        (error) => {
+
+        });
+  }
+
+  
+  private getRetroSubject(retroId) {
+    this.subjectService
+      .getRetroSubject(retroId)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+
+           this.selectSubject=res;
         },
         (error) => {
 
@@ -216,10 +268,7 @@ export class RetrospectivesComponent implements OnInit {
   }
 
 
-  ngOnInit(): void {
-    this.existUser()
-  }
-
+ 
   getConfig() {
     let id = localStorage.getItem("config-id");
     if (id != undefined && id != "") {

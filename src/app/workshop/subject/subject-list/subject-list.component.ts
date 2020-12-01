@@ -8,6 +8,7 @@ import { UserService } from "app/services/user.service";
 import { ChatService } from "app/services/chat.service";
 import { Retro } from "app/models/retro";
 import { RetroConfigration } from "app/models/retro-configuration";
+import { SubjectDto } from "app/models/dto/subject-dto";
 
 declare var $: any;
 
@@ -55,7 +56,13 @@ export class SubjectListComponent implements OnInit {
       retro.state=2;
       retro.currentPage="/select-template"
       this.chatService.setCurrentRetro(retro);
-      this.chatService.setSelectedSubject(subject);
+      let selectSubjectDto=new SubjectDto();
+      selectSubjectDto.id=subject.id;
+      selectSubjectDto.subjectTitle=subject.subjectTitle;
+      selectSubjectDto.subjectDescription=subject.subjectDescription;
+      selectSubjectDto.retroId=this.retroRight.retroId;
+  
+      this.chatService.setSelectedSubject(selectSubjectDto);
      }
   }
 

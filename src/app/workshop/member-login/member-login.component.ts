@@ -109,7 +109,7 @@ this.userService.logout();
     .subscribe(
       (rights) => {
         this.userRight = rights;
-
+       
       },
       (error) => {
         this.error = error;
@@ -128,6 +128,7 @@ this.userService.logout();
           let retro=new Retro();
           retro.id=this.id;
           retro.userId=this.createdUser.id;
+          
           this.getUserRight(retro);
         },
         (error) => {
@@ -164,6 +165,9 @@ this.userService.logout();
 
       this.userService.create(user).pipe(first())
         .subscribe((res) => {
+
+           console.log("userservice",res);
+
           this.login.username=user.userName;
           this.login.password=user.rawPassword;
           let rightData=new UserRight();

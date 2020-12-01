@@ -66,9 +66,9 @@ export class RetroConfigurationService {
   return this.http.get<any>(`${environment.serverBaseUrl}/RetroConfiguration/CreatePDF/${id}`, httpOptions);
   }
 
-  getCurrentRetro() {
-    return this.baseService.get<RetroConfigration>(
-      "",
+  getCurrentRetro(retroId) {
+    return this.baseService.get<Retro>(
+      retroId,
       environment.serverBaseUrl,
       EndPoints.RETRO_CONFIGURATION + '/GetCurrentRetro'
     );

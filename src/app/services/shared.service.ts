@@ -19,4 +19,51 @@ export class SharedService {
   );
 
   constructor() {}
+
+  public get selectSubjectValue(): Subject {
+    return this.selectSubject.value;
+  }
+
+  // tslint:disable-next-line:typedef
+  public selectSubjectSetValue(value) {
+    this.selectSubject.next(value);
+  }
+
+  public get retroRightValue(): UserRight {
+    return this.retroRight.value;
+  }
+
+  // tslint:disable-next-line:typedef
+  public retroRightSetValue(value) {
+    this.retroRight.next(value);
+  }
+
+  public get currentRetroValue(): Retro {
+    return this.currentRetro.value;
+  }
+
+  // tslint:disable-next-line:typedef
+  public currentRetroSetValue(value) {
+    this.currentRetro.next(value);
+  }
+
+  public get allMessageValue(): Array<Message> {
+    return this.allMessage.value;
+  }
+
+  // tslint:disable-next-line:typedef
+  public allMessageSetValue(value) {
+    this.allMessage.next(value);
+  }
+  public get messageSourceValue(): string {
+    return this.messageSource.value;
+  }
+
+  // tslint:disable-next-line:typedef
+  public messageSourceSetValue(value) {
+    this.messageSource.next(value);
+  }
+
+
+
 }

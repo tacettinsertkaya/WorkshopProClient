@@ -77,53 +77,54 @@ export class ChatService {
 
 
   userOnline() {
-    this._hubConnection.invoke("OnlineUser", this.userService.currentUserValue.userName);
+    this._hubConnection.invoke("OnlineUser", this.userService.currentUserValue.userName).catch(err =>this.startConnection());
   }
 
   userOffline() {
-    this._hubConnection.invoke("OfflineUser", this.userService.currentUserValue.userName);
+    this._hubConnection.invoke("OfflineUser", this.userService.currentUserValue.userName).catch(err =>this.startConnection());
+    ;
   }
 
 
   sendMessage(message: Message) {
-    this._hubConnection.invoke("NewMessage", message);
+    this._hubConnection.invoke("NewMessage", message).catch(err =>this.startConnection());
   }
 
   sendComment(comment: Comment) {
-    this._hubConnection.invoke("NewComment", comment);
+    this._hubConnection.invoke("NewComment", comment).catch(err =>this.startConnection());
   }
 
   setVote(data: VoteDto) {
-    this._hubConnection.invoke("setVote", data);
+    this._hubConnection.invoke("setVote", data).catch(err =>this.startConnection());
   }
 
   setCurrentRetro(data: Retro) {
 
-    this._hubConnection.invoke("setCurrentRetro", data);
+    this._hubConnection.invoke("setCurrentRetro", data).catch(err =>this.startConnection());
   }
 
   setSelectedSubject(data:SubjectDto) {
 
-    this._hubConnection.invoke("setSelectedSubject", data);
+    this._hubConnection.invoke("setSelectedSubject", data).catch(err =>this.startConnection());
   }
 
   setCurrentRetroConfig(data: Retro) {
 
-    this._hubConnection.invoke("setCurrentRetroConfig", data);
+    this._hubConnection.invoke("setCurrentRetroConfig", data).catch(err =>this.startConnection());
   }
 
 
 
   getCategorizedMessage() {
-    this._hubConnection.invoke("getCategorizedMessage");
+    this._hubConnection.invoke("getCategorizedMessage").catch(err =>this.startConnection());
   }
 
   getMessage() {
-    this._hubConnection.invoke("GetMessage");
+    this._hubConnection.invoke("GetMessage").catch(err =>this.startConnection());
   }
 
   getAllUserRights(retro) {
-    this._hubConnection.invoke("allUserRight", retro);
+    this._hubConnection.invoke("allUserRight", retro).catch(err =>this.startConnection());
   }
 
   private onlineUserOnServerEvents(): void {

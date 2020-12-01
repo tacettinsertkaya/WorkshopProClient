@@ -47,7 +47,7 @@ export class SubjectListComponent implements OnInit {
 
   selectSubject(subject: any) {
     this.sharedService.selectSubject.next(subject);
-    this.sharedService.isShowSubject.next(true);
+    this.sharedService.isShowSubject.next(false);
     this.sharedService.tabSource.next(".select-template");
     if(this.authService.hasRole("Leader")){
     

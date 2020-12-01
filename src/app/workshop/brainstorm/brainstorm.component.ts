@@ -64,11 +64,14 @@ export class BrainstormComponent implements OnInit {
       this.retro = retro;
     });
 
+
+
   }
 
   ngOnInit(): void {
     this.getMessage();    
     this.existUser();
+    this.getTemplate(this.retro.templateId);
   }
 
   existUser() {
@@ -180,6 +183,7 @@ export class BrainstormComponent implements OnInit {
       .subscribe(
         (data) => {
           this.messages = data;
+          console.log("messagessss",this.messages);
           this.sortedlist();
         },
         (error) => {}

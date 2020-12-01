@@ -11,6 +11,7 @@ import { Retro } from "app/models/retro";
 import { UserRight } from "app/models/userRight";
 import { environment } from "../../../environments/environment";
 import { ActivatedRoute } from "@angular/router";
+import { TemplateService } from "app/services/template.service";
 
 declare var $: any;
 @Component({
@@ -23,7 +24,7 @@ export class RetrospectivesComponent implements OnInit {
   /**
    *
    */
-
+  retroId:string="";
   inviteLink: string = "";
   isLeader: boolean = false;
   currentRetro: Retro = new Retro();
@@ -45,9 +46,11 @@ export class RetrospectivesComponent implements OnInit {
     private authService: UserService,
     private configService: RetroConfigurationService,
     private chatService: ChatService,
+    private templateService: TemplateService,
     private route: ActivatedRoute,
     private _ngZone: NgZone,
   ) {
+    
     this.sharedService.tabSource.subscribe((tab: string) => {
       if (".idea-archive" == tab) {
         this.isReport = true;
@@ -148,15 +151,21 @@ export class RetrospectivesComponent implements OnInit {
     
 
     let routeId = this.route.snapshot.params.id;
-    
+    this.retroId=routeId;
     if (this.authService.hasRole("Member") && routeId != undefined) {
       this.getRetroSubject(routeId);
+      this.getRetroRight(routeId);
+      this.getRetro(routeId);
+
       this.getCurrentRetroStep(routeId)
     }
   }
 
   ngOnInit(): void {
     this.existUser();
+
+
+    console.log("retrointi");
     
   }
 
@@ -194,6 +203,8 @@ export class RetrospectivesComponent implements OnInit {
     this.isUser = this.authService.hasRole("Member");
   }
 
+
+
   private getCurrentRetroStep(retroId) {
     this.configService
       .getCurrentRetroStep(retroId)
@@ -218,6 +229,46 @@ export class RetrospectivesComponent implements OnInit {
         (res) => {
 
            this.selectSubject=res;
+          
+           this.sharedService.selectSubjectSetValue(res);
+        },
+        (error) => {
+
+        });
+  }
+
+  private getRetro(retroId) {
+    this.configService
+      .getCurrentRetro(retroId)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+          
+           this.sharedService.messageSourceSetValue( res.templateId);
+
+           this.sharedService.currentRetroSetValue(res);
+           this.inviteLink = environment.appUrl + "member/" + retroId;
+
+        },
+        (error) => {
+
+        });
+  }
+
+
+  private getRetroRight(retroId) {
+
+    let retro=new Retro();
+    retro.id=retroId;
+    retro.userId=this.authService.currentUserValue.userId;
+
+    this.configService
+      .getUserRight(retro)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+
+           this.sharedService.retroRightSetValue(res);
         },
         (error) => {
 

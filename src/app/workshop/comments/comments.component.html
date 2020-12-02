@@ -4,12 +4,7 @@
       <div class="card-header">
         <div class="row">
           <div class="col-sm-6">
-            <h5 class="card-title">ELEKTRONİK YAZI TAHTASI</h5>
-            <p>
-              Bu oturumda fikirler anonim olarak alınmaktadır. Şu ana kadar
-              aşağıdaki {{ this.messages.length }} fikir ileri sürülmüştür.
-              Yorumlarınızı “Yorum Yap” linkini tıklayarak ekleyebilirsiniz.
-            </p>
+            <h5 class="card-title">Yorum Yap</h5>
           </div>
           <div class="col-sm-6">
             <h5
@@ -28,8 +23,8 @@
   </div>
 </div>
 <div *ngFor="let tmp of template.templateDetail">
-  <h3>{{tmp.header}}</h3>
-<div *ngFor="let msg of GetHeaderMessage(tmp.id)">
+  <h5 class="alert alert-danger">{{tmp.header}}</h5>
+  <div *ngFor="let msg of GetHeaderMessage(tmp.id)">
   <div class="row">
     <div class="col-md-12">
       <div class="card">

@@ -51,7 +51,7 @@
 
   <div *ngFor="let tmp of template.templateDetail">
     <div *ngIf="GetHeaderCategorizedMessages(tmp.id).length>0">
-      <h3>{{tmp.header}}</h3>
+      <h5 class="alert alert-danger">{{tmp.header}}</h5>
       <div class="row" *ngFor=" let message of GetHeaderCategorizedMessages(tmp.id);let index">
         <div class="col-sm-12">
           <div class="alert alert-success" role="alert">
@@ -77,7 +77,7 @@
 
   <div *ngFor="let tmp of template.templateDetail">
     <div *ngIf="GetHeaderMessage(tmp.id).length>0">
-      <h3>{{tmp.header}}</h3>
+      <h5 class="alert alert-danger">{{tmp.header}}</h5>
       <div *ngFor="let message of GetHeaderMessage(tmp.id)">
         <div class="col-sm-12">
           <div class="alert alert-success" role="alert">
@@ -140,8 +140,8 @@
   <div *ngFor="let tmp of template.templateDetail">
 
     <div *ngIf="GetHeaderCategorizedMessages(tmp.id).length>0">
-    <h3>{{tmp.header}}</h3>
-    <div class="row" *ngFor=" let message of GetHeaderCategorizedMessages(tmp.id);let index">
+      <h5 class="alert alert-danger">{{tmp.header}}</h5>
+      <div class="row" *ngFor=" let message of GetHeaderCategorizedMessages(tmp.id);let index">
       <div class="col-sm-12">
         <div class="alert alert-success" role="alert">
           <div class="row">
@@ -180,8 +180,8 @@
 
   <div *ngFor="let tmp of template.templateDetail">
     <div *ngIf="GetHeaderMessage(tmp.id).length>0">
-    <h3>{{tmp.header}}</h3>
-    <div *ngFor="let message of GetHeaderMessage(tmp.id)">
+      <h5 class="alert alert-danger">{{tmp.header}}</h5>
+      <div *ngFor="let message of GetHeaderMessage(tmp.id)">
       <div class="col-sm-12">
         <div class="alert alert-success" role="alert">
           <div class="row">

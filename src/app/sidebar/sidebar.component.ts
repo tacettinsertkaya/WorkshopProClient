@@ -32,6 +32,98 @@ export interface ChildrenItems {
   type?: string;
 }
 
+export const SUPER_ADMIN_ROUTES: RouteInfo[] = [
+
+  {
+    path: "/dashboard",
+    title: "Dashboard",
+    type: "link",
+    icontype: "nc-icon nc-bank",
+
+  },
+  {
+    path: "/companys",
+    title: "Şirketler",
+    type: "link",
+    icontype: "fa fa-building",
+  },
+  {
+    path: "/super-users",
+    title: "Super Adminler",
+    type: "link",
+    icontype: "fa fa-id-card",
+  },
+]
+
+
+export const ADMIN_ROUTES: RouteInfo[] = [
+
+  {
+    path: "/groups",
+    title: "Gruplar",
+    type: "link",
+    icontype: "fa fa-object-group",
+
+  },
+  {
+    path: "/users",
+    title: "Kullanıcılar",
+    type: "link",
+    icontype: "fa fa-users",
+  },
+  {
+    path: "/subjects",
+    title: "Konular",
+    type: "link",
+    icontype: "fa fa-copy",
+  },
+  {
+    path: "/templates",
+    title: "Şablonlar",
+    type: "link",
+    icontype: "nc-icon nc-layout-11",
+  },
+ 
+];
+
+
+export const LEADER_ROUTES: RouteInfo[] = [
+  {
+    path: "/retro-start",
+    title: "Retro",
+    type: "link",
+    icontype: "fa fa-star",
+  },
+  {
+    path: "/retro",
+    title: "Chat",
+    type: "link",
+    icontype: "nc-icon nc-chat-33",
+  },
+ 
+  {
+    path: "/invite",
+    title: "Davet Gönder",
+    type: "link",
+    icontype: "fa fa-envelope",
+  },
+];
+
+
+export const MEMBER_ROUTES: RouteInfo[] = [
+ 
+  {
+    path: "/retro-start",
+    title: "Chat",
+    type: "link",
+    icontype: "nc-icon nc-chat-33",
+  }
+];
+
+
+
+
+
 //Menu Items
 export const ROUTES: RouteInfo[] = [
   {
@@ -39,6 +131,7 @@ export const ROUTES: RouteInfo[] = [
     title: "Dashboard",
     type: "link",
     icontype: "nc-icon nc-bank",
+
   },
   {
     path: "/retro-start",
@@ -106,9 +199,12 @@ export class SidebarComponent {
   get isAuthorized() {
     return this.authService.isAuthorized();
   }
-   isAdmin() {
+  isSuperAdmin(){
+    return this.authService.hasRole("SuperAdmin")
+  }
   
-    return this.authService.hasRole("Admin") || this.authService.hasRole("SuperAdmin");
+  isAdmin() {
+    return this.authService.hasRole("Admin");
 
   }
 
@@ -117,26 +213,24 @@ export class SidebarComponent {
 
   }
 
+  isMember() {
+    return this.authService.hasRole("Member");
+
+  }
+
   ngOnInit() {
-   
-
-    if(this.isLeader() || this.isAdmin() ){
-      this.getAllUser();
+    if(this.isSuperAdmin()){
+      this.menuItems = SUPER_ADMIN_ROUTES;
     }
-
     if(this.isAdmin()){
-      this.menuItems = ROUTES.filter((menuItem) => menuItem);
-      
+      this.menuItems = ADMIN_ROUTES; 
     }
-   else{
-    this.menuItems=[{
-      path: "/retro-start",
-      title: "Retro",
-      type: "link",
-      icontype: "nc-icon nc-chat-33",
-    },]
-
-   }
+    if(this.isLeader()){
+      this.menuItems = LEADER_ROUTES;
+    }
+    if(this.isMember()){
+      this.menuItems = MEMBER_ROUTES;
+    }
   }
 
 

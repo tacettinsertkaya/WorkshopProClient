@@ -127,7 +127,8 @@ export class CompanyManagementComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (res) => {
-            this.company.companyName = "";
+            this.company=new Company();
+           
           
             $.notify(
               {
@@ -173,7 +174,8 @@ export class CompanyManagementComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (res) => {
-            this.company.companyName = "";
+            this.company=new Company();
+
        
             $.notify(
               {

@@ -54,14 +54,18 @@
   <ul class="nav online-user "  >
    
     <div  *ngIf="users.length>0 && isLeader()" style="max-height:50vh; overflow-y: scroll;">
-      <li *ngFor="let user of users"  >
-        <a href="#" [ngClass]="onlineExist(user)"> 
-            <i class="nc-icon nc-circle-10 " [ngClass]="onlineExist(user)"></i>
+      <div  *ngFor="let user of users">
+
+    
+      <li  *ngIf="onlineExist(user)">
+        <a href="#" class="text-success"> 
+            <i class="nc-icon nc-circle-10 "  class="text-success"></i>
             <p class="hidden-md hidden-lg">
                 {{user.userName}} 
             </p>
         </a>
       </li>
+    </div>
    </div>
 
   </ul>

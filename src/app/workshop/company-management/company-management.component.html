@@ -31,14 +31,18 @@
               <tr>
                 <th>Şirket Adı</th>
               
-              
+                <th>Maksimum Katılımcı</th>
+                <th>Maksimum Retro</th>
                 <th>İşlemler</th>
+                
               </tr>
             </thead>
    
             <tbody>
               <tr *ngFor="let row of companys">
                 <td>{{ row.companyName }}</td>
+                <td>{{ row.participantCount }}</td>
+                <td>{{ row.retroCount }}</td>
               
                 <td class="text-left">
                   <button
@@ -111,6 +115,38 @@
                   rows="10"
                   class="form-control textarea"
                   [(ngModel)]="company.companyName"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label>Maksimum Retro Sayısı</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  [(ngModel)]="company.retroCount"
+                  [ngModelOptions]="{ standalone: true }"
+                />
+              </div>
+            </div>
+          </div>
+
+
+
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label>Maksimum Katılımcı Sayısı</label>
+                <input
+                   type="number"
+                  class="form-control "
+                  [(ngModel)]="company.participantCount"
                   [ngModelOptions]="{ standalone: true }"
                 />
               </div>

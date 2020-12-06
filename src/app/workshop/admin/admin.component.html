@@ -5,41 +5,13 @@
         <div class="card-header">
           <div class="row">
             <div class="col-sm-6">
-              <h4 class="card-title float-left">Kullanıcılar</h4>
+              <h4 class="card-title float-left">Adminler</h4>
             </div>
-
-
             <div class="col-sm-6">
-
               <button type="button" data-toggle="modal" data-target="#userModal"
                 class="btn btn-round btn-primary float-right btn-create">
-                Kullanıcı Ekle
+                Admin Ekle
               </button>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-3">
-              <h6 class="text-success" *ngIf="getUserLeader()>0"> Lider Hakkı: {{ getUserLeader() }}  </h6>
-              <h6 class="text-danger" *ngIf="getUserLeader()<=0"> Lider Hakkı: {{ getUserLeader() }}  </h6>
-
-              <h6 class="text-success"  *ngIf="getUserMember()>0"> Üye Hakkı: {{ getUserMember() }}  </h6>
-              <h6 class="text-danger" *ngIf="getUserMember()<=0"> Üye Hakkı: {{ getUserMember() }}  </h6>
-          
-            </div>
-            
-            <div class="col-sm-3">
-              
-            </div>
-
-            <div class="col-sm-6">
-              
-
-              <select class="form-control" (change)="changeUserType()" [(ngModel)]="userType"
-                [ngModelOptions]="{ standalone: true }">
-                <option value="Leader">Lider</option>
-                <option value="Member">Üye</option>
-              </select>
             </div>
           </div>
         </div>
@@ -50,7 +22,8 @@
               <tr>
                 <th>Kullanıcı Adı</th>
                 <th>Şifre</th>
-                <th>Statu</th>
+                <th>Eposta</th>
+                <th>Şirket</th>
 
                 <th>İşlemler</th>
               </tr>
@@ -60,9 +33,21 @@
               <tr *ngFor="let row of users">
                 <td>{{ row.userName }}</td>
                 <td>{{ row.rawPassword }}</td>
-                <td>{{ row.statu }}</td>
+                <td>{{ row.email }}</td>
+                <td>{{ row.company.companyName }}</td>
 
                 <td class="text-left">
+
+
+                  <button (click)="OpenPasswordModal(row)" type="button"
+                    class="btn btn-secondary btn-icon btn-sm edit mr-1">
+                    <i class="fa fa-key fa-2x"></i>
+                  </button>
+
+                  <button (click)="SendMail(row.id)" type="button" class="btn btn-success btn-icon btn-sm edit mr-1">
+                    <i class="fa fa-paper-plane fa-2x"></i>
+                  </button>
+
                   <button (click)="editUser(row.id)" type="button" class="btn btn-warning btn-icon btn-sm edit mr-1">
                     <i class="fa fa-pencil fa-2x"></i>
                   </button>
@@ -94,7 +79,7 @@
             <i class="nc-icon nc-simple-remove"></i>
           </button>
           <h4 class="title title-up">
-            {{ isUpdate ? "Kullanıcı Güncelle" : "Kullanıcı Ekle" }}
+            {{ isUpdate ? " Admin Güncelle" : "Admin Ekle" }}
           </h4>
         </div>
         <div class="modal-body">
@@ -103,17 +88,17 @@
             <div class="col-12">
               <div class="form-group">
                 <label>Şirket</label>
-                <select class="form-control" disabled [(ngModel)]="user.companyId"
-                  [ngModelOptions]="{ standalone: true }">
-                  <option value="" selected>Şirket Seçiniz</option>
-                  <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
+
+                <select class="form-control" [(ngModel)]="user.companyId" [ngModelOptions]="{ standalone: true }">
+                  <option value=''> Şirket Seçiniz </option>
+
+                  <option *ngFor="let company of companys" [value]=company.id> {{company.companyName}} </option>
 
                 </select>
 
               </div>
             </div>
           </div>
-
 
           <div class="row">
             <div class="col-12">
@@ -135,17 +120,26 @@
             </div>
           </div>
 
+          <div class="row">
+            <div class="col-12">
+              <div class="form-group">
+                <label>Email</label>
+                <input type="text" style="max-height: max-content" rows="10" class="form-control"
+                  [(ngModel)]="user.email" [ngModelOptions]="{ standalone: true }" />
+              </div>
+            </div>
+          </div>
+
 
           <div class="row">
             <div class="col-12">
               <div class="form-group">
                 <label>Statü</label>
 
-                <select class="form-control" [(ngModel)]="user.statu" [ngModelOptions]="{ standalone: true }">
-                  <option value="" selected>Statü Seçiniz</option>
+                <select class="form-control" disabled [(ngModel)]="user.statu" [ngModelOptions]="{ standalone: true }">
 
-                  <option value="Leader">Lider</option>
-                  <option value="Member">Üye</option>
+                  <option value="Admin" selected>Admin</option>
+
                 </select>
 
               </div>
@@ -172,4 +166,69 @@
       </div>
     </div>
   </form>
+</div>
+
+
+
+<div class="modal fade" id="changePasswordModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+  aria-hidden="true">
+
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header justify-content-center">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <i class="nc-icon nc-simple-remove"></i>
+        </button>
+        <h4 class="title title-up">
+          Şifre Güncelle
+        </h4>
+      </div>
+      <div class="modal-body">
+
+
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label>Yeni Şifre</label>
+              <input style="max-height: max-content" rows="10" class="form-control textarea"
+                [(ngModel)]="resetPassword.newPassword" [ngModelOptions]="{ standalone: true }" />
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-12">
+            <div class="form-group">
+              <label>Şifre Tekrar</label>
+              <input type="text" style="max-height: max-content" rows="10" class="form-control"
+                [(ngModel)]="resetPassword.confirmPassword" [ngModelOptions]="{ standalone: true }" />
+            </div>
+          </div>
+        </div>
+
+
+
+
+
+
+
+
+      </div>
+
+      <div class="modal-footer">
+        <div class="left-side">
+          <button type="button" class="btn btn-default btn-link" data-dismiss="modal">
+            Vazgeç
+          </button>
+        </div>
+        <div class="divider"></div>
+        <div class="right-side">
+          <button type="button" (click)="changePassword()" class="btn btn-danger btn-link">
+            Kaydet
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </div>

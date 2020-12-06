@@ -9,6 +9,8 @@ import { SubjectComponent } from "./subject/subject.component";
 import { UserManagementComponent } from "./user-management/user-management.component";
 import { SuperUserManagementComponent } from "./super-user-management/super-user-management.component";
 import { CompanyManagementComponent } from "./company-management/company-management.component";
+import { GroupsComponent } from "./groups/groups.component";
+import { AdminComponent } from "./admin/admin.component";
 
 export const WorkshopRoutes: Routes = [
   {
@@ -30,6 +32,10 @@ export const WorkshopRoutes: Routes = [
       {
         path: "templates",
         component: TemplatesComponent,
+      }, 
+      {
+        path: "groups",
+        component: GroupsComponent,
       },
       {
         path: "subjects",
@@ -44,6 +50,9 @@ export const WorkshopRoutes: Routes = [
         component: UserManagementComponent,
       },
       {
+        path: "admins",
+        component: AdminComponent,
+      }, {
         path: "super-users",
         component: SuperUserManagementComponent,
       },

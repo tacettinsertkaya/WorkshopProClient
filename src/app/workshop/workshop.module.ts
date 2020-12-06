@@ -18,6 +18,7 @@ import { VoteComponent } from "./vote/vote.component";
 import { ReportComponent } from "./report/report.component";
 import { UserManagementComponent } from "./user-management/user-management.component";
 import { SuperUserManagementComponent } from "./super-user-management/super-user-management.component";
+import {GroupsComponent} from './groups/groups.component'
 
 import { WorkshopRoutes } from "./workshop.routing";
 
@@ -35,6 +36,8 @@ import { UserService } from "app/services/user.service";
 import { LoaderComponent } from './loader/loader.component';
 import { CompanyService } from "app/services/company.service";
 import { CompanyManagementComponent } from "./company-management/company-management.component";
+import { AdminComponent } from "./admin/admin.component";
+import { GroupService } from "app/services/group.service";
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(WorkshopRoutes), FormsModule,ReactiveFormsModule],
@@ -52,8 +55,9 @@ import { CompanyManagementComponent } from "./company-management/company-managem
     ReportComponent,
     UserManagementComponent,
     SuperUserManagementComponent,
-    CompanyManagementComponent
-    
+    CompanyManagementComponent,
+    GroupsComponent,
+    AdminComponent
   ],
   providers: [
 
@@ -63,7 +67,7 @@ import { CompanyManagementComponent } from "./company-management/company-managem
     CommentService,
     SharedService,
     CategoryService,
-
+    GroupService,
     TemplateDetailService,
     CompanyService
   ],

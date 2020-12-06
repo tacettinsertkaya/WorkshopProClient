@@ -13,6 +13,7 @@ import { ResetPassword } from '../models/reset-password';
 import { UserResetPassword } from '../models/user-reset-password';
 import { ResolveStart, Router } from '@angular/router';
 import { Role } from 'app/models/role';
+import { UserFilter } from 'app/models/dto/user-filter';
 
 @Injectable(
   {
@@ -165,8 +166,8 @@ export class UserService {
 
 
   // tslint:disable-next-line:typedef
-  getAllUser(roles) {
-    return this.baseService.post<User[]>(roles,
+  getAllUser(userFilter:UserFilter) {
+    return this.baseService.post<User[]>(userFilter,
       environment.serverBaseUrl,
       EndPoints.USERS + '/GetAllUser'
     );

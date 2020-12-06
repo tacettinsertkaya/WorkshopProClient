@@ -9,6 +9,7 @@ import {
 import {NgZone } from "@angular/core";
 
 import { Router } from "@angular/router";
+import { UserFilter } from "app/models/dto/user-filter";
 import { User } from "app/models/user";
 import { ChatService } from "app/services/chat.service";
 import { UserService } from "app/services/user.service";
@@ -48,6 +49,12 @@ export const SUPER_ADMIN_ROUTES: RouteInfo[] = [
     icontype: "fa fa-building",
   },
   {
+    path: "/admins",
+    title: "Adminler",
+    type: "link",
+    icontype: "fa fa-id-badge",
+  }, 
+   {
     path: "/super-users",
     title: "Super Adminler",
     type: "link",
@@ -247,19 +254,22 @@ export class SidebarComponent {
 
     let result=this.onlineUser.filter(p=>p==user.name);
     if(result==undefined || result.length==0)
-    return "text-danger";
+    return false;
     else
-     return "text-success"
+     return true;
   }
 
 
   
   getAllUser() {
     let filterRoles=["Member"];
-
+  
+    let userFilter=new UserFilter();
+    userFilter.companyId=this.authService.currentUserValue.companyId;
+    userFilter.filterRoles=filterRoles;
     
     this.authService
-      .getAllUser(filterRoles)
+      .getAllUser(userFilter)
       .pipe(first())
       .subscribe(
         (res) => {

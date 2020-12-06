@@ -9,7 +9,7 @@ export class User {
     token:string;
     statu:string;
     roles:Array<string>=[];
-    companyId:string;
+    companyId:string='';
 
   }
   

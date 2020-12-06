@@ -9,4 +9,5 @@ export const EndPoints = {
   CATEGORYMESSAGE: "CategoryMessage",
  USERS: 'USERS',
  COMPANY: 'Company',
+ GROUP: 'GROUP',
 };

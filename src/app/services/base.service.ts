@@ -73,6 +73,18 @@ export class BaseService {
       this.createTokenOptions()
     );
   }
+
+  public listpost<T>(item, base_url, end_point): Observable<T[]> {
+  
+
+    return this.http.post<T[]>(
+      `${base_url}/${end_point}`,
+      item,
+      this.createTokenOptions()
+    );
+  }
+
+
   public delete(id: number, base_url, end_point) {
     return this.http.delete(
       `${base_url}/${end_point}/${id}`,

@@ -17,17 +17,39 @@
             </div>
           </div>
           <div class="row">
-            <div class="col-md-3">
+            <div class="col-sm-3">
+              <h6 class="text-success" *ngIf="getUserLeader()>0"> Grup Oluşturma Hakkı: {{ getUserLeader() }}  </h6>
+              <h6 class="text-danger" *ngIf="getUserLeader()<=0"> Grup Oluşturma Hakkı: {{ getUserLeader() }}  </h6>
+
+             
+            </div>
+            
+            <div class="col-sm-3">
+              
+            </div>
+
+            <div class="col-sm-6">
+              
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-3" *ngFor="let group of groups">
               <div class="card text-center p-3">
                 <div class="card-body w-100">
                   <h6 class="card-title">
 
-                    <span class="align-baseline"> </span>
+                    <p class="align-baseline" *ngIf="group.group!=null">{{group.group.groupName}} </p>
+                    <p class="align-baseline" *ngIf="group.leader!=null" >{{group.leader.userName}}  </p>
+                    <p class="align-baseline text-danger" *ngIf="group.group.state==0" > Başlamadı  </p>
+                    <p class="align-baseline text-primary" *ngIf="group.group.state==1" > Başladı  </p>
+                    <p class="align-baseline text-success" *ngIf="group.group.state>1" > Tamamlandı  </p>
                   </h6>
-                  <button type="button" class="btn btn-danger">
+               
+
+                  <button type="button" (click)="removeGroup(group.group)" class="btn btn-danger">
                     <i class="fa fa-trash fa-2x"></i>
                   </button>
-                  <button type="button" class="btn btn-primary">
+                  <button type="button" (click)="editGroup(group.group)" class="btn btn-primary">
                     <i class="fa fa-pencil fa-2x"></i>
                   </button>
                 </div>
@@ -86,7 +108,7 @@
                           <select class="form-control" [(ngModel)]="group.leaderId"
                             [ngModelOptions]="{ standalone: true }">
 
-                            <option *ngFor="let user of users" [value]=user.id> {{user.name}} {{user.surname}} </option>
+                            <option *ngFor="let user of users" [value]=user.id> {{user.userName}}  </option>
 
                           </select>
 

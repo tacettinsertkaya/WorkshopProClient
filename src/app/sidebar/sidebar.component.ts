@@ -101,30 +101,30 @@ export const LEADER_ROUTES: RouteInfo[] = [
     type: "link",
     icontype: "fa fa-star",
   },
-  {
-    path: "/retro",
-    title: "Chat",
-    type: "link",
-    icontype: "nc-icon nc-chat-33",
-  },
+  // {
+  //   path: "/retro",
+  //   title: "Chat",
+  //   type: "link",
+  //   icontype: "nc-icon nc-chat-33",
+  // },
  
-  {
-    path: "/invite",
-    title: "Davet Gönder",
-    type: "link",
-    icontype: "fa fa-envelope",
-  },
+  // {
+  //   path: "/invite",
+  //   title: "Davet Gönder",
+  //   type: "link",
+  //   icontype: "fa fa-envelope",
+  // },
 ];
 
 
 export const MEMBER_ROUTES: RouteInfo[] = [
  
-  {
-    path: "/retro-start",
-    title: "Chat",
-    type: "link",
-    icontype: "nc-icon nc-chat-33",
-  }
+  // {
+  //   path: "/retro-start",
+  //   title: "Chat",
+  //   type: "link",
+  //   icontype: "nc-icon nc-chat-33",
+  // }
 ];
 
 

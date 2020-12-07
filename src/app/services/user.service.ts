@@ -37,6 +37,8 @@ export class UserService {
   // tslint:disable-next-line:typedef
   public currentUserSetValue(value) {
     this.currentUserSubject.next(value);
+    localStorage.setItem('currentUser', JSON.stringify(value));
+
   }
 
   public isAuthorized() {

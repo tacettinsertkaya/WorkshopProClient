@@ -34,7 +34,9 @@
               </div>
               <div class="card-body">
               
-           
+                <p class="text-center text-danger" *ngIf="errorMessage">
+                  {{errorMessage}}
+                </p>
                 <div
                   class="input-group"
                   [ngClass]="{ 'input-group-focus': focus1 === true }"
@@ -45,6 +47,9 @@
                     </span>
                   </div>
                   <input
+                  [disabled]="isFailed" 
+                  (blur)="clearError()"
+                  (focus)="clearError()"
                     type="text"
                     placeholder="Takma Ad"
                     formControlName="alias"
@@ -59,7 +64,7 @@
               </div>
               <div class="card-footer">
                 <button type="submit" 
-                  class="btn btn-success btn-round btn-block" style="width: 100%;"
+                  class="btn btn-success btn-round btn-block"  [disabled]="isFailed" style="width: 100%;"
                   >GİRİŞ</button
                 >
               </div>

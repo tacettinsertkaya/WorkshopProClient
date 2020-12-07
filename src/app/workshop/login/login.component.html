@@ -33,6 +33,9 @@
                 </div>
               </div>
               <div class="card-body">
+                <p class="text-center text-danger" *ngIf="errorMessage">
+                  {{errorMessage}}
+                </p>
                 <div
                   class="input-group"
                   [ngClass]="{ 'input-group-focus': focus === true }"
@@ -44,6 +47,8 @@
                   </div>
                   <input
                     type="text"
+                    (blur)="clearError()"
+                     (focus)="clearError()"
                     class="form-control"
                     formControlName="username"
                     placeholder="Kullanıcı Adı"
@@ -71,6 +76,8 @@
                   <input
                     type="password"
                     placeholder="Şifre"
+                    (blur)="clearError()"
+                    (focus)="clearError()"
                     formControlName="password"
                     class="form-control"
                     (focus)="focus1 = true"

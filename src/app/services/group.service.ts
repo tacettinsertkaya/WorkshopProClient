@@ -6,6 +6,7 @@ import { environment } from "../../environments/environment";
 import { EndPoints } from "./end-points";
 import { Group } from "../models/Group";
 import { isNullOrUndefined } from "util";
+import { GroupDto } from "app/models/dto/group-dto";
 
 @Injectable()
 export class GroupService {
@@ -45,11 +46,11 @@ export class GroupService {
     );
   }
 
-  getAllGroup() {
-    return this.baseService.list<Group>(
-      "",
+  getAllGroup(filter) {
+    return this.baseService.listpost<GroupDto>(
+      filter,
       environment.serverBaseUrl,
-      EndPoints.GROUP+'/GetList'
+      EndPoints.GROUP+'/GetByFilterList'
     );
   }
 }

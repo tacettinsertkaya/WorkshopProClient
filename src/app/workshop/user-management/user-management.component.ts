@@ -37,7 +37,7 @@ export class UserManagementComponent implements OnInit {
     this.userType = "Leader";
     this.user.companyId = this.userService.currentUserValue.companyId;
     this.currentCompany = this.userService.currentUserValue.company;
-    console.log("this.currentCompany", this.currentCompany);
+    this.user.statu="Leader";
     this.getAllUser(this.userType);
     this.getAllCompany();
   }

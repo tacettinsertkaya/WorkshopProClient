@@ -67,7 +67,6 @@ import { GroupService } from "app/services/group.service";
     CommentService,
     SharedService,
     CategoryService,
-    GroupService,
     TemplateDetailService,
     CompanyService
   ],

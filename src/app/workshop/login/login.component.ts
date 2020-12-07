@@ -8,6 +8,7 @@ import { User } from '../../models/user';
 import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticateResponse } from '../../models/authenticate-response';
+import { ErrorMessage } from 'app/models/dto/error-message';
 
 declare var $: any;
 @Component({
@@ -23,7 +24,8 @@ export class LoginComponent implements OnInit {
   private toggleButton;
   private sidebarVisible: boolean;
   private nativeElement: Node;
-
+   
+  errorMessage='';
   loading = false;
   submitted = false;
   // tslint:disable-next-line:no-inferrable-types
@@ -130,6 +132,8 @@ export class LoginComponent implements OnInit {
 
           },
           (error) => {
+          
+            this.errorMessage=error
             this.error = error;
             this.loading = false;
           }
@@ -137,6 +141,10 @@ export class LoginComponent implements OnInit {
 
 
     }
+  }
+
+  clearError(){
+    this.errorMessage='';
   }
 
   logout() {

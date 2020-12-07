@@ -38,6 +38,7 @@ import { ChatService } from "./services/chat.service";
 import { MessageService } from "./services/message.service";
 import { MemberLoginComponent } from "./workshop/member-login/member-login.component";
 import { RetroConfigurationService } from "./services/retro-configuration";
+import { GroupService } from "./services/group.service";
 
 
 @NgModule({
@@ -70,6 +71,7 @@ import { RetroConfigurationService } from "./services/retro-configuration";
   providers: [
     UserService,
     BaseService,
+    GroupService,
     ChatService,
     MessageService,
     RetroConfigurationService,

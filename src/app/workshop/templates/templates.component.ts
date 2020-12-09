@@ -9,6 +9,8 @@ import { TemplateDetailService } from 'app/services/template-detail.service';
 import { ChatService } from 'app/services/chat.service';
 import { UserService } from 'app/services/user.service';
 import { Retro } from 'app/models/retro';
+import { CompanyService } from 'app/services/company.service';
+import { Company } from 'app/models/company';
 
 declare var $: any;
 
@@ -26,17 +28,21 @@ export class TemplatesComponent implements OnInit {
   ];
 
   public updateHeaders: TemplateDetail[] = [];
-
+   data = new Template();
   templates: Template[] = [];
   template: Template = new Template();
   selectTemplateId: string;
   isUpdate: boolean = false;
   isUser:boolean=false;
+
+  companys: Array<Company> = [];
+  companyId: string = '';
   /**
    *
    */
   constructor(
     private templateService: TemplateService,
+    private companyService:CompanyService,
     private templateDetailService: TemplateDetailService,
     private sharedService: SharedService,
     private chatService: ChatService,
@@ -54,10 +60,45 @@ export class TemplatesComponent implements OnInit {
     for (let i = 1; i <= 10; i++) {
       this.orderlist.push(i);
     }
+    this.getAllCompany();
+
+    this.data.companyId = this.authService.currentUserValue.companyId;
+
   }
   existUser() {
     this.isUser=this.authService.hasRole("Member");
+
+   
  }
+
+ getAllCompany() {
+  this.companyService
+    .getAllCompany()
+    .pipe(first())
+    .subscribe(
+      (res) => {
+        this.companys = res;
+      },
+      (error) => {
+        $.notify(
+          {
+            icon: "ti-gift",
+            message: "İşlem sırasında hata oluştu.",
+          },
+          {
+            type: "danger",
+            timer: 4000,
+            placement: {
+              from: "top",
+              align: "right",
+            },
+            template:
+              '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
+          }
+        );
+      }
+    );
+}
 
 
   private subscribeToCurrentRetroEvents(): void {
@@ -192,8 +233,10 @@ export class TemplatesComponent implements OnInit {
   }
 
   getTemplateList() {
+   let companyId = this.authService.currentUserValue.companyId;
+
     this.templateService
-      .getAllTemplate()
+      .getAllTemplate(companyId)
       .pipe(first())
       .subscribe(
         (res) => {
@@ -253,12 +296,11 @@ export class TemplatesComponent implements OnInit {
   }
 
   saveTemplate() {
-    let data = new Template();
 
-    data.templateDetail = this.headers;
-    data.templateName = new Date().getTime().toString();
+    this.data.templateDetail = this.headers;
+    this.data.templateName = new Date().getTime().toString();
     this.templateService
-      .create(data)
+      .create(this.data)
       .pipe(first())
       .subscribe(
         (res) => {
@@ -316,18 +358,18 @@ export class TemplatesComponent implements OnInit {
       .delete(templateId)
       .pipe(first())
       .subscribe((res) => {
-        let data = new Template();
-        data.templateName = this.template.templateName;
+
+        this.data.templateName = this.template.templateName;
         this.template.templateDetail.forEach((item) => {
           let detail = new TemplateDetail();
           detail.header = item.header;
           detail.order = item.order;
 
-          data.templateDetail.push(detail);
+          this.data.templateDetail.push(detail);
         });
 
         this.templateService
-          .create(data)
+          .create(this.data)
           .pipe(first())
           .subscribe(
             (res) => {

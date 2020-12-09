@@ -57,11 +57,11 @@ export class TemplateService {
     );
   }
 
-  getAllTemplate() {
+  getAllTemplate(companyId) {
     return this.baseService.list<Template>(
       "",
       environment.serverBaseUrl,
-      EndPoints.TEMPLATE
+      EndPoints.TEMPLATE+'/GetListByCompany/'+companyId
     );
   }
 }

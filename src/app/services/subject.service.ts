@@ -55,11 +55,11 @@ export class SubjectsService {
   }
 
 
-  getAllSubject() {
+  getAllSubject(id:any) {
     return this.baseService.list<Subject>(
       "",
       environment.serverBaseUrl,
-      EndPoints.SUBJECT
+      EndPoints.SUBJECT+'/GetListByCompany/'+id
     );
   }
 }

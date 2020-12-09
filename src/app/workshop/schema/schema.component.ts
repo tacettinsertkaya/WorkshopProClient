@@ -10,6 +10,8 @@ import { ChatService } from "app/services/chat.service";
 import { Retro } from "app/models/retro";
 import { RetroConfigration } from "app/models/retro-configuration";
 import { Subject } from "app/models/subject";
+import { CompanyService } from "app/services/company.service";
+import { Company } from "app/models/company";
 
 declare var $: any;
 
@@ -31,12 +33,16 @@ export class SchemaComponent implements OnInit {
   selectTemplateId: string;
   isUser:boolean=false;
   retroRight: RetroConfigration = new RetroConfigration();
+  companys: Array<Company> = [];
+  companyId: string = '';
 
+   data = new Template();
   /**
    *
    */
   constructor(
     private templateService: TemplateService,
+    private companyService: CompanyService,
     private sharedService: SharedService,
     private authService: UserService,
     private chatService: ChatService,
@@ -57,13 +63,46 @@ export class SchemaComponent implements OnInit {
       this.orderlist.push(i);
     }
     
-    this.existUser()
+    this.existUser();
+    this.getAllCompany();
+
+    this.data.companyId = this.authService.currentUserValue.companyId;
+
   }
 
   
   existUser() {
     this.isUser=this.authService.hasRole("Member");
  }
+
+ getAllCompany() {
+  this.companyService
+    .getAllCompany()
+    .pipe(first())
+    .subscribe(
+      (res) => {
+        this.companys = res;
+      },
+      (error) => {
+        $.notify(
+          {
+            icon: "ti-gift",
+            message: "İşlem sırasında hata oluştu.",
+          },
+          {
+            type: "danger",
+            timer: 4000,
+            placement: {
+              from: "top",
+              align: "right",
+            },
+            template:
+              '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
+          }
+        );
+      }
+    );
+}
 
  private subscribeToCurrentRetroEvents(): void {
   this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
@@ -114,8 +153,10 @@ export class SchemaComponent implements OnInit {
   }
 
   getTemplateList() {
+    let companyId = this.authService.currentUserValue.companyId;
+
     this.templateService
-      .getAllTemplate()
+      .getAllTemplate(companyId)
       .pipe(first())
       .subscribe(
         (res) => {
@@ -163,12 +204,12 @@ export class SchemaComponent implements OnInit {
   }
 
   saveTemplate() {
-    let data = new Template();
+   
 
-    data.templateDetail = this.headers;
-    data.templateName = new Date().getTime().toString();
+    this.data.templateDetail = this.headers;
+    this.data.templateName = new Date().getTime().toString();
     this.templateService
-      .create(data)
+      .create(this.data)
       .pipe(first())
       .subscribe(
         (res) => {

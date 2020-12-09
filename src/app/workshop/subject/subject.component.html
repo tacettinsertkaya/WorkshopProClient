@@ -40,7 +40,7 @@
               <tr *ngFor="let row of subjects">
                 <td>{{ row.subjectTitle }}</td>
 
-                <td class="text-right">
+                <td>
                   <button
                     (click)="editSubject(row.id)"
                     type="button"
@@ -101,9 +101,24 @@
         </div>
         <div class="modal-body">
           <div class="row">
+            <div class="col-sm-12">
+             <div class="form-group">
+               <label>Şirket</label>
+               <select class="form-control" disabled  [(ngModel)]="subject.companyId"  [ngModelOptions]="{ standalone: true }">
+                      <option value="" selected>Şirket Seçiniz</option>
+                      <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
+                    
+               </select>
+
+             </div>
+
+            </div>
+         </div>
+
+          <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Konu</label>
+                <label>Başlık</label>
                 <input
                   style="max-height: max-content"
                   rows="10"
@@ -118,7 +133,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Konu</label>
+                <label>Detay</label>
                 <textarea
                   style="max-height: max-content"
                   rows="10"

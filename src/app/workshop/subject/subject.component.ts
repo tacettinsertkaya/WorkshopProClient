@@ -9,6 +9,7 @@ import { ChatService } from "app/services/chat.service";
 import { Retro } from "app/models/retro";
 import { CompanyService } from "app/services/company.service";
 import { Company } from "app/models/company";
+import { SubjectFilter } from "app/models/dto/subject-filter";
 
 declare var $: any;
 
@@ -95,9 +96,11 @@ export class SubjectComponent implements OnInit {
 
 
   getSubjects() {
-    let companyId=this.authService.currentUserValue.companyId;
+    let filter=new SubjectFilter();
+    filter.companyId=this.authService.currentUserValue.companyId;
+
     this.subjectService
-      .getAllSubject(companyId)
+      .getAllSubject(filter)
       .pipe(first())
       .subscribe(
         (res) => {
@@ -188,6 +191,8 @@ export class SubjectComponent implements OnInit {
     
 
     if (!this.isUpdate) {
+      data.createRole='Admin';
+      data.userId=this.authService.currentUserValue.userId;
       this.subjectService
         .create(data)
         .pipe(first())

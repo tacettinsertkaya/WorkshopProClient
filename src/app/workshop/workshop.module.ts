@@ -38,6 +38,7 @@ import { CompanyService } from "app/services/company.service";
 import { CompanyManagementComponent } from "./company-management/company-management.component";
 import { AdminComponent } from "./admin/admin.component";
 import { GroupService } from "app/services/group.service";
+import { DatetimePipe } from "app/pipes/datetime.pipe";
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(WorkshopRoutes), FormsModule,ReactiveFormsModule],
@@ -58,6 +59,7 @@ import { GroupService } from "app/services/group.service";
     CompanyManagementComponent,
     GroupsComponent,
     AdminComponent
+
   ],
   providers: [
 

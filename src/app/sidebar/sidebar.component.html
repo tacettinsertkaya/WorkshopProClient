@@ -8,37 +8,26 @@
   </a>
 </div>
 
-<div class="sidebar-wrapper" >
- 
-    
-  <ul class="nav" >
-    <li routerLinkActive="active" *ngFor="let menuitem of menuItems" >
+<div class="sidebar-wrapper">
+
+
+  <ul class="nav">
+    <li routerLinkActive="active" *ngFor="let menuitem of menuItems">
       <!--If is a single link-->
       <a [routerLink]="[menuitem.path]" *ngIf="menuitem.type === 'link'">
         <i class="{{ menuitem.icontype }}"></i>
         <p>{{ menuitem.title }}</p>
       </a>
       <!--If it have a submenu-->
-      <a
-        data-toggle="collapse"
-        href="#{{ menuitem.title }}"
-        *ngIf="menuitem.type === 'sub'"
-      >
+      <a data-toggle="collapse" href="#{{ menuitem.title }}" *ngIf="menuitem.type === 'sub'">
         <i class="{{ menuitem.icontype }}"></i>
         <p>{{ menuitem.title }}<b class="caret"></b></p>
       </a>
 
       <!--Display the submenu items-->
-      <div
-        id="{{ menuitem.title }}"
-        class="collapse"
-        *ngIf="menuitem.type === 'sub'"
-      >
+      <div id="{{ menuitem.title }}" class="collapse" *ngIf="menuitem.type === 'sub'">
         <ul class="nav">
-          <li
-            routerLinkActive="active"
-            *ngFor="let childitem of menuitem.children"
-          >
+          <li routerLinkActive="active" *ngFor="let childitem of menuitem.children">
             <a [routerLink]="[menuitem.path, childitem.path]">
               <span class="sidebar-mini-icon">{{ childitem.ab }}</span>
               <span class="sidebar-normal">{{ childitem.title }}</span>
@@ -51,22 +40,49 @@
 
 
   </ul>
-  <ul class="nav online-user "  >
-   
-    <div  *ngIf="users.length>0 && isLeader()" style="max-height:50vh; overflow-y: scroll;">
-      <div  *ngFor="let user of users">
+  <ul class="nav online-user" *ngIf="users.length>0 && isLeader()" >
 
-    
-      <li  *ngIf="onlineExist(user)">
-        <a href="#" class="text-success"> 
-            <i class="nc-icon nc-circle-10 "  class="text-success"></i>
+    <div style="max-height:50vh; overflow-y: scroll;">
+      <div *ngFor="let user of users">
+
+
+        <li *ngIf="onlineExist(user)">
+          <a href="#" class="text-success">
+            <i class="nc-icon nc-circle-10 " class="text-success"></i>
             <p class="hidden-md hidden-lg">
-                {{user.userName}} 
+              {{user.userName}}
             </p>
-        </a>
-      </li>
+          </a>
+        </li>
+      </div>
     </div>
-   </div>
 
   </ul>
+
+  <div class="nav online-user" style="bottom:10px;padding: 10px;" *ngIf="currentRetro">
+    <div *ngIf="announcements.length>0" style="max-height:50vh; overflow-y: scroll;">
+      <div *ngFor="let item of announcements">
+
+        <div class="card  p-3  w-100">
+          <p>{{item.contentText}} </p>
+       
+        </div>
+
+
+      </div>
+    </div>
+    <div class="row" *ngIf="isLeader()">
+      <div class="col-sm-12">
+        <textarea rows="5" (keydown.enter)="sendAnnouncement()"   #titleInput style="width: 100%;">
+
+         </textarea>
+      </div>
+    </div>
+    <div class="row" *ngIf="isLeader()">
+      <div class="col-sm-12">
+        <button type="button" class="btn btn-success btn-block" [disabled]="!titleInput" (click)="sendAnnouncement()">Gönder</button>
+      </div>
+    </div>
+  </div>
+
 </div>

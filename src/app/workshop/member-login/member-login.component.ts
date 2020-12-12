@@ -18,6 +18,7 @@ import { GroupFilter } from 'app/models/dto/group-filter';
 import { GroupService } from 'app/services/group.service';
 import swal from 'sweetalert2';
 import { Group } from 'app/models/group';
+import { SharedService } from 'app/services/shared.service';
 
 declare var $: any;
 @Component({
@@ -52,6 +53,7 @@ export class MemberLoginComponent implements OnInit {
   constructor(private element: ElementRef,
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private sharedService: SharedService,
     private groupService: GroupService,
     private route: ActivatedRoute,
     private router: Router,
@@ -147,15 +149,21 @@ export class MemberLoginComponent implements OnInit {
           filter.leaderId = this.createdUser.id;
           filter.state = 0;
           this.getAllGroup(filter);
-
+         this.getCurrentUserRetro(this.id);
         },
         (error) => {
           this.error = error;
           this.loading = false;
         }
       );
+  }
 
-
+  getCurrentUserRetro(id){
+    this.retroConfigurationService.getCurrentRetro(id) .pipe(first())
+    .subscribe(
+      (retro) => {
+        this.sharedService.currentRetroSetValue(retro);
+      });
   }
 
 

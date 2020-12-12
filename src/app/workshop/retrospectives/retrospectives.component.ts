@@ -44,7 +44,7 @@ export class RetrospectivesComponent implements OnInit {
   isComment: boolean = false;
   isUser: boolean = false;
   retroRights: UserRight = new UserRight();
-
+  editmode:boolean=false;
   groups: Array<GroupDto> = [];
 
 
@@ -133,13 +133,18 @@ export class RetrospectivesComponent implements OnInit {
 
 
 
+   console.log("tab",tab);
+
       $(tab).click();
       $(".tab-progress").find(".nav-item").removeClass("active");
+      $(".tab-progress1").find(".nav-item").removeClass("active");
+      $(".tab-progress1").find(tab).parent().addClass("active");
 
 
 
     });
 
+  
     this.sharedService.selectSubject.subscribe((subject: any) => {
 
       this.selectSubject = subject;
@@ -175,6 +180,16 @@ export class RetrospectivesComponent implements OnInit {
 
       this.getCurrentRetroStep(routeId)
     }
+  }
+
+
+  changeTab(tab){
+    console.log("tab",tab);
+    
+    $(tab).click();
+    $(".tab-progress").find(".nav-item").removeClass("active");
+
+
   }
 
   getFilterGroup() {

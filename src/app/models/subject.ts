@@ -3,4 +3,6 @@ export class Subject {
   id: string;
   subjectTitle: string;
   subjectDescription: string;
+  userId:string;
+  createRole:string="Admin";
 }

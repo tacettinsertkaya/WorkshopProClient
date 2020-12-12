@@ -11,6 +11,7 @@ import { RetroConfigration } from "app/models/retro-configuration";
 import { SubjectDto } from "app/models/dto/subject-dto";
 import { CompanyService } from "app/services/company.service";
 import { Company } from "app/models/company";
+import { SubjectFilter } from "app/models/dto/subject-filter";
 
 declare var $: any;
 
@@ -127,9 +128,12 @@ getAllCompany() {
 
 
   getSubjects() {
-    let companyId=this.authService.currentUserValue.companyId;
+    let filter=new SubjectFilter();
+    filter.companyId=this.authService.currentUserValue.companyId;
+    filter.retroId=this.retroRight.retroId;
+
     this.subjectService
-      .getAllSubject(companyId)
+      .getAllSubject(filter)
       .pipe(first())
       .subscribe(
         (res) => {
@@ -224,6 +228,9 @@ getAllCompany() {
   
 
     if (!this.isUpdate) {
+      data.createRole="Leader";
+      data.userId=this.authService.currentUserValue.userId;
+
       this.subjectService
         .create(data)
         .pipe(first())

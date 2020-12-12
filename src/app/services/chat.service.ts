@@ -10,6 +10,7 @@ import { Subject } from "app/models/subject";
 import { UserRight } from "app/models/userRight";
 import { UserService } from "./user.service";
 import { SubjectDto } from "app/models/dto/subject-dto";
+import { RetroAnnouncement } from "app/models/retro-announcement";
 
 @Injectable()
 export class ChatService {
@@ -20,6 +21,7 @@ export class ChatService {
   connectionEstablished = new EventEmitter<Boolean>();
 
   commentReceived = new EventEmitter<Comment>();
+  announcementReceived = new EventEmitter<RetroAnnouncement>();
   subjectReceived = new EventEmitter<Subject>();
   voteReceived = new EventEmitter<Comment>();
   currentRetroReceived = new EventEmitter<Retro>();
@@ -44,6 +46,7 @@ export class ChatService {
     this.getCategorizedMessageEvents();
     this.onlineUserOnServerEvents();
     this.offlineUserOnServerEvents();
+    this.retroAnnouncementOnServerEvents();
     this.startConnection();
   }
 
@@ -103,10 +106,14 @@ export class ChatService {
     this._hubConnection.invoke("setCurrentRetro", data).catch(err =>this.startConnection());
   }
 
+
+
   setSelectedSubject(data:SubjectDto) {
 
     this._hubConnection.invoke("setSelectedSubject", data).catch(err =>this.startConnection());
   }
+
+ 
 
   setCurrentRetroConfig(data: Retro) {
 
@@ -114,6 +121,10 @@ export class ChatService {
   }
 
 
+  setRetroAnnouncement(data:RetroAnnouncement) {
+  
+    this._hubConnection.invoke("setRetroAnnouncement",data).catch(err =>this.startConnection());
+  }
 
   getCategorizedMessage() {
     this._hubConnection.invoke("getCategorizedMessage").catch(err =>this.startConnection());
@@ -136,6 +147,12 @@ export class ChatService {
   private offlineUserOnServerEvents(): void {
     this._hubConnection.on("OfflineUser", (data: any) => {
       this.offlineUserReceived.emit(data);
+    });
+  }
+
+  private retroAnnouncementOnServerEvents(): void {
+    this._hubConnection.on("getRetroAnnouncement", (data: any) => {
+      this.announcementReceived.emit(data);
     });
   }
 

@@ -39,6 +39,8 @@ import { MessageService } from "./services/message.service";
 import { MemberLoginComponent } from "./workshop/member-login/member-login.component";
 import { RetroConfigurationService } from "./services/retro-configuration";
 import { GroupService } from "./services/group.service";
+import { DatetimePipe } from './pipes/datetime.pipe';
+import { SharedService } from "./services/shared.service";
 
 
 @NgModule({
@@ -55,7 +57,7 @@ import { GroupService } from "./services/group.service";
     FooterModule,
     FixedPluginModule,
     BrowserModule,
-    NgxSpinnerModule
+    NgxSpinnerModule,
   ],
   declarations: [
     AppComponent,
@@ -66,12 +68,14 @@ import { GroupService } from "./services/group.service";
     UserRoleDirective,
     UserDirectiveDirective,
     LoaderComponent,
+    DatetimePipe,
 
   ],
   providers: [
     UserService,
     BaseService,
     GroupService,
+    SharedService,
     ChatService,
     MessageService,
     RetroConfigurationService,

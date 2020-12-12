@@ -30,7 +30,7 @@ declare var $: any;
 @Component({
   selector: "app-report-cmp",
   templateUrl: "./report.component.html",
-  styleUrls:["./report.component.css"]
+  styleUrls: ["./report.component.css"]
 })
 export class ReportComponent implements OnInit {
   message = new Message();
@@ -49,11 +49,11 @@ export class ReportComponent implements OnInit {
 
   public showOverlay = true;
 
-  
+
   template: Template = new Template();
 
   constructor(
-    
+
     private _ngZone: NgZone,
     private router: Router,
     private chatService: ChatService,
@@ -72,14 +72,43 @@ export class ReportComponent implements OnInit {
       if (".idea-archive" == tab) {
         this.getMessage(this.retro.id);
         this.getSubject(this.retro.id);
-        this.getRetroTemplate( this.retro.id);
+        this.getRetroTemplate(this.retro.id);
 
       }
 
     });
+    this.subscribeToCurrentRetroEvents();
 
   }
 
+
+  private subscribeToCurrentRetroEvents(): void {
+    this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+      this._ngZone.run(() => {
+        if (retro.currentPage == "/finish") {
+          localStorage.removeItem('currentUser');
+          this.userService.currentUserSetValue(null);
+          this.router.navigate(['/login']);
+          $.notify(
+            {
+              icon: "ti-gift",
+              message: "Retro tamamlandı. Üyelerin sistemden cıkışı sağlandı",
+            },
+            {
+              type: "danger",
+              timer: 4000,
+              placement: {
+                from: "top",
+                align: "right",
+              },
+              template:
+                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
+            }
+          );
+        }
+      })
+    });
+  }
 
   @ViewChild('content') content: ElementRef;
   public SavePDF(): void {
@@ -100,32 +129,10 @@ export class ReportComponent implements OnInit {
 
 
   ngOnInit() {
-   
-
-    if ( this.userService.hasRole("Member")) {
-      localStorage.removeItem('currentUser');
-      this.userService.currentUserSetValue(null);
-      this.router.navigate(['/login']);
-      $.notify(
-        {
-          icon: "ti-gift",
-          message: "Retro tamamlandı.",
-        },
-        {
-          type: "danger",
-          timer: 4000,
-          placement: {
-            from: "top",
-            align: "right",
-          },
-          template:
-            '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-        }
-      );
-    }
 
 
-    this.getRetroTemplate( this.retro.id);
+
+    this.getRetroTemplate(this.retro.id);
 
   }
 
@@ -147,28 +154,28 @@ export class ReportComponent implements OnInit {
   }
 
 
-  private GetHeaderCategorizedMessages(headerId){
- 
-      let filteredData=this.categorizedMessages.filter(p=>p.clientuniqueid==headerId);
+  private GetHeaderCategorizedMessages(headerId) {
+
+    let filteredData = this.categorizedMessages.filter(p => p.clientuniqueid == headerId);
     return filteredData;
   }
 
-  private GetHeaderMessage(headerId){
+  private GetHeaderMessage(headerId) {
 
-      let filteredData=this.messages.filter(p=>p.clientuniqueid==headerId);
+    let filteredData = this.messages.filter(p => p.clientuniqueid == headerId);
     return filteredData;
   }
 
-  private getRetroTemplate(retroId){
+  private getRetroTemplate(retroId) {
     this.templateService
-    .getTemplateByRetroId(retroId)
-    .pipe(first())
-    .subscribe(
-      (data) => {
-        this.template = data;
-      },
-      (error) => { }
-    );
+      .getTemplateByRetroId(retroId)
+      .pipe(first())
+      .subscribe(
+        (data) => {
+          this.template = data;
+        },
+        (error) => { }
+      );
   }
 
   private getMessage(retroId) {
@@ -178,12 +185,12 @@ export class ReportComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          this.messages = data.filter(p=>p.voteCount==0);
-          this.categorizedMessages=data.filter(p=>p.voteCount>0);
+          this.messages = data.filter(p => p.voteCount == 0);
+          this.categorizedMessages = data.filter(p => p.voteCount > 0);
 
-          if(this.categorizedMessages.length>10){
-            let  overdata =this.categorizedMessages.slice(11,this.categorizedMessages.length);
-            this.categorizedMessages=this.categorizedMessages.slice(0,10);;
+          if (this.categorizedMessages.length > 10) {
+            let overdata = this.categorizedMessages.slice(11, this.categorizedMessages.length);
+            this.categorizedMessages = this.categorizedMessages.slice(0, 10);;
             this.messages.push(...overdata);
 
           }
@@ -221,8 +228,26 @@ export class ReportComponent implements OnInit {
 
 
 
+  finishRetro() {
 
+    if (this.userService.hasRole("Leader")) {
+
+      let retro = new Retro();
+      retro.id = this.retro.id;
+      retro.state = 3;
+      retro.currentPage = "/finish"
+      this.chatService.setCurrentRetro(retro);
+    }
+  }
 
 
 
 }
+
+
+
+
+
+
+
+

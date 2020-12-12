@@ -6,6 +6,7 @@ import { environment } from "../../environments/environment";
 import { EndPoints } from "./end-points";
 import { Subject } from "../models/subject";
 import { isNullOrUndefined } from "util";
+import { SubjectFilter } from "app/models/dto/subject-filter";
 
 @Injectable()
 export class SubjectsService {
@@ -55,11 +56,11 @@ export class SubjectsService {
   }
 
 
-  getAllSubject(id:any) {
-    return this.baseService.list<Subject>(
-      "",
+  getAllSubject(filter:SubjectFilter) {
+    return this.baseService.listpost<Subject>(
+      filter,
       environment.serverBaseUrl,
-      EndPoints.SUBJECT+'/GetListByCompany/'+id
+      EndPoints.SUBJECT+'/GetListByFilter'
     );
   }
 }

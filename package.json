@@ -65,6 +65,7 @@
     "jspdf": "^2.1.1",
     "jvectormap": "2.0.4",
     "jw-bootstrap-switch-ng2": "1.0.10",
+    "loadash": "^1.0.0",
     "moment": "^2.29.1",
     "ngx-chips": "^1.9.2",
     "ngx-spinner": "7.2.0",

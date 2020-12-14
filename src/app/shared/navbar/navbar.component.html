@@ -69,16 +69,15 @@
           >
             <i class="nc-icon nc-bell-55"></i>
             <p>
-              <span class="d-lg-none d-md-block">Bildirimler</span>
+              <span class="d-lg-none d-md-block">Bildirimler</span><span *ngIf="announcements.length>0">({{announcements.length}})</span>
             </p>
           </a>
           <div
+           
             class="dropdown-menu dropdown-menu-right"
             aria-labelledby="navbarDropdownMenuLink"
           >
-            <a class="dropdown-item" href="#">Lorem Ipsum, dizgi ve baskı endüstrisinde kullanılan mıgır metinlerdir.</a>
-            <a class="dropdown-item" href="#">Yaygın inancın tersine, Lorem Ipsum rastgele sözcüklerden oluşmaz.</a>
-            <a class="dropdown-item" href="#">Yinelenen bir sayfa içeriğinin okuyucunun dikkatini dağıttığı bilinen bir gerçektir. </a>
+            <a class="dropdown-item announ-detail"  *ngFor="let item of announcements">{{item.contentText}} </a>
            
           </div>
         </li>

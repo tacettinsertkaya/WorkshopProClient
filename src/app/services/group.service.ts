@@ -53,4 +53,12 @@ export class GroupService {
       EndPoints.GROUP+'/GetByFilterList'
     );
   }
+
+  getReset(filter) {
+    return this.baseService.listpost<GroupDto>(
+      filter,
+      environment.serverBaseUrl,
+      EndPoints.GROUP+'/GroupReset'
+    );
+  }
 }

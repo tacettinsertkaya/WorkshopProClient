@@ -11,6 +11,7 @@ import { UserService } from 'app/services/user.service';
 import { Retro } from 'app/models/retro';
 import { CompanyService } from 'app/services/company.service';
 import { Company } from 'app/models/company';
+import { TemplateFilter } from 'app/models/dto/template-filter';
 
 declare var $: any;
 
@@ -233,12 +234,13 @@ export class TemplatesComponent implements OnInit {
   }
 
   getTemplateList() {
-   let companyId = this.authService.currentUserValue.companyId;
+   let filter=new TemplateFilter();
+   filter.companyId=this.authService.currentUserValue.companyId;
 
     this.templateService
-      .getAllTemplate(companyId)
+      .getAllTemplate(filter)
       .pipe(first())
-      .subscribe(
+      .subscribe( 
         (res) => {
           this.templates = res;
         },
@@ -299,6 +301,9 @@ export class TemplatesComponent implements OnInit {
 
     this.data.templateDetail = this.headers;
     this.data.templateName = new Date().getTime().toString();
+    this.data.createRole='Admin';
+    this.data.userId=this.authService.currentUserValue.userId;
+
     this.templateService
       .create(this.data)
       .pipe(first())

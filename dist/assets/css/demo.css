@@ -2,6 +2,16 @@
   margin-bottom: 20px;
 }
 
+.announ-detail{
+  max-width: 400px !important;
+  width: 400px !important;
+  font-size: 12px !important;
+  word-break: break-all !important;
+  white-space: normal !important;
+  border-bottom: 1px solid #ccc !important;
+}
+
+
 .input-inside-button{
   position: absolute;
   top: 0;

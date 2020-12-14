@@ -40,7 +40,7 @@
 
 
   </ul>
-  <ul class="nav online-user" *ngIf="users.length>0 && isLeader()" >
+  <ul class="nav online-user" *ngIf="users.length>0" >
 
     <div style="max-height:50vh; overflow-y: scroll;">
       <div *ngFor="let user of users">
@@ -60,17 +60,7 @@
   </ul>
 
   <div class="nav online-user" style="bottom:10px;padding: 10px;" *ngIf="currentRetro">
-    <div *ngIf="announcements.length>0" style="max-height:50vh; overflow-y: scroll;">
-      <div *ngFor="let item of announcements">
-
-        <div class="card  p-3  w-100">
-          <p>{{item.contentText}} </p>
-       
-        </div>
-
-
-      </div>
-    </div>
+   
     <div class="row" *ngIf="isLeader()">
       <div class="col-sm-12">
         <textarea rows="5" (keydown.enter)="sendAnnouncement()"   #titleInput style="width: 100%;">

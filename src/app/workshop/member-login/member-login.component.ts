@@ -307,7 +307,7 @@ export class MemberLoginComponent implements OnInit {
 
         },
         (error)=>{
-          this.errorMessage="Bu takma daha önce alınmıştır.Lütfen farklı bir takma ad deneyiniz.";
+          this.errorMessage="Bu takma ad daha önce alınmıştır.Lütfen farklı bir takma ad deneyiniz.";
         }
         
         );

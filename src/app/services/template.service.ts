@@ -7,6 +7,7 @@ import { EndPoints } from "./end-points";
 import { Template } from "../models/template";
 import { isNullOrUndefined } from "util";
 import { TemplateDetail } from "app/models/template-detail";
+import { TemplateFilter } from "app/models/dto/template-filter";
 
 @Injectable()
 export class TemplateService {
@@ -57,11 +58,11 @@ export class TemplateService {
     );
   }
 
-  getAllTemplate(companyId) {
-    return this.baseService.list<Template>(
-      "",
+  getAllTemplate(filter:TemplateFilter) {
+    return this.baseService.listpost<Template>(
+      filter,
       environment.serverBaseUrl,
-      EndPoints.TEMPLATE+'/GetListByCompany/'+companyId
+      EndPoints.TEMPLATE+'/GetListByFilter'
     );
   }
 }

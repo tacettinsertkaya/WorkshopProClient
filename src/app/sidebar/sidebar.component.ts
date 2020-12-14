@@ -263,6 +263,7 @@ export class SidebarComponent {
   private subscribeToEvents(): void {
     this.chatService.onlineUserReceived.subscribe((data: Array<string>) => {
       this._ngZone.run(() => {
+        console.log("this.onlineUser",this.onlineUser);
         this.onlineUser = data;
         this.getAllUser();
       });

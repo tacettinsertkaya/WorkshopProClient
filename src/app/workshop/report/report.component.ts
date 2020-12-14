@@ -23,6 +23,10 @@ import { NgxSpinnerService } from "ngx-spinner";
 import { TemplateService } from "app/services/template.service";
 import { Template } from "app/models/template";
 import { UserService } from "app/services/user.service";
+import { Company } from "app/models/company";
+import { CompanyService } from "app/services/company.service";
+import { GroupService } from "app/services/group.service";
+import { GroupFilter } from "app/models/dto/group-filter";
 
 declare var $: any;
 
@@ -49,6 +53,7 @@ export class ReportComponent implements OnInit {
 
   public showOverlay = true;
 
+  currentCompany: Company;
 
   template: Template = new Template();
 
@@ -57,8 +62,10 @@ export class ReportComponent implements OnInit {
     private _ngZone: NgZone,
     private router: Router,
     private chatService: ChatService,
+    private groupService: GroupService,
     private userService: UserService,
     private messageService: MessageService,
+    private companyService: CompanyService,
     private retroConfigurationService: RetroConfigurationService,
     private subjectService: SubjectsService,
     private categoryService: CategoryService,
@@ -81,6 +88,10 @@ export class ReportComponent implements OnInit {
 
   }
 
+  isLeader() {
+    return this.userService.hasRole("Leader");
+
+  }
 
   private subscribeToCurrentRetroEvents(): void {
     this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
@@ -88,6 +99,7 @@ export class ReportComponent implements OnInit {
         if (retro.currentPage == "/finish") {
           localStorage.removeItem('currentUser');
           this.userService.currentUserSetValue(null);
+          this.chatService.userOffline();
           this.router.navigate(['/login']);
           $.notify(
             {
@@ -129,8 +141,9 @@ export class ReportComponent implements OnInit {
 
 
   ngOnInit() {
-
-
+    if (this.isLeader()) {
+      this.currentCompany = this.userService.currentUserValue.company;
+    }
 
     this.getRetroTemplate(this.retro.id);
 
@@ -230,14 +243,34 @@ export class ReportComponent implements OnInit {
 
   finishRetro() {
 
-    if (this.userService.hasRole("Leader")) {
+    if (this.isLeader()) {
 
-      let retro = new Retro();
-      retro.id = this.retro.id;
-      retro.state = 3;
-      retro.currentPage = "/finish"
-      this.chatService.setCurrentRetro(retro);
+
+      this.currentCompany.retroCount = this.currentCompany.retroCount - 1;
+      this.updateCompany(this.currentCompany);
     }
+  }
+
+  updateCompany(company: Company) {
+    this.companyService.update(company).pipe().subscribe((res) => {
+
+      let currentUser = this.userService.currentUserValue;
+      currentUser.company = res;
+      this.userService.currentUserSetValue(currentUser);
+      
+      let filter = new GroupFilter();
+      filter.companyId = this.userService.currentUserValue.companyId;
+      filter.leaderId = this.userService.currentUserValue.userId;
+      this.groupService.getReset(filter).pipe().subscribe((res) => {
+
+        let retro = new Retro();
+        retro.id = this.retro.id;
+        retro.state = 3;
+        retro.currentPage = "/finish"
+        this.chatService.setCurrentRetro(retro);
+
+      });
+    });
   }
 
 

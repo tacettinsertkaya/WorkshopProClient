@@ -37,7 +37,8 @@ export class RetrospectivesInitComponent implements OnInit {
   selectSubject: Subject = null;
   isShow: boolean = false;
   retroRight: UserRight = new UserRight();
-  isFailed=false;
+  isFailed = false;
+  isRetroFailed = false;
   categorizedMessages = new Array<CategorizedMessage>();
   groups: Array<GroupDto> = [];
 
@@ -73,18 +74,64 @@ export class RetrospectivesInitComponent implements OnInit {
         this.router.navigate(["/retro", id]);
     }
 
-    this.getFilterGroup();
+
+    if (this.isLeader()) {
+      this.getFilterGroup();
+      this.isCheckCompanyRetroRight();
+    }
+  }
+
+  isCheckFailed(){
+
+    return this.isFailed || this.isRetroFailed;
+  }
+
+
+  isCheckCompanyRetroRight() {
+    var userValue = this.authService.currentUserValue;
+
+    this.companyService
+      .getCompany(userValue.companyId)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+            let company=res;
+          if (company.retroCount <= 0) {
+            this.isRetroFailed = true;
+            swal(
+              {
+                title: 'Uyarı!',
+                text: 'Şirketinize ait  retro hakkı bulunmamaktadır.',
+                type: 'warning',
+                showConfirmButton: false,
+                timer: 4000,
+                buttonsStyling: false
+              }
+            )
+          }
+          else {
+            this.isRetroFailed = false;
+          }
+        });
+
+
+  }
+
+
+  isLeader() {
+    return this.authService.hasRole("Leader");
+
   }
 
   getFilterGroup() {
     let filter = new GroupFilter();
     filter.companyId = this.authService.currentUserValue.companyId;
-    filter.leaderId=this.authService.currentUserValue.userId;
-    filter.state=0;
+    filter.leaderId = this.authService.currentUserValue.userId;
+    filter.state = 0;
     this.getAllGroup(filter);
   }
 
-  
+
   getAllGroup(filter) {
 
 
@@ -93,26 +140,26 @@ export class RetrospectivesInitComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (res) => {
-          this.groups = res.filter(p=>p.group.state==0 || p.group.state==1);
-          
-          if(this.groups.length<=0){
-            this.isFailed=true;
+          this.groups = res;
+
+          if (this.groups.length <= 0) {
+            this.isFailed = true;
             swal(
               {
                 title: 'Uyarı!',
-                text: 'Retro hakkınız bulunmamaktadır.',
+                text: 'Atanmış bir retro grubunuz bulunmamaktadır.',
                 type: 'warning',
-                showConfirmButton:false,
-                timer:4000,
+                showConfirmButton: false,
+                timer: 4000,
                 buttonsStyling: false
               }
             )
           }
-          else{
-            this.isFailed=false;
+          else {
+            this.isFailed = false;
           }
 
-          
+
         },
         (error) => {
           $.notify(
@@ -167,12 +214,12 @@ export class RetrospectivesInitComponent implements OnInit {
 
   updateGroup(group: Group) {
     this.groupService
-    .update(group)
-    .pipe(first())
-    .subscribe(
-      (res) => {
-    
-      });
+      .update(group)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+
+        });
   }
 
   saveConfig() {
@@ -220,8 +267,8 @@ export class RetrospectivesInitComponent implements OnInit {
           retro.currentPage = "/retro"
           this.chatService.setCurrentRetro(retro);
           this.chatService.getAllUserRights(retro);
-          
-          this.groups[0].group.state=1;
+
+          this.groups[0].group.state = 1;
 
           this.updateGroup(this.groups[0].group);
 

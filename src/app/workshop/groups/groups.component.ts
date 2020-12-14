@@ -138,8 +138,8 @@ export class GroupsComponent implements OnInit {
       .subscribe(
         (res) => {
           this.getFilterGroup();
-          this.currentCompany.retroCount = this.currentCompany.retroCount + 1;
-          this.updateRetro(this.currentCompany);
+          // this.currentCompany.retroCount = this.currentCompany.retroCount + 1;
+          // this.updateCompany(this.currentCompany);
 
           $.notify(
             {
@@ -236,7 +236,7 @@ export class GroupsComponent implements OnInit {
   }
 
 
-  updateRetro(company: Company) {
+  updateCompany(company: Company) {
     this.companyService.update(company).pipe().subscribe((res) => {
       $.notify(
         {
@@ -279,8 +279,8 @@ export class GroupsComponent implements OnInit {
               this.group.groupName = "";
               this.group.leaderId = "";
 
-              this.currentCompany.retroCount = this.currentCompany.retroCount - 1;
-              this.updateRetro(this.currentCompany);
+              // this.currentCompany.retroCount = this.currentCompany.retroCount - 1;
+              // this.updateRetro(this.currentCompany);
 
               this.getFilterGroup();
               $("#userModal").modal("hide");

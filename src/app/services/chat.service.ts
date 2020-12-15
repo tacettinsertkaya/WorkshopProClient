@@ -1,5 +1,5 @@
 import { EventEmitter, Injectable } from "@angular/core";
-import { HubConnection, HubConnectionBuilder } from "@aspnet/signalr";
+import { HubConnection, HubConnectionBuilder, LogLevel } from "@aspnet/signalr";
 import { Message } from "../models/message";
 import { Comment } from "../models/comment";
 import { environment } from "../../environments/environment";
@@ -47,6 +47,7 @@ export class ChatService {
     this.onlineUserOnServerEvents();
     this.offlineUserOnServerEvents();
     this.retroAnnouncementOnServerEvents();
+    this.closeConnection();
     this.startConnection();
   }
 
@@ -55,6 +56,7 @@ export class ChatService {
     
       this._hubConnection = new HubConnectionBuilder()
         .withUrl(environment.serverBaseUrl+ "/MessageHub")
+        .configureLogging(LogLevel.Information)
         .build();
   }
 
@@ -75,8 +77,19 @@ export class ChatService {
         }, 5000);
       });
 
-
+      
   }
+
+ private async closeConnection(): Promise<void>{
+    this._hubConnection.onclose(() => { 
+      setTimeout(function(){
+              this.startConnection();
+         },3000); 
+     }); 
+  }
+
+  
+
 
 
   userOnline() {

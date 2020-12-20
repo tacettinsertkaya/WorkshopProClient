@@ -132,7 +132,7 @@ export class UserService {
 
   // tslint:disable-next-line: typedef
   delete(id: number) {
-    return this.baseService.delete(
+    return this.baseService.get(
       id,
       environment.serverBaseUrl,
       EndPoints.USERS + '/deleteUser'

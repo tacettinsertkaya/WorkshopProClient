@@ -31,7 +31,7 @@ export class GroupService {
 
   delete(id: any) {
    
-    return this.baseService.delete(
+    return this.baseService.get(
       id,
       environment.serverBaseUrl,
       EndPoints.GROUP + "/Delete"

@@ -131,6 +131,7 @@ export class GroupsComponent implements OnInit {
     filter.companyId = this.userService.currentUserValue.companyId;
     this.getAllGroup(filter);
   }
+  
   removeGroup(group: Group) {
     this.groupService
       .delete(group.id)

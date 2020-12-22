@@ -97,9 +97,10 @@ export class ReportComponent implements OnInit {
     this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
       this._ngZone.run(() => {
         if (retro.currentPage == "/finish") {
+          this.chatService.userOffline();
+
           localStorage.removeItem('currentUser');
           this.userService.currentUserSetValue(null);
-          this.chatService.userOffline();
           this.router.navigate(['/login']);
           $.notify(
             {
@@ -248,6 +249,8 @@ export class ReportComponent implements OnInit {
 
       this.currentCompany.retroCount = this.currentCompany.retroCount - 1;
       this.updateCompany(this.currentCompany);
+
+
     }
   }
 

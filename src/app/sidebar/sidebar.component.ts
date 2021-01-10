@@ -7,6 +7,7 @@ import {
   AfterContentInit,
   ViewChild,
   ElementRef,
+  ChangeDetectorRef,
 } from "@angular/core";
 import { NgZone } from "@angular/core";
 
@@ -21,6 +22,8 @@ import * as _ from 'lodash';
 import { RetroAnnouncement } from "app/models/retro-announcement";
 import { Retro } from "app/models/retro";
 import { SharedService } from "app/services/shared.service";
+import { environment } from "../../environments/environment";
+import { ClipboardService } from "ngx-clipboard";
 
 //Metadata
 export interface RouteInfo {
@@ -192,15 +195,26 @@ export const ROUTES: RouteInfo[] = [
   templateUrl: "sidebar.component.html",
 })
 export class SidebarComponent {
+
   constructor(private router: Router,
     private authService: UserService,
     private sharedService: SharedService,
+    private _clipboardService: ClipboardService,
+    private cdr: ChangeDetectorRef,
     private chatService: ChatService, private _ngZone: NgZone,
   ) {
 
     this.subscribeToEvents();
     this.subscribeRetroAnnouncementToEvents();
     this.subscribeToCurrentRetroEvents();
+
+    this.sharedService.currentRetro.subscribe((retro: any) => {
+      console.log("retro",retro);
+      if (retro) {
+        this.currentRetro = retro;
+        this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
+      }
+    });
   }
 
   @ViewChild("titleInput") titleInput: ElementRef;
@@ -210,6 +224,7 @@ export class SidebarComponent {
   announcements: Array<RetroAnnouncement> = [];
   contentText: string = '';
   currentRetro: Retro;
+  inviteLink: string = "";
   isNotMobileMenu() {
     if (window.outerWidth > 991) {
       return false;
@@ -217,7 +232,10 @@ export class SidebarComponent {
     return true;
   }
 
+  ngAfterViewInit() {
 
+    this.cdr.detectChanges();
+  }
 
   get isAuthorized() {
     return this.authService.isAuthorized();
@@ -256,14 +274,38 @@ export class SidebarComponent {
     }
 
     this.currentRetro = this.sharedService.currentRetroValue;
+    console.log("xxxx",this.currentRetro);
 
+  }
+
+
+
+  copyLink() {
+    this._clipboardService.copyFromContent(this.inviteLink)
+
+    $.notify(
+      {
+        icon: "ti-info",
+        message: "Davet linki başarılı bir kopyalandı.",
+      },
+      {
+        type: "info",
+        timer: 4000,
+        placement: {
+          from: "top",
+          align: "right",
+        },
+        template:
+          '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
+      }
+    );
   }
 
 
   private subscribeToEvents(): void {
     this.chatService.onlineUserReceived.subscribe((data: Array<string>) => {
       this._ngZone.run(() => {
-        console.log("this.onlineUser",this.onlineUser);
+        console.log("this.onlineUser", this.onlineUser);
         this.onlineUser = data;
         this.getAllUser();
       });
@@ -273,7 +315,7 @@ export class SidebarComponent {
   private subscribeRetroAnnouncementToEvents(): void {
     this.chatService.announcementReceived.subscribe((data: RetroAnnouncement) => {
       this._ngZone.run(() => {
-       
+
         if (this.currentRetro) {
           if (data.retroId == this.currentRetro.id)
             this.announcements.push(data);
@@ -296,16 +338,16 @@ export class SidebarComponent {
 
 
   sendAnnouncement() {
-    let context= this.titleInput.nativeElement.value;
-    if(context){
-    let data = new RetroAnnouncement();
-    data.contentText = this.titleInput.nativeElement.value;
-    data.retroId = this.currentRetro.id;
-    data.userId = this.authService.currentUserValue.userId;
+    let context = this.titleInput.nativeElement.value;
+    if (context) {
+      let data = new RetroAnnouncement();
+      data.contentText = this.titleInput.nativeElement.value;
+      data.retroId = this.currentRetro.id;
+      data.userId = this.authService.currentUserValue.userId;
 
-    this.chatService.setRetroAnnouncement(data);
-    this.contentText = '';
-    this.titleInput.nativeElement.value = '';
+      this.chatService.setRetroAnnouncement(data);
+      this.contentText = '';
+      this.titleInput.nativeElement.value = '';
     }
   }
 
@@ -314,6 +356,7 @@ export class SidebarComponent {
     this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
       this._ngZone.run(() => {
         this.currentRetro = retro;
+        this.sharedService.currentRetro.next(retro);
       })
     });
   }

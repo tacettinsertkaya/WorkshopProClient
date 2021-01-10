@@ -44,7 +44,7 @@ export class RetrospectivesComponent implements OnInit {
   isComment: boolean = false;
   isUser: boolean = false;
   retroRights: UserRight = new UserRight();
-  editmode:boolean=false;
+  editmode: boolean = false;
   groups: Array<GroupDto> = [];
 
 
@@ -124,16 +124,16 @@ export class RetrospectivesComponent implements OnInit {
       }
 
       if (".idea-archive" == tab) {
-        if(this.authService.hasRole("Leader")){
+        if (this.authService.hasRole("Leader")) {
           this.getFilterGroup();
         }
       }
- 
 
 
 
 
-   console.log("tab",tab);
+
+
 
       $(tab).click();
       $(".tab-progress").find(".nav-item").removeClass("active");
@@ -144,16 +144,17 @@ export class RetrospectivesComponent implements OnInit {
 
     });
 
-  
+
     this.sharedService.selectSubject.subscribe((subject: any) => {
 
       this.selectSubject = subject;
     });
 
     this.sharedService.currentRetro.subscribe((retro: any) => {
-      this.currentRetro = retro;
-      this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
-
+      if (retro) {
+        this.currentRetro = retro;
+        this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
+      }
     });
 
 
@@ -183,9 +184,9 @@ export class RetrospectivesComponent implements OnInit {
   }
 
 
-  changeTab(tab){
-    console.log("tab",tab);
-    
+  changeTab(tab) {
+    console.log("tab", tab);
+
     $(tab).click();
     $(".tab-progress").find(".nav-item").removeClass("active");
 
@@ -195,19 +196,19 @@ export class RetrospectivesComponent implements OnInit {
   getFilterGroup() {
     let filter = new GroupFilter();
     filter.companyId = this.authService.currentUserValue.companyId;
-    filter.leaderId=this.authService.currentUserValue.userId;
-    filter.state=0;
+    filter.leaderId = this.authService.currentUserValue.userId;
+    filter.state = 0;
     this.getAllGroup(filter);
   }
 
   updateGroup(group: Group) {
     this.groupService
-    .update(group)
-    .pipe(first())
-    .subscribe(
-      (res) => {
-    
-      });
+      .update(group)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+
+        });
   }
 
   getAllGroup(filter) {
@@ -220,15 +221,15 @@ export class RetrospectivesComponent implements OnInit {
         (res) => {
           this.groups = res;
 
-          if(this.groups.length>0){
-          
-            this.groups[0].group.state=2;
+          if (this.groups.length > 0) {
+
+            this.groups[0].group.state = 2;
 
             this.updateGroup(this.groups[0].group);
           }
-         
 
-          
+
+
         },
         (error) => {
           $.notify(

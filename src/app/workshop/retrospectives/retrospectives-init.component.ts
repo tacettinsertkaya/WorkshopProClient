@@ -190,6 +190,7 @@ export class RetrospectivesInitComponent implements OnInit {
   private subscribeToCurrentRetroEvents(): void {
     this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
       this._ngZone.run(() => {
+      
         this.sharedService.currentRetro.next(retro);
 
 

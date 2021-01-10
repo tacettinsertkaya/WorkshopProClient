@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 import { SidebarComponent } from './sidebar.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { ClipboardModule } from 'ngx-clipboard';
 
 @NgModule({
-    imports: [ RouterModule, CommonModule, NgbModule ],
+    imports: [ RouterModule, CommonModule, NgbModule,ClipboardModule ],
     declarations: [ SidebarComponent ],
     exports: [ SidebarComponent ]
 })

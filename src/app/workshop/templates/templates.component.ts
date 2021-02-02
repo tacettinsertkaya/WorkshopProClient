@@ -12,6 +12,7 @@ import { Retro } from 'app/models/retro';
 import { CompanyService } from 'app/services/company.service';
 import { Company } from 'app/models/company';
 import { TemplateFilter } from 'app/models/dto/template-filter';
+import { AlertifyService } from 'app/services/alertify.service';
 
 declare var $: any;
 
@@ -46,6 +47,7 @@ export class TemplatesComponent implements OnInit {
     private companyService:CompanyService,
     private templateDetailService: TemplateDetailService,
     private sharedService: SharedService,
+    private alertifyService: AlertifyService,
     private chatService: ChatService,
     private _ngZone: NgZone,
     private authService: UserService,
@@ -81,22 +83,7 @@ export class TemplatesComponent implements OnInit {
         this.companys = res;
       },
       (error) => {
-        $.notify(
-          {
-            icon: "ti-gift",
-            message: "İşlem sırasında hata oluştu.",
-          },
-          {
-            type: "danger",
-            timer: 4000,
-            placement: {
-              from: "top",
-              align: "right",
-            },
-            template:
-              '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-          }
-        );
+       this.alertifyService.error();
       }
     );
 }
@@ -120,25 +107,11 @@ export class TemplatesComponent implements OnInit {
       .subscribe(
         (res) => {
           this.template = res;
-          $('#templateEditModal').modal('show');
+          console.log(" this.template", this.template);
+          $('#editModal').modal('show');
         },
         (error) => {
-          $.notify(
-            {
-              icon: 'ti-gift',
-              message: 'İşlem sırasında hata oluştu.',
-            },
-            {
-              type: 'danger',
-              timer: 4000,
-              placement: {
-                from: 'top',
-                align: 'right',
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error();
         }
       );
   }
@@ -149,41 +122,11 @@ export class TemplatesComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (res) => {
-          $.notify(
-            {
-              icon: 'ti-gift',
-              message: 'İşlem başarılı bir şekilde gerçekleşti.',
-            },
-            {
-              type: 'success',
-              timer: 4000,
-              placement: {
-                from: 'top',
-                align: 'right',
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.success();
           this.getTemplateList();
         },
         (error) => {
-          $.notify(
-            {
-              icon: 'ti-gift',
-              message: 'İşlem sırasında hata oluştu.',
-            },
-            {
-              type: 'danger',
-              timer: 4000,
-              placement: {
-                from: 'top',
-                align: 'right',
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error();
         }
       );
   }
@@ -245,22 +188,7 @@ export class TemplatesComponent implements OnInit {
           this.templates = res;
         },
         (error) => {
-          $.notify(
-            {
-              icon: 'ti-gift',
-              message: 'İşlem sırasında hata oluştu.',
-            },
-            {
-              type: 'danger',
-              timer: 4000,
-              placement: {
-                from: 'top',
-                align: 'right',
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error();
         }
       );
   }
@@ -294,7 +222,9 @@ export class TemplatesComponent implements OnInit {
   }
 
   removeUpdateHeader(i: number) {
+    console.log(" this.template", this.template);
     this.template.templateDetail.splice(i, 1);
+    console.log(" this.template2", this.template);
   }
 
   saveTemplate() {
@@ -309,22 +239,7 @@ export class TemplatesComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (res) => {
-          $.notify(
-            {
-              icon: 'ti-gift',
-              message: 'İşlem başarılı bir şekilde gerçekleşti.',
-            },
-            {
-              type: 'success',
-              timer: 4000,
-              placement: {
-                from: 'top',
-                align: 'right',
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.success();
           this.getTemplateList();
           this.headers = [
             {
@@ -333,25 +248,10 @@ export class TemplatesComponent implements OnInit {
             },
           ];
 
-          $('#templateModal').modal('hide');
+          $('#addModal').modal('hide');
         },
         (error) => {
-          $.notify(
-            {
-              icon: 'ti-gift',
-              message: 'İşlem sırasında hata oluştu.',
-            },
-            {
-              type: 'danger',
-              timer: 4000,
-              placement: {
-                from: 'top',
-                align: 'right',
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error();
         }
       );
   }
@@ -363,7 +263,7 @@ export class TemplatesComponent implements OnInit {
       .delete(templateId)
       .pipe(first())
       .subscribe((res) => {
-
+        this.data.templateDetail=[];
         this.data.templateName = this.template.templateName;
         this.template.templateDetail.forEach((item) => {
           let detail = new TemplateDetail();
@@ -378,22 +278,7 @@ export class TemplatesComponent implements OnInit {
           .pipe(first())
           .subscribe(
             (res) => {
-              $.notify(
-                {
-                  icon: 'ti-gift',
-                  message: 'İşlem başarılı bir şekilde gerçekleşti.',
-                },
-                {
-                  type: 'success',
-                  timer: 4000,
-                  placement: {
-                    from: 'top',
-                    align: 'right',
-                  },
-                  template:
-                    '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-                }
-              );
+              this.alertifyService.success();
               this.getTemplateList();
               this.headers = [
                 {
@@ -402,25 +287,10 @@ export class TemplatesComponent implements OnInit {
                 },
               ];
 
-              $('#templateEditModal').modal('hide');
+              $('#editModal').modal('hide');
             },
             (error) => {
-              $.notify(
-                {
-                  icon: 'ti-gift',
-                  message: 'İşlem sırasında hata oluştu.',
-                },
-                {
-                  type: 'danger',
-                  timer: 4000,
-                  placement: {
-                    from: 'top',
-                    align: 'right',
-                  },
-                  template:
-                    '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-                }
-              );
+              this.alertifyService.error();
             }
           );
       });

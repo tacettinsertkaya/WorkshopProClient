@@ -1,0 +1,52 @@
+@import "../abstracts/variables";
+
+$report-title-fontsize-list: ("xs": 1rem, "sm": 1.25rem, "md": 1.5rem, "lg": 1.75rem, "xl": 2rem);
+
+.report-header {
+  margin: 2rem auto;
+
+  &__title,
+  &__description {
+    display: block;
+    text-align: center;
+  }
+
+  &__title {
+    margin-bottom: 1rem;
+    font-weight: 500;
+    text-transform: uppercase;
+    font-size: 2rem;
+    color: $color-theme;
+
+    @each $name, $value in $report-title-fontsize-list {
+      &--#{$name} {
+        font-size: $value;
+      }
+    }
+  }
+
+  &__description {
+    color: $color-gray-darker;
+  }
+}
+
+
+.report-section {
+
+  &__title {
+    font-size: 1.75rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+  }
+
+  &__subtitle {
+    font-size: 1.5rem;
+    font-weight: 500;
+    color: $color-gray-darker;
+    margin-left: 1rem;
+  }
+
+  &__content {
+    margin-left: 1rem;
+  }
+}

@@ -1,173 +1,89 @@
-<div class="main-content">
-  <div class="row">
-    <div class="col-md-12 ml-auto mr-auto">
-      <div class="card">
-        <div class="card-header">
-          <div class="row">
-            <div class="col-sm-6">
-              <h4 class="card-title float-left">Konular</h4>
-            </div>
-            <div class="col-sm-6">
-              <button
-               
-                type="button"
-                data-toggle="modal"
-                data-target="#subjectModal"
-                class="btn btn-round btn-primary float-right btn-create"
-              >
-                Konu Ekle
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="toolbar"></div>
-          <table
-            id="datatable"
-            class="table table-striped table-bordered"
-            cellspacing="0"
-            width="100%"
-          >
-            <thead>
-              <tr>
-                <th>Konu</th>
-
-                <th>İşlemler</th>
-              </tr>
-            </thead>
-           
-            <tbody>
-              <tr *ngFor="let row of subjects">
-                <td>{{ row.subjectTitle }}</td>
-
-                <td>
-                  <button
-                    (click)="editSubject(row.id)"
-                    type="button"
-                    class="btn btn-warning btn-icon btn-sm edit mr-1"
-                  >
-                    <i class="fa fa-pencil fa-2x"></i>
-                  </button>
-                  <button
-                    (click)="
-                      showSwal(
-                        'warning-message-and-confirmation-delete',
-                        row.id
-                      )
-                    "
-                    type="button"
-                    class="btn btn-danger btn-icon btn-sm remove"
-                  >
-                    <i class="fa fa-trash fa-2x"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- end content-->
-      </div>
-    </div>
+<div class="row   mb-3">
+  <div class="col-sm-6">
+    <h3 class="float-left">Konular</h3>
+  </div>
+  <div class="col-sm-6">
+    <button class=" float-right btn btn-theme btn-horizontal-padding btn-vertical-padding" data-toggle="modal"
+      data-target="#addModal"> Konu Ekle </button>
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="subjectModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="ModalLabel"
-  aria-hidden="true"
->
-  <form
-    #templateForm="ngForm"
-    class="container mt-3"
-    (ngSubmit)="saveSubject()"
-  >
-    <div class="modal-dialog modal-lg">
+
+<div class="card card-theme">
+  <div class="table-responsive">
+    <table class="table w-100 table-theme">
+      <thead>
+        <tr>
+          <th>Konu</th>
+
+          <th>İşlemler</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of subjects">
+          <td>{{ row.subjectTitle }}</td>
+          <td>
+            <button class="btn btn-default btn-icon-theme" (click)="editSubject(row.id)"><i
+                class="fa fa-edit"></i></button>
+            <button class="btn btn-default btn-icon-theme" (click)="
+          showSwal(
+            'warning-message-and-confirmation-delete',
+            row.id
+          )
+        "><i class="fa fa-trash"></i></button>
+          </td>
+        </tr>
+
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <form #templateForm="ngForm" (ngSubmit)="saveSubject()">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header justify-content-center">
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <i class="nc-icon nc-simple-remove"></i>
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"> {{ isUpdate ? "Konu Güncelle" : "Konu Ekle" }} </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="title title-up">
-            {{ isUpdate ? "Konu Güncelle" : "Konu Ekle" }}
-          </h4>
         </div>
         <div class="modal-body">
-          <div class="row">
-            <div class="col-sm-12">
-             <div class="form-group">
-               <label>Şirket</label>
-               <select class="form-control" disabled  [(ngModel)]="subject.companyId"  [ngModelOptions]="{ standalone: true }">
-                      <option value="" selected>Şirket Seçiniz</option>
-                      <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
-                    
-               </select>
 
-             </div>
+          <div class="form-group">
+            <label>Şirket</label>
+            <select class="form-control" disabled [(ngModel)]="subject.companyId"
+              [ngModelOptions]="{ standalone: true }">
+              <option value="" selected>Şirket Seçiniz</option>
+              <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
 
-            </div>
-         </div>
+            </select>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Başlık</label>
-                <input
-                  style="max-height: max-content"
-                  rows="10"
-                  class="form-control textarea"
-                  [(ngModel)]="subject.subjectTitle"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </div>
-            </div>
+          </div>
+          <div class="form-group">
+            <label>Başlık</label>
+            <input style="max-height: max-content" rows="10" class="form-control textarea"
+              [(ngModel)]="subject.subjectTitle" [ngModelOptions]="{ standalone: true }" />
+          </div>
+          <div class="form-group">
+            <label>Detay</label>
+            <textarea style="max-height: max-content" rows="10" class="form-control textarea"
+              [(ngModel)]="subject.subjectDescription" [ngModelOptions]="{ standalone: true }"></textarea>
           </div>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Detay</label>
-                <textarea
-                  style="max-height: max-content"
-                  rows="10"
-                  class="form-control textarea"
-                  [(ngModel)]="subject.subjectDescription"
-                  [ngModelOptions]="{ standalone: true }"
-                ></textarea>
-              </div>
-            </div>
-          </div>
         </div>
-
-        <div class="modal-footer">
-          <div class="left-side">
-            <button
-              type="button"
-              class="btn btn-default btn-link"
-              data-dismiss="modal"
-            >
-              Vazgeç
-            </button>
-          </div>
-          <div class="divider"></div>
-          <div class="right-side">
-            <button type="submit" class="btn btn-danger btn-link">
-              Kaydet
-            </button>
-          </div>
+        <div class="modal-footer d-flex align-items-center">
+          <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
+            data-dismiss="modal">Vazgeç
+          </button>
+          <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
+            Kaydet
+          </button>
         </div>
       </div>
     </div>
   </form>
 </div>
-
-
-
-

@@ -1,0 +1,15 @@
+@import "../abstracts/variables";
+
+.template-card {
+
+  &__content {
+    min-height: 5rem;
+  }
+
+  &__title {
+    display: block;
+    font-weight: 500;
+    font-size: 1rem;
+    color: $color-gray-dark;
+  }
+}

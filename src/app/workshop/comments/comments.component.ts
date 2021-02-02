@@ -167,15 +167,15 @@ export class CommentsComponent implements OnInit {
 
 
   nextCategorize(){
-    this.sharedService.tabSource.next(".vote");
-    if(this.authService.hasRole("Leader")){
+    // this.sharedService.tabSource.next(".vote");
+    // if(this.authService.hasRole("Leader")){
     
-      let retro=new Retro();
-      retro.id=this.retroRight.retroId;
-      retro.state=2;
-      retro.currentPage="/vote"
-      this.chatService.setCurrentRetro(retro);
-     }
+    //   let retro=new Retro();
+    //   retro.id=this.retroRight.retroId;
+    //   retro.state=2;
+    //   retro.currentPage="/vote"
+    //   this.chatService.setCurrentRetro(retro);
+    //  }
   }
   private getMessage() {
 

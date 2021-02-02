@@ -1,0 +1,17 @@
+@import "../abstracts/variables";
+
+.categories {
+  .category + .category {
+    margin-top: 3rem;
+  }
+}
+
+.category {
+
+  &__title {
+    color: #212121;
+    font-size: 1.25rem;
+    font-weight: 500;
+    margin-bottom: 1.5rem;
+  }
+}

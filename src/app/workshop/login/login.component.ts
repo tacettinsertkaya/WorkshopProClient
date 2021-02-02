@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticateResponse } from '../../models/authenticate-response';
 import { ErrorMessage } from 'app/models/dto/error-message';
+import { SharedService } from 'app/services/shared.service';
 
 declare var $: any;
 @Component({
@@ -37,6 +38,7 @@ export class LoginComponent implements OnInit {
   constructor(private element: ElementRef,
     private formBuilder: FormBuilder,
     private userService: UserService,
+    private sharedService: SharedService,
     private route: ActivatedRoute,
     private router: Router,
 
@@ -129,7 +131,7 @@ export class LoginComponent implements OnInit {
             else
               this.router.navigate(['/']);
             this.loading = false;
-
+            this.sharedService.tabSource.next("");
           },
           (error) => {
           

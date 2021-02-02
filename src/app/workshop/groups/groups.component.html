@@ -1,144 +1,80 @@
-<div class="main-content">
-  <div class="row">
-    <div class="col-md-12 ml-auto mr-auto">
-      <div class="card card-plain">
-        <div class="card-body">
-          <div class="card-title">
-            <div class="row">
-              <div class="col-sm-6">
-                <h5>Gruplar</h5>
-              </div>
-              <div class="col-sm-6">
-                <button type="button" data-toggle="modal" data-target="#userModal"
-                  class="btn btn-round btn-primary float-right btn-create">
-                  Grup Ekle
-                </button>
-              </div>
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-sm-3">
-              <h6 class="text-success" *ngIf="getUserLeader()>0"> Grup Oluşturma Hakkı: {{ getUserLeader() }}  </h6>
-              <h6 class="text-danger" *ngIf="getUserLeader()<=0"> Grup Oluşturma Hakkı: {{ getUserLeader() }}  </h6>
 
-             
-            </div>
-            
-            <div class="col-sm-3">
-              
-            </div>
+<div class="d-flex justify-content-between mb-4 mt-3">
+  <!-- <h4 class="pill-title mb-0" [ngClass]="{'text-success': getUserLeader()>0, 'text-danger':getUserLeader()<=0 }">Grup
+    Oluşturma Hakkı: {{ getUserLeader() }} </h4> -->
+    <h3 class=" mb-0">Gruplar</h3>
+  <button class="btn btn-theme btn-vertical-padding btn-horizontal-padding-md" data-toggle="modal"
+    data-target="#addModal">Grup Ekle</button>
+</div>
 
-            <div class="col-sm-6">
-              
-            </div>
-          </div>
-          <div class="row">
-            <div class="col-md-3" *ngFor="let group of groups">
-              <div class="card text-center p-3">
-                <div class="card-body w-100">
-                  <h6 class="card-title">
+<div class="row">
+  <div class="col-md-4 col-sm-6 col-xs-12 mb-4" *ngFor="let group of groups">
+    <div class="card card-theme">
+      <div class="group-card">
+        <h3 class="group-card__title">{{group.group.groupName}}</h3>
+        <div class="group-card__description">{{group.leader.userName}}</div>
+        <div class="d-flex justify-content-between align-items-center">
 
-                    <p class="align-baseline" *ngIf="group.group!=null">{{group.group.groupName}} </p>
-                    <p class="align-baseline" *ngIf="group.leader!=null" >{{group.leader.userName}}  </p>
-                    <p class="align-baseline text-danger" *ngIf="group.group.state==0" > Başlamadı  </p>
-                    <p class="align-baseline text-primary" *ngIf="group.group.state==1" > Başladı  </p>
-                    <p class="align-baseline text-success" *ngIf="group.group.state>1" > Tamamlandı  </p>
-                  </h6>
-               
-
-                  <button type="button" (click)="removeGroup(group.group)" class="btn btn-danger">
-                    <i class="fa fa-trash fa-2x"></i>
-                  </button>
-                  <button type="button" (click)="editGroup(group.group)" class="btn btn-primary">
-                    <i class="fa fa-pencil fa-2x"></i>
-                  </button>
-                </div>
-              </div>
+          <span class="group-card__status text-success" *ngIf="group.group.state>1">Tamamlandı</span>
+          <span class="group-card__status text-primary" *ngIf="group.group.state==1">Başladı</span>
+          <span class="group-card__status text-danger" *ngIf="group.group.state==0">Başlamadı</span>
 
 
-            </div>
-          </div>
-
-
-          <div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
-            aria-hidden="true">
-            <form #templateForm="ngForm" class="container mt-3" (ngSubmit)="saveUser()">
-              <div class="modal-dialog modal-lg">
-                <div class="modal-content">
-                  <div class="modal-header justify-content-center">
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                      <i class="nc-icon nc-simple-remove"></i>
-                    </button>
-                    <h4 class="title title-up">
-                      {{ isUpdate ? " Admin Güncelle" : "Admin Ekle" }}
-                    </h4>
-                  </div>
-                  <div class="modal-body">
-                    <div class="form-group">
-                      <label>Şirket</label>
-                      <select class="form-control" disabled  [(ngModel)]="group.companyId"  [ngModelOptions]="{ standalone: true }">
-                             <option value="" selected>Şirket Seçiniz</option>
-                             <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
-                           
-                      </select>
-      
-                    </div>
-
-
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="form-group">
-                          <label>Group Adı</label>
-                          <input class="form-control" [(ngModel)]="group.groupName"
-                            [ngModelOptions]="{ standalone: true }" />
-                        </div>
-                      </div>
-                    </div>
-
-
-
-
-
-
-                    <div class="row">
-                      <div class="col-12">
-                        <div class="form-group">
-                          <label>Lider</label>
-
-                          <select class="form-control" [(ngModel)]="group.leaderId"
-                            [ngModelOptions]="{ standalone: true }">
-
-                            <option *ngFor="let user of users" [value]=user.id> {{user.userName}}  </option>
-
-                          </select>
-
-                        </div>
-                      </div>
-                    </div>
-
-
-
-                  </div>
-
-                  <div class="modal-footer">
-                    <div class="left-side">
-                      <button type="button" class="btn btn-default btn-link" data-dismiss="modal">
-                        Vazgeç
-                      </button>
-                    </div>
-                    <div class="divider"></div>
-                    <div class="right-side">
-                      <button type="submit" class="btn btn-danger btn-link">
-                        Kaydet
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </form>
+          <div class="group-card__actions">
+            <button class="btn btn-default btn-icon-theme" (click)="editGroup(group.group)"><i
+                class="fa fa-edit"></i></button>
+            <button class="btn btn-default btn-icon-theme" (click)="removeGroup(group.group)"><i
+                class="fa fa-trash"></i></button>
           </div>
         </div>
       </div>
     </div>
   </div>
+
+
 </div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <form #templateForm="ngForm" (ngSubmit)="saveUser()">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">{{ isUpdate ? " Grup Güncelle" : "Grup Ekle" }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+
+          <div class="form-group">
+            <label>Şirket</label>
+            <select class="form-control"  [(ngModel)]="group.companyId" [ngModelOptions]="{ standalone: true }">
+              <option value="" selected>Şirket Seçiniz</option>
+              <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
+
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Grup Adı</label>
+            <input class="form-control" [(ngModel)]="group.groupName" [ngModelOptions]="{ standalone: true }" />
+          </div>
+          <div class="form-group">
+            <label>Lider</label>
+            <select class="form-control" [(ngModel)]="group.leaderId" [ngModelOptions]="{ standalone: true }">
+              <option *ngFor="let user of users" [value]=user.id> {{user.userName}} </option>
+            </select>
+          </div>
+
+        </div>
+        <div class="modal-footer d-flex align-items-center">
+          <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
+            data-dismiss="modal">Vazgeç</button>
+          <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">Kaydet</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+

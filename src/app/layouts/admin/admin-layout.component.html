@@ -1,13 +1,28 @@
-<div class="wrapper">
+<!-- <div class="wrapper">
   <div class="sidebar" data-color="brown" data-active-color="danger">
     <sidebar-cmp></sidebar-cmp>
+    
   </div>
-  <div class="main-panel">
+  <div class="content-main">
     <navbar-cmp></navbar-cmp>
     <router-outlet></router-outlet>
     <div *ngIf="!isMap()">
       <footer-cmp></footer-cmp>
     </div>
   </div>
-</div>
+</div> -->
 <!-- <fixedplugin-cmp></fixedplugin-cmp> -->
+
+<body class="page-wrapper">
+  <sidebar-cmp></sidebar-cmp>
+  <div class="content-main">
+    <navbar-cmp></navbar-cmp>
+  
+    <section class="content">
+      <router-outlet></router-outlet>
+    </section>
+  </div>
+
+</body>
+
+  

@@ -1,0 +1,16 @@
+@import "../abstracts/variables";
+
+.btn-icon-theme {
+  background-color: transparent;
+  color: $color-theme;
+
+  & > * {
+    color: inherit;
+  }
+
+  &:focus {
+    background-color: $color-theme;
+    color: $color-gray-light;
+    box-shadow: none !important;
+  }
+}

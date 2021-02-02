@@ -1,0 +1,15 @@
+@import "../abstracts/variables";
+
+.btn-outline-theme {
+  color: $color-theme;
+  background-color: transparent;
+  border: 1px solid $color-theme;
+
+  & > * {
+    color: $color-theme;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba($color-theme, .25);
+  }
+}

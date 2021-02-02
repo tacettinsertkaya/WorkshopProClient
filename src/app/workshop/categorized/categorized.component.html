@@ -1,105 +1,99 @@
-<div class="row">
-  <div class="col-sm-6">
-    <h5 class="card-title">Kategorize Et</h5>
-  </div>
-  <div class="col-sm-6">
-    <button *ngIf="!isUser" data-toggle="modal" data-target="#categorizeModal" (click)="selectMessage()"
-      class="btn btn-round btn-primary float-right">
-      Kategorize Et
-    </button>
-  </div>
+<div class="d-flex justify-content-end mt-3">
+  <button *ngIf="!isUser" (click)="selectMessage()" class="btn btn-theme btn-vertical-padding btn-horizontal-padding"  data-toggle="modal"
+    data-target="#categoryModal">Kategorize Et
+  </button>
+  
 </div>
 
-<div *ngFor="let tmp of template.templateDetail">
-         <h5 class="alert alert-danger">{{tmp.header}}</h5>
-         
-         <div *ngFor="let msg of GetHeaderMessage(tmp.id)">
-          <div class="row" [ngClass]="{'disabled': isUser }">
-            <div class="col-md-12">
-              <div class="card">
-                <div class="card-header">
-                  <div class="form-check mt-3">
-                    <div class="form-check">
-                      <label class="form-check-label">
-                        <input *ngIf="!isUser" class="form-check-input" [(ngModel)]="msg.isCategorized" type="checkbox" />
-                        {{ msg.messageText }} <span class="form-check-sign" *ngIf="!isUser"></span>
-                      </label>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+
+<div class="categories mt-5">
+  <div class="category" *ngFor="let tmp of template.templateDetail" >
+    <h2 class="category__title" *ngIf="GetHeaderMessage(tmp.id).length>0">{{tmp.header}}</h2>
+    <div class="card card-theme box-shadow-sm border-radius-lg mb-3" *ngFor="let msg of GetHeaderMessage(tmp.id)">
+      <div class="card-body p-2" [ngClass]="{'disabled': isUser }">
+
+        <label class="checkbox-theme">
+
+
+          <span class="checkbox-theme__pseudo-control"></span>
+          <input *ngIf="!isUser" [(ngModel)]="msg.isCategorized" class="checkbox-theme__control" type="checkbox">
+          <span>
+            <i *ngIf="!isUser" class="fa fa-check"></i>
+            <span> {{ msg.messageText }} </span>
+          </span>
+
+        </label>
+      </div>
+    </div>
+
+  </div>
+
 </div>
 
-<div class="row" *ngIf="!isUser">
+<!-- <div class="row mt-5" *ngIf="!isUser">
   <div class="col-md-3 offset-9">
     <button (click)="Vote()" class="btn btn-round btn-success btn-block btn-lg float-right">
       YORUMLA
     </button>
   </div>
-</div>
+</div> -->
 
-<div class="modal fade" id="categorizeModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel"
+
+<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
-  <form #templateForm="ngForm" (ngSubmit)="saveCategorized()" class="container mt-3">
-    <div class="modal-dialog modal-lg">
+  <form #templateForm="ngForm" (ngSubmit)="saveCategorized()">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header justify-content-center">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Kategorize Et</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <i class="nc-icon nc-simple-remove"></i>
+            <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="title title-up">Kategori Ekle</h4>
         </div>
         <div class="modal-body">
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label class="categorized-title">Başlık Giriniz</label>
-                <input style="max-height: max-content" rows="10" class="form-control textarea"
-                  [(ngModel)]="categorized.title" [ngModelOptions]="{ standalone: true }" />
-              </div>
+          
+            <div class="form-group">
+              <label class="categorized-title">Başlık Giriniz</label>
+              <input style="max-height: max-content" rows="10" class="form-control textarea"
+                [(ngModel)]="categorized.title" [ngModelOptions]="{ standalone: true }" />
             </div>
-          </div>
-
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label class="messaje-list-title"></label>
-                <div *ngFor="let slct of selectedMessages">
+            <div class="form-group">
+             
+                <div *ngFor="let slct of selectedMessages" class="mt-2">
+               
                   <div class="row">
                     <div class="col-md-12">
                       <div class="card">
-                        <div class="card-header message-list">
+                        <div class="card-header">
                           {{ slct.messageText }}
                         </div>
                       </div>
                     </div>
                   </div>
+                
                 </div>
-              </div>
+             
             </div>
-          </div>
+          
         </div>
-
-        <div class="modal-footer">
-          <div class="left-side">
-            <button type="button" class="btn btn-default btn-link" data-dismiss="modal">
-              Vazgeç
-            </button>
-          </div>
-          <div class="divider"></div>
-          <div class="right-side">
-            <button type="button" (click)="saveCategorized()" class="btn btn-success btn-link">
-              Oluştur
-            </button>
-          </div>
+        <div class="modal-footer d-flex align-items-center">
+          <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
+            data-dismiss="modal">Vazgeç
+          </button>
+          <button type="button" (click)="saveCategorized()" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
+            Oluştur
+          </button>
         </div>
       </div>
     </div>
   </form>
 </div>
+
+
+
+
+
+
 
 <style>
   .modal-body {
@@ -125,4 +119,6 @@
     font-size: 16px;
     margin-bottom: 10px;
   }
+
 </style>
+  

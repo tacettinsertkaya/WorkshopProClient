@@ -1,132 +1,68 @@
+<div class="d-flex justify-content-end mb-3 mt-3">
+  <button class="btn btn-theme" *ngIf="!isUser" type="button" data-toggle="modal" data-target="#addModal">
+    <span>Konu Ekle</span>
+
+  </button>
+</div>
+
 <div class="row">
-  <div class="col-sm-6">
-    <h5 class="card-title float-left">Konu Seç</h5>
-  </div>
-  <div class="col-sm-6">
-    <button
-     *ngIf="!isUser"
-      type="button"
-      data-toggle="modal"
-      data-target="#subjectModal"
-      class="btn btn-round btn-primary float-right btn-subject-create"
-    >
-      Konu Ekle
-    </button>
+  <div class="col-sm-4" *ngFor="let subject of subjects; let i = index">
+    <div class="mb-3 card card-theme box-shadow" >
+      <a [class.disabled]="isUser" (click)="selectSubject(subject)" [ngClass]="{ active: selectSubjectId == subject.id }">
+        <div class="card-body">
+          <h3 class="card-title">{{ subject.subjectTitle }}</h3>
+          <p class="card-description">
+            {{subject.subjectDescription? subject.subjectDescription:'-'}}
+          </p>
+        </div>
+      </a>
+    </div>
   </div>
 </div>
 
-<div class="row" *ngFor="let subject of subjects; let i = index">
-  <div class="col-md-12">
-    <button
-     [disabled]="isUser"
-      (click)="selectSubject(subject)"
-      class="card  p-3 btn w-100"
-      [ngClass]="{ active: selectSubjectId == subject.id }"
-    >
-      <div class="card-header">
-        <h5 class="title">{{ subject.subjectTitle }}</h5>
-      </div>
-      <div class="card-body">
-        <span style="text-transform: initial; font-weight: 400;white-space: initial;">{{
-          subject.subjectDescription
-        }}</span>
-      </div>
-    </button>
-  </div>
-</div>
 
-<div
-  class="modal fade"
-  id="subjectModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="ModalLabel"
-  aria-hidden="true"
->
-  <form
-    #templateForm="ngForm"
-    class="container mt-3"
-    (ngSubmit)="saveSubject()"
-  >
-    <div class="modal-dialog modal-lg">
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <form #templateForm="ngForm" (ngSubmit)="saveSubject()">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header justify-content-center">
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <i class="nc-icon nc-simple-remove"></i>
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"> {{ isUpdate ? "Konu Güncelle" : "Konu Ekle" }} </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="title title-up">
-            {{ isUpdate ? "Konu Güncelle" : "Konu Ekle" }}
-          </h4>
         </div>
         <div class="modal-body">
 
-          <div class="row">
-             <div class="col-sm-12">
-              <div class="form-group">
-                <label>Şirket</label>
-                <select class="form-control" disabled  [(ngModel)]="subject.companyId"  [ngModelOptions]="{ standalone: true }">
-                       <option value="" selected>Şirket Seçiniz</option>
-                       <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
-                     
-                </select>
+          <div class="form-group">
+            <label>Şirket</label>
+            <select class="form-control" disabled [(ngModel)]="subject.companyId"
+              [ngModelOptions]="{ standalone: true }">
+              <option value="" selected>Şirket Seçiniz</option>
+              <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
 
-              </div>
+            </select>
 
-             </div>
+          </div>
+          <div class="form-group">
+            <label>Başlık</label>
+            <input style="max-height: max-content" rows="10" class="form-control textarea"
+              [(ngModel)]="subject.subjectTitle" [ngModelOptions]="{ standalone: true }" />
+          </div>
+          <div class="form-group">
+            <label>Detay</label>
+            <textarea style="max-height: max-content" rows="10" class="form-control textarea"
+              [(ngModel)]="subject.subjectDescription" [ngModelOptions]="{ standalone: true }"></textarea>
           </div>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Konu</label>
-                <input
-                  style="max-height: max-content"
-                  rows="10"
-                  class="form-control textarea"
-                  [(ngModel)]="subject.subjectTitle"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </div>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Konu</label>
-                <textarea
-                  style="max-height: max-content"
-                  rows="10"
-                  class="form-control textarea"
-                  [(ngModel)]="subject.subjectDescription"
-                  [ngModelOptions]="{ standalone: true }"
-                ></textarea>
-              </div>
-            </div>
-          </div>
         </div>
-
-        <div class="modal-footer">
-          <div class="left-side">
-            <button
-              type="button"
-              class="btn btn-default btn-link"
-              data-dismiss="modal"
-            >
-              Vazgeç
-            </button>
-          </div>
-          <div class="divider"></div>
-          <div class="right-side">
-            <button type="submit" class="btn btn-success btn-link">
-              Kaydet
-            </button>
-          </div>
+        <div class="modal-footer d-flex align-items-center">
+          <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
+            data-dismiss="modal">Vazgeç
+          </button>
+          <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
+            Kaydet
+          </button>
         </div>
       </div>
     </div>

@@ -17,6 +17,7 @@ import { GroupService } from 'app/services/group.service';
 import { UserFilter } from 'app/models/dto/user-filter';
 import { GroupFilter } from 'app/models/dto/group-filter';
 import { GroupDto } from 'app/models/dto/group-dto';
+import { AlertifyService } from 'app/services/alertify.service';
 
 declare var $: any;
 
@@ -43,11 +44,11 @@ export class GroupsComponent implements OnInit {
     private userService: UserService,
     private groupService: GroupService,
     private companyService: CompanyService,
+    private alertifyService: AlertifyService,
     private sharedService: SharedService
   ) { }
   ngOnInit() {
     this.group.companyId = this.userService.currentUserValue.companyId;
-
     this.getAllUser();
     this.user.statu = "Leader";
     this.getAllCompany();
@@ -69,30 +70,17 @@ export class GroupsComponent implements OnInit {
       .subscribe(
         (res) => {
           this.groups = res;
+          console.log("this.groups",this.groups);
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+         this.alertifyService.error();
         }
       );
   }
 
   getUserLeader() {
-    return this.userService.currentUserValue.company.retroCount;
+    console.log("this.userService.currentUserValue",this.userService.currentUserValue);
+    return  this.userService.currentUserValue.company? this.userService.currentUserValue.company.retroCount:0;
   }
 
   getAllCompany() {
@@ -106,22 +94,8 @@ export class GroupsComponent implements OnInit {
           this.companys = res;
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error();
+
         }
       );
   }
@@ -142,40 +116,12 @@ export class GroupsComponent implements OnInit {
           // this.currentCompany.retroCount = this.currentCompany.retroCount + 1;
           // this.updateCompany(this.currentCompany);
 
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem başarılı bir şekilde gerçekleşti.",
-            },
-            {
-              type: "success",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.success();
+
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error();
+
         }
       );
   }
@@ -196,22 +142,8 @@ export class GroupsComponent implements OnInit {
           this.users = res;
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error();
+
         }
       );
   }
@@ -232,29 +164,15 @@ export class GroupsComponent implements OnInit {
       .subscribe((res) => {
         this.group = res;
         this.isUpdate = true;
-        $("#userModal").modal("show");
+        $("#addModal").modal("show");
       });
   }
 
 
   updateCompany(company: Company) {
     this.companyService.update(company).pipe().subscribe((res) => {
-      $.notify(
-        {
-          icon: "ti-gift",
-          message: "İşlem başarılı bir şekilde gerçekleşti.",
-        },
-        {
-          type: "success",
-          timer: 4000,
-          placement: {
-            from: "top",
-            align: "right",
-          },
-          template:
-            '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-        }
-      );
+      this.alertifyService.success();
+
       let currentUser = this.userService.currentUserValue;
       currentUser.company = res;
       this.userService.currentUserSetValue(currentUser);
@@ -280,29 +198,13 @@ export class GroupsComponent implements OnInit {
               this.group.groupName = "";
               this.group.leaderId = "";
 
-              // this.currentCompany.retroCount = this.currentCompany.retroCount - 1;
-              // this.updateRetro(this.currentCompany);
-
+              this.alertifyService.success();
               this.getFilterGroup();
-              $("#userModal").modal("hide");
+              $("#addModal").modal("hide");
             },
             (error) => {
-              $.notify(
-                {
-                  icon: "ti-gift",
-                  message: "İşlem sırasında hata oluştu.",
-                },
-                {
-                  type: "danger",
-                  timer: 4000,
-                  placement: {
-                    from: "top",
-                    align: "right",
-                  },
-                  template:
-                    '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-                }
-              );
+              this.alertifyService.error();
+
             }
           );
 
@@ -321,22 +223,6 @@ export class GroupsComponent implements OnInit {
             }
           )
           
-          // $.notify(
-          //   {
-          //     icon: "ti-gift",
-          //     message: "Maksimum grup sayısına ulaştınız.",
-          //   },
-          //   {
-          //     type: "danger",
-          //     timer: 4000,
-          //     placement: {
-          //       from: "top",
-          //       align: "right",
-          //     },
-          //     template:
-          //       '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-          //   }
-          // );
         }
       }
     } else {
@@ -347,43 +233,15 @@ export class GroupsComponent implements OnInit {
           (res) => {
             this.group.groupName = "";
             this.group.leaderId = "";
-            $.notify(
-              {
-                icon: "ti-gift",
-                message: "İşlem başarılı bir şekilde gerçekleşti.",
-              },
-              {
-                type: "success",
-                timer: 4000,
-                placement: {
-                  from: "top",
-                  align: "right",
-                },
-                template:
-                  '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-              }
-            );
+            this.alertifyService.success();
+
             this.getFilterGroup();
             this.isUpdate = false;
-            $("#userModal").modal("hide");
+            $("#addModal").modal("hide");
           },
           (error) => {
-            $.notify(
-              {
-                icon: "ti-gift",
-                message: "İşlem sırasında hata oluştu.",
-              },
-              {
-                type: "danger",
-                timer: 4000,
-                placement: {
-                  from: "top",
-                  align: "right",
-                },
-                template:
-                  '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-              }
-            );
+            this.alertifyService.error();
+
           }
         );
     }

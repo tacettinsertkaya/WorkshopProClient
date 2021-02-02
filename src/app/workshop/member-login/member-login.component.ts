@@ -19,6 +19,7 @@ import { GroupService } from 'app/services/group.service';
 import swal from 'sweetalert2';
 import { Group } from 'app/models/group';
 import { SharedService } from 'app/services/shared.service';
+import { AlertifyService } from 'app/services/alertify.service';
 
 declare var $: any;
 @Component({
@@ -55,6 +56,7 @@ export class MemberLoginComponent implements OnInit {
     private userService: UserService,
     private sharedService: SharedService,
     private groupService: GroupService,
+    private alertifyService: AlertifyService,
     private route: ActivatedRoute,
     private router: Router,
     private retroConfigurationService: RetroConfigurationService,
@@ -210,22 +212,7 @@ export class MemberLoginComponent implements OnInit {
 
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+           this.alertifyService.error();
         }
       );
   }
@@ -286,6 +273,8 @@ export class MemberLoginComponent implements OnInit {
                     (userRes) => {
                       localStorage.setItem('currentUser', JSON.stringify(userRes));
                       localStorage.setItem('token', userRes.token);
+                      this.sharedService.tabSource.next("");
+
                       this.userService.currentUserSetValue(userRes);
                       this.router.navigate(["/retro", this.id]);
 

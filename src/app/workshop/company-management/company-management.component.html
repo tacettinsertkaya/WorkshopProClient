@@ -1,10 +1,10 @@
 
 
-<div class="row   mb-3">
-  <div class="col-sm-6">
-    <h3 class="float-left">Şirketler</h3>
+<div class="row   mb-3 mt-5">
+  <div class="col-sm-6 d-flex align-items-center">
+    <h3 class="float-left mb-0">Şirketler</h3>
   </div>
-  <div class="col-sm-6">
+  <div class="col-sm-6 ">
     <button class=" float-right btn btn-theme btn-horizontal-padding btn-vertical-padding" 
     data-toggle="modal"
      data-target="#addCompanyModal">Şirket Ekle</button>
@@ -17,25 +17,27 @@
       <thead>
       <tr>
         <th>Şirket Adı</th>
-        <th>Maksimum Katılımcı</th>
-        <th>Maksimum Retro</th>
-        <th>İşlemler</th>
+        <th class="text-center">Maksimum Katılımcı</th>
+        <th class="text-center">Maksimum Retro</th>
+        <th class="text-right">İşlemler</th>
       </tr>
       </thead>
       <tbody>
         <tr *ngFor="let row of companys">
           <td>{{ row.companyName }}</td>
-          <td>{{ row.participantCount }}</td>
-          <td>{{ row.retroCount }}</td>
+          <td class="text-center">{{ row.participantCount }}</td>
+          <td class="text-center">{{ row.retroCount }}</td>
         
         <td>
-          <button  (click)="editCompany(row.id)" class="btn btn-default btn-icon-theme"><i class="fa fa-edit"></i></button>
+          <div class="d-flex align-items-center justify-content-end">
+            <button  (click)="editCompany(row.id)" class="btn btn-default btn-icon-theme"><i class="fa fa-edit"></i></button>
           <button (click)="
           showSwal(
             'warning-message-and-confirmation-delete',
             row.id
           )
         " class="btn btn-default btn-icon-theme"><i class="fa fa-trash"></i></button>
+          </div>
         </td>
 
      

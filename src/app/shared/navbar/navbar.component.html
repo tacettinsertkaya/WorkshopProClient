@@ -1,6 +1,14 @@
 <div class="header d-flex justify-content-end align-items-center">
   <div class="header__navigation">
+    
   
+      <div class="header__toggle-sidebar">
+        <button class="btn btn-icon-theme font-size-lg" id="toggleSidebar">
+          <i class="fa fa-bars"></i>
+        </button>
+      </div>
+    
+    </div>
   <div class="dropdown">
     <a class="btn  dropdown-toggle"  id="bell" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
@@ -16,7 +24,7 @@
   </div>
   
 
-  </div>
+ 
   <div class="header__user">
     <div class="dropdown">
       <button class="btn btn-default dropdown-toggle" type="button" id="headerUserDropdown" data-toggle="dropdown"
@@ -24,9 +32,9 @@
         <i class="fa fa-user"></i>
         <span>Hoşgeldin, {{userName}}</span>
       </button>
-      <div class="dropdown-menu" aria-labelledby="headerUserDropdown">
-        <a class="dropdown-item" href="#">Hesap Ayarları</a>
-        <a class="dropdown-item"  (click)="logout()">Çıkış Yap</a>
+      <div class="dropdown-menu w-100" aria-labelledby="headerUserDropdown" style="border-radius: 30px;">
+       
+        <a class="dropdown-item bg-transparent"  (click)="logout()">Çıkış Yap</a>
       </div>
     </div>
   </div>

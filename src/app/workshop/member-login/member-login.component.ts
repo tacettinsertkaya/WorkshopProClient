@@ -83,7 +83,21 @@ export class MemberLoginComponent implements OnInit {
   loginAddForm() {
     this.loginForm = this.formBuilder.group({
 
-      alias: ['']
+      alias:  ['',
+      [
+        Validators.required,
+
+      ]],
+      name:  ['',
+      [
+        Validators.required,
+
+      ]],
+      surname:  ['',
+      [
+        Validators.required,
+
+      ]]
     });
   }
   checkFullPageBackgroundImage() {
@@ -229,14 +243,14 @@ export class MemberLoginComponent implements OnInit {
     this.loading = true;
 
     if (this.loginForm.valid) {
-      this.login = Object.assign({}, this.loginForm.value);
+      let data = Object.assign({}, this.loginForm.value);
 
       let user = new User();
-      user.userName = this.login.alias;
-      user.name = this.login.alias;
-      user.surname = this.login.alias;
-      user.email = this.login.alias + moment().format() + '@gmail.com';
-      user.rawPassword = this.login.alias + '123123AsD--*';
+      user.userName = data.alias;
+      user.name = data.name;
+      user.surname = data.surname;
+      user.email = data.alias + moment().format() + '@gmail.com';
+      user.rawPassword = data.alias + '123123AsD--*';
       user.companyId = this.createdUser.companyId;
       user.statu = "Member";
 
@@ -247,6 +261,7 @@ export class MemberLoginComponent implements OnInit {
 
           this.login.username = user.userName;
           this.login.password = user.rawPassword;
+          this.login.alias=data.alias;
           let rightData = new UserRight();
           rightData.commentRight = this.userRight.commentRight;
           rightData.ideaRight = this.userRight.ideaRight;

@@ -26,6 +26,7 @@ import { environment } from "../../environments/environment";
 import { ClipboardService } from "ngx-clipboard";
 import swal from "sweetalert2";
 import { AlertifyService } from "app/services/alertify.service";
+import { AuthenticateResponse } from "app/models/authenticate-response";
 
 //Metadata
 export interface RouteInfo {
@@ -320,6 +321,11 @@ export class SidebarComponent {
 
       });
     });
+  }
+
+  getShortName(user:AuthenticateResponse){
+ let shortName = user.name[0].toUpperCase()+ user.surname[0].toUpperCase();
+   return shortName;
   }
 
   onlineExist(user) {

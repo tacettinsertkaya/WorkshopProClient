@@ -18,6 +18,34 @@
 
 
 
+    <div class="form-group " >
+
+      <label for="username">Ad</label>
+      <input [disabled]="isFailed" (blur)="clearError()" (focus)="clearError()" type="text" formControlName="name"
+        class="form-control"  />
+
+      <div
+        *ngIf="(loginForm.get('name').invalid && ( loginForm.get('name').touched) || loginForm.get('name').dirty)">
+        <small *ngIf="loginForm.get('name').errors?.required" class="text-danger">Ad giriniz</small>
+      </div>
+    </div>
+
+
+
+    <div class="form-group " >
+
+      <label for="username">Soyad</label>
+      <input [disabled]="isFailed" (blur)="clearError()" (focus)="clearError()" type="text" formControlName="surname"
+        class="form-control"  />
+
+      <div
+        *ngIf="(loginForm.get('surname').invalid && ( loginForm.get('surname').touched) || loginForm.get('surname').dirty)">
+        <small *ngIf="loginForm.get('surname').errors?.required" class="text-danger">Soyad giriniz</small>
+      </div>
+    </div>
+
+
+
     <div class="d-flex justify-content-end">
       <button type="submit" [disabled]="isFailed"
         class="btn btn-theme btn-vertical-padding btn-horizontal-padding">GİRİŞ YAP</button>

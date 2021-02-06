@@ -15,15 +15,15 @@
 
 
 <div class="row mt-5" *ngIf="templates.length > 0">
-  <div class="col-md-3 col-sm-6 col-xs-12 mb-3" *ngFor="let template of templates; let i = index">
+  <div class="col-sm-6 col-xs-12 mb-3" *ngFor="let template of templates; let i = index">
     <a [class.disabled]="isUser" *ngIf="
     template.templateDetail.length >= 1 &&
     template.templateDetail[0].header != ''
   " (click)="selectTemplate(template.id)" [ngClass]="{ active: selectTemplateId == template.id }">
       <div class="card box-shadow card-theme d-flex justify-content-center align-items-center">
-        <h3 class="card-title mb-2 mt-2 text-secondary"> |
+        <h3 class="card-title mb-2 mt-2 text-secondary mini-btn">
           <span class="align-baseline" *ngFor="let detail of template.templateDetail; let j = index">
-            {{ detail.header }} |
+            {{ detail.header }}
           </span>
         </h3>
       </div>

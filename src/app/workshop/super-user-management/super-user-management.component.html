@@ -1,10 +1,10 @@
-<div class="row   mb-3">
-  <div class="col-sm-6">
-    <h3 class="float-left">Adminler</h3>
+<div class="row   mb-3 mt-5">
+  <div class="col-sm-6 d-flex align-items-center">
+    <h3 class="float-left mb-0">Adminler</h3>
   </div>
   <div class="col-sm-6">
     <button class=" float-right btn btn-theme btn-horizontal-padding btn-vertical-padding" data-toggle="modal"
-      data-target="#addModal">Admin Ekle</button>
+      data-target="#addModal">Super Admin Ekle</button>
   </div>
 </div>
 <div class="card card-theme">
@@ -17,7 +17,7 @@
           <th>Eposta</th>
         
 
-          <th>İşlemler</th>
+          <th class="text-right">İşlemler</th>
         </tr>
       </thead>
       <tbody>
@@ -28,19 +28,21 @@
         
 
           <td>
+           <div class="d-flex align-items-center justify-content-end">
             <button (click)="OpenPasswordModal(row)" class="btn btn-default btn-icon-theme"><i
-                class="fa fa-key"></i></button>
-            <button (click)="SendMail(row.id)" class="btn btn-default btn-icon-theme"><i
-                class="fa fa-paper-plane"></i></button>
+              class="fa fa-key"></i></button>
+          <button (click)="SendMail(row.id)" class="btn btn-default btn-icon-theme"><i
+              class="fa fa-paper-plane"></i></button>
 
-            <button (click)="editUser(row.id)" class="btn btn-default btn-icon-theme"><i
-                class="fa fa-edit"></i></button>
-            <button (click)="
-          showSwal(
-            'warning-message-and-confirmation-delete',
-            row.id
-          )
-        " class="btn btn-default btn-icon-theme"><i class="fa fa-trash"></i></button>
+          <button (click)="editUser(row.id)" class="btn btn-default btn-icon-theme"><i
+              class="fa fa-edit"></i></button>
+          <button (click)="
+        showSwal(
+          'warning-message-and-confirmation-delete',
+          row.id
+        )
+      " class="btn btn-default btn-icon-theme"><i class="fa fa-trash"></i></button>
+           </div>
 
           </td>
 
@@ -62,7 +64,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle"> {{ isUpdate ? " Admin Güncelle" : "Admin Ekle" }}</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle"> {{ isUpdate ? " Super Admin Güncelle" : "Super Admin Ekle" }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>

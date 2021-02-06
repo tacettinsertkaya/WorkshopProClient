@@ -1,6 +1,6 @@
-<div class="row   mb-3">
-  <div class="col-sm-6">
-    <h3 class="float-left">Konular</h3>
+<div class="row   mb-3 mt-5">
+  <div class="col-sm-6 d-flex align-items-center">
+    <h3 class="float-left mb-0">Konular</h3>
   </div>
   <div class="col-sm-6">
     <button class=" float-right btn btn-theme btn-horizontal-padding btn-vertical-padding" data-toggle="modal"
@@ -16,21 +16,27 @@
         <tr>
           <th>Konu</th>
 
-          <th>İşlemler</th>
+          <th class="text-right">İşlemler</th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let row of subjects">
-          <td>{{ row.subjectTitle }}</td>
           <td>
+            <div class="d-flex align-items-center" style="padding: .375rem 0;">
+              {{ row.subjectTitle }}
+            </div>
+          </td>
+          <td>
+           <div class="d-flex align-items-center justify-content-end">
             <button class="btn btn-default btn-icon-theme" (click)="editSubject(row.id)"><i
-                class="fa fa-edit"></i></button>
-            <button class="btn btn-default btn-icon-theme" (click)="
-          showSwal(
-            'warning-message-and-confirmation-delete',
-            row.id
-          )
-        "><i class="fa fa-trash"></i></button>
+              class="fa fa-edit"></i></button>
+          <button class="btn btn-default btn-icon-theme" (click)="
+        showSwal(
+          'warning-message-and-confirmation-delete',
+          row.id
+        )
+      "><i class="fa fa-trash"></i></button>
+           </div>
           </td>
         </tr>
 

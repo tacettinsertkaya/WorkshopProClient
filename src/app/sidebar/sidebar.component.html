@@ -1,7 +1,13 @@
 <div class="sidebar">
   <div class="sidebar__header">
-    <img src="assets/img/logo.png" alt="" class="sidebar__logo">
+    <div class="sidebar__header-content">
+      <img src="assets/img/logo.png" alt="" class="sidebar__logo">
+      <button class="btn btn-icon-theme" id="hideSidebar">
+        <i class="fa fa-angle-double-left"></i>
+      </button>
+    </div>
   </div>
+
   <div class="sidebar__content">
     <ul class="sidebar__menu">
       <li class="sidebar__menu-item" *ngFor="let menu of menuItems; let i = index" routerLinkActive="active">
@@ -34,7 +40,7 @@
           <div *ngFor="let user of users">
             <li class="sidebar__participant-list-item" *ngIf="onlineExist(user)">
               <i class="fa fa-user" class="text-success"></i>
-              <span class="name"> {{user.userName}}</span>
+              <span class="name"> <span class="name-short">{{getShortName()}}</span> {{user.userName}}</span>
             </li>
           </div>
         </ul>

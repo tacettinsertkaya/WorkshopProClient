@@ -18,7 +18,8 @@
         <div class="card-actions d-flex justify-content-between text-nowrap">
           <button (click)="getComment(message)" class="btn btn-theme btn-horizontal-padding-xs mr-2">
             <i class="fa fa-comment-alt mr-2"></i>
-            Yorumlar
+            <div class="d-md-block d-none">Yorumlar</div>
+            
             <span class="count">{{message.commentCount}}</span>
           </button>
           <button [disabled]="retroRight.voteRight <= 0 " (click)="setVote(message)"
@@ -27,7 +28,7 @@
               'text-secondary':isVotedCheck(message.id) === true
               
             }"></i>
-            Oy Ver
+            <div class="d-md-block d-none">Oy ver</div>
             <span class="count">{{message.voteCount}}</span>
           </button>
         </div>

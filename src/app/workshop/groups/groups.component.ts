@@ -2,7 +2,7 @@ import { Component, NgZone, OnInit } from '@angular/core';
 import { Template } from 'app/models/template';
 import { TemplateDetail } from 'app/models/template-detail';
 import { TemplateService } from 'app/services/template.service';
-import { first } from 'rxjs/operators';
+import { first, timeoutWith } from 'rxjs/operators';
 import { SharedService } from 'app/services/shared.service';
 import swal from 'sweetalert2';
 import { TemplateDetailService } from 'app/services/template-detail.service';
@@ -18,6 +18,7 @@ import { UserFilter } from 'app/models/dto/user-filter';
 import { GroupFilter } from 'app/models/dto/group-filter';
 import { GroupDto } from 'app/models/dto/group-dto';
 import { AlertifyService } from 'app/services/alertify.service';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 
 declare var $: any;
 
@@ -33,6 +34,7 @@ export class GroupsComponent implements OnInit {
   userId: string;
   selectedUser = new User();
   currentCompany: Company;
+  groupCreateForm: FormGroup;
 
   group: Group = new Group();
   groups: Array<GroupDto> = [];
@@ -45,6 +47,7 @@ export class GroupsComponent implements OnInit {
     private groupService: GroupService,
     private companyService: CompanyService,
     private alertifyService: AlertifyService,
+    private formBuilder: FormBuilder,
     private sharedService: SharedService
   ) { }
   ngOnInit() {
@@ -55,6 +58,7 @@ export class GroupsComponent implements OnInit {
     this.currentCompany = this.userService.currentUserValue.company;
 
     this.getFilterGroup();
+    this.addGroupForm();
   }
 
 
@@ -70,17 +74,17 @@ export class GroupsComponent implements OnInit {
       .subscribe(
         (res) => {
           this.groups = res;
-          console.log("this.groups",this.groups);
+          console.log("this.groups", this.groups);
         },
         (error) => {
-         this.alertifyService.error();
+          this.alertifyService.error();
         }
       );
   }
 
   getUserLeader() {
-    console.log("this.userService.currentUserValue",this.userService.currentUserValue);
-    return  this.userService.currentUserValue.company? this.userService.currentUserValue.company.retroCount:0;
+    console.log("this.userService.currentUserValue", this.userService.currentUserValue);
+    return this.userService.currentUserValue.company ? this.userService.currentUserValue.company.retroCount : 0;
   }
 
   getAllCompany() {
@@ -105,7 +109,7 @@ export class GroupsComponent implements OnInit {
     filter.companyId = this.userService.currentUserValue.companyId;
     this.getAllGroup(filter);
   }
-  
+
   removeGroup(group: Group) {
     this.groupService
       .delete(group.id)
@@ -155,6 +159,19 @@ export class GroupsComponent implements OnInit {
 
 
 
+  addGroupForm(): void {
+
+
+    this.groupCreateForm = this.formBuilder.group({
+      companyId: new FormControl(this.userService.currentUserValue.companyId, [Validators.required, Validators.minLength(2)]),
+      groupName: new FormControl('', [Validators.required]),
+      leaderId: new FormControl('', [Validators.required]),
+
+    });
+  }
+
+
+
 
 
   editGroup(group: Group) {
@@ -164,6 +181,13 @@ export class GroupsComponent implements OnInit {
       .subscribe((res) => {
         this.group = res;
         this.isUpdate = true;
+
+
+        this.groupCreateForm.controls['companyId'].setValue(this.group.companyId);
+        this.groupCreateForm.controls['groupName'].setValue(this.group.groupName);
+        this.groupCreateForm.controls['leaderId'].setValue(this.group.leaderId);
+
+
         $("#addModal").modal("show");
       });
   }
@@ -181,25 +205,64 @@ export class GroupsComponent implements OnInit {
 
 
   saveUser() {
-    let data = this.group;
+    let data = Object.assign({}, this.groupCreateForm.value);
+        
+    if (this.groupCreateForm.invalid) {
+      return;
+    }
+    if (this.groupCreateForm.valid) {
+
     
+      if (!this.isUpdate) {
 
+        if (this.isCheckRetro()) {
+          data.memberCount = this.currentCompany.participantCount;
+          this.groupService
+            .create(data)
+            .pipe(first())
+            .subscribe(
+              (res) => {
+                 this.addGroupForm();
 
+                this.alertifyService.success();
+                this.getFilterGroup();
+                $("#addModal").modal("hide");
+              },
+              (error) => {
+                this.alertifyService.error();
 
-    if (!this.isUpdate) {
+              }
+            );
 
-      if (this.isCheckRetro()) {
-        data.memberCount=this.currentCompany.participantCount;
+        }
+        else {
+          if (this.currentCompany.retroCount <= 0) {
+
+            swal(
+              {
+                title: 'Uyarı!',
+                text: 'Maksimum grup sayısına ulaştınız.',
+                type: 'warning',
+                showConfirmButton: false,
+                timer: 4000,
+                buttonsStyling: false
+              }
+            )
+
+          }
+        }
+      } else {
+        data.id=this.group.id;
         this.groupService
-          .create(data)
+          .update(data)
           .pipe(first())
           .subscribe(
             (res) => {
-              this.group.groupName = "";
-              this.group.leaderId = "";
-
+              this.addGroupForm();
               this.alertifyService.success();
+
               this.getFilterGroup();
+              this.isUpdate = false;
               $("#addModal").modal("hide");
             },
             (error) => {
@@ -207,45 +270,8 @@ export class GroupsComponent implements OnInit {
 
             }
           );
-
       }
-      else {
-        if (this.currentCompany.retroCount <= 0) {
-
-          swal(
-            {
-              title: 'Uyarı!',
-              text: 'Maksimum grup sayısına ulaştınız.',
-              type: 'warning',
-              showConfirmButton:false,
-              timer:4000,
-              buttonsStyling: false
-            }
-          )
-          
-        }
-      }
-    } else {
-      this.groupService
-        .update(data)
-        .pipe(first())
-        .subscribe(
-          (res) => {
-            this.group.groupName = "";
-            this.group.leaderId = "";
-            this.alertifyService.success();
-
-            this.getFilterGroup();
-            this.isUpdate = false;
-            $("#addModal").modal("hide");
-          },
-          (error) => {
-            this.alertifyService.error();
-
-          }
-        );
     }
   }
-
 
 }

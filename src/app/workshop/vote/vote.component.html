@@ -9,7 +9,7 @@
 
 <div class="categories mt-5" *ngFor="let tmp of template.templateDetail">
   <div class="category">
-    <h2 class="category__title">{{tmp.header}}</h2>
+    <h5 *ngIf="GetHeaderMessage(tmp.id).length>0">{{tmp.header}}</h5>
     <div class="card card-theme box-shadow-sm border-radius-lg mb-3" *ngFor="let message of GetHeaderMessage(tmp.id)">
       <div class="card-body p-1 d-flex align-items-center justify-content-between">
         <div class="card-description">

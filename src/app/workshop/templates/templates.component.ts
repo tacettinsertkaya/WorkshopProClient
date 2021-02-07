@@ -228,11 +228,16 @@ export class TemplatesComponent implements OnInit {
   }
 
   saveTemplate() {
+    if(this.headers.length>6){
+      this.alertifyService.warning("6 ' dan fazla  başlık tanımlanamaz. ") 
+    }
 
     this.data.templateDetail = this.headers;
     this.data.templateName = new Date().getTime().toString();
     this.data.createRole='Admin';
     this.data.userId=this.authService.currentUserValue.userId;
+
+   
 
     this.templateService
       .create(this.data)
@@ -257,6 +262,11 @@ export class TemplatesComponent implements OnInit {
   }
 
   updateTemplate() {
+
+    if(this.template.templateDetail.length>6){
+      this.alertifyService.warning("6 ' dan fazla  başlık tanımlanamaz. ") 
+      return;
+    }
 
     let templateId = this.template.id;
     this.templateService

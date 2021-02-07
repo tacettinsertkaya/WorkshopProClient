@@ -100,7 +100,7 @@ export const ADMIN_ROUTES: RouteInfo[] = [
     path: "/templates",
     title: "Şablonlar",
     type: "link",
-    icontype: "fa fa-layout",
+    icontype: "fa fa-grip-horizontal",
   },
 
 ];
@@ -162,7 +162,7 @@ export const ROUTES: RouteInfo[] = [
     path: "/templates",
     title: "Şablonlar",
     type: "link",
-    icontype: "fa fa-layout",
+    icontype: "fa fa-grip-horizontal",
   },
   {
     path: "/subjects",
@@ -213,19 +213,19 @@ export class SidebarComponent {
     this.subscribeToCurrentRetroEvents();
 
     this.sharedService.currentRetro.subscribe((retro: any) => {
-     
+
       if (retro) {
         this.currentRetro = retro;
         this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
       }
     });
-    
+
   }
 
   @ViewChild("titleInput") titleInput: ElementRef;
   public menuItems: any[];
   users: Array<User> = [];
-  onlineUser: Array<string> = [];
+  onlineUser: Array<AuthenticateResponse> = [];
   announcements: Array<RetroAnnouncement> = [];
   contentText: string = '';
   currentRetro: Retro;
@@ -279,7 +279,7 @@ export class SidebarComponent {
     }
 
     this.currentRetro = this.sharedService.currentRetroValue;
-  
+
 
   }
 
@@ -287,10 +287,10 @@ export class SidebarComponent {
 
   copyLink() {
     this._clipboardService.copyFromContent(this.inviteLink)
-    
+
     swal({
       title: "Başarılı bir kopyalandı.",
-      position:"center",
+      position: "center",
       showConfirmButton: false,
       type: "success",
       timer: 2000
@@ -300,9 +300,9 @@ export class SidebarComponent {
 
 
   private subscribeToEvents(): void {
-    this.chatService.onlineUserReceived.subscribe((data: Array<string>) => {
+    this.chatService.onlineUserReceived.subscribe((data: Array<AuthenticateResponse>) => {
       this._ngZone.run(() => {
-      
+
         this.onlineUser = data;
         this.getAllUser();
       });
@@ -323,14 +323,14 @@ export class SidebarComponent {
     });
   }
 
-  getShortName(user:AuthenticateResponse){
- let shortName = user.name[0].toUpperCase()+ user.surname[0].toUpperCase();
-   return shortName;
+  getShortName(user: AuthenticateResponse) {
+    let shortName = user.name[0].toUpperCase() + user.surname[0].toUpperCase();
+    return shortName;
   }
 
-  onlineExist(user) {
-
-    let result = this.onlineUser.filter(p => p == user.name);
+  onlineExist(user:AuthenticateResponse) {
+    let result = this.onlineUser.filter(p => p.userName == user.userName);
+  
     if (result == undefined || result.length == 0)
       return false;
     else
@@ -381,8 +381,8 @@ export class SidebarComponent {
             this.users = _.orderBy(res, ['userName'], ['asc']);
           },
           (error) => {
-                this.alertifyService.error();
-                
+            this.alertifyService.error();
+
           }
         );
     }

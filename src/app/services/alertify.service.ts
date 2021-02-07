@@ -26,4 +26,13 @@ export class AlertifyService {
           })
     }
 
+    warning(msg){
+        swal({
+            title: "Uyarı",
+            text:msg,
+            type: "warning",
+            timer:2000
+          })
+    }
+
 }

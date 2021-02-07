@@ -21,7 +21,7 @@
   }
 
   .navigation-item {
-    min-width: 7rem;
+    min-width: 9rem;
     background-color: rgba($color-gray, .25);
     height: 3rem;
     display: flex;
@@ -59,7 +59,7 @@
     color: $color-gray-darker;
     font-weight: 500;
     text-decoration: none;
-    font-size: 13px;
+    font-size: 1em;
 
     &.active {
       background-color: $color-theme;

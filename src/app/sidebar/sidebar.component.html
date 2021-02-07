@@ -1,7 +1,7 @@
 <div class="sidebar">
   <div class="sidebar__header">
     <div class="sidebar__header-content">
-      <img src="assets/img/logo.png" alt="" class="sidebar__logo">
+      <img src="assets/img/logo.png" alt="" style="max-width: 200px;" class="sidebar__logo">
       <button class="btn btn-icon-theme" id="hideSidebar">
         <i class="fa fa-angle-double-left"></i>
       </button>
@@ -11,9 +11,9 @@
   <div class="sidebar__content">
     <ul class="sidebar__menu">
       <li class="sidebar__menu-item" *ngFor="let menu of menuItems; let i = index" routerLinkActive="active">
-        <div class="sidebar__menu-item-content">
+        <div class="sidebar__menu-item-content" >
 
-          <a [routerLink]="menu.path" class="sidebar__menu-link">
+          <a [routerLink]="menu.path" class="sidebar__menu-link" >
             <i [ngClass]="menu.icontype"></i>
 
             <span>{{ menu.title }}</span>
@@ -22,7 +22,7 @@
       </li>
 
 
-      <li class="sidebar__menu-item" *ngIf="isLeader() && currentRetro.id">
+       <li class="sidebar__menu-item" *ngIf="isLeader() && currentRetro.id">
         <div class="sidebar__menu-item-content">
           <a (click)="copyLink()" class="sidebar__menu-link">
             <i class="fa fa-envelope"></i>
@@ -31,16 +31,26 @@
         </div>
       </li>
 
+      <!-- <li class="sidebar__menu-item" >
+        <div class="sidebar__menu-item-content">
+          <a  class="sidebar__menu-link">
+            <i class="fa fa-envelope"></i>
+            <span>Örnek Linki</span>
+          </a>
+        </div>
+      </li> -->
+
     </ul>
 
     <ng-container>
-      <div class="sidebar__participants"  *ngIf="users.length>0">
+      <div class="sidebar__participants"  *ngIf="onlineUser.length>0">
         <span class="sidebar__section-title">Aktif Katılımcılar</span>
         <ul class="sidebar__participant-list">
-          <div *ngFor="let user of users">
-            <li class="sidebar__participant-list-item" *ngIf="onlineExist(user)">
+          <div *ngFor="let user of onlineUser">
+           
+            <li class="sidebar__participant-list-item mt-3" *ngIf="onlineExist(user)">
               <i class="fa fa-user" class="text-success"></i>
-              <span class="name"> <span class="name-short">{{getShortName()}}</span> {{user.userName}}</span>
+              <span class="name"> <span class="name-short">{{getShortName(user)}}</span> {{user.name}}  {{user.surname}}</span>
             </li>
           </div>
         </ul>
@@ -54,9 +64,14 @@
 
       <div class="row" *ngIf="isLeader()">
         <div class="col-sm-12">
-          <textarea rows="5" (keydown.enter)="sendAnnouncement()" #titleInput  class="rounded"style="width: 100%;">
+          <div class="form-group">
+            
+            <textarea class="form-control" style="height: auto !important;" rows="5" (keydown.enter)="sendAnnouncement()" #titleInput ></textarea>
+          </div>
+          
+          <!-- <textarea rows="5" (keydown.enter)="sendAnnouncement()" #titleInput  class="rounded form-control"style="width: 100%;">
 
-           </textarea>
+           </textarea> -->
         </div>
       </div>
       <div class="row" *ngIf="isLeader()">

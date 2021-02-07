@@ -66,7 +66,7 @@ export class RetrospectivesComponent implements OnInit {
   ) {
 
 
-  
+
 
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
       this.retroRight = right;
@@ -165,7 +165,7 @@ export class RetrospectivesComponent implements OnInit {
         this.currentRetro = retro;
         this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
       }
-      else{
+      else {
         this.router.navigate(["/retro-start"])
       }
     });
@@ -173,9 +173,9 @@ export class RetrospectivesComponent implements OnInit {
 
 
 
-
-    this.chatService.userOnline();
-
+    if (!this.authService.hasRole('Leader')) {
+      this.chatService.userOnline();
+    }
     this.sharedService.isShowSubject.subscribe((isShow: any) => {
       this.isShow = isShow;
     });
@@ -198,9 +198,9 @@ export class RetrospectivesComponent implements OnInit {
 
   clickTab(tab: string) {
     this.currentTab = '.' + tab;
-    console.log("retro-tab",tab);
+    console.log("retro-tab", tab);
 
-    if (".comments" ==  this.currentTab) {
+    if (".comments" == this.currentTab) {
       this.sharedService.tabSource.next(".comments");
       if (this.authService.hasRole("Leader")) {
 
@@ -211,7 +211,7 @@ export class RetrospectivesComponent implements OnInit {
         this.chatService.setCurrentRetro(retro);
       }
     }
-    if (".categorize" ==  this.currentTab) {
+    if (".categorize" == this.currentTab) {
       this.sharedService.tabSource.next(".categorize");
       if (this.authService.hasRole("Leader")) {
 
@@ -224,7 +224,7 @@ export class RetrospectivesComponent implements OnInit {
 
 
     }
-    if (".vote" ==  this.currentTab) {
+    if (".vote" == this.currentTab) {
       this.sharedService.tabSource.next(".vote");
       if (this.authService.hasRole("Leader")) {
 
@@ -235,7 +235,7 @@ export class RetrospectivesComponent implements OnInit {
         this.chatService.setCurrentRetro(retro);
       }
     }
-    if (".idea-archive" ==  this.currentTab) {
+    if (".idea-archive" == this.currentTab) {
       this.sharedService.tabSource.next(".idea-archive");
       if (this.authService.hasRole("Leader")) {
 
@@ -249,7 +249,7 @@ export class RetrospectivesComponent implements OnInit {
 
 
 
-    if (".idea-archive" ==  this.currentTab) {
+    if (".idea-archive" == this.currentTab) {
       this.isReport = true;
       this.isShow = false;
     }
@@ -260,7 +260,7 @@ export class RetrospectivesComponent implements OnInit {
     }
 
 
-    if (".select-subject" ==  this.currentTab) {
+    if (".select-subject" == this.currentTab) {
       this.isShow = false;
       this.isSelectSubject = true;
     }
@@ -270,14 +270,14 @@ export class RetrospectivesComponent implements OnInit {
 
     }
 
-    if (".select-template" ==  this.currentTab) {
+    if (".select-template" == this.currentTab) {
       this.isSelectTemplate = true;
     }
     else {
       this.isSelectTemplate = false;
     }
 
-    if (".brainstorm" ==  this.currentTab) {
+    if (".brainstorm" == this.currentTab) {
       this.isBrainstorm = true;
 
     }
@@ -286,7 +286,7 @@ export class RetrospectivesComponent implements OnInit {
 
     }
 
-    if (".comments" ==  this.currentTab) {
+    if (".comments" == this.currentTab) {
       this.isComment = true;
 
     }
@@ -296,7 +296,7 @@ export class RetrospectivesComponent implements OnInit {
     }
 
 
-    if (".vote" ==  this.currentTab) {
+    if (".vote" == this.currentTab) {
       this.isVote = true;
     }
     else {
@@ -304,14 +304,14 @@ export class RetrospectivesComponent implements OnInit {
 
     }
 
-    if (".categorize" ==  this.currentTab) {
+    if (".categorize" == this.currentTab) {
       this.isCategorized = true;
     }
     else {
       this.isCategorized = false;
     }
 
-    if (".idea-archive" ==  this.currentTab) {
+    if (".idea-archive" == this.currentTab) {
       if (this.authService.hasRole("Leader")) {
         this.getFilterGroup();
       }
@@ -391,7 +391,7 @@ export class RetrospectivesComponent implements OnInit {
 
     swal({
       title: "Başarılı bir kopyalandı.",
-      position:"center",
+      position: "center",
       showConfirmButton: false,
       type: "success",
       timer: 2000

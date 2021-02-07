@@ -1,7 +1,5 @@
 
-<div class="d-flex align-items-center justify-content-between mb-4 mt-5">
-  <!-- <h4 class="pill-title mb-0" [ngClass]="{'text-success': getUserLeader()>0, 'text-danger':getUserLeader()<=0 }">Grup
-    Oluşturma Hakkı: {{ getUserLeader() }} </h4> -->
+<div class="d-flex align-items-center justify-content-between mb-3 mt-4">
     <h3 class=" mb-0">Gruplar</h3>
   <button class="btn btn-theme btn-vertical-padding btn-horizontal-padding-md" data-toggle="modal"
     data-target="#addModal">Grup Ekle</button>
@@ -36,7 +34,7 @@
 
 <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
   aria-hidden="true">
-  <form #templateForm="ngForm" (ngSubmit)="saveUser()">
+  <form  [formGroup]="groupCreateForm" class="container mt-3" (ngSubmit)="saveUser()">
 
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
@@ -50,28 +48,48 @@
 
           <div class="form-group">
             <label>Şirket</label>
-            <select class="form-control"  [(ngModel)]="group.companyId" [ngModelOptions]="{ standalone: true }">
+            <select class="form-control"  disabled formControlName="companyId" >
               <option value="" selected>Şirket Seçiniz</option>
               <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
 
             </select>
+
+            <div
+            *ngIf="(groupCreateForm.get('companyId').invalid && ( groupCreateForm.get('companyId').touched) || groupCreateForm.get('companyId').dirty)">
+            <div class="text-danger mt-1" *ngIf="groupCreateForm.get('companyId').errors?.required ">
+              Şirket seçiniz
+            </div>
+          </div>
           </div>
           <div class="form-group">
             <label>Grup Adı</label>
-            <input class="form-control" [(ngModel)]="group.groupName" [ngModelOptions]="{ standalone: true }" />
+            <input class="form-control"  formControlName="groupName"  />
+            <div
+            *ngIf="(groupCreateForm.get('groupName').invalid && ( groupCreateForm.get('groupName').touched) || groupCreateForm.get('groupName').dirty)">
+            <div class="text-danger mt-1" *ngIf="groupCreateForm.get('groupName').errors?.required ">
+              Grup adı giriniz
+            </div>
+          </div>
           </div>
           <div class="form-group">
             <label>Lider</label>
-            <select class="form-control" [(ngModel)]="group.leaderId" [ngModelOptions]="{ standalone: true }">
+            <select class="form-control"  formControlName="leaderId" >
               <option *ngFor="let user of users" [value]=user.id> {{user.userName}} </option>
             </select>
+
+            <div
+            *ngIf="(groupCreateForm.get('leaderId').invalid && ( groupCreateForm.get('leaderId').touched) || groupCreateForm.get('leaderId').dirty)">
+            <div class="text-danger mt-1" *ngIf="groupCreateForm.get('leaderId').errors?.required ">
+              Lider seçiniz
+            </div>
+          </div>
           </div>
 
         </div>
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
             data-dismiss="modal">Vazgeç</button>
-          <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">Kaydet</button>
+          <button type="submit" [disabled]="groupCreateForm.invalid" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">Kaydet</button>
         </div>
       </div>
     </div>

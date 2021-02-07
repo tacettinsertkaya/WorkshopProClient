@@ -251,7 +251,6 @@ export class ReportComponent implements OnInit {
 
     if (this.isLeader()) {
 
-
       this.currentCompany.retroCount = this.currentCompany.retroCount - 1;
       this.updateCompany(this.currentCompany);
 

@@ -26,6 +26,7 @@
 
         .sidebar__logo {
           width: 85%;
+          max-width: 200px;
           object-fit: contain;
         }
 
@@ -166,10 +167,11 @@
       display: flex;
       align-items: center;
       &-short {
-        width: 20px;
-        height: 20px;
+
+        width: 30px;
+        height: 30px;
         margin-right: 10px;
-        background-color: white;
+        background-color: #E55820;
         font-size: 13px;
         line-height: 13px;
         display: flex;
@@ -177,7 +179,7 @@
         justify-content: center;
         border-radius: 50%;
         font-weight: 600;
-        color: #2E3448;
+        color: #fff;
       }
     }
   }

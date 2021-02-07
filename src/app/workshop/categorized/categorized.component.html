@@ -8,7 +8,7 @@
 
 <div class="categories mt-5">
   <div class="category" *ngFor="let tmp of template.templateDetail" >
-    <h2 class="category__title" *ngIf="GetHeaderMessage(tmp.id).length>0">{{tmp.header}}</h2>
+    <h5   *ngIf="GetHeaderMessage(tmp.id).length>0">{{tmp.header}}</h5>
     <div class="card card-theme box-shadow-sm border-radius-lg mb-3" *ngFor="let msg of GetHeaderMessage(tmp.id)">
       <div class="card-body p-2" [ngClass]="{'disabled': isUser }">
 

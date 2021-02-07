@@ -50,10 +50,10 @@
               [(ngModel)]="subject.subjectTitle" [ngModelOptions]="{ standalone: true }" />
           </div>
           <div class="form-group">
-            <label>Detay</label>
-            <textarea style="max-height: max-content" rows="10" class="form-control textarea"
-              [(ngModel)]="subject.subjectDescription" [ngModelOptions]="{ standalone: true }"></textarea>
+            <label for="exampleFormControlTextarea1">Detay</label>
+            <textarea class="form-control" style="height: auto !important;" [(ngModel)]="subject.subjectDescription" [ngModelOptions]="{ standalone: true }" id="exampleFormControlTextarea1" rows="3"></textarea>
           </div>
+          
 
         </div>
         <div class="modal-footer d-flex align-items-center">

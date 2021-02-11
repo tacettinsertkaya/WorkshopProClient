@@ -127,16 +127,20 @@
                 <button class="btn btn-icon-theme"><i class="fa fa-thumbs-up"></i> ({{message.voteCount}})</button>
               </div>
             </div>
-          </div>
-          <div class="category__comments mt-3">
-            <div class="card card-theme card-theme--blue mb-3 w-75 box-shadow-xs"
-              *ngFor="let comment of message.comments">
-              <div class="card-body p-1 text-dark">
-                {{comment.commentText}}
+
+            <div class="category__comments mt-3">
+              <div class="card card-theme card-theme--blue mb-3 w-75 box-shadow-xs"
+                *ngFor="let comment of message.comments">
+                <div class="card-body p-1 text-dark">
+                  {{comment.commentText}}
+                </div>
               </div>
             </div>
 
           </div>
+         
+        
+
         </div>
       </div>
     </div>
@@ -166,8 +170,8 @@
                 {{comment.commentText}}
               </div>
             </div>
-
           </div>
+          
         </div>
       </div>
     </div>

@@ -86,7 +86,6 @@ export class ReportComponent implements OnInit {
 
 
     this.sharedService.tabSource.subscribe((tab: string) => {
-      console.log("repor-tab",tab);
       if (".idea-archive" == tab) {
         this.getMessage(this.retro.id);
         this.getSubject(this.retro.id);
@@ -209,7 +208,7 @@ export class ReportComponent implements OnInit {
 
           if (this.categorizedMessages.length > 10) {
             let overdata = this.categorizedMessages.slice(11, this.categorizedMessages.length);
-            this.categorizedMessages = this.categorizedMessages.slice(0, 10);;
+            this.categorizedMessages = this.categorizedMessages.slice(0, 10);
             this.messages.push(...overdata);
 
           }

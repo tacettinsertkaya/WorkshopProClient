@@ -45,8 +45,8 @@
     <ng-container>
       <div class="sidebar__participants"  *ngIf="onlineUser.length>0">
         <span class="sidebar__section-title">Aktif Katılımcılar</span>
-        <ul class="sidebar__participant-list">
-          <div *ngFor="let user of onlineUser">
+        <ul class="sidebar__participant-list"  >
+          <div *ngFor="let user of onlineUser" style="max-height: 400px;overflow-y: scroll;height: auto;">
            
             <li class="sidebar__participant-list-item mt-3" *ngIf="onlineExist(user)">
               <i class="fa fa-user" class="text-success"></i>
@@ -69,9 +69,7 @@
             <textarea class="form-control" style="height: auto !important;" rows="5" (keydown.enter)="sendAnnouncement()" #titleInput ></textarea>
           </div>
           
-          <!-- <textarea rows="5" (keydown.enter)="sendAnnouncement()" #titleInput  class="rounded form-control"style="width: 100%;">
-
-           </textarea> -->
+   
         </div>
       </div>
       <div class="row" *ngIf="isLeader()">

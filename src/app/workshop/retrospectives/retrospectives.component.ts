@@ -10,12 +10,15 @@ import { ChatService } from "app/services/chat.service";
 import { Retro } from "app/models/retro";
 import { UserRight } from "app/models/userRight";
 import { environment } from "../../../environments/environment";
-import { ActivatedRoute } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { TemplateService } from "app/services/template.service";
 import { GroupFilter } from "app/models/dto/group-filter";
 import { GroupService } from "app/services/group.service";
 import { GroupDto } from "app/models/dto/group-dto";
 import { Group } from "app/models/group";
+import { JsonpClientBackend } from "@angular/common/http";
+import swal from "sweetalert2";
+import { AlertifyService } from "app/services/alertify.service";
 
 declare var $: any;
 @Component({
@@ -46,7 +49,8 @@ export class RetrospectivesComponent implements OnInit {
   retroRights: UserRight = new UserRight();
   editmode: boolean = false;
   groups: Array<GroupDto> = [];
-
+  currentTab: string = '.subject';
+  retroRight: RetroConfigration = new RetroConfigration();
 
   constructor(
     private sharedService: SharedService,
@@ -55,12 +59,22 @@ export class RetrospectivesComponent implements OnInit {
     private groupService: GroupService,
     private configService: RetroConfigurationService,
     private chatService: ChatService,
-    private templateService: TemplateService,
+    private alertifyService: AlertifyService,
     private route: ActivatedRoute,
+    private router: Router,
     private _ngZone: NgZone,
   ) {
 
+
+
+
+    this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
+      this.retroRight = right;
+    });
+
     this.sharedService.tabSource.subscribe((tab: string) => {
+      this.currentTab = tab ? tab : '.select-subject';
+
       if (".idea-archive" == tab) {
         this.isReport = true;
         this.isShow = false;
@@ -135,14 +149,10 @@ export class RetrospectivesComponent implements OnInit {
 
 
 
-      $(tab).click();
-      $(".tab-progress").find(".nav-item").removeClass("active");
-      $(".tab-progress1").find(".nav-item").removeClass("active");
-      $(".tab-progress1").find(tab).parent().addClass("active");
-
-
 
     });
+
+
 
 
     this.sharedService.selectSubject.subscribe((subject: any) => {
@@ -155,14 +165,17 @@ export class RetrospectivesComponent implements OnInit {
         this.currentRetro = retro;
         this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
       }
+      else {
+        this.router.navigate(["/retro-start"])
+      }
     });
 
 
 
 
-
-    this.chatService.userOnline();
-
+    if (!this.authService.hasRole('Leader')) {
+      this.chatService.userOnline();
+    }
     this.sharedService.isShowSubject.subscribe((isShow: any) => {
       this.isShow = isShow;
     });
@@ -183,6 +196,130 @@ export class RetrospectivesComponent implements OnInit {
     }
   }
 
+  clickTab(tab: string) {
+    this.currentTab = '.' + tab;
+    console.log("retro-tab", tab);
+
+    if (".comments" == this.currentTab) {
+      this.sharedService.tabSource.next(".comments");
+      if (this.authService.hasRole("Leader")) {
+
+        let retro = new Retro();
+        retro.id = this.retroRight.retroId;
+        retro.state = 2;
+        retro.currentPage = "/comments"
+        this.chatService.setCurrentRetro(retro);
+      }
+    }
+    if (".categorize" == this.currentTab) {
+      this.sharedService.tabSource.next(".categorize");
+      if (this.authService.hasRole("Leader")) {
+
+        let retro = new Retro();
+        retro.id = this.retroRight.retroId;
+        retro.state = 2;
+        retro.currentPage = "/categorize"
+        this.chatService.setCurrentRetro(retro);
+      }
+
+
+    }
+    if (".vote" == this.currentTab) {
+      this.sharedService.tabSource.next(".vote");
+      if (this.authService.hasRole("Leader")) {
+
+        let retro = new Retro();
+        retro.id = this.retroRight.retroId;
+        retro.state = 2;
+        retro.currentPage = "/vote"
+        this.chatService.setCurrentRetro(retro);
+      }
+    }
+    if (".idea-archive" == this.currentTab) {
+      this.sharedService.tabSource.next(".idea-archive");
+      if (this.authService.hasRole("Leader")) {
+
+        let retro = new Retro();
+        retro.id = this.retroRight.retroId;
+        retro.state = 2;
+        retro.currentPage = "/idea-archive"
+        this.chatService.setCurrentRetro(retro);
+      }
+    }
+
+
+
+    if (".idea-archive" == this.currentTab) {
+      this.isReport = true;
+      this.isShow = false;
+    }
+    else {
+      this.isReport = false;
+      this.isShow = true;
+
+    }
+
+
+    if (".select-subject" == this.currentTab) {
+      this.isShow = false;
+      this.isSelectSubject = true;
+    }
+    else {
+      this.isSelectSubject = false;
+      this.isShow = true;
+
+    }
+
+    if (".select-template" == this.currentTab) {
+      this.isSelectTemplate = true;
+    }
+    else {
+      this.isSelectTemplate = false;
+    }
+
+    if (".brainstorm" == this.currentTab) {
+      this.isBrainstorm = true;
+
+    }
+    else {
+      this.isBrainstorm = false;
+
+    }
+
+    if (".comments" == this.currentTab) {
+      this.isComment = true;
+
+    }
+    else {
+      this.isComment = false;
+
+    }
+
+
+    if (".vote" == this.currentTab) {
+      this.isVote = true;
+    }
+    else {
+      this.isVote = false;
+
+    }
+
+    if (".categorize" == this.currentTab) {
+      this.isCategorized = true;
+    }
+    else {
+      this.isCategorized = false;
+    }
+
+    if (".idea-archive" == this.currentTab) {
+      if (this.authService.hasRole("Leader")) {
+        this.getFilterGroup();
+      }
+    }
+
+
+
+  }
 
   changeTab(tab) {
     console.log("tab", tab);
@@ -232,22 +369,7 @@ export class RetrospectivesComponent implements OnInit {
 
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+
         }
       );
   }
@@ -258,7 +380,7 @@ export class RetrospectivesComponent implements OnInit {
     this.existUser();
 
 
-    console.log("retrointi");
+
 
   }
 
@@ -267,22 +389,14 @@ export class RetrospectivesComponent implements OnInit {
     document.execCommand('copy');
     inputElement.setSelectionRange(0, 0);
 
-    $.notify(
-      {
-        icon: "ti-info",
-        message: "Başarılı bir kopyalandı.",
-      },
-      {
-        type: "info",
-        timer: 4000,
-        placement: {
-          from: "top",
-          align: "right",
-        },
-        template:
-          '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-      }
-    );
+    swal({
+      title: "Başarılı bir kopyalandı.",
+      position: "center",
+      showConfirmButton: false,
+      type: "success",
+      timer: 2000
+    })
+
   }
 
 
@@ -424,22 +538,7 @@ export class RetrospectivesComponent implements OnInit {
             this.config = res;
           },
           (error) => {
-            $.notify(
-              {
-                icon: "ti-gift",
-                message: "İşlem sırasında hata oluştu.",
-              },
-              {
-                type: "danger",
-                timer: 4000,
-                placement: {
-                  from: "top",
-                  align: "right",
-                },
-                template:
-                  '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-              }
-            );
+            this.alertifyService.error();
           }
         );
     }

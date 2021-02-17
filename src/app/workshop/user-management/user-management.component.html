@@ -1,175 +1,132 @@
-<div class="main-content">
-  <div class="row">
-    <div class="col-md-12 ml-auto mr-auto">
-      <div class="card">
-        <div class="card-header">
-          <div class="row">
-            <div class="col-sm-6">
-              <h4 class="card-title float-left">Kullanıcılar</h4>
-            </div>
+<div class="d-flex align-items-center justify-content-between  mb-3  mt-4 users-header ">
+  
+  <h3 class=" mb-0">Kullanıcılar</h3>
+  <button class="btn btn-theme btn-vertical-padding btn-horizontal-padding-md" (click)="newUser()">
+    Kullanıcı Ekle
+  </button>
+</div>
+<div class="d-flex align-items-center justify-content-between mb-2 users-header ">
+  <div class="users-details">
+    <span class="pill-title mr-2 text-bold"
+      [ngClass]="{'text-success': getUserLeader()>0, 'text-danger':getUserLeader()<=0 }">Lider Hakkı: {{ getUserLeader()
+      }}</span>
+    <span class="pill-title text-bold"
+      [ngClass]="{'text-success': getUserMember()>0, 'text-danger':getUserMember()<=0 }">Üye Hakkı: {{ getUserMember()
+      }}</span>
+  </div>
+  <div class="add-user">
+    <div class="form-group" style="margin-right: 0 !important;">
 
+      <select class="form-control" (change)="changeUserType()" [(ngModel)]="userType"
+        [ngModelOptions]="{ standalone: true }">
+        <option value="Leader">Lider</option>
+        <option value="Member">Üye</option>
+      </select>
 
-            <div class="col-sm-6">
-
-              <button type="button" data-toggle="modal" data-target="#userModal"
-                class="btn btn-round btn-primary float-right btn-create">
-                Kullanıcı Ekle
-              </button>
-            </div>
-          </div>
-
-          <div class="row">
-            <div class="col-sm-3">
-              <h6 class="text-success" *ngIf="getUserLeader()>0"> Lider Hakkı: {{ getUserLeader() }}  </h6>
-              <h6 class="text-danger" *ngIf="getUserLeader()<=0"> Lider Hakkı: {{ getUserLeader() }}  </h6>
-
-              <h6 class="text-success"  *ngIf="getUserMember()>0"> Üye Hakkı: {{ getUserMember() }}  </h6>
-              <h6 class="text-danger" *ngIf="getUserMember()<=0"> Üye Hakkı: {{ getUserMember() }}  </h6>
-          
-            </div>
-            
-            <div class="col-sm-3">
-              
-            </div>
-
-            <div class="col-sm-6">
-              
-
-              <select class="form-control" (change)="changeUserType()" [(ngModel)]="userType"
-                [ngModelOptions]="{ standalone: true }">
-                <option value="Leader">Lider</option>
-                <option value="Member">Üye</option>
-              </select>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="toolbar"></div>
-          <table id="datatable" class="table table-striped table-bordered" cellspacing="0" width="100%">
-            <thead>
-              <tr>
-                <th>Kullanıcı Adı</th>
-                <th>Şifre</th>
-                <th>Statu</th>
-
-                <th>İşlemler</th>
-              </tr>
-            </thead>
-
-            <tbody>
-              <tr *ngFor="let row of users">
-                <td>{{ row.userName }}</td>
-                <td>{{ row.rawPassword }}</td>
-                <td>{{ row.statu }}</td>
-
-                <td class="text-left">
-                  <button (click)="editUser(row.id)" type="button" class="btn btn-warning btn-icon btn-sm edit mr-1">
-                    <i class="fa fa-pencil fa-2x"></i>
-                  </button>
-                  <button (click)="
-                      showSwal(
-                        'warning-message-and-confirmation-delete',
-                        row.id
-                      )
-                    " type="button" class="btn btn-danger btn-icon btn-sm remove">
-                    <i class="fa fa-trash fa-2x"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- end content-->
-      </div>
     </div>
+   
   </div>
 </div>
 
-<div class="modal fade" id="userModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-  <form #templateForm="ngForm" class="container mt-3" (ngSubmit)="saveUser()">
-    <div class="modal-dialog modal-lg">
+<div class="card card-theme">
+  <div class="table-responsive">
+    <table class="table w-100 table-theme">
+      <thead>
+        <tr>
+          <th>Kullanıcı Adı</th>
+          <th>Şifre</th>
+          <th>Statü</th>
+          <th  class="text-center">İşlemler</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of users">
+          <td>{{ row.userName }}</td>
+          <td>{{ row.rawPassword }}</td>
+          <td>{{ row.statu }}</td>
+
+          <td class="text-center">
+            <button (click)="editUser(row.id)" class="btn btn-default btn-icon-theme"><i class="fa fa-pencil"></i>
+            </button>
+
+            <button (click)="
+                showSwal(
+                  'warning-message-and-confirmation-delete',
+                  row.id
+                )
+              " type="button" class="btn btn-default btn-icon-theme">
+              <i class="fa fa-trash"></i>
+            </button>
+          </td>
+        </tr>
+
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+  <form #templateForm="ngForm" (ngSubmit)="saveUser()">
+
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header justify-content-center">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"> {{ isUpdate ? "Kullanıcı Güncelle" : "Kullanıcı Ekle" }}
+          </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <i class="nc-icon nc-simple-remove"></i>
+            <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="title title-up">
-            {{ isUpdate ? "Kullanıcı Güncelle" : "Kullanıcı Ekle" }}
-          </h4>
         </div>
         <div class="modal-body">
+          <form action="#">
+            <div class="form-group">
+              <label>Şirket</label>
+              <select class="form-control" disabled [(ngModel)]="user.companyId"
+                [ngModelOptions]="{ standalone: true }">
+                <option value="" selected>Şirket Seçiniz</option>
+                <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Şirket</label>
-                <select class="form-control" disabled [(ngModel)]="user.companyId"
-                  [ngModelOptions]="{ standalone: true }">
-                  <option value="" selected>Şirket Seçiniz</option>
-                  <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
-
-                </select>
-
-              </div>
+              </select>
             </div>
-          </div>
-
-
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Kullanıcı Adı</label>
-                <input style="max-height: max-content" rows="10" class="form-control textarea"
-                  [(ngModel)]="user.userName" [ngModelOptions]="{ standalone: true }" />
-              </div>
+            <div class="form-group">
+              <label>Kullanıcı Adı</label>
+              <input style="max-height: max-content" rows="10" class="form-control textarea" [(ngModel)]="user.userName"
+                [ngModelOptions]="{ standalone: true }" />
             </div>
-          </div>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Şifre</label>
-                <input type="text" style="max-height: max-content" rows="10" class="form-control"
-                  [(ngModel)]="user.rawPassword" [ngModelOptions]="{ standalone: true }" />
-              </div>
+            <div class="form-group">
+              <label>Şifre</label>
+              <input type="text" style="max-height: max-content" rows="10" class="form-control"
+                [(ngModel)]="user.rawPassword" [ngModelOptions]="{ standalone: true }" />
             </div>
-          </div>
 
+            <div class="form-group">
+              <label>Statü</label>
 
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Statü</label>
+              <select class="form-control" disabled [(ngModel)]="user.statu" [ngModelOptions]="{ standalone: true }">
+                <option value="" selected>Statü Seçiniz</option>
 
-                <select class="form-control" [(ngModel)]="user.statu" [ngModelOptions]="{ standalone: true }">
-                  <option value="" selected>Statü Seçiniz</option>
+                <option value="Leader">Lider</option>
+                <option value="Member">Üye</option>
+              </select>
 
-                  <option value="Leader">Lider</option>
-                  <option value="Member">Üye</option>
-                </select>
-
-              </div>
             </div>
-          </div>
-
-
-
+          </form>
         </div>
-
-        <div class="modal-footer">
-          <div class="left-side">
-            <button type="button" class="btn btn-default btn-link" data-dismiss="modal">
-              Vazgeç
-            </button>
-          </div>
-          <div class="divider"></div>
-          <div class="right-side">
-            <button type="submit" class="btn btn-danger btn-link">
-              Kaydet
-            </button>
-          </div>
+        <div class="modal-footer d-flex align-items-center">
+          <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
+            data-dismiss="modal">Vazgeç
+          </button>
+          <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
+            Kaydet
+          </button>
         </div>
       </div>
     </div>
   </form>
 </div>
+
+
+
+

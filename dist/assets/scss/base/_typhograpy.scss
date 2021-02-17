@@ -1,0 +1,53 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+* {
+  color: $color-text-main;
+
+  @include respond($to-screen-large) {
+    font-size: 100%;
+  }
+  @include respond($to-screen) {
+    font-size: 99%;
+  }
+  @include respond($to-tablet-landscape) {
+    font-size: 98%;
+  }
+}
+
+body {
+  font-family: 'Poppins', sans-serif;
+  font-weight: 400;
+  font-size: 100%;
+  color: $color-text-main;
+  line-height: 150%;
+}
+
+.pill-title {
+  background-color: $color-white;
+  padding: .5rem 1rem;
+  border-radius: 2rem;
+  font-size: 1.2rem;
+  color: $color-theme;
+  white-space: nowrap;
+
+  @include respond($to-screen-large) {
+    font-size: 1.15rem;
+  }
+  @include respond($to-tablet-landscape) {
+    font-size: 1.1rem;
+  }
+  @include respond($to-tablet-portrait) {
+    font-size: 1rem;
+  }
+}
+
+.text-bold {
+  font-weight: 500;
+}
+
+.section-title {
+  font-size: 24px;
+  color: #212121;
+  font-weight: 500;
+}

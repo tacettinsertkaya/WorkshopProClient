@@ -41,6 +41,7 @@ import { RetroConfigurationService } from "./services/retro-configuration";
 import { GroupService } from "./services/group.service";
 import { DatetimePipe } from './pipes/datetime.pipe';
 import { SharedService } from "./services/shared.service";
+import { AlertifyService } from "./services/alertify.service";
 
 
 @NgModule({
@@ -77,6 +78,7 @@ import { SharedService } from "./services/shared.service";
     GroupService,
     SharedService,
     ChatService,
+    AlertifyService,
     MessageService,
     RetroConfigurationService,
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },

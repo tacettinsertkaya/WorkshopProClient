@@ -11,11 +11,13 @@ import { UserRight } from "app/models/userRight";
 import { UserService } from "./user.service";
 import { SubjectDto } from "app/models/dto/subject-dto";
 import { RetroAnnouncement } from "app/models/retro-announcement";
+import { User } from "app/models/user";
+import { AuthenticateResponse } from "app/models/authenticate-response";
 
 @Injectable()
 export class ChatService {
   messageReceived = new EventEmitter<Message>();
-  onlineUserReceived = new EventEmitter<string[]>();
+  onlineUserReceived = new EventEmitter<AuthenticateResponse[]>();
   offlineUserReceived = new EventEmitter<string[]>();
   messageListReceived = new EventEmitter<Message[]>();
   connectionEstablished = new EventEmitter<Boolean>();
@@ -88,12 +90,12 @@ export class ChatService {
      }); 
   }
 
-  
-
 
 
   userOnline() {
-    this._hubConnection.invoke("OnlineUser", this.userService.currentUserValue.userName).catch(err =>this.startConnection());
+    let currentUser=this.userService.currentUserValue;
+  
+    this._hubConnection.invoke("OnlineUser",currentUser).catch(err =>this.startConnection());
   }
 
   userOffline() {

@@ -24,6 +24,9 @@ import { Retro } from "app/models/retro";
 import { SharedService } from "app/services/shared.service";
 import { environment } from "../../environments/environment";
 import { ClipboardService } from "ngx-clipboard";
+import swal from "sweetalert2";
+import { AlertifyService } from "app/services/alertify.service";
+import { AuthenticateResponse } from "app/models/authenticate-response";
 
 //Metadata
 export interface RouteInfo {
@@ -44,13 +47,13 @@ export interface ChildrenItems {
 
 export const SUPER_ADMIN_ROUTES: RouteInfo[] = [
 
-  {
-    path: "/dashboard",
-    title: "Dashboard",
-    type: "link",
-    icontype: "nc-icon nc-bank",
+  // {
+  //   path: "/dashboard",
+  //   title: "Dashboard",
+  //   type: "link",
+  //   icontype: "fa fa-home",
 
-  },
+  // },
   {
     path: "/companys",
     title: "Şirketler",
@@ -97,7 +100,7 @@ export const ADMIN_ROUTES: RouteInfo[] = [
     path: "/templates",
     title: "Şablonlar",
     type: "link",
-    icontype: "nc-icon nc-layout-11",
+    icontype: "fa fa-grip-horizontal",
   },
 
 ];
@@ -146,20 +149,20 @@ export const ROUTES: RouteInfo[] = [
     path: "/dashboard",
     title: "Dashboard",
     type: "link",
-    icontype: "nc-icon nc-bank",
+    icontype: "fa fa-home",
 
   },
   {
     path: "/retro-start",
     title: "Retro",
     type: "link",
-    icontype: "nc-icon nc-chat-33",
+    icontype: "fa fa-chat",
   },
   {
     path: "/templates",
     title: "Şablonlar",
     type: "link",
-    icontype: "nc-icon nc-layout-11",
+    icontype: "fa fa-grip-horizontal",
   },
   {
     path: "/subjects",
@@ -199,6 +202,7 @@ export class SidebarComponent {
   constructor(private router: Router,
     private authService: UserService,
     private sharedService: SharedService,
+    private alertifyService: AlertifyService,
     private _clipboardService: ClipboardService,
     private cdr: ChangeDetectorRef,
     private chatService: ChatService, private _ngZone: NgZone,
@@ -209,18 +213,19 @@ export class SidebarComponent {
     this.subscribeToCurrentRetroEvents();
 
     this.sharedService.currentRetro.subscribe((retro: any) => {
-      console.log("retro",retro);
+
       if (retro) {
         this.currentRetro = retro;
         this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
       }
     });
+
   }
 
   @ViewChild("titleInput") titleInput: ElementRef;
   public menuItems: any[];
   users: Array<User> = [];
-  onlineUser: Array<string> = [];
+  onlineUser: Array<AuthenticateResponse> = [];
   announcements: Array<RetroAnnouncement> = [];
   contentText: string = '';
   currentRetro: Retro;
@@ -274,7 +279,7 @@ export class SidebarComponent {
     }
 
     this.currentRetro = this.sharedService.currentRetroValue;
-    console.log("xxxx",this.currentRetro);
+
 
   }
 
@@ -283,29 +288,21 @@ export class SidebarComponent {
   copyLink() {
     this._clipboardService.copyFromContent(this.inviteLink)
 
-    $.notify(
-      {
-        icon: "ti-info",
-        message: "Davet linki başarılı bir kopyalandı.",
-      },
-      {
-        type: "info",
-        timer: 4000,
-        placement: {
-          from: "top",
-          align: "right",
-        },
-        template:
-          '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-      }
-    );
+    swal({
+      title: "Başarılı bir kopyalandı.",
+      position: "center",
+      showConfirmButton: false,
+      type: "success",
+      timer: 2000
+    })
+
   }
 
 
   private subscribeToEvents(): void {
-    this.chatService.onlineUserReceived.subscribe((data: Array<string>) => {
+    this.chatService.onlineUserReceived.subscribe((data: Array<AuthenticateResponse>) => {
       this._ngZone.run(() => {
-        console.log("this.onlineUser", this.onlineUser);
+
         this.onlineUser = data;
         this.getAllUser();
       });
@@ -326,9 +323,14 @@ export class SidebarComponent {
     });
   }
 
-  onlineExist(user) {
+  getShortName(user: AuthenticateResponse) {
+    let shortName = user.name[0].toUpperCase() + user.surname[0].toUpperCase();
+    return shortName;
+  }
 
-    let result = this.onlineUser.filter(p => p == user.name);
+  onlineExist(user:AuthenticateResponse) {
+    let result = this.onlineUser.filter(p => p.userName == user.userName);
+  
     if (result == undefined || result.length == 0)
       return false;
     else
@@ -364,38 +366,26 @@ export class SidebarComponent {
 
   getAllUser() {
     let filterRoles = ["Member"];
+    if (this.authService.currentUserValue) {
 
-    let userFilter = new UserFilter();
-    userFilter.companyId = this.authService.currentUserValue.companyId;
-    userFilter.filterRoles = filterRoles;
+      let userFilter = new UserFilter();
+      userFilter.companyId = this.authService.currentUserValue ? this.authService.currentUserValue.companyId : '';
+      userFilter.filterRoles = filterRoles;
 
-    this.authService
-      .getAllUser(userFilter)
-      .pipe(first())
-      .subscribe(
-        (res) => {
-          this.users = res;
-          this.users = _.orderBy(res, ['userName'], ['asc']);
-        },
-        (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
-        }
-      );
+      this.authService
+        .getAllUser(userFilter)
+        .pipe(first())
+        .subscribe(
+          (res) => {
+            this.users = res;
+            this.users = _.orderBy(res, ['userName'], ['asc']);
+          },
+          (error) => {
+            this.alertifyService.error();
+
+          }
+        );
+    }
   }
 
 }

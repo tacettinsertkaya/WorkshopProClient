@@ -10,6 +10,7 @@ import { ResetPassword } from "app/models/reset-password";
 import { Company } from "app/models/company";
 import { CompanyService } from "app/services/company.service";
 import { UserFilter } from "app/models/dto/user-filter";
+import { AlertifyService } from "app/services/alertify.service";
 
 declare var $: any;
 
@@ -33,6 +34,7 @@ export class AdminComponent implements OnInit {
   constructor(
     private userService: UserService,
     private companyService:CompanyService,
+    private alertifyService:AlertifyService,
     private sharedService: SharedService
   ) {}
   ngOnInit() {
@@ -60,22 +62,7 @@ export class AdminComponent implements OnInit {
           this.companys = res;
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+           this.alertifyService.error();
         }
       );
   }
@@ -95,22 +82,7 @@ export class AdminComponent implements OnInit {
           this.users = res;
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error();
         }
       );
   }
@@ -133,12 +105,12 @@ export class AdminComponent implements OnInit {
 
         this.resetPassword.newPassword='';
         this.resetPassword.confirmPassword='';
-     
+         this.alertifyService.success()
         $('#changePasswordModal').modal('hide');
            this.getAllUser();
       },
       (error) => {
-
+        this.alertifyService.error();
       }
     );
   } 
@@ -148,22 +120,7 @@ export class AdminComponent implements OnInit {
     .sendUserInfo(userId)
     .pipe(first())
     .subscribe((res) => {
-      $.notify(
-        {
-          icon: "ti-gift",
-          message: "Kullanıcı bilgileri  başarılı bir şekilde gönderildi..",
-        },
-        {
-          type: "success",
-          timer: 4000,
-          placement: {
-            from: "top",
-            align: "right",
-          },
-          template:
-            '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-        }
-      );
+      this.alertifyService.success();
       
     });
   }
@@ -180,7 +137,7 @@ export class AdminComponent implements OnInit {
       .subscribe((res) => {
         this.user = res;
         this.isUpdate = true;
-        $("#userModal").modal("show");
+        $("#addModal").modal("show");
       });
   }
 
@@ -191,41 +148,11 @@ export class AdminComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (res) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem başarılı bir şekilde gerçekleşti.",
-            },
-            {
-              type: "success",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.success();
           this.getAllUser();
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error();
         }
       );
   }
@@ -243,42 +170,12 @@ export class AdminComponent implements OnInit {
         .subscribe(
           (res) => {
            this.initData();
-            $.notify(
-              {
-                icon: "ti-gift",
-                message: "İşlem başarılı bir şekilde gerçekleşti.",
-              },
-              {
-                type: "success",
-                timer: 4000,
-                placement: {
-                  from: "top",
-                  align: "right",
-                },
-                template:
-                  '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-              }
-            );
+           this.alertifyService.success();
           this.getAllUser();
-            $("#userModal").modal("hide");
+            $("#addModal").modal("hide");
           },
           (error) => {
-            $.notify(
-              {
-                icon: "ti-gift",
-                message: "İşlem sırasında hata oluştu.",
-              },
-              {
-                type: "danger",
-                timer: 4000,
-                placement: {
-                  from: "top",
-                  align: "right",
-                },
-                template:
-                  '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-              }
-            );
+            this.alertifyService.error();
           }
         );
     } else {
@@ -289,43 +186,13 @@ export class AdminComponent implements OnInit {
           (res) => {
             this.initData();
           
-            $.notify(
-              {
-                icon: "ti-gift",
-                message: "İşlem başarılı bir şekilde gerçekleşti.",
-              },
-              {
-                type: "success",
-                timer: 4000,
-                placement: {
-                  from: "top",
-                  align: "right",
-                },
-                template:
-                  '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-              }
-            );
+            this.alertifyService.success();
             this.getAllUser();
             this.isUpdate = false;
-            $("#userModal").modal("hide");
+            $("#addModal").modal("hide");
           },
           (error) => {
-            $.notify(
-              {
-                icon: "ti-gift",
-                message: "İşlem sırasında hata oluştu.",
-              },
-              {
-                type: "danger",
-                timer: 4000,
-                placement: {
-                  from: "top",
-                  align: "right",
-                },
-                template:
-                  '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-              }
-            );
+            this.alertifyService.error();
           }
         );
     }

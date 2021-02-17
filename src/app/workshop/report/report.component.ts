@@ -27,6 +27,9 @@ import { Company } from "app/models/company";
 import { CompanyService } from "app/services/company.service";
 import { GroupService } from "app/services/group.service";
 import { GroupFilter } from "app/models/dto/group-filter";
+import { AlertifyService } from "app/services/alertify.service";
+import swal from "sweetalert2";
+import { RetroConfigration } from "app/models/retro-configuration";
 
 declare var $: any;
 
@@ -56,6 +59,7 @@ export class ReportComponent implements OnInit {
   currentCompany: Company;
 
   template: Template = new Template();
+  retroRight: RetroConfigration;
 
   constructor(
 
@@ -63,6 +67,7 @@ export class ReportComponent implements OnInit {
     private router: Router,
     private chatService: ChatService,
     private groupService: GroupService,
+    private alertifyService: AlertifyService,
     private userService: UserService,
     private messageService: MessageService,
     private companyService: CompanyService,
@@ -74,6 +79,11 @@ export class ReportComponent implements OnInit {
     this.sharedService.currentRetro.subscribe((retro: Retro) => {
       this.retro = retro;
     });
+
+    this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
+      this.retroRight = right;
+    });
+
 
     this.sharedService.tabSource.subscribe((tab: string) => {
       if (".idea-archive" == tab) {
@@ -102,22 +112,16 @@ export class ReportComponent implements OnInit {
           localStorage.removeItem('currentUser');
           this.userService.currentUserSetValue(null);
           this.router.navigate(['/login']);
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "Retro tamamlandı. Üyelerin sistemden cıkışı sağlandı",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+
+          this.alertifyService.success()
+
+          swal({
+            title: "Başarılı",
+            text: "Retro tamamlandı. Üyelerin sistemden cıkışı sağlandı",
+            type: "success",
+            timer:2000
+          })
+         
         }
       })
     });
@@ -204,7 +208,7 @@ export class ReportComponent implements OnInit {
 
           if (this.categorizedMessages.length > 10) {
             let overdata = this.categorizedMessages.slice(11, this.categorizedMessages.length);
-            this.categorizedMessages = this.categorizedMessages.slice(0, 10);;
+            this.categorizedMessages = this.categorizedMessages.slice(0, 10);
             this.messages.push(...overdata);
 
           }
@@ -246,10 +250,18 @@ export class ReportComponent implements OnInit {
 
     if (this.isLeader()) {
 
-
       this.currentCompany.retroCount = this.currentCompany.retroCount - 1;
       this.updateCompany(this.currentCompany);
 
+      this.sharedService.tabSource.next("");
+      if (this.userService.hasRole("Leader")) {
+
+        let retro = new Retro();
+        retro.id = this.retroRight.retroId;
+        retro.state = 2;
+        retro.currentPage = "/report"
+        this.chatService.setCurrentRetro(retro);
+      }
 
     }
   }

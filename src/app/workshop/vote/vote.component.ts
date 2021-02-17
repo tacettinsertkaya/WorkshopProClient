@@ -130,15 +130,15 @@ export class VoteComponent implements OnInit {
   }
 
   nextReport() {
-    this.sharedService.tabSource.next(".idea-archive");
-    if (this.authService.hasRole("Leader")) {
+    // this.sharedService.tabSource.next(".idea-archive");
+    // if (this.authService.hasRole("Leader")) {
 
-      let retro = new Retro();
-      retro.id = this.retroRight.retroId;
-      retro.state = 2;
-      retro.currentPage = "/idea-archive"
-      this.chatService.setCurrentRetro(retro);
-    }
+    //   let retro = new Retro();
+    //   retro.id = this.retroRight.retroId;
+    //   retro.state = 2;
+    //   retro.currentPage = "/idea-archive"
+    //   this.chatService.setCurrentRetro(retro);
+    // }
 
 
   }

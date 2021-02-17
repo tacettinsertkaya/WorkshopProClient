@@ -1,114 +1,81 @@
-<div class="row">
-  <div class="col-sm-6">
-    <h5 class="card-title">Oyla</h5>
-  </div>
-  <div class="col-sm-6">
-
-    <h5 *ngIf="retroRight != null" class="float-right" [ngClass]="
-          retroRight.voteRight > 0 ? 'text-success' : 'text-danger'
-        ">
-      Oylama Hakkı:{{ retroRight.voteRight }}
-    </h5>
-
-  </div>
+<div class="d-flex justify-content-end mt-3">
+  <span class="pill-title text-bold" *ngIf="retroRight != null"  [ngClass]="
+  retroRight.voteRight > 0 ? 'text-success' : 'text-danger'
+">
+    Oylama Hakkı:{{ retroRight.voteRight }}</span>
 </div>
 
-<div *ngFor="let tmp of template.templateDetail">
-  <h5 class="alert alert-danger">{{tmp.header}}</h5>
-  <div *ngFor="let message of GetHeaderMessage(tmp.id)">
-  <div class="row" >
-    <div class="col-md-12">
-      <div class="card">
-        <div class="card-header">
-          <!-- <h4 class="card-title">
-            <div class="row">
-              <div class="col-sm-6">
-                <h6 class="card-title">{{ item.category.categoryTitle }}</h6>
-              </div>
-              <div class="col-sm-6">
 
+
+<div class="categories mt-5" *ngFor="let tmp of template.templateDetail">
+  <div class="category">
+    <h5 *ngIf="GetHeaderMessage(tmp.id).length>0">{{tmp.header}}</h5>
+    <div class="card card-theme box-shadow-sm border-radius-lg mb-3" *ngFor="let message of GetHeaderMessage(tmp.id)">
+      <div class="card-body p-1 d-flex align-items-center justify-content-between">
+        <div class="card-description">
+          {{ message.messageText }}
+        </div>
+        <div class="card-actions d-flex justify-content-between text-nowrap">
+          <button (click)="getComment(message)" class="btn btn-theme btn-horizontal-padding-xs mr-2">
+            <i class="fa fa-comment-alt mr-2"></i>
+            <div class="d-md-block d-none">Yorumlar</div>
+            
+            <span class="count">{{message.commentCount}}</span>
+          </button>
+          <button [disabled]="retroRight.voteRight <= 0 " (click)="setVote(message)"
+            class="btn btn-theme btn-horizontal-padding-xs">
+            <i class="fa fa-thumbs-up mr-2" [ngClass]="{
+              'text-secondary':isVotedCheck(message.id) === true
+              
+            }"></i>
+            <div class="d-md-block d-none">Oy ver</div>
+            <span class="count">{{message.voteCount}}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+  <!-- <div class="row mt-5" *ngIf="!isUser">
+    <div class="col-md-3 offset-9">
+      <button type="button" (click)="nextReport()" class="btn btn-round btn-success btn-block btn-lg float-right">
+        RAPORLA
+      </button>
+    </div>
+  </div> -->
+
+
+  <div class="modal fade" id="modalComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <form #templateForm="ngForm" (ngSubmit)="sendComment()">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">Yorumlar</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <div class="row" *ngFor="let comment of message.comments">
+              <div class="col-md-12">
+                <div class="card mt-2">
+                  <div class="card-header">
+                    {{ comment.commentText }}
+                  </div>
+                </div>
               </div>
             </div>
-          </h4> -->
-
-          <div class="alert alert-primary fade show">
-            <span><i class="nc-icon nc-bulb-63"></i>
-              {{ message.messageText }}</span>
-
-            <button class="btn btn-warning btn-round float-right btn-sm"   [disabled]="retroRight.voteRight <= 0 "
-              (click)="setVote(message)" style="margin: 0 5px !important;"><i class="fa fa-heart" [ngClass]="{
-                'text-danger':isVotedCheck(message.id) === true
-                
-              }"></i> Oyla
-              ({{message.voteCount}}) </button>
-
-            <button type="button" (click)="getComment(message)"
-              class="btn btn-danger btn-round float-right btn-sm" style="margin:0 !important">Yorumlar
-              ({{message.commentCount}}) </button>
-
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-
-<div class="row" *ngIf="!isUser">
-  <div class="col-md-3 offset-9">
-    <button type="button" (click)="nextReport()" class="btn btn-round btn-success btn-block btn-lg float-right">
-      RAPORLA
-    </button>
-  </div>
-</div>
-
-<div class="modal fade" id="modalComment" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-  <form #templateForm="ngForm" class="container mt-3">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-
-        <div class="modal-header justify-content-center"><button aria-label="Close" class="close" data-dismiss="modal"
-            type="button"><i class="nc-icon nc-simple-remove"></i></button>
-          <h4 class="title title-up">Yorumlar </h4>
-        </div>
-        <div class="modal-body">
-
-          <div class="alert alert-primary fade show" *ngFor="let comment of message.comments">
-            <span><i class="nc-icon nc-bulb-63"></i>
-              {{ comment.commentText }}</span>
 
 
           </div>
+
         </div>
-
       </div>
-    </div>
-  </form>
-</div>
+    </form>
+  </div>
 
-<style>
-  .modal-body {
-    padding: 20px 10px;
-  }
 
-  .checkbox {
-    margin-right: 20px;
-    margin-bottom: 10px;
-  }
 
-  .messaje-list-title {
-    font-weight: bold;
-    font-size: 16px;
-  }
-
-  .message-list {
-    margin: 10px 10px 10px 10px;
-  }
-
-  .categorized-title {
-    font-weight: bold;
-    font-size: 16px;
-    margin-bottom: 10px;
-  }
-</style>
+  

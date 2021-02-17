@@ -1,186 +1,111 @@
-<div class="main-content">
-  <div class="row">
-    <div class="col-md-12 ml-auto mr-auto">
-      <div class="card">
-        <div class="card-header">
-          <div class="row">
-            <div class="col-sm-6">
-              <h4 class="card-title float-left">Şirketler</h4>
-            </div>
-            <div class="col-sm-6">
-              <button
-                type="button"
-                data-toggle="modal"
-                data-target="#userModal"
-                class="btn btn-round btn-primary float-right btn-create"
-              >
-                Şirket Ekle
-              </button>
-            </div>
-          </div>
-        </div>
-        <div class="card-body">
-          <div class="toolbar"></div>
-          <table
-            id="datatable"
-            class="table table-striped table-bordered"
-            cellspacing="0"
-            width="100%"
-          >
-            <thead>
-              <tr>
-                <th>Şirket Adı</th>
-              
-                <th>Maksimum Katılımcı</th>
-                <th>Maksimum Retro</th>
-                <th>İşlemler</th>
-                
-              </tr>
-            </thead>
-   
-            <tbody>
-              <tr *ngFor="let row of companys">
-                <td>{{ row.companyName }}</td>
-                <td>{{ row.participantCount }}</td>
-                <td>{{ row.retroCount }}</td>
-              
-                <td class="text-left">
-                  <button
-                    (click)="editCompany(row.id)"
-                    type="button"
-                    class="btn btn-warning btn-icon btn-sm edit mr-1"
-                  >
-                    <i class="fa fa-pencil fa-2x"></i>
-                  </button>
-                  <button
-                    (click)="
-                      showSwal(
-                        'warning-message-and-confirmation-delete',
-                        row.id
-                      )
-                    "
-                    type="button"
-                    class="btn btn-danger btn-icon btn-sm remove"
-                  >
-                    <i class="fa fa-trash fa-2x"></i>
-                  </button>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <!-- end content-->
-      </div>
-    </div>
+
+
+<div class="row   mb-3 mt-5">
+  <div class="col-sm-6 d-flex align-items-center">
+    <h3 class="float-left mb-0">Şirketler</h3>
+  </div>
+  <div class="col-sm-6 ">
+    <button class=" float-right btn btn-theme btn-horizontal-padding btn-vertical-padding" 
+    data-toggle="modal"
+     data-target="#addCompanyModal">Şirket Ekle</button>
   </div>
 </div>
 
-<div
-  class="modal fade"
-  id="userModal"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="ModalLabel"
-  aria-hidden="true"
->
-  <form
-    #templateForm="ngForm"
-    class="container mt-3"
-    (ngSubmit)="saveCompany()"
-  >
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header justify-content-center">
-          <button
-            type="button"
-            class="close"
-            data-dismiss="modal"
-            aria-label="Close"
-          >
-            <i class="nc-icon nc-simple-remove"></i>
-          </button>
-          <h4 class="title title-up">
-            {{ isUpdate ? "Şirket Güncelle" : "Şirket Ekle" }}
-          </h4>
-        </div>
-        <div class="modal-body">
-
-
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Şirket Adı</label>
-                <input
-                  style="max-height: max-content"
-                  rows="10"
-                  class="form-control textarea"
-                  [(ngModel)]="company.companyName"
-                  [ngModelOptions]="{ standalone: true }"
-                />
-              </div>
-            </div>
+<div class="card card-theme">
+  <div class="table-responsive">
+    <table class="table w-100 table-theme">
+      <thead>
+      <tr>
+        <th>Şirket Adı</th>
+        <th class="text-center">Maksimum Katılımcı</th>
+        <th class="text-center">Maksimum Retro</th>
+        <th class="text-right" style="padding-right: 20px;">İşlemler</th>
+      </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let row of companys">
+          <td>{{ row.companyName }}</td>
+          <td class="text-center">{{ row.participantCount }}</td>
+          <td class="text-center">{{ row.retroCount }}</td>
+        
+        <td>
+          <div class="d-flex align-items-center justify-content-end">
+            <button  (click)="editCompany(row.id)" class="btn btn-default btn-icon-theme"><i class="fa fa-edit"></i></button>
+          <button (click)="
+          showSwal(
+            'warning-message-and-confirmation-delete',
+            row.id
+          )
+        " class="btn btn-default btn-icon-theme"><i class="fa fa-trash"></i></button>
           </div>
+        </td>
 
+     
+      </tr>
+    
+       
+      </tbody>
+    </table>
+  </div>
+</div>
+<div class="modal fade" id="addCompanyModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+     aria-hidden="true">
+     <form
+     #templateForm="ngForm"
+     class="container mt-3"
+     (ngSubmit)="saveCompany()"
+   >
+  <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle"> {{ isUpdate ? "Şirket Güncelle" : "Şirket Ekle" }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+    
+          <div class="form-group">
+            <label for="companyName">Şirket Adı</label>
+        
+            <input
+            class="form-control"
+            [(ngModel)]="company.companyName"
+            [ngModelOptions]="{ standalone: true }"
+          />
 
-
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Maksimum Retro Sayısı</label>
-                <input
+          </div>
+          <div class="form-group">
+            <label for="maxRetroCount">Maximum Retro Sayısı</label>
+            <input
                   type="number"
                   class="form-control"
                   [(ngModel)]="company.retroCount"
                   [ngModelOptions]="{ standalone: true }"
                 />
-              </div>
-            </div>
           </div>
-
-
-
-          <div class="row">
-            <div class="col-12">
-              <div class="form-group">
-                <label>Maksimum Katılımcı Sayısı</label>
-                <input
+          <div class="form-group">
+            <label for="maxContributorCount">Maximum Katılımcı Sayısı</label>
+            <input
                    type="number"
                   class="form-control "
                   [(ngModel)]="company.participantCount"
                   [ngModelOptions]="{ standalone: true }"
                 />
-              </div>
-            </div>
           </div>
-
-
-
-
-  
-        </div>
-
-        <div class="modal-footer">
-          <div class="left-side">
-            <button
-              type="button"
-              class="btn btn-default btn-link"
-              data-dismiss="modal"
-            >
-              Vazgeç
-            </button>
-          </div>
-          <div class="divider"></div>
-          <div class="right-side">
-            <button type="submit" class="btn btn-danger btn-link">
-              Kaydet
-            </button>
-          </div>
-        </div>
+       
+      </div>
+      <div class="modal-footer d-flex align-items-center">
+        <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
+                data-dismiss="modal">Vazgeç
+        </button>
+        <button  type="submit"   class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
+          Kaydet
+        </button>
       </div>
     </div>
-  </form>
+  </div>
+     </form>
 </div>
-
-
 
 

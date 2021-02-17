@@ -1,89 +1,60 @@
-<nav
-  class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent"
->
-  <div class="container">
-    <div class="navbar-wrapper">
-      <div class="navbar-toggle" (click)="sidebarToggle()">
-        <button type="button" class="navbar-toggler">
-          <span class="navbar-toggler-bar bar1"></span>
-          <span class="navbar-toggler-bar bar2"></span>
-          <span class="navbar-toggler-bar bar3"></span>
-        </button>
-      </div>
-      <a class="navbar-brand" [routerLink]="['/dashboard']">Workshop Pro</a>
-    </div>
-  </div>
-</nav>
+<div class="create-retro d-flex justify-content-end m-5" style="background-image: url('assets/img/retro-bg.png')">
+  <form [formGroup]="loginForm" (ngSubmit)="logIn()" class="create-retro__form">
 
-<div class="wrapper wrapper-full-page">
-  <div
-    class="full-page section-image"
-    filter-color="black"
-    data-image="../assets/img/bg/fabio-mangione.jpg"
-  >
-    <!--   you can change the color of the filter page using: data-color="blue | purple | green | orange | red | rose " -->
-    <div class="content">
-      <div class="container">
-        <div class="col-lg-4 col-md-6 ml-auto mr-auto">
-          <form [formGroup]="loginForm" (ngSubmit)="logIn()">
-            <div class="card card-login">
-              <div class="card-header">
-                <div class="card-header">
-                  <h3 class="header text-center">GİRİŞ</h3>
-                </div>
-              </div>
-              <div class="card-body">
-              
-                <p class="text-center text-danger" *ngIf="errorMessage">
-                  {{errorMessage}}
-                </p>
-                <div
-                  class="input-group"
-                  [ngClass]="{ 'input-group-focus': focus1 === true }"
-                >
-                  <div class="input-group-prepend">
-                    <span class="input-group-text">
-                      <i class="nc-icon nc-badge"></i>
-                    </span>
-                  </div>
-                  <input
-                  [disabled]="isFailed" 
-                  (blur)="clearError()"
-                  (focus)="clearError()"
-                    type="text"
-                    placeholder="Takma Ad"
-                    formControlName="alias"
-                    class="form-control"
-                    (focus)="focus1 = true"
-                    (blur)="focus1 = false"
-                  />
 
-             
-             
-                </div>
-              </div>
-              <div class="card-footer">
-                <button type="submit" 
-                  class="btn btn-success btn-round btn-block"  [disabled]="isFailed" style="width: 100%;"
-                  >GİRİŞ</button
-                >
-              </div>
-            </div>
-          </form>
-        </div>
+    <h1 class="text-center mb-5">GİRİŞ</h1>
+
+    <div class="form-group " [ngClass]="{ 'input-group-focus': focus === true }">
+
+      <label for="username">Takma Ad</label>
+      <input [disabled]="isFailed" (blur)="clearError()" (focus)="clearError()" type="text" formControlName="alias"
+        class="form-control" (focus)="focus1 = true" (blur)="focus1 = false" />
+
+      <div
+        *ngIf="(loginForm.get('alias').invalid && ( loginForm.get('alias').touched) || loginForm.get('alias').dirty)">
+        <small *ngIf="loginForm.get('alias').errors?.required" class="text-danger">Takma ad giriniz</small>
       </div>
     </div>
-    <footer class="footer footer-black footer-white">
-      <div class="container">
-        <div class="row">
-          <div class="credits ml-auto">
-            <span class="copyright">
-              &copy; {{ test | date: "yyyy" }}, Workshop Pro
-              <i class="fa fa-heart heart"></i>
-            </span>
-          </div>
-        </div>
+
+
+
+    <div class="form-group " >
+
+      <label for="username">Ad</label>
+      <input [disabled]="isFailed" (blur)="clearError()" (focus)="clearError()" type="text" formControlName="name"
+        class="form-control"  />
+
+      <div
+        *ngIf="(loginForm.get('name').invalid && ( loginForm.get('name').touched) || loginForm.get('name').dirty)">
+        <small *ngIf="loginForm.get('name').errors?.required" class="text-danger">Ad giriniz</small>
       </div>
-    </footer>
-  </div>
+    </div>
+
+
+
+    <div class="form-group " >
+
+      <label for="username">Soyad</label>
+      <input [disabled]="isFailed" (blur)="clearError()" (focus)="clearError()" type="text" formControlName="surname"
+        class="form-control"  />
+
+      <div
+        *ngIf="(loginForm.get('surname').invalid && ( loginForm.get('surname').touched) || loginForm.get('surname').dirty)">
+        <small *ngIf="loginForm.get('surname').errors?.required" class="text-danger">Soyad giriniz</small>
+      </div>
+    </div>
+
+
+
+    <div class="d-flex justify-content-end">
+      <button type="submit" [disabled]="isFailed"
+        class="btn btn-theme btn-vertical-padding btn-horizontal-padding">GİRİŞ YAP</button>
+    </div>
+
+    <p class="text-center text-danger" *ngIf="errorMessage">
+      {{errorMessage}}
+    </p>
+  </form>
 </div>
+
+

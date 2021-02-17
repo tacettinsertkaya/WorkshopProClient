@@ -1,0 +1,27 @@
+@import "../abstracts/variables";
+
+.btn-dark-blue {
+  font-weight: 500;
+  padding: .5rem 1.5rem;
+  color: $color-gray-light;
+  background-color: $color-sidebar-bg;
+  font-size: .9rem;
+  display: flex;
+  align-items: center;
+  text-align: center;
+
+  & > * {
+    color: $color-gray-light;
+  }
+
+  &:focus {
+    box-shadow: 0 0 0 0.2rem rgba($color-sidebar-bg, .25);
+  }
+
+  span.count {
+    border: 1px solid $color-gray-light;
+    padding: .1rem .2rem;
+    font-size: .9rem;
+    margin-left: .5rem;
+  }
+}

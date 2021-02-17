@@ -13,6 +13,7 @@ import { Retro } from "app/models/retro";
 import { Router } from "@angular/router";
 import { UserRight } from "app/models/userRight";
 import { RetroConfigurationService } from "app/services/retro-configuration";
+import { AlertifyService } from "app/services/alertify.service";
 
 declare var $: any;
 @Component({
@@ -41,6 +42,7 @@ export class BrainstormComponent implements OnInit {
     private retroService: RetroConfigurationService,
     private messageService: MessageService,
     private authService: UserService,
+    private alertifyService:AlertifyService,
     private templateService: TemplateService,
     private sharedService: SharedService,
     private router: Router,
@@ -113,15 +115,15 @@ export class BrainstormComponent implements OnInit {
   }
 
   nextComment() {
-    this.sharedService.tabSource.next(".categorize");
-    if(this.authService.hasRole("Leader")){
+    // this.sharedService.tabSource.next(".categorize");
+    // if(this.authService.hasRole("Leader")){
     
-          let retro=new Retro();
-          retro.id=this.retroRight.retroId;
-          retro.state=2;
-          retro.currentPage="/categorize"
-          this.chatService.setCurrentRetro(retro);
-    }
+    //       let retro=new Retro();
+    //       retro.id=this.retroRight.retroId;
+    //       retro.state=2;
+    //       retro.currentPage="/categorize"
+    //       this.chatService.setCurrentRetro(retro);
+    // }
 
   }
 
@@ -183,7 +185,7 @@ export class BrainstormComponent implements OnInit {
       .subscribe(
         (data) => {
           this.messages = data;
-          console.log("messagessss",this.messages);
+          
           this.sortedlist();
         },
         (error) => {}

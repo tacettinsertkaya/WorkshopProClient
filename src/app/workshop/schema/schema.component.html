@@ -1,132 +1,112 @@
 <div class="card-title">
   <div class="row">
     <div class="col-sm-6">
-      <h5>Fikir Geliştirme Şablonu Seç</h5>
     </div>
     <div class="col-sm-6">
-      <button *ngIf="!isUser" type="button" data-toggle="modal" data-target="#templateModal"
-        class="btn btn-round btn-primary float-right btn-create">
+      <button *ngIf="!isUser" type="button" data-toggle="modal" data-target="#addModal"
+      class=" float-right btn btn-theme btn-horizontal-padding btn-vertical-padding">
         Şablon Ekle
       </button>
+    
     </div>
   </div>
 </div>
 
 
-<div class="row" *ngIf="templates.length > 0">
-  <div class="col-md-3" *ngFor="let template of templates; let i = index">
-    
-    <button [disabled]="isUser" *ngIf="
-        template.templateDetail.length >= 1 &&
-        template.templateDetail[0].header != ''
-      " (click)="selectTemplate(template.id)" class="card text-center p-3 btn btn-default btn-block"
-      [ngClass]="{ active: selectTemplateId == template.id }">
-      <div class="card-body w-100">
-        <h6 class="card-title">
-          |
+<div class="row mt-5" *ngIf="templates.length > 0">
+  <div class="col-sm-6 col-xs-12 mb-3" *ngFor="let template of templates; let i = index">
+    <a [class.disabled]="isUser" *ngIf="
+    template.templateDetail.length >= 1 &&
+    template.templateDetail[0].header != ''
+  " (click)="selectTemplate(template.id)" [ngClass]="{ active: selectTemplateId == template.id }">
+      <div class="card box-shadow card-theme d-flex justify-content-center align-items-center">
+        <h3 class="card-title mb-2 mt-2 text-secondary mini-btn">
           <span class="align-baseline" *ngFor="let detail of template.templateDetail; let j = index">
-            {{ detail.header }} |
+            {{ detail.header }}
           </span>
-        </h6>
+        </h3>
       </div>
-    </button>
-
-    <button *ngIf="
-        template.templateDetail.length == 1 &&
-        template.templateDetail[0].header == ''
-      " (click)="selectTemplate(template.id)" [ngClass]="{ active: selectTemplateId == template.id }"
-      class="card text-center shadow-lg p-3 btn btn-default btn-block">
-      <div class="card-body w-100">
-        <h6 class="card-title">
-          <span class="align-baseline"> Şablonsuz devam et </span>
-        </h6>
+    </a>
+    <a *ngIf="
+    template.templateDetail.length == 1 &&
+    template.templateDetail[0].header == ''
+  " (click)="selectTemplate(template.id)" [ngClass]="{ active: selectTemplateId == template.id }">
+      <div class="card box-shadow card-theme d-flex justify-content-center align-items-center">
+        <h3 class="card-title mb-2 mt-2 text-secondary">|
+          <span class="align-baseline" >
+            Şablonsuz devam et 
+          </span>
+        </h3>
       </div>
-    </button>
+    </a>
   </div>
+
+
 </div>
 
-<div class="modal fade" id="templateModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
   <form #templateForm="ngForm" class="container mt-3" (ngSubmit)="saveTemplate()">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
-        <div class="modal-header justify-content-center">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle">Yeni Şablon Ekle</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <i class="nc-icon nc-simple-remove"></i>
+            <span aria-hidden="true">&times;</span>
           </button>
-          <h4 class="title title-up">Şablon Oluştur</h4>
         </div>
         <div class="modal-body">
 
-          <div class="row">
-            <div class="col-sm-12">
-             <div class="form-group">
-               <label>Şirket</label>
-               <select class="form-control" disabled  [(ngModel)]="data.companyId"  [ngModelOptions]="{ standalone: true }">
-                      <option value="" selected>Şirket Seçiniz</option>
-                      <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
-                    
-               </select>
+          <div class="form-group">
+            <label>Şirket</label>
+            <select class="form-control" disabled [(ngModel)]="data.companyId" [ngModelOptions]="{ standalone: true }">
+              <option value="" selected>Şirket Seçiniz</option>
+              <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
 
-             </div>
+            </select>
 
-            </div>
-         </div>
-          <div class="row">
-            <div class="col-sm-6"></div>
-            <div class="col-sm-6">
-              <button type="button" class="btn btn-primary btn-round mb-2 float-right" (click)="addHeader()">
-                <i class="nc-icon nc-simple-add"></i>
-              </button>
-            </div>
           </div>
-          <div class="row">
-            <div class="col-12">
-              <section class="container border mb-4 p-3" *ngFor="let header of headers; let i = index">
-                <div class="row">
-                  <div class="col-6">
-                    <div class="form-group">
-                      <label>Başlık</label>
-                      <input type="text" class="form-control" [(ngModel)]="header.header"
-                        name="header_{{ header.order }}" placeholder="Başlık Giriniz" />
-                    </div>
-                  </div>
-                  <div class="col-4">
-                    <div class="form-group">
-                      <label>Sıra</label>
-                      <select class="form-control" (change)="changeSort()" [(ngModel)]="header.order"
-                        name="order_{{ header.order }}" placeholder="India">
-                        <option *ngFor="let i of orderlist; let i = index" [value]="i">
-                          {{ i }}
-                        </option>
-                      </select>
-                    </div>
-                  </div>
-                  <div class="col-2">
-                    <div class="form-group">
-                      <label></label>
-                      <button type="button" class="btn btn-danger btn-round btn-sm float-right"
-                        style="margin-top: 20px !important" (click)="removeHeader(i)">
-                        <i class="nc-icon nc-simple-remove"></i>
-                      </button>
-                    </div>
-                  </div>
+          <button type="button" (click)="addHeader()" class="btn btn-block btn-outline-theme text-center btn-vertical-padding mb-3">
+            <i class="fa fa-plus"></i>
+          </button>
+          <div class="template-title">
+           
+            <div class="template-title-group" *ngFor="let header of headers; let i = index">
+              <div class="form-group">
+                <label>Başlık</label>
+                <input type="text" class="form-control" [(ngModel)]="header.header" name="header_{{ header.order }}"
+                  placeholder="Başlık Giriniz" />
+              </div>
+              <div class="template-title-group__utils">
+                <div class="form-group">
+                  <label>Sıra</label>
+                  <select class="form-control" (change)="changeSort()" [(ngModel)]="header.order"
+                    name="order_{{ header.order }}" placeholder="India">
+                    <option *ngFor="let i of orderlist; let i = index" [value]="i">
+                      {{ i }}
+                    </option>
+                  </select>
                 </div>
-              </section>
+                <div class="d-flex align-items-end pb-3 form-cancel">
+                  <button type="button" (click)="removeHeader(i)" class="btn btn-theme">
+                    <i class="fa fa-times"></i>
+                  </button>
+                </div>
+              </div>
             </div>
+
           </div>
+
         </div>
-        <div class="modal-footer">
-          <div class="left-side">
-            <button type="button" class="btn btn-default btn-link" data-dismiss="modal">
-              Vazgeç
-            </button>
-          </div>
-          <div class="divider"></div>
-          <div class="right-side">
-            <button type="submit" class="btn btn-success btn-link">
-              Kaydet
-            </button>
-          </div>
+        <div class="modal-footer d-flex align-items-center">
+          <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
+            data-dismiss="modal">
+            Vazgeç
+          </button>
+          <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
+            Kaydet
+          </button>
         </div>
       </div>
     </div>

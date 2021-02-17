@@ -12,6 +12,7 @@ import { SubjectDto } from "app/models/dto/subject-dto";
 import { CompanyService } from "app/services/company.service";
 import { Company } from "app/models/company";
 import { SubjectFilter } from "app/models/dto/subject-filter";
+import { AlertifyService } from "app/services/alertify.service";
 
 declare var $: any;
 
@@ -36,6 +37,7 @@ export class SubjectListComponent implements OnInit {
     private sharedService: SharedService,
     private authService: UserService,
     private chatService: ChatService,
+    private alertifyService: AlertifyService,
     private companyService: CompanyService,
     private _ngZone: NgZone
   ) {
@@ -61,7 +63,7 @@ export class SubjectListComponent implements OnInit {
     this.sharedService.isShowSubject.next(false);
     this.sharedService.tabSource.next(".select-template");
     if(this.authService.hasRole("Leader")){
-    
+  
       let retro=new Retro();
       retro.id=this.retroRight.retroId;
       retro.state=2;
@@ -106,22 +108,7 @@ getAllCompany() {
         this.companys = res;
       },
       (error) => {
-        $.notify(
-          {
-            icon: "ti-gift",
-            message: "İşlem sırasında hata oluştu.",
-          },
-          {
-            type: "danger",
-            timer: 4000,
-            placement: {
-              from: "top",
-              align: "right",
-            },
-            template:
-              '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-          }
-        );
+        this.alertifyService.error()
       }
     );
 }
@@ -144,22 +131,7 @@ getAllCompany() {
           }
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error()
         }
       );
   }
@@ -171,7 +143,7 @@ getAllCompany() {
       .subscribe((res) => {
         this.subject = res;
         this.isUpdate = true;
-        $("#subjectModal").modal("show");
+        $("#addModal").modal("show");
       });
   }
   removeSubject(subjectId: any) {
@@ -180,41 +152,11 @@ getAllCompany() {
       .pipe(first())
       .subscribe(
         (res) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem başarılı bir şekilde gerçekleşti.",
-            },
-            {
-              type: "success",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.success()
           this.getSubjects();
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error()
         }
       );
   }
@@ -238,43 +180,13 @@ getAllCompany() {
           (res) => {
             this.subject.subjectTitle = "";
             this.subject.subjectDescription = "";
-            $.notify(
-              {
-                icon: "ti-gift",
-                message: "İşlem başarılı bir şekilde gerçekleşti.",
-              },
-              {
-                type: "success",
-                timer: 4000,
-                placement: {
-                  from: "top",
-                  align: "right",
-                },
-                template:
-                  '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-              }
-            );
+            this.alertifyService.success()
             this.getSubjects();
 
-            $("#subjectModal").modal("hide");
+            $("#addModal").modal("hide");
           },
           (error) => {
-            $.notify(
-              {
-                icon: "ti-gift",
-                message: "İşlem sırasında hata oluştu.",
-              },
-              {
-                type: "danger",
-                timer: 4000,
-                placement: {
-                  from: "top",
-                  align: "right",
-                },
-                template:
-                  '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-              }
-            );
+            this.alertifyService.error()
           }
         );
     } else {
@@ -285,43 +197,13 @@ getAllCompany() {
           (res) => {
             this.subject.subjectTitle = "";
             this.subject.subjectDescription = "";
-            $.notify(
-              {
-                icon: "ti-gift",
-                message: "İşlem başarılı bir şekilde gerçekleşti.",
-              },
-              {
-                type: "success",
-                timer: 4000,
-                placement: {
-                  from: "top",
-                  align: "right",
-                },
-                template:
-                  '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-              }
-            );
+            this.alertifyService.success()
             this.getSubjects();
             this.isUpdate = false;
-            $("#subjectModal").modal("hide");
+            $("#addModal").modal("hide");
           },
           (error) => {
-            $.notify(
-              {
-                icon: "ti-gift",
-                message: "İşlem sırasında hata oluştu.",
-              },
-              {
-                type: "danger",
-                timer: 4000,
-                placement: {
-                  from: "top",
-                  align: "right",
-                },
-                template:
-                  '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-              }
-            );
+            this.alertifyService.error()
           }
         );
     }

@@ -1,167 +1,135 @@
-<div class="main-content">
-  <div class="row">
-    <div class="col-md-12 ml-auto mr-auto">
-      <div class="card card-plain card-subcategories">
-        <div class="card-body">
-          <ul class="nav nav-pills nav-pills-primary nav-pills-icons justify-content-center tab-progress1"
-          role="tablist">
-          <li class="nav-item active">
-            <span  class="nav-link select-subject" >
-              <i class="now-ui-icons objects_umbrella-13"></i> Konu Seç
-            </span>
-          </li>
-          <li class="nav-item">
-            <span  class="nav-link select-template"  >
-              <i class="now-ui-icons objects_umbrella-13"></i> Şablon Seç
-            </span>
-          </li>
+<ul class="header__retro-navigation tab-progress" *ngIf="isUser" role="tablist">
+  <li class="navigation-item active">
+    <a class="navigation-link select-subject"   [ngClass]="{'active':currentTab=='.select-subject'}"
+      >
+      Konu Seç
+    </a>
+  </li>
+  <li class="navigation-item">
+    <a class="navigation-link select-template"   [ngClass]="{'active':currentTab=='.select-template'}"
+     >
+      Şablon Seç
+    </a>
+  </li>
 
-          <li class="nav-item">
-            <span  class="nav-link brainstorm" >
-              <i class="now-ui-icons objects_umbrella-13"></i> Fikir Geliştir
-            </span>
-          </li>
-          <li class="nav-item">
-            <span  class="nav-link categorize" 
-             >
-              <i class="now-ui-icons shopping_shop"> </i> Kategorize Et
-            </span>
-          </li>
-          <li class="nav-item">
-            <span  class="nav-link comments"  >
-              <i class="now-ui-icons shopping_shop"></i> Yorum Yap
-            </span>
-          </li>
-       
-          <li class="nav-item">
-            <span  class="nav-link vote">
-              <i class="now-ui-icons ui-2_settings-90"></i> Oyla
-            </span>
-          </li>
-
-          <li class="nav-item">
-            <span  class="nav-link idea-archive" >
-              <i class="now-ui-icons ui-2_settings-90"></i>Raporla
-            </span>
-          </li>
-        </ul>
-
-
-          <ul style="visibility: hidden;" class="nav nav-pills nav-pills-primary nav-pills-icons justify-content-center tab-progress"
-            role="tablist">
-            <li class="nav-item active">
-              <a  class="nav-link select-subject" data-toggle="tab" href="#subject"
-                role="tablist">
-                <i class="now-ui-icons objects_umbrella-13"></i> Konu Seç
-              </a>
-            </li>
-            <li class="nav-item">
-              <a  class="nav-link select-template" data-toggle="tab"
-                href="#select-template" role="tablist">
-                <i class="now-ui-icons objects_umbrella-13"></i> Şablon Seç
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a  class="nav-link brainstorm" data-toggle="tab" href="#brainstorm"
-                role="tablist">
-                <i class="now-ui-icons objects_umbrella-13"></i> Fikir Geliştir
-              </a>
-            </li>
-            <li class="nav-item">
-              <a  class="nav-link categorize" data-toggle="tab" href="#categorize"
-                role="tablist">
-                <i class="now-ui-icons shopping_shop"> </i> Kategorize Et
-              </a>
-            </li>
-            <li class="nav-item">
-              <a  class="nav-link comments" data-toggle="tab" href="#comments"
-                role="tablist">
-                <i class="now-ui-icons shopping_shop"></i> Yorum Yap
-              </a>
-            </li>
-         
-            <li class="nav-item">
-              <a  class="nav-link vote" data-toggle="tab" href="#vote"
-                role="tablist">
-                <i class="now-ui-icons ui-2_settings-90"></i> Oyla
-              </a>
-            </li>
-
-            <li class="nav-item">
-              <a  class="nav-link idea-archive" data-toggle="tab" href="#idea-archive"
-                role="tablist">
-                <i class="now-ui-icons ui-2_settings-90"></i>Raporla
-              </a>
-            </li>
-          </ul>
-        </div>
-      </div>
-    </div>
-  </div>
-
-<!-- 
-  <div class="row"  *ngIf="isExistLeader() && currentRetro" >
-    <div class="col-12">
-      <div class="form-group">
-        <label>Davet Linki</label>
-        <input
-        #copyInput 
-          
-          class="form-control"
-          value="{{inviteLink}}"
-        />
-      </div>
-      <button class="btn btn-success input-inside-button" type="button" (click)="copyLink(copyInput)" >Kopyala</button>
-    </div>
+  <li class="navigation-item">
+    <a class="navigation-link brainstorm"  [ngClass]="{'active':currentTab=='.brainstorm'}"
+      >
+      Fikir Geliştir
+    </a>
+  </li>
+  <li class="navigation-item">
   
-  </div> -->
-  <div class="row" *ngIf="isShow">
-    <div class="col-md-12 ml-auto mr-auto">
-      <div class="form-group">
+    <a class="navigation-link categorize"  [ngClass]="{'active':currentTab=='.categorize'}"
+      >
+      Kategorize Et
+    </a>
+  </li>
+  <li class="navigation-item">
+    <a class="navigation-link comments"   [ngClass]="{'active':currentTab=='.comments'}">
+      Yorum Yap
+    </a>
+  </li>
+
+  <li class="navigation-item">
+    <a class="navigation-link vote"   [ngClass]="{'active':currentTab=='.vote'}" >
+      Oyla
+    </a>
+  </li>
+
+  <li class="navigation-item">
+    <a class="navigation-link idea-archive"  [ngClass]="{'active':currentTab=='.idea-archive'}"
+      >
+      Raporla
+    </a>
+  </li>
+</ul>
+
        
-        
-      </div>
-      <div class="card">
-        <div class="card-header">
-          <h6 class="title">{{ selectSubject.subjectTitle }}</h6>
-        </div>
-        <div class="card-body">
-          {{ selectSubject.subjectDescription }}
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="row">
-    <div class="col-md-12 ml-auto mr-auto">
-      <div class="card card-plain">
-        <div class="card-body">
-          <div class="tab-content tab-space tab-subcategories">
-            <div class="tab-pane active" id="subject">
-              <subject-list-cmp></subject-list-cmp>
-            </div>
-            <div class="tab-pane" id="select-template">
-              <schema-cmp></schema-cmp>
-            </div>
-            <div class="tab-pane" id="brainstorm">
-              <brainstorm-cmp *ngIf="isBrainstorm"></brainstorm-cmp>
-            </div>
-            <div class="tab-pane" id="comments">
-              <comments-cmp *ngIf="isComment"></comments-cmp>
-            </div>
-            <div class="tab-pane" id="categorize">
-              <app-categorized-cmp *ngIf="isCategorized"></app-categorized-cmp>
-            </div>
-            <div class="tab-pane" id="vote">
-              <app-vote-cmp *ngIf="isVote"></app-vote-cmp>
-            </div>
-            <div class="tab-pane" id="idea-archive">
-              <app-report-cmp *ngIf="isReport"></app-report-cmp>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+<ul class="header__retro-navigation tab-progress" role="tablist" *ngIf="!isUser">
+  <li class="navigation-item active">
+    <a class="navigation-link select-subject"   [ngClass]="{'active':currentTab=='.select-subject'}"
+      (click)="clickTab('select-subject')">
+      Konu Seç
+    </a>
+  </li>
+  <li class="navigation-item">
+    <a class="navigation-link select-template"   [ngClass]="{'active':currentTab=='.select-template'}"
+      (click)="clickTab('select-template')">
+      Şablon Seç
+    </a>
+  </li>
+
+  <li class="navigation-item">
+    <a class="navigation-link brainstorm"   [ngClass]="{'active':currentTab=='.brainstorm'}"
+      (click)="clickTab('brainstorm')">
+      Fikir Geliştir
+    </a>
+  </li>
+  <li class="navigation-item">
+  
+    <a class="navigation-link categorize"  [ngClass]="{'active':currentTab=='.categorize'}"
+      (click)="clickTab('categorize')">
+      Kategorize Et
+    </a>
+  </li>
+  <li class="navigation-item">
+    <a class="navigation-link comments"   [ngClass]="{'active':currentTab=='.comments'}" (click)="clickTab('comments')">
+      Yorum Yap
+    </a>
+  </li>
+
+  <li class="navigation-item">
+    <a class="navigation-link vote"  [ngClass]="{'active':currentTab=='.vote'}" (click)="clickTab('vote')">
+      Oyla
+    </a>
+  </li>
+
+  <li class="navigation-item">
+    <a class="navigation-link idea-archive"   [ngClass]="{'active':currentTab=='.idea-archive'}"
+      (click)="clickTab('idea-archive')">
+      Raporla
+    </a>
+  </li>
+</ul>
+
+
+<div class="mb-3 mt-4 card card-theme box-shadow" *ngIf="isShow">
+  <div class="card-body">
+    <h3 class="card-title">{{ selectSubject.subjectTitle }}</h3>
+    <p class="card-description">
+      {{ selectSubject.subjectDescription }}
+    </p>
   </div>
 </div>
 
+
+<div class="row">
+  <div class="col-md-12 ml-auto mr-auto">
+
+    <div>
+      <div *ngIf="currentTab=='.select-subject'" id="select-subject">
+        <subject-list-cmp></subject-list-cmp>
+      </div>
+      <div *ngIf="currentTab=='.select-template'" id="select-template">
+        <schema-cmp></schema-cmp>
+      </div>
+      <div *ngIf="currentTab=='.brainstorm'" id="brainstorm">
+        <brainstorm-cmp></brainstorm-cmp>
+      </div>
+      <div *ngIf="currentTab=='.comments'" id="comments">
+        <comments-cmp></comments-cmp>
+      </div>
+      <div *ngIf="currentTab=='.categorize'" id="categorize">
+        <app-categorized-cmp></app-categorized-cmp>
+      </div>
+      <div *ngIf="currentTab=='.vote'" id="vote">
+        <app-vote-cmp></app-vote-cmp>
+      </div>
+      <div *ngIf="currentTab=='.idea-archive'" id="idea-archive">
+        <app-report-cmp></app-report-cmp>
+      </div>
+    </div>
+
+  </div>
+</div>

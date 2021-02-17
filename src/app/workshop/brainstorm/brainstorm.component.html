@@ -1,74 +1,47 @@
-<div class="card-title">
-  <div class="row">
-    <div class="col-sm-6"><h5>Fikir Geliştir</h5></div>
-    <div class="col-sm-6">
-      <h5
-        *ngIf="retroRight != null"
-        class="float-right"
-        [ngClass]="retroRight.ideaRight > 0 ? 'text-success' : 'text-danger'"
-      >
-        Fikir Hakkı:{{ retroRight.ideaRight }}
-      </h5>
-    </div>
-  </div>
-</div>
-<div class="row">
-  <div
-    class="col"
-    *ngFor="let detail of template.templateDetail; let i = index"
-  >
-    <div
-      class="row"
-      *ngIf="
-        template.templateDetail.length >= 1 &&
-        template.templateDetail[0].header != ''
-      "
-    >
-      <div class="col-md-12">
-        <div class="card text-center p-3">
-          <div class="card-body">
-            <h6 class="card-title">
-              <span class="align-baseline"> {{ detail.header }}</span>
-            </h6>
-          </div>
-        </div>
-      </div>
-    </div>
 
-    <div class="row">
-      <div class="col-md-12">
+
+
+
+<div class="d-flex justify-content-end" *ngIf="retroRight != null" >
+  <span class="pill-title text-bold" [ngClass]="retroRight.ideaRight > 0 ? 'text-success' : 'text-danger'">Fikir Hakkı: {{ retroRight.ideaRight }}</span>
+</div>
+
+<div class="row mt-5">
+  <div   [ngClass]="{'col-xl-2':template.templateDetail.length>6, 'col':template.templateDetail.length<=6}" *ngFor="let detail of template.templateDetail; let i = index">
+    <h5  class="mt-2" *ngIf="
+    template.templateDetail.length >= 1 &&
+    template.templateDetail[0].header != ''
+  "> {{ detail.header }}</h5>
+    <div class="card card-theme card-theme--warning">
+      <div class="card-body p-0">
         <div class="form-group">
-          <textarea
-            [disabled]="retroRight.ideaRight <= 0"
-            class="form-control textarea"
-            [(ngModel)]="inputText[detail.id]"
-            (keydown.enter)="sendMessage(detail.id)"
-          ></textarea>
+        <textarea  [disabled]="retroRight.ideaRight <= 0" style="border: none;" style="height: auto !important;resize: none;border:none;" rows="3" class="form-control  card-theme--warning scroll"
+          [(ngModel)]="inputText[detail.id]" (keydown.enter)="sendMessage(detail.id)"></textarea>
         </div>
       </div>
     </div>
-
-    <div class="row" *ngFor="let msg of messages">
-      <div class="col-md-12" *ngIf="msg.clientuniqueid == detail.id">
-        <div class="card text-center p-3">
-          <div class="card-body">
-            <p>
-              {{ msg.messageText }}
-            </p>
-          </div>
-        </div>
+    <div *ngFor="let msg of messages">
+      <div class="card card-theme box-shadow-sm mt-3 " *ngIf="msg.clientuniqueid == detail.id">
+        <div class="card-description">
+          {{ msg.messageText }}
+                </div>
       </div>
     </div>
   </div>
+
+
 </div>
-<div class="row"  *ngIf="!isUser">
+
+
+
+
+
+<!-- 
+
+<div class="row" *ngIf="!isUser">
   <div class="col-md-3 offset-9">
-    <button
-      type="button"
-      (click)="nextComment()"
-      class="btn btn-round btn-success btn-block btn-lg float-right"
-    >
+    <button type="button" (click)="nextComment()" class="btn btn-round btn-success btn-block btn-lg float-right">
       KATEGORİZE ET
     </button>
   </div>
-</div>
+</div> -->

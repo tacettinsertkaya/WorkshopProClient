@@ -13,6 +13,8 @@ import { Subject } from "app/models/subject";
 import { CompanyService } from "app/services/company.service";
 import { Company } from "app/models/company";
 import { TemplateFilter } from "app/models/dto/template-filter";
+import { NotifierService } from "angular-notifier";
+import { AlertifyService } from "app/services/alertify.service";
 
 declare var $: any;
 
@@ -29,26 +31,28 @@ export class SchemaComponent implements OnInit {
     },
   ];
 
-  subject:Subject=new Subject();
+  subject: Subject = new Subject();
   templates: Template[] = [];
   selectTemplateId: string;
-  isUser:boolean=false;
+  isUser: boolean = false;
   retroRight: RetroConfigration = new RetroConfigration();
   companys: Array<Company> = [];
   companyId: string = '';
 
-   data = new Template();
+  data = new Template();
   /**
    *
    */
+  private readonly notifier: NotifierService;
   constructor(
     private templateService: TemplateService,
     private companyService: CompanyService,
     private sharedService: SharedService,
     private authService: UserService,
+    private alertifyService:AlertifyService,
     private chatService: ChatService,
-    private _ngZone: NgZone,
-  ) {
+    private _ngZone: NgZone) {
+  
     this.subscribeToCurrentRetroEvents();
 
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
@@ -58,12 +62,15 @@ export class SchemaComponent implements OnInit {
   orderlist = [];
 
   ngOnInit(): void {
+
+  
+
     this.getTemplateList();
 
     for (let i = 1; i <= 10; i++) {
       this.orderlist.push(i);
     }
-    
+
     this.existUser();
     this.getAllCompany();
 
@@ -71,50 +78,35 @@ export class SchemaComponent implements OnInit {
 
   }
 
-  
+
   existUser() {
-    this.isUser=this.authService.hasRole("Member");
- }
+    this.isUser = this.authService.hasRole("Member");
+  }
 
- getAllCompany() {
-  this.companyService
-    .getAllCompany()
-    .pipe(first())
-    .subscribe(
-      (res) => {
-        this.companys = res;
-      },
-      (error) => {
-        $.notify(
-          {
-            icon: "ti-gift",
-            message: "İşlem sırasında hata oluştu.",
-          },
-          {
-            type: "danger",
-            timer: 4000,
-            placement: {
-              from: "top",
-              align: "right",
-            },
-            template:
-              '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-          }
-        );
-      }
-    );
-}
+  getAllCompany() {
+    this.companyService
+      .getAllCompany()
+      .pipe(first())
+      .subscribe(
+        (res) => {
+          this.companys = res;
+        },
+        (error) => {
+          this.alertifyService.error();
+        }
+      );
+  }
 
- private subscribeToCurrentRetroEvents(): void {
-  this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
-    this._ngZone.run(() => {
-      
-      if(this.authService.hasRole("Member")) 
-      this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+  private subscribeToCurrentRetroEvents(): void {
+    this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+      this._ngZone.run(() => {
 
+        if (this.authService.hasRole("Member"))
+          this.sharedService.tabSource.next("." + retro.currentPage.replace("/", ""));
+
+      });
     });
-  });
-}
+  }
 
 
 
@@ -122,15 +114,15 @@ export class SchemaComponent implements OnInit {
     localStorage.setItem("templateId", templateId);
     this.sharedService.messageSource.next(templateId);
     this.sharedService.tabSource.next(".brainstorm");
-    if(this.authService.hasRole("Leader")){
-    
-      let retro=new Retro();
-      retro.id=this.retroRight.retroId;
-      retro.state=2;
-      retro.templateId=templateId;
-      retro.currentPage="/brainstorm"
+    if (this.authService.hasRole("Leader")) {
+
+      let retro = new Retro();
+      retro.id = this.retroRight.retroId;
+      retro.state = 2;
+      retro.templateId = templateId;
+      retro.currentPage = "/brainstorm"
       this.chatService.setCurrentRetro(retro);
-     }
+    }
   }
 
   showSwal(type) {
@@ -154,38 +146,25 @@ export class SchemaComponent implements OnInit {
   }
 
   getTemplateList() {
-    let filter=new TemplateFilter();
-    filter.companyId=this.authService.currentUserValue.companyId;
-    filter.retroId=this.retroRight.retroId;
+    let filter = new TemplateFilter();
+    filter.companyId = this.authService.currentUserValue.companyId;
+    filter.retroId = this.retroRight.retroId;
 
     this.templateService
       .getAllTemplate(filter)
       .pipe(first())
       .subscribe(
         (res) => {
+          console.log("this.templates",res);
           if (res.length > 0) {
             this.templates = res;
+           
           } else {
             // this.showSwal("warning-message-and-confirmation");
           }
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error();
         }
       );
   }
@@ -207,33 +186,18 @@ export class SchemaComponent implements OnInit {
   }
 
   saveTemplate() {
-   
+
     this.data.templateDetail = this.headers;
     this.data.templateName = new Date().getTime().toString();
-    this.data.createRole="Leader";
-    this.data.userId=this.authService.currentUserValue.userId;
+    this.data.createRole = "Leader";
+    this.data.userId = this.authService.currentUserValue.userId;
 
     this.templateService
       .create(this.data)
       .pipe(first())
       .subscribe(
         (res) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem başarılı bir şekilde gerçekleşti.",
-            },
-            {
-              type: "success",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.success()
           this.getTemplateList();
           this.headers = [
             {
@@ -242,25 +206,10 @@ export class SchemaComponent implements OnInit {
             },
           ];
 
-          $("#templateModal").modal("hide");
+          $("#addModal").modal("hide");
         },
         (error) => {
-          $.notify(
-            {
-              icon: "ti-gift",
-              message: "İşlem sırasında hata oluştu.",
-            },
-            {
-              type: "danger",
-              timer: 4000,
-              placement: {
-                from: "top",
-                align: "right",
-              },
-              template:
-                '<div data-notify="container" class="col-11 col-md-4 alert alert-{0} alert-with-icon" role="alert"><button type="button" aria-hidden="true" class="close" data-notify="dismiss"><i class="nc-icon nc-simple-remove"></i></button><span data-notify="icon" class="nc-icon nc-bell-55"></span> <span data-notify="title">{1}</span> <span data-notify="message">{2}</span><div class="progress" data-notify="progressbar"><div class="progress-bar progress-bar-{0}" role="progressbar" aria-valuenow="0" aria-valuemin="0" aria-valuemax="100" style="width: 0%;"></div></div><a href="{3}" target="{4}" data-notify="url"></a></div>',
-            }
-          );
+          this.alertifyService.error()
         }
       );
   }

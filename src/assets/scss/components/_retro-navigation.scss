@@ -1,0 +1,86 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+.header__retro-mobile {
+  display: none;
+
+  @include respond($to-tablet-landscape) {
+    display: block;
+  }
+}
+
+.header__retro-navigation {
+  display: flex;
+  list-style: none;
+  padding-left: 0;
+  margin-bottom: 0;
+  max-width: 100%;
+  overflow: auto;
+  &::-webkit-scrollbar {
+    height: 2px;
+  }
+
+  .navigation-item {
+    min-width: 9rem;
+    background-color: rgba($color-gray, .25);
+    height: 3rem;
+    display: flex;
+    position: relative;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(90% 0, 100% 50%, 90% 100%, 0% 100%, 10% 51%, 0% 0%);
+
+    &::after {
+      display: block;
+      content: "";
+      clip-path: polygon(90% 0, 100% 50%, 90% 100%, 0% 100%, 10% 51%, 0% 0%);
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      height: calc(3rem - 4px);
+      width: calc(100% - 4px);
+      background-color: $color-bg;
+      z-index: -1;
+      transform: translate(-50%, -50%);
+    }
+
+
+    &.navigator {
+      display: none;
+    }
+  }
+
+  .navigation-link {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: $color-gray-darker;
+    font-weight: 500;
+    text-decoration: none;
+    font-size: 1em;
+
+    &.active {
+      background-color: $color-theme;
+      color: $color-white;
+    }
+
+    &:not(.active):hover {
+      color: $color-theme;
+    }
+  }
+
+  @include respond(1919) {
+    .navigation-item {
+      // display: none;
+    }
+    .navigation-item.active,
+    .navigation-item.navigator {
+      display: block;
+    }
+  }
+  @include respond($to-tablet-landscape) {
+    // display: none;
+  }
+}

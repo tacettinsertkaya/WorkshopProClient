@@ -8,6 +8,7 @@ import { Retro } from "app/models/retro";
 import { RetroConfigration } from "app/models/retro-configuration";
 import { Subject } from "app/models/subject";
 import { Template } from "app/models/template";
+import { AlertifyService } from "app/services/alertify.service";
 import { CategoryService } from "app/services/category.service";
 import { ChatService } from "app/services/chat.service";
 import { MessageService } from "app/services/message.service";
@@ -44,6 +45,7 @@ export class CategorizedComponent implements OnInit {
     private templateService: TemplateService,
     private categoryService: CategoryService,
     private sharedService: SharedService,
+    private alertiftyService: AlertifyService,
     private authService: UserService,
     private chatService: ChatService,
     private _ngZone: NgZone,
@@ -89,7 +91,9 @@ export class CategorizedComponent implements OnInit {
         this.template = data;
         this.sortedlist();
       },
-      (error) => { }
+      (error) => { 
+        this.alertiftyService.error();
+      }
     );
   }
 
@@ -129,7 +133,10 @@ export class CategorizedComponent implements OnInit {
           this.messages = data;
           this.sortedlist();
         },
-        (error) => { }
+        (error) => { 
+          this.alertiftyService.error();
+
+        }
       );
   }
 
@@ -142,7 +149,10 @@ export class CategorizedComponent implements OnInit {
 
           this.categorizedMessages = data;
         },
-        (error) => { }
+        (error) => {
+          this.alertiftyService.error();
+
+         }
       );
   }
 
@@ -198,7 +208,7 @@ export class CategorizedComponent implements OnInit {
       .subscribe(
         (data) => {
   
-          $("#categorizeModal").modal("hide");
+          $("#categoryModal").modal("hide");
          
            this.chatService.getCategorizedMessage();     
            let currentUser=this.authService.currentUserValue;
@@ -226,15 +236,15 @@ export class CategorizedComponent implements OnInit {
   }
 
   Vote() {
-    this.sharedService.tabSource.next(".comments");
-    if(this.authService.hasRole("Leader")){
+    // this.sharedService.tabSource.next(".comments");
+    // if(this.authService.hasRole("Leader")){
     
-          let retro=new Retro();
-          retro.id=this.retroRight.retroId;
-          retro.state=2;
-          retro.currentPage="/comments"
-          this.chatService.setCurrentRetro(retro);
-    }
+    //       let retro=new Retro();
+    //       retro.id=this.retroRight.retroId;
+    //       retro.state=2;
+    //       retro.currentPage="/comments"
+    //       this.chatService.setCurrentRetro(retro);
+    // }
 
   }
 }

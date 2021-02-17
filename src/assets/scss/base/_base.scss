@@ -1,0 +1,66 @@
+@import "../abstracts/variables";
+@import "../abstracts/mixins";
+
+*,
+*::before,
+*::after {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: $color-bg;
+}
+
+.page-wrapper {
+  display: flex;
+  background-color: $color-bg;
+
+  @include respond($to-tablet-landscape) {
+    display: block;
+    position: relative;
+    width: 100vw;
+    height: 100%;
+    min-height: 100vh;
+  }
+}
+
+.sidebar {
+  flex: 0 0 250px;
+  min-width: 250px;
+  height: 100%;
+  min-height: 100vh;
+  transition: transform .3s ease;
+  transform: translateX(0);
+
+  @include respond($to-tablet-landscape) {
+    width: 250px;
+    flex: unset;
+    position: absolute;
+    top: 0;
+    left: 0;
+    transform: translateX(-250px);
+    z-index: 999;
+  }
+}
+
+.content-main {
+  flex: 1;
+  padding: $layout-vertical-padding $layout-horizontal-padding;
+  min-height: 100vh;
+  background-color: $color-bg;
+
+  @include respond($to-tablet-landscape) {
+    flex: unset;
+    width: 100%;
+  }
+
+  @include respond($to-tablet-portrait) {
+    padding: $layout-vertical-padding-md $layout-horizontal-padding-md;
+  }
+
+  @include respond($to-mobile) {
+    padding: $layout-vertical-padding-sm $layout-horizontal-padding-sm;
+  }
+}

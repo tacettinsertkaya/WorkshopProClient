@@ -11,9 +11,9 @@
   <div class="sidebar__content">
     <ul class="sidebar__menu">
       <li class="sidebar__menu-item" *ngFor="let menu of menuItems; let i = index" routerLinkActive="active">
-        <div class="sidebar__menu-item-content" >
+        <div class="sidebar__menu-item-content">
 
-          <a [routerLink]="menu.path" class="sidebar__menu-link" >
+          <a [routerLink]="menu.path" class="sidebar__menu-link">
             <i [ngClass]="menu.icontype"></i>
 
             <span>{{ menu.title }}</span>
@@ -22,7 +22,7 @@
       </li>
 
 
-       <li class="sidebar__menu-item" *ngIf="isLeader() && currentRetro.id">
+      <li class="sidebar__menu-item" *ngIf="isLeader() && currentRetro.id">
         <div class="sidebar__menu-item-content">
           <a (click)="copyLink()" class="sidebar__menu-link">
             <i class="fa fa-envelope"></i>
@@ -43,46 +43,52 @@
     </ul>
 
     <ng-container>
-      <div class="sidebar__participants"  *ngIf="onlineUser.length>0">
+      <div class="sidebar__participants" *ngIf="onlineUser.length>0">
         <span class="sidebar__section-title">Aktif Katılımcılar</span>
-        <ul class="sidebar__participant-list"  >
-          <div *ngFor="let user of onlineUser" style="max-height: 400px;overflow-y: scroll;height: auto;">
-           
-            <li class="sidebar__participant-list-item mt-3" *ngIf="onlineExist(user)">
-              <i class="fa fa-user" class="text-success"></i>
-              <span class="name"> <span class="name-short">{{getShortName(user)}}</span> {{user.name}}  {{user.surname}}</span>
-            </li>
+        <ul class="sidebar__participant-list">
+          <div style="max-height: 400px;overflow-y: scroll;height: auto;">
+            <div *ngFor="let user of onlineUser">
+              <li class="sidebar__participant-list-item mt-3" *ngIf="onlineExist(user)">
+                <i class="fa fa-user" class="text-success"></i>
+                <span class="name"> <span class="name-short">{{getShortName(user)}}</span> {{user.name}}
+                  {{user.surname}}</span>
+              </li>
+            </div>
           </div>
+
+
         </ul>
       </div>
     </ng-container>
 
 
-    <ng-container >
+    <ng-container>
       <div class="sidebar__participants fixed-bottom mb-5" *ngIf="currentRetro">
 
 
-      <div class="row" *ngIf="isLeader()">
-        <div class="col-sm-12">
-          <div class="form-group">
-            
-            <textarea class="form-control" style="height: auto !important;" rows="5" (keydown.enter)="sendAnnouncement()" #titleInput ></textarea>
+        <div class="row" *ngIf="isLeader()">
+          <div class="col-sm-12">
+            <div class="form-group">
+
+              <textarea class="form-control" style="height: auto !important;" rows="5"
+                (keydown.enter)="sendAnnouncement()" #titleInput></textarea>
+            </div>
+
+
           </div>
-          
-   
         </div>
-      </div>
-      <div class="row" *ngIf="isLeader()">
-        <div class="col-sm-12">
-          <button type="button" style="display: block !important;"  class="btn btn-theme btn-horizontal-padding btn-vertical-padding btn-block" [disabled]="!titleInput"
-            (click)="sendAnnouncement()">Gönder</button>
+        <div class="row" *ngIf="isLeader()">
+          <div class="col-sm-12">
+            <button type="button" style="display: block !important;"
+              class="btn btn-theme btn-horizontal-padding btn-vertical-padding btn-block" [disabled]="!titleInput"
+              (click)="sendAnnouncement()">Gönder</button>
+          </div>
         </div>
+
       </div>
+    </ng-container>
 
   </div>
-  </ng-container>
-
-</div>
 
 
 </div>

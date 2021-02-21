@@ -1,4 +1,4 @@
-import { Component, NgZone, OnInit } from "@angular/core";
+import { Component, ElementRef, NgZone, OnInit, ViewChild } from "@angular/core";
 import { ChatService } from "../../services/chat.service";
 import { Message } from "../../models/message";
 import { MessageService } from "../../services/message.service";
@@ -35,6 +35,7 @@ export class BrainstormComponent implements OnInit {
   isUser:boolean=false;
   retro:Retro=new Retro();
   templateId:string;
+  @ViewChild("myDiv") divView: ElementRef;
 
   constructor(
     private chatService: ChatService,
@@ -145,6 +146,8 @@ export class BrainstormComponent implements OnInit {
       this.message.retroId = this.retro.id;
       this.chatService.sendMessage(this.message);
       this.inputText[headerId] = "";
+      this.divView.nativeElement.focus();
+
     }
   }
   private subscribeToEvents(): void {

@@ -32,3 +32,38 @@
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
+
+.card-custom-borderless .form-control:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+
+.dropdown-width {
+  width: 200px;
+  left: 50%;
+  transform: translate(-50%,50%) !important;
+}
+.dropdown-width .dropdown-item {
+  white-space: normal;
+}
+.card-description{
+  word-break: break-all ;
+  padding-right: 7px;
+}
+.checkbox-theme__pseudo-control {flex-shrink: 0;}
+.checkbox-theme__control + span span {word-break: break-all;}
+.btn-icon-text {display: flex;align-items: center;justify-content: center;}
+.btn-icon-text i {font-size: 15px;}
+@media (min-width: 577px) {
+  .btn-responsive {justify-content: flex-end;}
+  .btn-icon-text i{display: none;}
+}
+@media (max-width: 576px) {
+  login-cmp h1 {font-size: 32px;}
+  .btn-responsive {justify-content: center;}
+  .btn-icon-text span {display: none;}
+  body .mobile-brainstorm {width: 100%;max-width: 100%;flex: 0 0 100%;margin-top: 15px;}
+  body .mobile-brainstorm textarea {height: 65px !important;}
+}

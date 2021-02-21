@@ -8,7 +8,7 @@
         </button>
       </div>
     
-    </div>
+    </div> 
   <div class="dropdown">
     <a class="btn  dropdown-toggle"  id="bell" data-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
@@ -16,7 +16,7 @@
      
       <small  *ngIf="announcements.length>0" class="badge">({{announcements.length}})</small>
   </a>
-    <div class="dropdown-menu" aria-labelledby="bell">
+    <div class="dropdown-menu dropdown-width" aria-labelledby="bell">
       <a class="dropdown-item"  *ngFor="let item of announcements">{{item.contentText}} </a>
       <a class="dropdown-item"  *ngIf="announcements.length==0"> Gelen bildirim bulunamadı </a>
      

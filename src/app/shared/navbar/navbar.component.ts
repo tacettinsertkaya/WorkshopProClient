@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer, ViewChild, ElementRef, Directive, NgZone, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Directive, NgZone, AfterViewChecked, Renderer2 } from '@angular/core';
 import { ROUTES } from '../.././sidebar/sidebar.component';
 import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
@@ -38,7 +38,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
 
 
     constructor(location: Location, private sharedService: SharedService,
-        private _ngZone: NgZone, private renderer: Renderer, private element: ElementRef, private router: Router,
+        private _ngZone: NgZone, private renderer: Renderer2, private element: ElementRef, private router: Router,
         private userService: UserService,
         private chatService: ChatService,
         private cdRef: ChangeDetectorRef

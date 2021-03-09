@@ -127,7 +127,7 @@ export class ReportComponent implements OnInit {
     });
   }
 
-  @ViewChild('content') content: ElementRef;
+  @ViewChild('content', { static: true }) content: ElementRef;
   public SavePDF(): void {
 
     var pdf = new jsPDF('l', 'pt', 'a4');

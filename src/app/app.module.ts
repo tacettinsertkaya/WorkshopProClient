@@ -49,7 +49,7 @@ import { AlertifyService } from "./services/alertify.service";
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule, 
-    RouterModule.forRoot(AppRoutes, { useHash: true }),
+    RouterModule.forRoot(AppRoutes, { useHash: true, relativeLinkResolution: 'legacy' }),
     NgbModule.forRoot(),
     HttpModule,
     HttpClientModule,

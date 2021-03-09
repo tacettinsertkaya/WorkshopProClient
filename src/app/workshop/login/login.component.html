@@ -1,5 +1,6 @@
-<div class="create-retro d-flex justify-content-end m-5" style="background-image: url('assets/img/login-bg-2.png')">
-  <form [formGroup]="loginForm" (ngSubmit)="logIn()" class="create-retro__form">
+<!-- <div class="create-retro d-flex justify-content-end m-5" style="background-image: url('assets/img/login-bg-2.png')"> -->
+<div class="create-retro d-flex justify-content-end  login">
+  <form [formGroup]="loginForm" (ngSubmit)="logIn()" class="create-retro__form m-5">
 
 
     <h1 class="text-center mb-5">GİRİŞ</h1>
@@ -21,7 +22,7 @@
     <div class="form-group " [ngClass]="{ 'input-group-focus': focus === true }">
 
       <label for="password">Şifre</label>
-      <input type="password"  (blur)="clearError()" (focus)="clearError()" formControlName="password"
+      <input type="password" (blur)="clearError()" (focus)="clearError()" formControlName="password"
         class="form-control" (focus)="focus1 = true" (blur)="focus1 = false" />
       <div
         *ngIf="(loginForm.get('password').invalid && ( loginForm.get('password').touched) || loginForm.get('password').dirty)">
@@ -32,8 +33,7 @@
     <div class="form-group " [ngClass]="{ 'input-group-focus': focus === true }">
 
       <label for="username">Takma Ad</label>
-      <input type="text" formControlName="alias" class="form-control" (focus)="focus1 = true"
-        (blur)="focus1 = false" />
+      <input type="text" formControlName="alias" class="form-control" (focus)="focus1 = true" (blur)="focus1 = false" />
       <div
         *ngIf="(loginForm.get('alias').invalid && ( loginForm.get('alias').touched) || loginForm.get('alias').dirty)">
         <small *ngIf="loginForm.get('alias').errors?.required" class="text-danger">Takma ad giriniz</small>

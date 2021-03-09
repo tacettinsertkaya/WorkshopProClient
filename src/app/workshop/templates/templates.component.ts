@@ -107,7 +107,6 @@ export class TemplatesComponent implements OnInit {
       .subscribe(
         (res) => {
           this.template = res;
-          console.log(" this.template", this.template);
           $('#editModal').modal('show');
         },
         (error) => {
@@ -222,9 +221,7 @@ export class TemplatesComponent implements OnInit {
   }
 
   removeUpdateHeader(i: number) {
-    console.log(" this.template", this.template);
     this.template.templateDetail.splice(i, 1);
-    console.log(" this.template2", this.template);
   }
 
   saveTemplate() {

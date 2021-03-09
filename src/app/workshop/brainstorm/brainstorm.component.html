@@ -22,7 +22,8 @@
         </div>
       </div>
     </div>
-    <div *ngFor="let msg of messages">
+    <div *ngFor="let msg of messages"    [@slideDownUp]
+    >
       <div class="card card-theme box-shadow-sm mt-3 " *ngIf="msg.clientuniqueid == detail.id">
         <div class="card-description">
           {{ msg.messageText }}

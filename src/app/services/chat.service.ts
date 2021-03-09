@@ -69,7 +69,6 @@ export class ChatService {
       .start()
       .then(() => {
         this.connectionIsEstablished = true;
-        console.log("Hub connection started");
         this.connectionEstablished.emit(true);
       })
       .catch((err) => {

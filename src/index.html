@@ -45,10 +45,8 @@
   $(document).ready(function () {
 
     $("#generate").click(function () {
-      console.log("test");
       var pdf = new jsPDF('p', 'pt', 'a4');
       pdf.addHTML(document.querySelector('#report-content'), function () {
-        console.log('pdf generated');
       });
 
       pdf.save('pdfTable.pdf');

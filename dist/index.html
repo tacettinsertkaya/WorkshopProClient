@@ -23,7 +23,7 @@
         crossorigin="anonymous"/>
 
         
-<link rel="stylesheet" href="styles.12d6e5b98348a1f677bb.css"></head>
+<link rel="stylesheet" href="styles.aa3335256a2fd9d80b2f.css"></head>
 
 <body>
   <app-root>
@@ -31,7 +31,7 @@
       <div class="loader"></div>
     </div>
   </app-root>
-<script type="text/javascript" src="runtime.d13fd4626045bf10cff2.js"></script><script type="text/javascript" src="polyfills.e5ba45fc19dcc08ef83f.js"></script><script type="text/javascript" src="scripts.8ecf02425173d993c429.js"></script><script type="text/javascript" src="main.e619ab444fc8a68fac82.js"></script></body>
+<script type="text/javascript" src="runtime.fdaf38032a0d5bbcf92d.js"></script><script type="text/javascript" src="polyfills.e5ba45fc19dcc08ef83f.js"></script><script type="text/javascript" src="scripts.8ecf02425173d993c429.js"></script><script type="text/javascript" src="main.48802b2a922647b48299.js"></script></body>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/notify/0.4.2/notify.min.js"></script>
 <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
@@ -45,10 +45,8 @@
   $(document).ready(function () {
 
     $("#generate").click(function () {
-      console.log("test");
       var pdf = new jsPDF('p', 'pt', 'a4');
       pdf.addHTML(document.querySelector('#report-content'), function () {
-        console.log('pdf generated');
       });
 
       pdf.save('pdfTable.pdf');

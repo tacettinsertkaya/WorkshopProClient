@@ -203,7 +203,6 @@ export class MemberLoginComponent implements OnInit {
       .subscribe(
         (res) => {
           this.groups = res.filter(p => p.group.state == 0 || p.group.state == 1);
-          console.log(" this.groups", this.groups);
           if (this.groups.length>0) {
             if (this.groups[0].group.memberCount <= 0) {
               this.isFailed = true;

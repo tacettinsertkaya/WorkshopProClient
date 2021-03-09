@@ -14,6 +14,9 @@ import { Router } from "@angular/router";
 import { UserRight } from "app/models/userRight";
 import { RetroConfigurationService } from "app/services/retro-configuration";
 import { AlertifyService } from "app/services/alertify.service";
+import { animate, query, stagger, state, style, transition, trigger } from "@angular/animations";
+import * as firebase from 'firebase';
+import { snapshotToArray } from "app/helpers/firebase-helper";
 
 declare var $: any;
 @Component({
@@ -21,6 +24,47 @@ declare var $: any;
   // tslint:disable-next-line: component-selector
   selector: "brainstorm-cmp",
   templateUrl: "brainstorm.component.html",
+  animations: [
+    trigger('slideDownUp', [
+      transition("* => *", [
+        // each time the binding value changes
+        query(":leave", [stagger(500, [animate("0.5s", style({ opacity: 0 }))])], {
+          optional: true
+        }),
+        query(
+          ":enter",
+          [
+            style({ opacity: 0 }),
+            stagger(500, [animate("0.5s", style({ opacity: 1 }))])
+          ],
+          { optional: true }
+        )
+      ])
+      // transition(':enter', [style({ opacity: 0 }), animate('.5s ease-out')]),
+      // transition(':leave', [animate('.5s ease-out', style({ opacity: 1 }))]),
+    ]),
+    // trigger(
+    //   'inOutAnimation', 
+    //   [
+    //     transition(
+    //       ':enter', 
+    //       [
+    //         style({  opacity: 0 }),
+    //         animate('1s ease-out', 
+    //                 style({ opacity: 1 }))
+    //       ]
+    //     ),
+    //     transition(
+    //       ':leave', 
+    //       [
+    //         style({ opacity: 1 }),
+    //         animate('1s ease-in', 
+    //                 style({  opacity: 0 }))
+    //       ]
+    //     )
+    //   ]
+    // )
+  ]
 })
 export class BrainstormComponent implements OnInit {
   title = "ClientApp";
@@ -48,6 +92,7 @@ export class BrainstormComponent implements OnInit {
     private sharedService: SharedService,
     private router: Router,
   ) {
+
     this.subscribeToEvents();
     this.retroConfigurationToEvents();
     this.subscribeToCurrentRetroEvents();
@@ -69,6 +114,18 @@ export class BrainstormComponent implements OnInit {
 
 
 
+    this.firebaseMessage();
+
+
+  }
+
+  firebaseMessage(){
+    firebase.default.database().ref('chats/').on('value', resp => {
+      console.log("message",snapshotToArray(resp));
+      // this.chats = [];
+      // this.chats = snapshotToArray(resp);
+      // setTimeout(() => this.scrolltop = this.chatcontent.nativeElement.scrollHeight, 500);
+    });
   }
 
   ngOnInit(): void {
@@ -146,7 +203,9 @@ export class BrainstormComponent implements OnInit {
       this.message.retroId = this.retro.id;
       this.chatService.sendMessage(this.message);
       this.inputText[headerId] = "";
-      this.divView.nativeElement.focus();
+
+      const newMessage = firebase.default.database().ref('messages/').push();
+      newMessage.set(this.message);
 
     }
   }

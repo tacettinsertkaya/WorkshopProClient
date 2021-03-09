@@ -44,49 +44,48 @@
     </a>
   </li>
 </ul>
-
        
-<ul class="header__retro-navigation tab-progress" role="tablist" *ngIf="!isUser">
+<ul class="header__retro-navigation tab-progress custom-slider-main" #widgetsContent role="tablist" *ngIf="!isUser">
   <li class="navigation-item active">
-    <a class="navigation-link select-subject"   [ngClass]="{'active':currentTab=='.select-subject'}"
+    <a class="navigation-link select-subject"   [class.disabled]="pathIndex==0?false:true"   [ngClass]="{'active':currentTab=='.select-subject'}"
       (click)="clickTab('select-subject')">
       Konu Seç
     </a>
   </li>
   <li class="navigation-item">
-    <a class="navigation-link select-template"   [ngClass]="{'active':currentTab=='.select-template'}"
+    <a class="navigation-link select-template"  [class.disabled]="pathIndex>1?true:false"   [ngClass]="{'active':currentTab=='.select-template'}"
       (click)="clickTab('select-template')">
       Şablon Seç
     </a>
   </li>
 
   <li class="navigation-item">
-    <a class="navigation-link brainstorm"   [ngClass]="{'active':currentTab=='.brainstorm'}"
+    <a class="navigation-link brainstorm"   [class.disabled]="pathIndex>2?true:false"  [ngClass]="{'active':currentTab=='.brainstorm'}"
       (click)="clickTab('brainstorm')">
       Fikir Geliştir
     </a>
   </li>
   <li class="navigation-item">
   
-    <a class="navigation-link categorize"  [ngClass]="{'active':currentTab=='.categorize'}"
+    <a class="navigation-link categorize" [class.disabled]="pathIndex>3?true:false"  [ngClass]="{'active':currentTab=='.categorize'}"
       (click)="clickTab('categorize')">
       Kategorize Et
     </a>
   </li>
   <li class="navigation-item">
-    <a class="navigation-link comments"   [ngClass]="{'active':currentTab=='.comments'}" (click)="clickTab('comments')">
+    <a class="navigation-link comments"   [class.disabled]="pathIndex>4?true:false"   [ngClass]="{'active':currentTab=='.comments'}" (click)="clickTab('comments')">
       Yorum Yap
     </a>
   </li>
 
   <li class="navigation-item">
-    <a class="navigation-link vote"  [ngClass]="{'active':currentTab=='.vote'}" (click)="clickTab('vote')">
+    <a class="navigation-link vote"  [class.disabled]="pathIndex>5?true:false"    [ngClass]="{'active':currentTab=='.vote'}" (click)="clickTab('vote')">
       Oyla
     </a>
   </li>
 
   <li class="navigation-item">
-    <a class="navigation-link idea-archive"   [ngClass]="{'active':currentTab=='.idea-archive'}"
+    <a class="navigation-link idea-archive"  [class.disabled]="pathIndex>6?true:false"     [ngClass]="{'active':currentTab=='.idea-archive'}"
       (click)="clickTab('idea-archive')">
       Raporla
     </a>

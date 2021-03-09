@@ -155,7 +155,6 @@ export class SchemaComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (res) => {
-          console.log("this.templates",res);
           if (res.length > 0) {
             this.templates = res;
            

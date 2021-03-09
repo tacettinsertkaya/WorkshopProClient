@@ -39,6 +39,10 @@
   border-color: transparent !important;
 }
 
+.login{
+  background-image: url('assets/img/login-bg-2.png');
+}
+
 
 .dropdown-width {
   width: 200px;
@@ -52,6 +56,17 @@
   word-break: break-all ;
   padding-right: 7px;
 }
+
+.custom-slider-main{
+     
+  scroll-behavior: smooth;
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
 .checkbox-theme__pseudo-control {flex-shrink: 0;}
 .checkbox-theme__control + span span {word-break: break-all;}
 .btn-icon-text {display: flex;align-items: center;justify-content: center;}
@@ -59,6 +74,12 @@
 @media (min-width: 577px) {
   .btn-responsive {justify-content: flex-end;}
   .btn-icon-text i{display: none;}
+  .login{
+    background-image: url('assets/img/login-bg-2.png');
+  }
+  .btn-list-comment{
+    display: flex;
+  }
 }
 @media (max-width: 576px) {
   login-cmp h1 {font-size: 32px;}
@@ -66,4 +87,10 @@
   .btn-icon-text span {display: none;}
   body .mobile-brainstorm {width: 100%;max-width: 100%;flex: 0 0 100%;margin-top: 15px;}
   body .mobile-brainstorm textarea {height: 65px !important;}
+  .login{
+    background-image: url('assets/img/login-bg-2.png');
+  }
+  .btn-list-comment{
+    display: none;
+  }
 }

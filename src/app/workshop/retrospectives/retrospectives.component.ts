@@ -1,4 +1,4 @@
-import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
+import { Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { SharedService } from "app/services/shared.service";
 import { Subject } from "app/models/subject";
 import { RetroConfigration } from "app/models/retro-configuration";
@@ -51,6 +51,9 @@ export class RetrospectivesComponent implements OnInit {
   groups: Array<GroupDto> = [];
   currentTab: string = '.subject';
   retroRight: RetroConfigration = new RetroConfigration();
+  pathIndex: number = 0;
+  @ViewChild('widgetsContent') widgetsContent: ElementRef;
+
 
   constructor(
     private sharedService: SharedService,
@@ -76,6 +79,7 @@ export class RetrospectivesComponent implements OnInit {
       this.currentTab = tab ? tab : '.select-subject';
 
       if (".idea-archive" == tab) {
+        this.pathIndex = 7;
         this.isReport = true;
         this.isShow = false;
       }
@@ -87,6 +91,8 @@ export class RetrospectivesComponent implements OnInit {
 
 
       if (".select-subject" == tab) {
+        this.pathIndex = 1;
+
         this.isShow = false;
         this.isSelectSubject = true;
       }
@@ -97,6 +103,7 @@ export class RetrospectivesComponent implements OnInit {
       }
 
       if (".select-template" == tab) {
+        this.pathIndex = 2;
         this.isSelectTemplate = true;
       }
       else {
@@ -104,6 +111,8 @@ export class RetrospectivesComponent implements OnInit {
       }
 
       if (".brainstorm" == tab) {
+        this.pathIndex = 3;
+
         this.isBrainstorm = true;
 
       }
@@ -113,6 +122,8 @@ export class RetrospectivesComponent implements OnInit {
       }
 
       if (".comments" == tab) {
+        this.pathIndex = 5;
+
         this.isComment = true;
 
       }
@@ -123,6 +134,8 @@ export class RetrospectivesComponent implements OnInit {
 
 
       if (".vote" == tab) {
+        this.pathIndex = 6;
+
         this.isVote = true;
       }
       else {
@@ -131,6 +144,8 @@ export class RetrospectivesComponent implements OnInit {
       }
 
       if (".categorize" == tab) {
+        this.pathIndex = 4;
+
         this.isCategorized = true;
       }
       else {
@@ -138,11 +153,16 @@ export class RetrospectivesComponent implements OnInit {
       }
 
       if (".idea-archive" == tab) {
+        this.pathIndex = 7;
+
         if (this.authService.hasRole("Leader")) {
           this.getFilterGroup();
         }
       }
 
+      const width = window.innerWidth;
+      if (width <= 576)
+        this.widgetsContent.nativeElement.scrollLeft += 150;
 
 
 
@@ -198,12 +218,12 @@ export class RetrospectivesComponent implements OnInit {
 
   clickTab(tab: string) {
     this.currentTab = '.' + tab;
-    console.log("retro-tab", tab);
+
 
     if (".comments" == this.currentTab) {
       this.sharedService.tabSource.next(".comments");
       if (this.authService.hasRole("Leader")) {
-
+        this.pathIndex = 5;
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
@@ -214,7 +234,7 @@ export class RetrospectivesComponent implements OnInit {
     if (".categorize" == this.currentTab) {
       this.sharedService.tabSource.next(".categorize");
       if (this.authService.hasRole("Leader")) {
-
+        this.pathIndex = 4;
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
@@ -227,7 +247,7 @@ export class RetrospectivesComponent implements OnInit {
     if (".vote" == this.currentTab) {
       this.sharedService.tabSource.next(".vote");
       if (this.authService.hasRole("Leader")) {
-
+        this.pathIndex = 6;
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
@@ -238,7 +258,7 @@ export class RetrospectivesComponent implements OnInit {
     if (".idea-archive" == this.currentTab) {
       this.sharedService.tabSource.next(".idea-archive");
       if (this.authService.hasRole("Leader")) {
-
+        this.pathIndex = 7;
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
@@ -250,6 +270,7 @@ export class RetrospectivesComponent implements OnInit {
 
 
     if (".idea-archive" == this.currentTab) {
+      this.pathIndex = 7;
       this.isReport = true;
       this.isShow = false;
     }
@@ -261,6 +282,7 @@ export class RetrospectivesComponent implements OnInit {
 
 
     if (".select-subject" == this.currentTab) {
+      this.pathIndex = 1;
       this.isShow = false;
       this.isSelectSubject = true;
     }
@@ -271,6 +293,8 @@ export class RetrospectivesComponent implements OnInit {
     }
 
     if (".select-template" == this.currentTab) {
+      this.pathIndex = 2;
+
       this.isSelectTemplate = true;
     }
     else {
@@ -278,6 +302,7 @@ export class RetrospectivesComponent implements OnInit {
     }
 
     if (".brainstorm" == this.currentTab) {
+      this.pathIndex = 3;
       this.isBrainstorm = true;
 
     }
@@ -287,6 +312,8 @@ export class RetrospectivesComponent implements OnInit {
     }
 
     if (".comments" == this.currentTab) {
+      this.pathIndex = 5;
+
       this.isComment = true;
 
     }
@@ -297,6 +324,8 @@ export class RetrospectivesComponent implements OnInit {
 
 
     if (".vote" == this.currentTab) {
+      this.pathIndex = 6;
+
       this.isVote = true;
     }
     else {
@@ -305,6 +334,8 @@ export class RetrospectivesComponent implements OnInit {
     }
 
     if (".categorize" == this.currentTab) {
+      this.pathIndex = 4;
+
       this.isCategorized = true;
     }
     else {
@@ -313,16 +344,21 @@ export class RetrospectivesComponent implements OnInit {
 
     if (".idea-archive" == this.currentTab) {
       if (this.authService.hasRole("Leader")) {
+        this.pathIndex = 7;
         this.getFilterGroup();
       }
     }
+
+    const width = window.innerWidth;
+    if (width <= 576)
+      this.widgetsContent.nativeElement.scrollLeft += 150;
+
 
 
 
   }
 
   changeTab(tab) {
-    console.log("tab", tab);
 
     $(tab).click();
     $(".tab-progress").find(".nav-item").removeClass("active");

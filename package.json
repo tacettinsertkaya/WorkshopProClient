@@ -59,6 +59,7 @@
     "datatables.net-select-bs4": "^1.2.7",
     "easy-pie-chart": "2.1.7",
     "eonasdan-bootstrap-datetimepicker": "4.17.47",
+    "firebase": "^8.2.10",
     "fullcalendar": "3.4.0",
     "html2canvas": "^1.0.0-rc.7",
     "jasny-bootstrap": "3.1.3",

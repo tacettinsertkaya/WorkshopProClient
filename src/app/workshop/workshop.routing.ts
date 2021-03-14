@@ -20,10 +20,10 @@ export const WorkshopRoutes: Routes = [
         path: "retro",
         component: RetrospectivesComponent,
       },
-      {
-        path: "retro/:id",
-        component: RetrospectivesComponent,
-      },
+      // {
+      //   path: "retro/:id",
+      //   component: RetrospectivesComponent,
+      // },
       {
         path: "retro-start",
         component: RetrospectivesInitComponent,

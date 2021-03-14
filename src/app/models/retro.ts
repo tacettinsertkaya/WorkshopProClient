@@ -2,6 +2,7 @@
 export class Retro {
    id:string;
    templateId:string;
+   subjectId:string;
    startDate:Date;
    finishDate:Date;
    currentPage:string;

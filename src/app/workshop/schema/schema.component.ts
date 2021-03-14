@@ -49,21 +49,21 @@ export class SchemaComponent implements OnInit {
     private companyService: CompanyService,
     private sharedService: SharedService,
     private authService: UserService,
-    private alertifyService:AlertifyService,
+    private alertifyService: AlertifyService,
     private chatService: ChatService,
     private _ngZone: NgZone) {
-  
+
     this.subscribeToCurrentRetroEvents();
 
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
-      this.retroRight = right;
+      this.retroRight = this.sharedService.retroRightValue;
     });
   }
   orderlist = [];
 
   ngOnInit(): void {
 
-  
+
 
     this.getTemplateList();
 
@@ -122,6 +122,8 @@ export class SchemaComponent implements OnInit {
       retro.templateId = templateId;
       retro.currentPage = "/brainstorm"
       this.chatService.setCurrentRetro(retro);
+      this.sharedService.currentRetroSetValue(retro);
+
     }
   }
 
@@ -157,7 +159,7 @@ export class SchemaComponent implements OnInit {
         (res) => {
           if (res.length > 0) {
             this.templates = res;
-           
+
           } else {
             // this.showSwal("warning-message-and-confirmation");
           }
@@ -168,10 +170,13 @@ export class SchemaComponent implements OnInit {
       );
   }
   addHeader() {
+
+
     this.headers.push({
       header: "",
       order: this.headers.length + 1,
     });
+
   }
 
   changeSort() {
@@ -185,7 +190,7 @@ export class SchemaComponent implements OnInit {
   }
 
   saveTemplate() {
-
+    this.headers = this.headers.filter(p => p.header != "");
     this.data.templateDetail = this.headers;
     this.data.templateName = new Date().getTime().toString();
     this.data.createRole = "Leader";

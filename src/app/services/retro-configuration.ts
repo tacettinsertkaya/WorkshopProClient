@@ -9,6 +9,10 @@ import { isNullOrUndefined } from "util";
 import { Retro } from "app/models/retro";
 import { UserRight } from "app/models/userRight";
 import { Report } from "app/models/dto/report";
+import { SubjectDto } from "app/models/dto/subject-dto";
+import { Subject } from "app/models/subject";
+import * as firebase from 'firebase';
+
 
 @Injectable()
 export class RetroConfigurationService {
@@ -21,6 +25,41 @@ export class RetroConfigurationService {
       EndPoints.RETRO_CONFIGURATION
     );
   }
+
+  setSelectedSubject(subject: SubjectDto) {
+
+    // const selectSubject = firebase.default.database().ref('selectSubject/').push();
+    // selectSubject.set(subject);
+
+
+
+    return this.baseService.post<Subject>(
+      subject,
+      environment.serverBaseUrl,
+      EndPoints.RETRO_CONFIGURATION+'/SetSelectedSubject'
+    );
+  }
+
+  getSelectedSubject(subject: SubjectDto) {
+    return this.baseService.post<Subject>(
+      subject,
+      environment.serverBaseUrl,
+      EndPoints.RETRO_CONFIGURATION+'/GetSelectedSubject'
+    );
+  }
+
+  setCurrentRetro(retro: Retro) {
+
+    const currentRetro = firebase.default.database().ref('currentRetro/').push();
+    currentRetro.set(retro);
+
+    return this.baseService.post<Retro>(
+      retro,
+      environment.serverBaseUrl,
+      EndPoints.RETRO_CONFIGURATION+'/setCurrentRetro'
+    );
+  }
+  
 
   update(RetroConfigration: any) {
     return this.baseService.update<RetroConfigration>(

@@ -42,7 +42,15 @@ import { GroupService } from "./services/group.service";
 import { DatetimePipe } from './pipes/datetime.pipe';
 import { SharedService } from "./services/shared.service";
 import { AlertifyService } from "./services/alertify.service";
+import * as firebase from 'firebase';
 
+
+const config = {
+  apiKey: 'AIzaSyAj0b-wjz8RPScqbslxU7ByFBKOk-B37jw',
+  databaseURL: 'https://workshoppro-75580-default-rtdb.firebaseio.com/'
+};
+
+firebase.default.initializeApp(config);
 
 @NgModule({
   imports: [
@@ -50,7 +58,7 @@ import { AlertifyService } from "./services/alertify.service";
     FormsModule,
     ReactiveFormsModule, 
     RouterModule.forRoot(AppRoutes, { useHash: true, relativeLinkResolution: 'legacy' }),
-    NgbModule.forRoot(),
+    NgbModule,
     HttpModule,
     HttpClientModule,
     SidebarModule,

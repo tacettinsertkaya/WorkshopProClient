@@ -1,3 +1,4 @@
+import { animate, query, stagger, style, transition, trigger } from "@angular/animations";
 import { Component, NgZone, OnInit } from "@angular/core";
 import { Categorized } from "app/models/categorized";
 import { Category } from "app/models/category";
@@ -23,6 +24,25 @@ declare var $: any;
   selector: "app-categorized-cmp",
   templateUrl: "./categorized.component.html",
   styleUrls: ["./categorized.component.css"],
+  animations: [
+    trigger('slideDownUp', [
+      transition("* => *", [
+        query(":leave", [stagger(500, [animate("0.5s", style({ opacity: 0 }))])], {
+          optional: true
+        }),
+        query(
+          ":enter",
+          [
+            style({ opacity: 0 }),
+            stagger(500, [animate("0.5s", style({ opacity: 1 }))])
+          ],
+          { optional: true }
+        )
+      ])
+     
+    ]),
+  
+  ]
 })
 export class CategorizedComponent implements OnInit {
   messages = new Array<Message>();
@@ -64,7 +84,7 @@ export class CategorizedComponent implements OnInit {
     });
 
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
-      this.retroRight = right;
+      this.retroRight = this.sharedService.retroRightValue;
     });
 
   }
@@ -172,6 +192,7 @@ export class CategorizedComponent implements OnInit {
           let retro = new Retro();
           retro.id = this.retroRight.retroId;
           retro.state = 2;
+          retro.templateId=this.retro.templateId;
           this.chatService.setCurrentRetro(retro);
           this.chatService.getCategorizedMessage();     
         },

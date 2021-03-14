@@ -165,7 +165,6 @@ export class RetrospectivesInitComponent implements OnInit {
         },
         (error) => {
           this.alertifyService.error();
-          
         }
       );
   }

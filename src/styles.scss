@@ -80,6 +80,8 @@ a.disabled {
   .btn-list-comment{
     display: flex;
   }
+
+
 }
 @media (max-width: 576px) {
   login-cmp h1 {font-size: 32px;}
@@ -88,9 +90,12 @@ a.disabled {
   body .mobile-brainstorm {width: 100%;max-width: 100%;flex: 0 0 100%;margin-top: 15px;}
   body .mobile-brainstorm textarea {height: 65px !important;}
   .login{
-    background-image: url('assets/img/login-bg-2.png');
+    background-image: url('assets/img/mobil-login-bg.jpeg');
   }
   .btn-list-comment{
     display: none;
   }
 }
+
+
+

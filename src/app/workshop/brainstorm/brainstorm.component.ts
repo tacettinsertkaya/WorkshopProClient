@@ -10,13 +10,14 @@ import { Subject } from "app/models/subject";
 import { RetroConfigration } from "app/models/retro-configuration";
 import { UserService } from "app/services/user.service";
 import { Retro } from "app/models/retro";
-import { Router } from "@angular/router";
+import { NavigationStart, Router } from "@angular/router";
 import { UserRight } from "app/models/userRight";
 import { RetroConfigurationService } from "app/services/retro-configuration";
 import { AlertifyService } from "app/services/alertify.service";
 import { animate, query, stagger, state, style, transition, trigger } from "@angular/animations";
 import * as firebase from 'firebase';
 import { snapshotToArray } from "app/helpers/firebase-helper";
+import { Subscription } from "rxjs";
 
 declare var $: any;
 @Component({
@@ -27,7 +28,6 @@ declare var $: any;
   animations: [
     trigger('slideDownUp', [
       transition("* => *", [
-        // each time the binding value changes
         query(":leave", [stagger(500, [animate("0.5s", style({ opacity: 0 }))])], {
           optional: true
         }),
@@ -40,30 +40,9 @@ declare var $: any;
           { optional: true }
         )
       ])
-      // transition(':enter', [style({ opacity: 0 }), animate('.5s ease-out')]),
-      // transition(':leave', [animate('.5s ease-out', style({ opacity: 1 }))]),
+     
     ]),
-    // trigger(
-    //   'inOutAnimation', 
-    //   [
-    //     transition(
-    //       ':enter', 
-    //       [
-    //         style({  opacity: 0 }),
-    //         animate('1s ease-out', 
-    //                 style({ opacity: 1 }))
-    //       ]
-    //     ),
-    //     transition(
-    //       ':leave', 
-    //       [
-    //         style({ opacity: 1 }),
-    //         animate('1s ease-in', 
-    //                 style({  opacity: 0 }))
-    //       ]
-    //     )
-    //   ]
-    // )
+  
   ]
 })
 export class BrainstormComponent implements OnInit {
@@ -76,10 +55,11 @@ export class BrainstormComponent implements OnInit {
   retroRight: UserRight = new UserRight();
   selectedSubject: Subject;
   template = new Template();
-  isUser:boolean=false;
-  retro:Retro=new Retro();
-  templateId:string;
+  isUser: boolean = false;
+  retro: Retro = new Retro();
+  templateId: string;
   @ViewChild("myDiv") divView: ElementRef;
+  subscription:Subscription
 
   constructor(
     private chatService: ChatService,
@@ -87,12 +67,14 @@ export class BrainstormComponent implements OnInit {
     private retroService: RetroConfigurationService,
     private messageService: MessageService,
     private authService: UserService,
-    private alertifyService:AlertifyService,
+    private alertifyService: AlertifyService,
     private templateService: TemplateService,
     private sharedService: SharedService,
     private router: Router,
   ) {
 
+
+    this.firebaseMessage();
     this.subscribeToEvents();
     this.retroConfigurationToEvents();
     this.subscribeToCurrentRetroEvents();
@@ -106,49 +88,76 @@ export class BrainstormComponent implements OnInit {
     });
 
     this.sharedService.retroRight.subscribe((right: UserRight) => {
-      this.retroRight = right;
+      this.retroRight = this.sharedService.retroRightValue;
     });
+
+
     this.sharedService.currentRetro.subscribe((retro: Retro) => {
       this.retro = retro;
     });
 
+    
+
+    this.subscription = router.events.subscribe((event) => {
+      if (event instanceof NavigationStart) {
+         !router.navigated;
+         
+      }
+    });
 
 
-    this.firebaseMessage();
+    if (this.retro.id) {
+      firebase.default.database().ref('messages/').on('value', (resp: any) => {
+
+        var data = snapshotToArray(resp);
+        let messages = data.filter(x => x.retroId === this.retro.id);
+
+        if (messages !== undefined) {
+          this.messages = messages.reverse();
+          this.sharedService.allMessage.next(messages);
+          this.sortedlist();
+        }
+      });
+    }
+
+
 
 
   }
 
-  firebaseMessage(){
-    firebase.default.database().ref('chats/').on('value', resp => {
-      console.log("message",snapshotToArray(resp));
-      // this.chats = [];
-      // this.chats = snapshotToArray(resp);
-      // setTimeout(() => this.scrolltop = this.chatcontent.nativeElement.scrollHeight, 500);
+  firebaseMessage() {
+    firebase.default.database().ref('currentRetro/').limitToLast(1).on('value', (resp: any) => {
+
+      var data = snapshotToArray(resp);
+      if (data !== undefined) {
+        this.sharedService.currentRetro.next(data[0]);
+      
+        this.retro = data[0];
+      }
     });
   }
 
   ngOnInit(): void {
-    this.getMessage();    
+    this.getMessage();
     this.existUser();
     this.getTemplate(this.retro.templateId);
   }
 
   existUser() {
-    this.isUser=this.authService.hasRole("Member");
- }
+    this.isUser = this.authService.hasRole("Member");
+  }
 
 
- 
+
 
   private subscribeToCurrentRetroEvents(): void {
     this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
       this._ngZone.run(() => {
-        this.retro=retro;
-          this.sharedService.currentRetro.next(retro);
-          this.getTemplate(retro.templateId);
-        if(this.authService.hasRole("Member")) 
-           this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+        this.retro = retro;
+        this.sharedService.currentRetro.next(retro);
+        this.getTemplate(retro.templateId);
+        if (this.authService.hasRole("Member"))
+          this.sharedService.tabSource.next("." + retro.currentPage.replace("/", ""));
 
       });
     });
@@ -162,9 +171,9 @@ export class BrainstormComponent implements OnInit {
       .subscribe(
         (data) => {
           this.template = data;
-        
+
         },
-        (error) => {}
+        (error) => { }
       );
   }
 
@@ -175,7 +184,7 @@ export class BrainstormComponent implements OnInit {
   nextComment() {
     // this.sharedService.tabSource.next(".categorize");
     // if(this.authService.hasRole("Leader")){
-    
+
     //       let retro=new Retro();
     //       retro.id=this.retroRight.retroId;
     //       retro.state=2;
@@ -189,11 +198,11 @@ export class BrainstormComponent implements OnInit {
     const msg = this.inputText[headerId];
     if (this.filterTrim(msg) !== "") {
 
-      let currentUser=this.authService.currentUserValue;
-     
-    
+      let currentUser = this.authService.currentUserValue;
+
+
       this.message = new Message();
-      this.message.userId=currentUser.userId;
+      this.message.userId = currentUser.userId;
       this.message.clientuniqueid = headerId;
       this.message.type = "sent";
       this.message.messageText = msg;
@@ -201,23 +210,38 @@ export class BrainstormComponent implements OnInit {
       this.message.date = new Date();
       this.message.isCategorized = false;
       this.message.retroId = this.retro.id;
+
       this.chatService.sendMessage(this.message);
       this.inputText[headerId] = "";
-
+       
       const newMessage = firebase.default.database().ref('messages/').push();
       newMessage.set(this.message);
 
     }
   }
   private subscribeToEvents(): void {
-    this.chatService.messageReceived.subscribe((message: Message) => {
-      this._ngZone.run(() => {
-        message.subjectId = this.selectedSubject.id;
-        this.messages.push(message);
-        this.sharedService.allMessage.next(this.messages);
-        this.sortedlist();
+    if (this.retro.id) {
+      firebase.default.database().ref('messages/').equalTo(this.retro.id).on('value', (resp: any) => {
+
+        var data = snapshotToArray(resp);
+       
+        const messages = data.find(x => x.retroId === this.retro.id);
+        if (messages !== undefined) {
+          this.messages = messages;
+          this.sharedService.allMessage.next(this.messages);
+          this.sortedlist();
+        }
       });
-    });
+    }
+
+    // this.chatService.messageReceived.subscribe((message: Message) => {
+    //   this._ngZone.run(() => {
+    //     message.subjectId = this.selectedSubject.id;
+    //     this.messages.push(message);
+    //     this.sharedService.allMessage.next(this.messages);
+    //     this.sortedlist();
+    //   });
+    // });
   }
 
   sortedlist() {
@@ -227,13 +251,14 @@ export class BrainstormComponent implements OnInit {
   }
 
   private retroConfigurationToEvents(): void {
-    let currentUser=this.authService.currentUserValue;
+    let currentUser = this.authService.currentUserValue;
     this.chatService.retroConfigurationReceived.subscribe(
       (retro: UserRight) => {
         this._ngZone.run(() => {
 
-         if(currentUser.userId==retro.userId)
-          this.retroRight = retro;
+          if (currentUser.userId == retro.userId)
+            this.retroRight = retro;
+            this.sharedService.retroRightSetValue(this.retroRight);
         });
       }
     );
@@ -247,10 +272,10 @@ export class BrainstormComponent implements OnInit {
       .subscribe(
         (data) => {
           this.messages = data;
-          
+
           this.sortedlist();
         },
-        (error) => {}
+        (error) => { }
       );
   }
 }

@@ -13,6 +13,10 @@ import { SubjectDto } from "app/models/dto/subject-dto";
 import { RetroAnnouncement } from "app/models/retro-announcement";
 import { User } from "app/models/user";
 import { AuthenticateResponse } from "app/models/authenticate-response";
+import * as firebase from 'firebase';
+import { snapshotToArray } from "app/helpers/firebase-helper";
+import { SharedService } from "./shared.service";
+
 
 @Injectable()
 export class ChatService {
@@ -35,7 +39,7 @@ export class ChatService {
   private connectionIsEstablished = false;
   private _hubConnection: HubConnection;
 
-  constructor(private userService: UserService) {
+  constructor(private userService: UserService,private sharedService: SharedService) {
     this.createConnection();
     this.registerOnServerEvents();
     this.commentOnServerEvents();
@@ -115,9 +119,16 @@ export class ChatService {
     this._hubConnection.invoke("setVote", data).catch(err =>this.startConnection());
   }
 
+  setOnlineUser(data: string) {
+    this._hubConnection.invoke("GetOnlineUser", data).catch(err =>this.startConnection());
+  }
+
   setCurrentRetro(data: Retro) {
 
     this._hubConnection.invoke("setCurrentRetro", data).catch(err =>this.startConnection());
+    const newMessage = firebase.default.database().ref('currentRetro/').push();
+    newMessage.set(data);
+
   }
 
 
@@ -171,9 +182,12 @@ export class ChatService {
   }
 
   private registerOnServerEvents(): void {
-    this._hubConnection.on("MessageReceived", (data: any) => {
-      this.messageReceived.emit(data);
-    });
+
+   
+
+    // this._hubConnection.on("MessageReceived", (data: any) => {
+    //   this.messageReceived.emit(data);
+    // });
   }
 
   private commentOnServerEvents(): void {
@@ -205,6 +219,8 @@ export class ChatService {
     this._hubConnection.on("currentRetroReceived", (data: any) => {
       this.currentRetroReceived.emit(data);
     });
+
+    
   }
 
   private getCurrentRetroEvents(): void {

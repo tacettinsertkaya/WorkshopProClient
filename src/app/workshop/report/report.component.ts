@@ -81,7 +81,7 @@ export class ReportComponent implements OnInit {
     });
 
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
-      this.retroRight = right;
+      this.retroRight = this.sharedService.retroRightValue;
     });
 
 
@@ -110,9 +110,11 @@ export class ReportComponent implements OnInit {
           this.chatService.userOffline();
 
           localStorage.removeItem('currentUser');
+          localStorage.removeItem('retroRight');
+          localStorage.removeItem('selectSubject');
           this.userService.currentUserSetValue(null);
           this.router.navigate(['/login']);
-
+          
           this.alertifyService.success()
 
           swal({
@@ -260,6 +262,7 @@ export class ReportComponent implements OnInit {
         retro.id = this.retroRight.retroId;
         retro.state = 2;
         retro.currentPage = "/report"
+        retro.templateId=this.retro.templateId;
         this.chatService.setCurrentRetro(retro);
       }
 
@@ -282,6 +285,7 @@ export class ReportComponent implements OnInit {
         retro.id = this.retro.id;
         retro.state = 3;
         retro.currentPage = "/finish"
+        retro.templateId=this.retro.templateId;
         this.chatService.setCurrentRetro(retro);
 
       });

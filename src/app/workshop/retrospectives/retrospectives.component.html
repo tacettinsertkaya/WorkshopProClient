@@ -1,4 +1,7 @@
-<ul class="header__retro-navigation tab-progress" *ngIf="isUser" role="tablist">
+
+
+
+<ul class="header__retro-navigation tab-progress" *ngIf="isUser"  #widgetsContent role="tablist">
   <li class="navigation-item active">
     <a class="navigation-link select-subject"   [ngClass]="{'active':currentTab=='.select-subject'}"
       >
@@ -92,8 +95,7 @@
   </li>
 </ul>
 
-
-<div class="mb-3 mt-4 card card-theme box-shadow" *ngIf="isShow">
+<div class="mb-3 mt-4 card card-theme box-shadow" *ngIf="isShow &&  selectSubject.subjectTitle">
   <div class="card-body">
     <h3 class="card-title">{{ selectSubject.subjectTitle }}</h3>
     <p class="card-description">

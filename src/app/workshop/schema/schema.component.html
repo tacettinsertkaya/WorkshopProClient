@@ -27,7 +27,7 @@
         </h3>
       </div>
     </a>
-    <a *ngIf="
+    <a  [class.disabled]="isUser"  *ngIf="
     template.templateDetail.length == 1 &&
     template.templateDetail[0].header == ''
   " (click)="selectTemplate(template.id)" [ngClass]="{ active: selectTemplateId == template.id }">
@@ -82,7 +82,7 @@
                 <div class="form-group">
                   <label>Sıra</label>
                   <select class="form-control" (change)="changeSort()" [(ngModel)]="header.order"
-                    name="order_{{ header.order }}" placeholder="India">
+                    name="order_{{ header.order }}" placeholder="Sıra">
                     <option *ngFor="let i of orderlist; let i = index" [value]="i">
                       {{ i }}
                     </option>

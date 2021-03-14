@@ -19,6 +19,10 @@ import { Group } from "app/models/group";
 import { JsonpClientBackend } from "@angular/common/http";
 import swal from "sweetalert2";
 import { AlertifyService } from "app/services/alertify.service";
+import * as firebase from 'firebase';
+import { snapshotToArray } from "app/helpers/firebase-helper";
+import { debug } from "console";
+
 
 declare var $: any;
 @Component({
@@ -52,9 +56,19 @@ export class RetrospectivesComponent implements OnInit {
   currentTab: string = '.subject';
   retroRight: RetroConfigration = new RetroConfigration();
   pathIndex: number = 0;
-  @ViewChild('widgetsContent') widgetsContent: ElementRef;
+  // @ViewChild('widgetsContent',{static:false,read: ElementRef}) private widgetsContent: any ;
+
+  // @ViewChild('widgetsContent') widgetsContent: ElementRef;
+
+  @ViewChild("widgetsContent") widgetsContent;
+
+  ngAfterViewInit(): void {
+    const width = window.innerWidth;
+    if (width <= 576)
+      this.widgetsContent.nativeElement.scrollLeft += 150;
 
 
+  }
   constructor(
     private sharedService: SharedService,
     private subjectService: SubjectsService,
@@ -69,14 +83,53 @@ export class RetrospectivesComponent implements OnInit {
   ) {
 
 
+    firebase.default.database().ref('currentRetro/').limitToLast(1).on('value', (resp: any) => {
 
+      var data = snapshotToArray(resp);
+      if (data !== undefined) {
+        this.sharedService.currentRetro.next(data[0]);
+        this.currentRetro = data[0];
+
+        this.sharedService.tabSource.next("." + this.currentRetro.currentPage.replace("/", ""));
+
+        if (this.currentRetro.id) {
+
+          let retro = new Retro();
+          retro.id = this.currentRetro.id;
+          retro.state = this.currentRetro.state;
+          retro.templateId = this.currentRetro.templateId;
+          retro.userId = this.currentRetro.userId;
+      
+          if (!this.sharedService.retroRightValue.id) {
+            this.configService.getUserRight(retro).subscribe(right => {
+              this.retroRight = right;
+
+              this.sharedService.retroRightSetValue(this.retroRight);
+            })
+          }
+
+          if (this.currentRetro.currentPage != '/retro')
+            this.getRetroSubject(retro.id);
+        }
+      }
+    });
+
+
+
+
+
+
+    // this.chatService.getAllUserRights(retro);
 
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
-      this.retroRight = right;
+      this.retroRight = this.sharedService.retroRightValue;
     });
 
     this.sharedService.tabSource.subscribe((tab: string) => {
-      this.currentTab = tab ? tab : '.select-subject';
+
+      this.currentTab = (tab != "" && tab != ".retro") ? tab : '.select-subject';
+
+
 
       if (".idea-archive" == tab) {
         this.pathIndex = 7;
@@ -160,14 +213,13 @@ export class RetrospectivesComponent implements OnInit {
         }
       }
 
+
+
+
+
       const width = window.innerWidth;
-      if (width <= 576)
+      if (width <= 576 && this.widgetsContent != undefined)
         this.widgetsContent.nativeElement.scrollLeft += 150;
-
-
-
-
-
 
 
     });
@@ -181,12 +233,18 @@ export class RetrospectivesComponent implements OnInit {
     });
 
     this.sharedService.currentRetro.subscribe((retro: any) => {
-      if (retro) {
+      if (this.sharedService.currentRetroValue.id) {
         this.currentRetro = retro;
         this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
+        if (this.currentRetro.state > 2) {
+          this.getRetroSubject(this.currentRetro.id);
+        }
       }
       else {
-        this.router.navigate(["/retro-start"])
+        this.router.navigate(["/retro-start"]);
+
+
+
       }
     });
 
@@ -219,7 +277,6 @@ export class RetrospectivesComponent implements OnInit {
   clickTab(tab: string) {
     this.currentTab = '.' + tab;
 
-
     if (".comments" == this.currentTab) {
       this.sharedService.tabSource.next(".comments");
       if (this.authService.hasRole("Leader")) {
@@ -228,6 +285,8 @@ export class RetrospectivesComponent implements OnInit {
         retro.id = this.retroRight.retroId;
         retro.state = 2;
         retro.currentPage = "/comments"
+        retro.templateId = this.currentRetro.templateId;
+        retro.subjectId=this.sharedService.selectSubjectValue.id;
         this.chatService.setCurrentRetro(retro);
       }
     }
@@ -239,6 +298,7 @@ export class RetrospectivesComponent implements OnInit {
         retro.id = this.retroRight.retroId;
         retro.state = 2;
         retro.currentPage = "/categorize"
+        retro.templateId = this.currentRetro.templateId;
         this.chatService.setCurrentRetro(retro);
       }
 
@@ -252,6 +312,7 @@ export class RetrospectivesComponent implements OnInit {
         retro.id = this.retroRight.retroId;
         retro.state = 2;
         retro.currentPage = "/vote"
+        retro.templateId = this.currentRetro.templateId;
         this.chatService.setCurrentRetro(retro);
       }
     }
@@ -263,6 +324,7 @@ export class RetrospectivesComponent implements OnInit {
         retro.id = this.retroRight.retroId;
         retro.state = 2;
         retro.currentPage = "/idea-archive"
+        retro.templateId = this.currentRetro.templateId;
         this.chatService.setCurrentRetro(retro);
       }
     }
@@ -345,6 +407,7 @@ export class RetrospectivesComponent implements OnInit {
     if (".idea-archive" == this.currentTab) {
       if (this.authService.hasRole("Leader")) {
         this.pathIndex = 7;
+        
         this.getFilterGroup();
       }
     }
@@ -454,7 +517,7 @@ export class RetrospectivesComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (res) => {
-
+          
           this.sharedService.tabSource.next("." + res.currentPage.replace("/", ""));
 
         },
@@ -470,9 +533,8 @@ export class RetrospectivesComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (res) => {
-
+        
           this.selectSubject = res;
-
           this.sharedService.selectSubjectSetValue(res);
         },
         (error) => {

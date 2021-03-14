@@ -42,7 +42,9 @@ export class SubjectListComponent implements OnInit {
     private _ngZone: NgZone
   ) {
     this.subscribeToCurrentRetroEvents();
+    this.getSelectedSubjectEvents();
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
+    
       this.retroRight = right;
     });
     this.sharedService.currentRetro.subscribe((retro: Retro) => {
@@ -63,11 +65,13 @@ export class SubjectListComponent implements OnInit {
     this.sharedService.isShowSubject.next(false);
     this.sharedService.tabSource.next(".select-template");
     if(this.authService.hasRole("Leader")){
-  
+      
+     
       let retro=new Retro();
       retro.id=this.retroRight.retroId;
       retro.state=2;
-      retro.currentPage="/select-template"
+      retro.currentPage="/select-template";
+      retro.templateId=this.retro? this.retro.templateId:"";
       this.chatService.setCurrentRetro(retro);
       let selectSubjectDto=new SubjectDto();
       selectSubjectDto.id=subject.id;
@@ -98,6 +102,18 @@ export class SubjectListComponent implements OnInit {
   });
 }
 
+private getSelectedSubjectEvents(): void {
+  this.chatService.subjectReceived.subscribe((subject: Subject) => {
+    this._ngZone.run(() => {
+    
+        this.sharedService.selectSubjectSetValue(subject);
+        
+
+    });
+  });
+}
+
+
 getAllCompany() {
 
   this.companyService
@@ -117,7 +133,7 @@ getAllCompany() {
   getSubjects() {
     let filter=new SubjectFilter();
     filter.companyId=this.authService.currentUserValue.companyId;
-    filter.retroId=this.retroRight.retroId;
+    // filter.retroId=this.retroRight.retroId;
 
     this.subjectService
       .getAllSubject(filter)

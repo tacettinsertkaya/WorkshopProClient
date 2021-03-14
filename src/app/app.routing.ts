@@ -18,48 +18,20 @@ export const AppRoutes: Routes = [
     component: AdminLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      {
-        path: "",
-        loadChildren: "./dashboard/dashboard.module#DashboardModule",
-      },
-      {
-        path: "components",
-        loadChildren: "./components/components.module#ComponentsModule",
-      },
+      // {
+      //   path: "",
+      //   loadChildren: "./dashboard/dashboard.module#DashboardModule",
+      // },
+     
 
       {
         path: "",
         loadChildren: "./workshop/workshop.module#WorkshopModule",
       },
-      {
-        path: "forms",
-        loadChildren: "./forms/forms.module#Forms",
-      },
-      {
-        path: "tables",
-        loadChildren: "./tables/tables.module#TablesModule",
-      },
-      {
-        path: "maps",
-        loadChildren: "./maps/maps.module#MapsModule",
-      },
+     
+    
 
-      {
-        path: "calendar",
-        loadChildren: "./calendar/calendar.module#CalendarModule",
-      },
-      {
-        path: "",
-        loadChildren: "./userpage/user.module#UserModule",
-      },
-      {
-        path: "",
-        loadChildren: "./timeline/timeline.module#TimelineModule",
-      },
-      {
-        path: "",
-        loadChildren: "./widgets/widgets.module#WidgetsModule",
-      },
+     
     ],
   },
   {

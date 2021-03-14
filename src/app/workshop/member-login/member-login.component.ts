@@ -139,7 +139,7 @@ export class MemberLoginComponent implements OnInit {
       .subscribe(
         (rights) => {
           this.userRight = rights;
-
+           this.sharedService.retroRightSetValue(this.userRight);
         },
         (error) => {
           this.error = error;
@@ -175,7 +175,7 @@ export class MemberLoginComponent implements OnInit {
   }
 
   getCurrentUserRetro(id){
-    this.retroConfigurationService.getCurrentRetro(id) .pipe(first())
+    this.retroConfigurationService.getCurrentRetro(id).pipe(first())
     .subscribe(
       (retro) => {
         this.sharedService.currentRetroSetValue(retro);

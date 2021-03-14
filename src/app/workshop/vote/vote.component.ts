@@ -1,3 +1,4 @@
+import { animate, query, stagger, style, transition, trigger } from "@angular/animations";
 import { Component, NgZone, OnInit } from "@angular/core";
 import { Categorized } from "app/models/categorized";
 import { Category } from "app/models/category";
@@ -23,7 +24,25 @@ declare var $: any;
 @Component({
   selector: "app-vote-cmp",
   templateUrl: "./vote.component.html",
-
+  animations: [
+    trigger('slideDownUp', [
+      transition("* => *", [
+        query(":leave", [stagger(500, [animate("0.5s", style({ opacity: 0 }))])], {
+          optional: true
+        }),
+        query(
+          ":enter",
+          [
+            style({ opacity: 0 }),
+            stagger(500, [animate("0.5s", style({ opacity: 1 }))])
+          ],
+          { optional: true }
+        )
+      ])
+     
+    ]),
+  
+  ]
 })
 export class VoteComponent implements OnInit {
   message = new Message();
@@ -55,7 +74,7 @@ export class VoteComponent implements OnInit {
     this.subscribeToEvents();
     this.subscribeToCurrentRetroEvents();
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
-      this.retroRight = right;
+      this.retroRight = this.sharedService.retroRightValue;
     });
   }
 

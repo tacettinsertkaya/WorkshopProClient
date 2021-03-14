@@ -27,7 +27,8 @@ import { ClipboardService } from "ngx-clipboard";
 import swal from "sweetalert2";
 import { AlertifyService } from "app/services/alertify.service";
 import { AuthenticateResponse } from "app/models/authenticate-response";
-
+import * as firebase from 'firebase';
+import { snapshotToArray } from "app/helpers/firebase-helper";
 //Metadata
 export interface RouteInfo {
   path: string;
@@ -113,6 +114,12 @@ export const LEADER_ROUTES: RouteInfo[] = [
     type: "link",
     icontype: "fa fa-star",
   },
+  // {
+  //   path: "/retro/start",
+  //   title: "Retro-2",
+  //   type: "link",
+  //   icontype: "fa fa-star",
+  // },
   // {
   //   path: "/retro",
   //   title: "Chat",
@@ -208,6 +215,8 @@ export class SidebarComponent {
     private chatService: ChatService, private _ngZone: NgZone,
   ) {
 
+    this.chatService.setOnlineUser("");
+
     this.subscribeToEvents();
     this.subscribeRetroAnnouncementToEvents();
     this.subscribeToCurrentRetroEvents();
@@ -219,6 +228,22 @@ export class SidebarComponent {
         this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
       }
     });
+
+
+    // firebase.default.database().ref('currentRetro/').limitToLast(1).on('value', (resp: any) => {
+    //   var res = snapshotToArray(resp);
+    //   var data = res[0];
+    //   if (data) {
+    //     let retro = new Retro();
+    //     retro.id = data.id;
+    //     retro.state = data.state;
+    //     retro.userId = this.currentRetro.userId;
+
+
+    //     this.sharedService.currentRetroSetValue(retro);
+    //   }
+    // });
+
 
   }
 
@@ -328,9 +353,9 @@ export class SidebarComponent {
     return shortName;
   }
 
-  onlineExist(user:AuthenticateResponse) {
+  onlineExist(user: AuthenticateResponse) {
     let result = this.onlineUser.filter(p => p.userName == user.userName);
-  
+
     if (result == undefined || result.length == 0)
       return false;
     else

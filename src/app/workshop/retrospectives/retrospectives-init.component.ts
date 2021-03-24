@@ -71,9 +71,9 @@ export class RetrospectivesInitComponent implements OnInit {
     localStorage.setItem("retro", "");
     if (this.isUser()) {
       if (id == undefined)
-        this.router.navigate(["/retro"]);
+        this.router.navigate(["/retro/subject"]);
       else
-        this.router.navigate(["/retro", id]);
+        this.router.navigate(["/retro/subject", id]);
     }
 
 
@@ -182,7 +182,7 @@ export class RetrospectivesInitComponent implements OnInit {
 
 
         if (this.authService.hasRole("Member"))
-          this.sharedService.tabSource.next("." + retro.currentPage.replace("/", ""));
+          this.sharedService.tabSource.next(retro.currentPage);
 
       });
     });
@@ -230,14 +230,15 @@ export class RetrospectivesInitComponent implements OnInit {
           userRight.ideaRight = this.config.ideaRight;
           userRight.commentRight = this.config.commentRight;
           userRight.voteRight = this.config.voteRight;
-          this.sharedService.retroRight.next(userRight);
+          this.sharedService.retroRightSetValue(userRight);
 
           let currentUser = this.authService.currentUserValue;
           let retro = new Retro();
           retro.id = res.retroId;
           retro.userId = currentUser.userId;
           retro.state = 2;
-          retro.currentPage = "/retro"
+          retro.currentPage = "/retro/subject"
+          
           this.chatService.setCurrentRetro(retro);
           this.chatService.getAllUserRights(retro);
 
@@ -246,7 +247,7 @@ export class RetrospectivesInitComponent implements OnInit {
           this.updateGroup(this.groups[0].group);
 
 
-          this.router.navigate(["/retro"]);
+          this.router.navigate(["/retro/subject"]);
         },
         (error) => {
           this.alertifyService.error()

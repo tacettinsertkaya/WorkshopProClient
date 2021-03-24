@@ -17,7 +17,7 @@ export class SharedService {
 
   currentRetro: BehaviorSubject<Retro> = new BehaviorSubject(new Retro());
   isShowSubject: BehaviorSubject<boolean> = new BehaviorSubject(false);
-  tabSource: BehaviorSubject<string> = new BehaviorSubject(".select-subject");
+  tabSource: BehaviorSubject<string> = new BehaviorSubject("/retro/subject");
   allMessage: BehaviorSubject<Array<Message>> = new BehaviorSubject(
     new Array<Message>()
   );

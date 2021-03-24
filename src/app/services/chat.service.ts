@@ -126,9 +126,9 @@ export class ChatService {
   setCurrentRetro(data: Retro) {
 
     this._hubConnection.invoke("setCurrentRetro", data).catch(err =>this.startConnection());
-    const newMessage = firebase.default.database().ref('currentRetro/').push();
-    newMessage.set(data);
 
+    firebase.default.database().ref('currentRetro/').child(data.id).set(data);
+    
   }
 
 
@@ -219,8 +219,6 @@ export class ChatService {
     this._hubConnection.on("currentRetroReceived", (data: any) => {
       this.currentRetroReceived.emit(data);
     });
-
-    
   }
 
   private getCurrentRetroEvents(): void {

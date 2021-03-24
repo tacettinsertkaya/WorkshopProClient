@@ -1,9 +1,9 @@
-
+<!-- 
 
 
 <ul class="header__retro-navigation tab-progress" *ngIf="isUser"  #widgetsContent role="tablist">
   <li class="navigation-item active">
-    <a class="navigation-link select-subject"   [ngClass]="{'active':currentTab=='.select-subject'}"
+    <a class="navigation-link select-subject"    [ngClass]="{'active':currentTab=='.select-subject'}"
       >
       Konu Seç
     </a>
@@ -46,50 +46,52 @@
       Raporla
     </a>
   </li>
-</ul>
+</ul> -->
        
-<ul class="header__retro-navigation tab-progress custom-slider-main" #widgetsContent role="tablist" *ngIf="!isUser">
+<ul class="header__retro-navigation tab-progress custom-slider-main" #widgetsContent role="tablist" >
   <li class="navigation-item active">
-    <a class="navigation-link select-subject"   [class.disabled]="pathIndex==0?false:true"   [ngClass]="{'active':currentTab=='.select-subject'}"
-      (click)="clickTab('select-subject')">
+    <a class="navigation-link select-subject"   [class.disabled]="pathIndex==0?false:true"   [class.active]="isActive('/retro/subject')"
+      (click)="clickTab('/retro/template')">
       Konu Seç
     </a>
   </li>
   <li class="navigation-item">
-    <a class="navigation-link select-template"  [class.disabled]="pathIndex>1?true:false"   [ngClass]="{'active':currentTab=='.select-template'}"
-      (click)="clickTab('select-template')">
+    <a class="navigation-link select-template"  [class.disabled]="pathIndex>1?true:false"    [class.active]="isActive('/retro/template')"
+      (click)="clickTab('/retro/brainstorm')">
       Şablon Seç
     </a>
   </li>
 
   <li class="navigation-item">
-    <a class="navigation-link brainstorm"   [class.disabled]="pathIndex>2?true:false"  [ngClass]="{'active':currentTab=='.brainstorm'}"
-      (click)="clickTab('brainstorm')">
+    <a class="navigation-link brainstorm"   [class.disabled]="pathIndex>2?true:false"  [class.active]="isActive('/retro/brainstorm')"
+      (click)="clickTab('/retro/categorize')">
       Fikir Geliştir
     </a>
   </li>
   <li class="navigation-item">
   
-    <a class="navigation-link categorize" [class.disabled]="pathIndex>3?true:false"  [ngClass]="{'active':currentTab=='.categorize'}"
-      (click)="clickTab('categorize')">
+    <a class="navigation-link categorize" [class.disabled]="pathIndex>3?true:false"  [class.active]="isActive('/retro/categorize')"
+      (click)="clickTab('/retro/comment')">
       Kategorize Et
     </a>
   </li>
   <li class="navigation-item">
-    <a class="navigation-link comments"   [class.disabled]="pathIndex>4?true:false"   [ngClass]="{'active':currentTab=='.comments'}" (click)="clickTab('comments')">
+    <a class="navigation-link comments"   [class.disabled]="pathIndex>4?true:false"  [class.active]="isActive('/retro/comment')"
+      (click)="clickTab('/retro/vote')">
       Yorum Yap
     </a>
   </li>
 
   <li class="navigation-item">
-    <a class="navigation-link vote"  [class.disabled]="pathIndex>5?true:false"    [ngClass]="{'active':currentTab=='.vote'}" (click)="clickTab('vote')">
+    <a class="navigation-link vote"  [class.disabled]="pathIndex>5?true:false"   [class.active]="isActive('/retro/vote')"
+      (click)="clickTab('/retro/report')">
       Oyla
     </a>
   </li>
 
   <li class="navigation-item">
-    <a class="navigation-link idea-archive"  [class.disabled]="pathIndex>6?true:false"     [ngClass]="{'active':currentTab=='.idea-archive'}"
-      (click)="clickTab('idea-archive')">
+    <a class="navigation-link idea-archive"  [class.disabled]="pathIndex>6?true:false"     [class.active]="isActive('/retro/report')"
+      (click)="clickTab('/retro/report')">
       Raporla
     </a>
   </li>
@@ -109,7 +111,8 @@
   <div class="col-md-12 ml-auto mr-auto">
 
     <div>
-      <div *ngIf="currentTab=='.select-subject'" id="select-subject">
+      <router-outlet></router-outlet>
+      <!-- <div *ngIf="currentTab=='.select-subject'" id="select-subject">
         <subject-list-cmp></subject-list-cmp>
       </div>
       <div *ngIf="currentTab=='.select-template'" id="select-template">
@@ -130,7 +133,7 @@
       <div *ngIf="currentTab=='.idea-archive'" id="idea-archive">
         <app-report-cmp></app-report-cmp>
       </div>
-    </div>
+    </div> -->
 
   </div>
 </div>

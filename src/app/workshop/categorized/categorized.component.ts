@@ -123,7 +123,7 @@ export class CategorizedComponent implements OnInit {
         this.retro=retro;
           this.sharedService.currentRetro.next(retro);
         if(this.authService.hasRole("Member") && retro.currentPage!=null) 
-           this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+           this.sharedService.tabSource.next(retro.currentPage);
 
       });
     });

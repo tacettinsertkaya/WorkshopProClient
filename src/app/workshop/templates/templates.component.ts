@@ -94,7 +94,7 @@ export class TemplatesComponent implements OnInit {
       this._ngZone.run(() => {
         
         if(this.authService.hasRole("Member")) 
-        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+        this.sharedService.tabSource.next(retro.currentPage);
   
       });
     });
@@ -133,7 +133,7 @@ export class TemplatesComponent implements OnInit {
   selectTemplate(templateId) {
     localStorage.setItem('templateId', templateId);
     this.sharedService.messageSource.next(templateId);
-    this.sharedService.tabSource.next('.brainstorm');
+    this.sharedService.tabSource.next('/retro/brainstorm');
 
 
     

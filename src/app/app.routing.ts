@@ -28,6 +28,10 @@ export const AppRoutes: Routes = [
         path: "",
         loadChildren: "./workshop/workshop.module#WorkshopModule",
       },
+      {
+        path: "current",
+        loadChildren: "./pages/pages.module#PagesModule",
+      },
      
     
 

@@ -53,7 +53,7 @@ export class RetrospectivesComponent implements OnInit {
   retroRights: UserRight = new UserRight();
   editmode: boolean = false;
   groups: Array<GroupDto> = [];
-  currentTab: string = '.subject';
+  currentTab: string = '/retro/subject';
   retroRight: RetroConfigration = new RetroConfigration();
   pathIndex: number = 0;
   // @ViewChild('widgetsContent',{static:false,read: ElementRef}) private widgetsContent: any ;
@@ -84,13 +84,14 @@ export class RetrospectivesComponent implements OnInit {
 
 
     firebase.default.database().ref('currentRetro/').limitToLast(1).on('value', (resp: any) => {
-
+ 
       var data = snapshotToArray(resp);
+      console.log("current-retro(subject)",data);
       if (data !== undefined) {
         this.sharedService.currentRetro.next(data[0]);
         this.currentRetro = data[0];
 
-        this.sharedService.tabSource.next("." + this.currentRetro.currentPage.replace("/", ""));
+        this.sharedService.tabSource.next(this.currentRetro.currentPage);
 
         if (this.currentRetro.id) {
 
@@ -99,7 +100,7 @@ export class RetrospectivesComponent implements OnInit {
           retro.state = this.currentRetro.state;
           retro.templateId = this.currentRetro.templateId;
           retro.userId = this.currentRetro.userId;
-      
+
           if (!this.sharedService.retroRightValue.id) {
             this.configService.getUserRight(retro).subscribe(right => {
               this.retroRight = right;
@@ -108,8 +109,14 @@ export class RetrospectivesComponent implements OnInit {
             })
           }
 
-          if (this.currentRetro.currentPage != '/retro')
+          var filterData = ['/retro/start', '/retro/subject']
+          var exist = filterData.filter(p => p == this.currentRetro.currentPage.trim())
+       
+          if (exist.length == 0) {
+
             this.getRetroSubject(retro.id);
+          }
+
         }
       }
     });
@@ -126,12 +133,17 @@ export class RetrospectivesComponent implements OnInit {
     });
 
     this.sharedService.tabSource.subscribe((tab: string) => {
+     
+      if (tab) {
+        this.router.navigate[tab];
+      }
+      else {
+        this.router.navigate["/retro/subject"]
+      }
 
-      this.currentTab = (tab != "" && tab != ".retro") ? tab : '.select-subject';
 
 
-
-      if (".idea-archive" == tab) {
+      if ("/retro/report" == tab) {
         this.pathIndex = 7;
         this.isReport = true;
         this.isShow = false;
@@ -143,7 +155,7 @@ export class RetrospectivesComponent implements OnInit {
       }
 
 
-      if (".select-subject" == tab) {
+      if ("/retro/subject" == tab) {
         this.pathIndex = 1;
 
         this.isShow = false;
@@ -155,7 +167,7 @@ export class RetrospectivesComponent implements OnInit {
 
       }
 
-      if (".select-template" == tab) {
+      if ("/retro/template" == tab) {
         this.pathIndex = 2;
         this.isSelectTemplate = true;
       }
@@ -163,7 +175,7 @@ export class RetrospectivesComponent implements OnInit {
         this.isSelectTemplate = false;
       }
 
-      if (".brainstorm" == tab) {
+      if ("/retro/brainstorm" == tab) {
         this.pathIndex = 3;
 
         this.isBrainstorm = true;
@@ -174,7 +186,7 @@ export class RetrospectivesComponent implements OnInit {
 
       }
 
-      if (".comments" == tab) {
+      if ("/retro/comment" == tab) {
         this.pathIndex = 5;
 
         this.isComment = true;
@@ -186,7 +198,7 @@ export class RetrospectivesComponent implements OnInit {
       }
 
 
-      if (".vote" == tab) {
+      if ("/retro/vote" == tab) {
         this.pathIndex = 6;
 
         this.isVote = true;
@@ -196,7 +208,7 @@ export class RetrospectivesComponent implements OnInit {
 
       }
 
-      if (".categorize" == tab) {
+      if ("/retro/categorize" == tab) {
         this.pathIndex = 4;
 
         this.isCategorized = true;
@@ -205,7 +217,7 @@ export class RetrospectivesComponent implements OnInit {
         this.isCategorized = false;
       }
 
-      if (".idea-archive" == tab) {
+      if ("/retro/report" == tab) {
         this.pathIndex = 7;
 
         if (this.authService.hasRole("Leader")) {
@@ -237,11 +249,12 @@ export class RetrospectivesComponent implements OnInit {
         this.currentRetro = retro;
         this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
         if (this.currentRetro.state > 2) {
+          console.log("state",this.currentRetro);
           this.getRetroSubject(this.currentRetro.id);
         }
       }
       else {
-        this.router.navigate(["/retro-start"]);
+        // this.router.navigate(["/retro/start"]);
 
 
 
@@ -274,56 +287,60 @@ export class RetrospectivesComponent implements OnInit {
     }
   }
 
+  isActive(currentTab) {
+    return this.router.url == currentTab;
+  }
+
   clickTab(tab: string) {
     this.currentTab = '.' + tab;
 
-    if (".comments" == this.currentTab) {
-      this.sharedService.tabSource.next(".comments");
+    if ("/retro/comment" == this.currentTab) {
+      this.sharedService.tabSource.next("/retro/comment");
       if (this.authService.hasRole("Leader")) {
         this.pathIndex = 5;
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
-        retro.currentPage = "/comments"
+        retro.currentPage = "/retro/comment"
         retro.templateId = this.currentRetro.templateId;
-        retro.subjectId=this.sharedService.selectSubjectValue.id;
+        retro.subjectId = this.sharedService.selectSubjectValue.id;
         this.chatService.setCurrentRetro(retro);
       }
     }
-    if (".categorize" == this.currentTab) {
-      this.sharedService.tabSource.next(".categorize");
+    if ("/retro/categorize" == this.currentTab) {
+      this.sharedService.tabSource.next("/retro/categorize");
       if (this.authService.hasRole("Leader")) {
         this.pathIndex = 4;
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
-        retro.currentPage = "/categorize"
+        retro.currentPage = "/retro/categorize"
         retro.templateId = this.currentRetro.templateId;
         this.chatService.setCurrentRetro(retro);
       }
 
 
     }
-    if (".vote" == this.currentTab) {
-      this.sharedService.tabSource.next(".vote");
+    if ("/retro/vote" == this.currentTab) {
+      this.sharedService.tabSource.next("/retro/vote");
       if (this.authService.hasRole("Leader")) {
         this.pathIndex = 6;
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
-        retro.currentPage = "/vote"
+        retro.currentPage = "/retro/vote"
         retro.templateId = this.currentRetro.templateId;
         this.chatService.setCurrentRetro(retro);
       }
     }
-    if (".idea-archive" == this.currentTab) {
-      this.sharedService.tabSource.next(".idea-archive");
+    if ("/retro/report" == this.currentTab) {
+      this.sharedService.tabSource.next("/retro/report");
       if (this.authService.hasRole("Leader")) {
         this.pathIndex = 7;
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
-        retro.currentPage = "/idea-archive"
+        retro.currentPage = "/retro/report"
         retro.templateId = this.currentRetro.templateId;
         this.chatService.setCurrentRetro(retro);
       }
@@ -331,7 +348,7 @@ export class RetrospectivesComponent implements OnInit {
 
 
 
-    if (".idea-archive" == this.currentTab) {
+    if ("/retro/report" == this.currentTab) {
       this.pathIndex = 7;
       this.isReport = true;
       this.isShow = false;
@@ -343,7 +360,7 @@ export class RetrospectivesComponent implements OnInit {
     }
 
 
-    if (".select-subject" == this.currentTab) {
+    if ("/retro/subject" == this.currentTab) {
       this.pathIndex = 1;
       this.isShow = false;
       this.isSelectSubject = true;
@@ -354,7 +371,7 @@ export class RetrospectivesComponent implements OnInit {
 
     }
 
-    if (".select-template" == this.currentTab) {
+    if ("/retro/template" == this.currentTab) {
       this.pathIndex = 2;
 
       this.isSelectTemplate = true;
@@ -363,7 +380,7 @@ export class RetrospectivesComponent implements OnInit {
       this.isSelectTemplate = false;
     }
 
-    if (".brainstorm" == this.currentTab) {
+    if ("/retro/brainstorm" == this.currentTab) {
       this.pathIndex = 3;
       this.isBrainstorm = true;
 
@@ -373,7 +390,7 @@ export class RetrospectivesComponent implements OnInit {
 
     }
 
-    if (".comments" == this.currentTab) {
+    if ("/retro/comment" == this.currentTab) {
       this.pathIndex = 5;
 
       this.isComment = true;
@@ -385,7 +402,7 @@ export class RetrospectivesComponent implements OnInit {
     }
 
 
-    if (".vote" == this.currentTab) {
+    if ("/retro/vote" == this.currentTab) {
       this.pathIndex = 6;
 
       this.isVote = true;
@@ -395,7 +412,7 @@ export class RetrospectivesComponent implements OnInit {
 
     }
 
-    if (".categorize" == this.currentTab) {
+    if ("/retro/categorize" == this.currentTab) {
       this.pathIndex = 4;
 
       this.isCategorized = true;
@@ -404,10 +421,10 @@ export class RetrospectivesComponent implements OnInit {
       this.isCategorized = false;
     }
 
-    if (".idea-archive" == this.currentTab) {
+    if ("/retro/report" == this.currentTab) {
       if (this.authService.hasRole("Leader")) {
         this.pathIndex = 7;
-        
+
         this.getFilterGroup();
       }
     }
@@ -517,7 +534,7 @@ export class RetrospectivesComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (res) => {
-          
+
           this.sharedService.tabSource.next("." + res.currentPage.replace("/", ""));
 
         },
@@ -533,7 +550,7 @@ export class RetrospectivesComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (res) => {
-        
+
           this.selectSubject = res;
           this.sharedService.selectSubjectSetValue(res);
         },
@@ -601,7 +618,7 @@ export class RetrospectivesComponent implements OnInit {
       this._ngZone.run(() => {
         this.sharedService.currentRetro.next(retro);
         if (this.authService.hasRole("Member")) {
-          this.sharedService.tabSource.next("." + retro.currentPage.replace("/", ""));
+          this.sharedService.tabSource.next(retro.currentPage);
           this.inviteLink = environment.appUrl + "member/" + retro.id;
         }
       });

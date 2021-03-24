@@ -1,0 +1,53 @@
+<ul class="header__retro-navigation tab-progress custom-slider-main" #widgetsContent role="tablist" >
+  <li class="navigation-item active">
+    <a class="navigation-link select-subject" [class.disabled]="pathIndex==0?false:true"   [class.active]="isActive('/current/subject')"
+    (click)="clickTab('/current/template')"
+      >
+      Konu Seç
+    </a>
+  </li>
+  <li class="navigation-item">
+    <a class="navigation-link select-template" [class.disabled]="pathIndex>=1?true:false"    [class.active]="isActive('/current/template')"
+      (click)="clickTab('/current/brainstorm')"
+     >
+      Şablon Seç
+    </a>
+  </li>
+
+  <li class="navigation-item">
+    <a class="navigation-link brainstorm" [class.disabled]="pathIndex>=2?true:false"  [class.active]="isActive('/current/brainstorm')"
+      (click)="clickTab('/current/categorize')"
+      >
+      Fikir Geliştir
+    </a>
+  </li>
+  <li class="navigation-item">
+  
+    <a class="navigation-link categorize" [class.disabled]="pathIndex>=3?true:false"  [class.active]="isActive('/current/categorize')"
+      (click)="clickTab('/current/comment')"
+      >
+      Kategorize Et
+    </a>
+  </li>
+  <li class="navigation-item">
+    <a class="navigation-link comments" [class.disabled]="pathIndex>=4?true:false"  [class.active]="isActive('/current/comment')"
+      (click)="clickTab('/current/vote')">
+      Yorum Yap
+    </a>
+  </li>
+
+  <li class="navigation-item">
+    <a class="navigation-link vote"  [class.disabled]="pathIndex>=5?true:false"   [class.active]="isActive('/current/vote')"
+      (click)="clickTab('/current/report')">
+      Oyla
+    </a>
+  </li>
+
+  <li class="navigation-item">
+    <a class="navigation-link idea-archive" [class.disabled]="pathIndex>=6?true:false"     [class.active]="isActive('/current/report')"
+      (click)="clickTab('/current/report')"
+      >
+      Raporla
+    </a>
+  </li>
+</ul>

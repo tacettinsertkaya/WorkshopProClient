@@ -261,7 +261,7 @@ export class ReportComponent implements OnInit {
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
-        retro.currentPage = "/report"
+        retro.currentPage = "/retro/report"
         retro.templateId=this.retro.templateId;
         this.chatService.setCurrentRetro(retro);
       }

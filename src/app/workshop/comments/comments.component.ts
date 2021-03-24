@@ -111,7 +111,7 @@ export class CommentsComponent implements OnInit {
       this._ngZone.run(() => {
         
         if(this.authService.hasRole("Member")) 
-        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+        this.sharedService.tabSource.next(retro.currentPage);
 
       });
     });

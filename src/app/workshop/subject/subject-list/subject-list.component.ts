@@ -43,13 +43,16 @@ export class SubjectListComponent implements OnInit {
   ) {
     this.subscribeToCurrentRetroEvents();
     this.getSelectedSubjectEvents();
+  
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
     
       this.retroRight = right;
     });
+    
     this.sharedService.currentRetro.subscribe((retro: Retro) => {
       this.retro = retro;
     });
+    
   }
   ngOnInit() {
    
@@ -63,15 +66,15 @@ export class SubjectListComponent implements OnInit {
   selectSubject(subject: any) {
     this.sharedService.selectSubject.next(subject);
     this.sharedService.isShowSubject.next(false);
-    this.sharedService.tabSource.next(".select-template");
+    this.sharedService.tabSource.next("/retro/template");
     if(this.authService.hasRole("Leader")){
       
      
       let retro=new Retro();
       retro.id=this.retroRight.retroId;
       retro.state=2;
-      retro.currentPage="/select-template";
-      retro.templateId=this.retro? this.retro.templateId:"";
+      retro.currentPage="/retro/template";
+      retro.templateId=this.retro.templateId? this.retro.templateId:"";
       this.chatService.setCurrentRetro(retro);
       let selectSubjectDto=new SubjectDto();
       selectSubjectDto.id=subject.id;
@@ -94,7 +97,7 @@ export class SubjectListComponent implements OnInit {
       if(this.authService.hasRole("Member")) {
 
         this.sharedService.currentRetro.next(retro);
-        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+        this.sharedService.tabSource.next(retro.currentPage);
       }
          
 

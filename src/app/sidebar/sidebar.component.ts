@@ -109,7 +109,7 @@ export const ADMIN_ROUTES: RouteInfo[] = [
 
 export const LEADER_ROUTES: RouteInfo[] = [
   {
-    path: "/retro-start",
+    path: "/retro/start",
     title: "Retro",
     type: "link",
     icontype: "fa fa-star",

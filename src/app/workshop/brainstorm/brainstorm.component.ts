@@ -157,7 +157,7 @@ export class BrainstormComponent implements OnInit {
         this.sharedService.currentRetro.next(retro);
         this.getTemplate(retro.templateId);
         if (this.authService.hasRole("Member"))
-          this.sharedService.tabSource.next("." + retro.currentPage.replace("/", ""));
+          this.sharedService.tabSource.next(retro.currentPage);
 
       });
     });

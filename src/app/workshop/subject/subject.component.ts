@@ -73,7 +73,7 @@ export class SubjectComponent implements OnInit {
   this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
     this._ngZone.run(() => {
       if(this.authService.hasRole("Member")) {
-        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+        this.sharedService.tabSource.next(retro.currentPage);
 
       }
            

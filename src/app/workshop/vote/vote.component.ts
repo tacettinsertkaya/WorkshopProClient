@@ -139,7 +139,7 @@ export class VoteComponent implements OnInit {
             (error) => { }
           );
         if (this.authService.hasRole("Member"))
-          this.sharedService.tabSource.next("." + retro.currentPage.replace("/", ""));
+          this.sharedService.tabSource.next(retro.currentPage);
 
       });
     });

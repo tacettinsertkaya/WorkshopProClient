@@ -2,6 +2,13 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { UserService } from 'app/services/user.service';
 
+import * as firebase from 'firebase';
+import { snapshotToArray } from "app/helpers/firebase-helper";
+import { Subscription } from "rxjs";
+import { Retro } from 'app/models/retro';
+import { GuidGenerator } from 'app/helpers/guid-generator';
+import { filter } from 'rxjs/operators';
+
 @Component({
   selector: 'app-tab-header',
   templateUrl: './tab-header.component.html',
@@ -21,124 +28,147 @@ export class TabHeaderComponent implements OnInit {
 
   }
 
-  constructor(private router: Router,
-    private authService: UserService,) { }
+  constructor(
+    private router: Router,
+    private authService: UserService,) {
+
+    firebase.default.database().ref('currentpath/').limitToLast(1).on('value', (resp: any) => {
+
+      var data = snapshotToArray(resp);
+      if (data.length > 0) {
+        let currentPage = data[0].currentPage;
+        let scrollDestination = currentPage.split("/");
+        if (scrollDestination.length >= 2) {
+          console.log("scrollDestination[2]", scrollDestination[2]);
+          const elementList = document.querySelectorAll('.' + scrollDestination[2]);
+          const element = elementList[0] as HTMLElement;
+
+          if (element != undefined)
+            element.scrollIntoView({ behavior: 'smooth' });
+        }
+
+
+
+        if (currentPage != "/current/finish") {
+
+          this.router.navigate([currentPage])
+        }
+        else {
+          
+          if (this.isLeader()) {
+            firebase.default.database().ref("/currentPath").remove();
+
+          }
+
+
+          this.authService.logout();
+          this.router.navigate(["/current/finish"])
+
+ 
+        }
+      }
+    });
+
+
+  }
 
   ngOnInit() {
     this.currentTab = this.router.url;
+
+    this.clickTab(this.currentTab, false)
   }
 
   isActive(currentTab) {
     return this.router.url == currentTab;
   }
 
-  clickTab(tab: string) {
+  isLeader() {
+    return this.authService.hasRole("Leader")
+  }
+
+
+
+
+  clickTab(tab: string, isAuto = true) {
+
     this.currentTab = tab;
-    console.log("asdasd ", this.currentTab);
-    if ("/current/subject" == this.currentTab) {
-      if (this.authService.hasRole("Leader")) {
-        this.pathIndex = 1;
-        // let current = new current();
-        // current.id = this.currentRight.currentId;
-        // current.state = 2;
-        // current.currentPage = "/current/comment"
-        // current.templateId = this.currentcurrent.templateId;
-        // current.subjectId = this.sharedService.selectSubjectValue.id;
-        // this.chatService.setCurrentcurrent(current);
+    let generator = new GuidGenerator();
+    let current = new Retro();
+    current.currentPage = this.currentTab;
+    current.id = generator.newGuid();
 
-      }
-    }
+    if (this.isLeader()) {
+      const newMessage = firebase.default.database().ref('currentpath/').push();
+      newMessage.set(current);
 
-    if ("/current/template" == this.currentTab) {
-      if (this.authService.hasRole("Leader")) {
-        this.pathIndex = 2;
-        // let current = new current();
-        // current.id = this.currentRight.currentId;
-        // current.state = 2;
-        // current.currentPage = "/current/comment"
-        // current.templateId = this.currentcurrent.templateId;
-        // current.subjectId = this.sharedService.selectSubjectValue.id;
-        // this.chatService.setCurrentcurrent(current);
-
-      }
-    }
-
-    if ("/current/brainstorm" == this.currentTab) {
-      if (this.authService.hasRole("Leader")) {
-        this.pathIndex = 3;
-        // let current = new current();
-        // current.id = this.currentRight.currentId;
-        // current.state = 2;
-        // current.currentPage = "/current/comment"
-        // current.templateId = this.currentcurrent.templateId;
-        // current.subjectId = this.sharedService.selectSubjectValue.id;
-        // this.chatService.setCurrentcurrent(current);
-
-      }
-    }
-
-    if ("/current/comment" == this.currentTab) {
-      if (this.authService.hasRole("Leader")) {
-        this.pathIndex = 4;
-        // let current = new current();
-        // current.id = this.currentRight.currentId;
-        // current.state = 2;
-        // current.currentPage = "/current/comment"
-        // current.templateId = this.currentcurrent.templateId;
-        // current.subjectId = this.sharedService.selectSubjectValue.id;
-        // this.chatService.setCurrentcurrent(current);
-
-      }
-    }
-    if ("/current/categorize" == this.currentTab) {
-      if (this.authService.hasRole("Leader")) {
-        this.pathIndex = 5;
-        // let current = new current();
-        // current.id = this.currentRight.currentId;
-        // current.state = 2;
-        // current.currentPage = "/current/categorize"
-        // current.templateId = this.currentcurrent.templateId;
-        // this.chatService.setCurrentcurrent(current);
+      let scrollDestination = tab.split("/");
+      if (scrollDestination.length >= 2) {
+        console.log("scrollDestination[2]", scrollDestination[2]);
+        const elementList = document.querySelectorAll('.' + scrollDestination[2]);
+        const element = elementList[0] as HTMLElement;
+        if (element != undefined)
+          element.scrollIntoView({ behavior: 'smooth' });
       }
 
+      if ("/current/subject" == this.currentTab) {
+        if (this.authService.hasRole("Leader")) {
+          this.pathIndex = 1;
 
-    }
-    if ("/current/vote" == this.currentTab) {
-      if (this.authService.hasRole("Leader")) {
-        this.pathIndex = 6;
-        // let current = new current();
-        // current.id = this.currentRight.currentId;
-        // current.state = 2;
-        // current.currentPage = "/current/vote"
-        // current.templateId = this.currentcurrent.templateId;
-        // this.chatService.setCurrentcurrent(current);
-      }
-    }
-    if ("/current/report" == this.currentTab) {
-      if (this.authService.hasRole("Leader")) {
-        this.pathIndex = 7;
-        // let current = new current();
-        // current.id = this.currentRight.currentId;
-        // current.state = 2;
-        // current.currentPage = "/current/report"
-        // current.templateId = this.currentcurrent.templateId;
-        // this.chatService.setCurrentcurrent(current);
+
+        }
       }
 
+      if ("/current/template" == this.currentTab) {
+        if (this.authService.hasRole("Leader")) {
+          this.pathIndex = 2;
+
+        }
+      }
+
+      if ("/current/brainstorm" == this.currentTab) {
+        if (this.authService.hasRole("Leader")) {
+          this.pathIndex = 3;
+
+        }
+      }
+
+      if ("/current/comment" == this.currentTab) {
+        if (this.authService.hasRole("Leader")) {
+          this.pathIndex = 4;
+
+
+        }
+      }
+      if ("/current/categorize" == this.currentTab) {
+        if (this.authService.hasRole("Leader")) {
+          this.pathIndex = 5;
+
+        }
+
+
+      }
+      if ("/current/vote" == this.currentTab) {
+        if (this.authService.hasRole("Leader")) {
+          this.pathIndex = 6;
+
+        }
+      }
+      if ("/current/report" == this.currentTab) {
+        if (this.authService.hasRole("Leader")) {
+          this.pathIndex = 7;
+
+        }
+
+      }
+
+      if (isAuto)
+        this.router.navigate([this.currentTab])
     }
 
 
-    this.router.navigate[tab];
 
 
 
-    const width = window.innerWidth;
-    if (width <= 576)
-      this.widgetsContent.nativeElement.scrollLeft += 150;
-
-
-
-   
   }
 
 }

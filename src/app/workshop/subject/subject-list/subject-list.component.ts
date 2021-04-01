@@ -75,7 +75,7 @@ export class SubjectListComponent implements OnInit {
       retro.state=2;
       retro.currentPage="/retro/template";
       retro.templateId=this.retro.templateId? this.retro.templateId:"";
-      this.chatService.setCurrentRetro(retro);
+      // this.chatService.setCurrentRetro(retro);
       let selectSubjectDto=new SubjectDto();
       selectSubjectDto.id=subject.id;
       selectSubjectDto.subjectTitle=subject.subjectTitle;

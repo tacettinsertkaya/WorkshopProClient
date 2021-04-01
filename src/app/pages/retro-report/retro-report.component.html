@@ -1,1 +1,233 @@
 <app-tab-header></app-tab-header>
+
+
+<div class="report" id="report-content" name="report-content" #content class="container form mt-50">
+
+
+    <div class="row">
+      <div class="container">
+        <button type="button" class="btn btn-danger float-right ml-5" *ngIf="isLeader()" (click)="finishRetro()">Retroyu
+          Bitir</button>
+  
+        <button id="generate" class="btn btn-success float-right" *ngIf="isLeader()" (click)="createPdf()">
+          PDF Oluştur</button>
+  
+      </div>
+    </div>
+  
+  
+    <div class="report-header mb-5">
+  
+      <h1 class="report-header__title">Yönetici Özeti</h1>
+      <span class="report-header__description">
+        Raporun bu bölümünde atölye çalışmasında ele alınan her bir konuya ait öneriler, sonunda yapılan oylama
+        sonuçlarına
+        bağlı olarak
+        “öncelikli” olarak tanımlanan fikirler ve her bir fikir için verilen oy sayıları özetlenmiştir.
+      </span>
+    </div>
+  
+    <div class="report-section mb-5">
+      <h3 class="report-section__title">Konu</h3>
+      <div class="card card-theme card-theme--cyan">
+        <div class="card-body p-2">
+          <h4 class="card-title">{{subject.subjectTitle}}</h4>
+          <div class="card-description">{{subject.subjectDescription}}
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  
+  
+    <div class="report-section mb-5" *ngIf="categorizedMessages.length>0">
+      <h3 class="report-section__title">Öncelikli Fikirler</h3>
+  
+      <div *ngFor="let tmp of template.templateDetail">
+        <div *ngIf="GetHeaderCategorizedMessages(tmp.id).length>0">
+          <h5 class="report-section__subtitle">{{tmp.header}}</h5>
+          <div class="report-section__content">
+            <div class="card card-theme box-shadow-xs mb-3"
+              *ngFor=" let message of GetHeaderCategorizedMessages(tmp.id);let index">
+              <div class="card-body p-1 d-flex">
+                <div class="card-description " style="width: calc(100% - 70px);">
+                  {{message.messageText}}
+                </div>
+                <div class="d-flex align-items-end" style="width: 70px;">
+                  <button class="btn btn-icon-theme"><i class="fa fa-thumbs-up"></i> ({{message.voteCount}})</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  
+  
+  
+  
+    <div class="report-section mb-5" *ngIf="messages.length>0">
+      <h3 class="report-section__title">Diğer Fikirler</h3>
+  
+      <div *ngFor="let tmp of template.templateDetail">
+        <div *ngIf="GetHeaderMessage(tmp.id).length>0">
+  
+          <h5 class="report-section__subtitle">{{tmp.header}}</h5>
+          <div class="report-section__content" *ngFor="let message of GetHeaderMessage(tmp.id)">
+            <div class="card card-theme box-shadow-xs mb-3">
+              <div class="card-body p-1 d-flex">
+                <div class="card-description" style="width: 95%;"> 
+                  {{message.messageText}}
+                </div>
+                <div class="d-flex align-items-end" style="width: 5%;">
+                  <button class="btn btn-icon-theme"><i class="fa fa-thumbs-up"></i> ({{message.voteCount}})</button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  
+  
+    <div class="report-header mb-5">
+      <h1 class="report-header__title">Rapor</h1>
+      <span class="report-header__description">
+        Bu bölümünde atölye çalışmasının sonunda ortaya çıkan fikirler, bu fikirlere ait yorumlar, her bir fikire ait
+        oylama sonuçları sunulmuştur.
+      </span>
+    </div>
+  
+    <div class="report-section mb-5">
+      <h3 class="report-section__title">Konu</h3>
+      <div class="card card-theme card-theme--cyan mb-3">
+        <div class="card-body p-2">
+          <h4 class="card-title"> {{subject.subjectTitle}}</h4>
+          <div class="card-description">{{subject.subjectDescription}}
+          </div>
+        </div>
+      </div>
+  
+    </div>
+  
+  
+  
+  
+    <div class="report-section category mb-5" *ngIf="categorizedMessages.length>0">
+      <h3 class="report-section__title">Öncelikli Fikirler</h3>
+      <div *ngFor="let tmp of template.templateDetail">
+        <div *ngIf="GetHeaderCategorizedMessages(tmp.id).length>0">
+          <h5 class="report-section__subtitle">{{tmp.header}}</h5>
+          <div class="report-section__content">
+            <div class="card card-theme box-shadow-xs mb-3"
+              *ngFor=" let message of GetHeaderCategorizedMessages(tmp.id);let index">
+              <div class="card-body p-1 d-flex">
+                <div class="card-description" style="width: 95%;">
+                  {{message.messageText}}
+                </div>
+                <div class="d-flex align-items-end" style="width: 5%;">
+                  <button class="btn btn-icon-theme"><i class="fa fa-thumbs-up"></i> ({{message.voteCount}})</button>
+                </div>
+              </div>
+  
+              <div class="category__comments mt-3">
+                <div class="card card-theme card-theme--blue mb-3 w-75 box-shadow-xs"
+                  *ngFor="let comment of message.comments">
+                  <div class="card-body p-1 text-dark">
+                    {{comment.commentText}}
+                  </div>
+                </div>
+              </div>
+  
+            </div>
+           
+          
+  
+          </div>
+        </div>
+      </div>
+    </div>
+  
+    <div class="report-section category mb-5" *ngIf="messages.length>0">
+      <h3 class="report-section__title">Diğer Fikirler</h3>
+      <div *ngFor="let tmp of template.templateDetail">
+        <div *ngIf="GetHeaderMessage(tmp.id).length>0">
+          <h5 class="report-section__subtitle">{{tmp.header}}</h5>
+          <div class="report-section__content" *ngFor="let message of GetHeaderMessage(tmp.id)">
+            <div class="card card-theme box-shadow-xs mb-3">
+              <div class="card-body p-1 d-flex">
+                <div class="card-description" style="width: 95%;">
+                  {{message.messageText}}
+                </div>
+                <div class="d-flex align-items-end" style="width: 5%;">
+                  <button class="btn btn-icon-theme"><i class="fa fa-thumbs-up"></i> ({{message.voteCount}})</button>
+                </div>
+              </div>
+              <div class="category__comments mt-3">
+                <div class="card card-theme card-theme--blue mb-3 w-75 box-shadow-xs"
+                  *ngFor="let comment of message.comments">
+                  <div class="card-body p-1 text-dark">
+                    {{comment.commentText}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          
+            
+          </div>
+        </div>
+      </div>
+  
+  
+    </div>
+  </div>
+  
+  
+  <div id="editor"></div>
+  <div class="my-overlay" *ngIf="showOverlay">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+  </div>
+  
+  
+  <!--
+  
+  
+    <div *ngFor="let tmp of template.templateDetail">
+      <div *ngIf="GetHeaderMessage(tmp.id).length>0">
+        <h5 class="alert alert-danger">{{tmp.header}}</h5>
+        <div *ngFor="let message of GetHeaderMessage(tmp.id)">
+        <div class="col-sm-12">
+          <div class="alert alert-success" role="alert">
+            <div class="row">
+              <p class="col-sm-11"> {{message.messageText}}
+              </p>
+              <span class="float-right col-sm-1"> <i class="fa fa-thumbs-up fa-2x "></i>({{message.voteCount}})</span>
+            </div>
+  
+          </div>
+  
+  
+          <div class="row" *ngFor="let comment of message.comments">
+            <div class="col-sm-9 offset-sm-3">
+              <div class="alert alert-primary" role="alert">
+  
+                <p> {{comment.commentText}}
+                </p>
+  
+  
+  
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    </div>
+  
+  
+  </div>
+  <div id="editor"></div>
+  <div class="my-overlay" *ngIf="showOverlay">
+    <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+  </div> -->

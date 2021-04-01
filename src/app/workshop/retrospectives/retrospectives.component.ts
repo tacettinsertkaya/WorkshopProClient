@@ -304,7 +304,7 @@ export class RetrospectivesComponent implements OnInit {
         retro.currentPage = "/retro/comment"
         retro.templateId = this.currentRetro.templateId;
         retro.subjectId = this.sharedService.selectSubjectValue.id;
-        this.chatService.setCurrentRetro(retro);
+        // this.chatService.setCurrentRetro(retro);
       }
     }
     if ("/retro/categorize" == this.currentTab) {
@@ -316,7 +316,7 @@ export class RetrospectivesComponent implements OnInit {
         retro.state = 2;
         retro.currentPage = "/retro/categorize"
         retro.templateId = this.currentRetro.templateId;
-        this.chatService.setCurrentRetro(retro);
+        // this.chatService.setCurrentRetro(retro);
       }
 
 
@@ -330,7 +330,7 @@ export class RetrospectivesComponent implements OnInit {
         retro.state = 2;
         retro.currentPage = "/retro/vote"
         retro.templateId = this.currentRetro.templateId;
-        this.chatService.setCurrentRetro(retro);
+        // this.chatService.setCurrentRetro(retro);
       }
     }
     if ("/retro/report" == this.currentTab) {
@@ -342,7 +342,7 @@ export class RetrospectivesComponent implements OnInit {
         retro.state = 2;
         retro.currentPage = "/retro/report"
         retro.templateId = this.currentRetro.templateId;
-        this.chatService.setCurrentRetro(retro);
+        // this.chatService.setCurrentRetro(retro);
       }
     }
 

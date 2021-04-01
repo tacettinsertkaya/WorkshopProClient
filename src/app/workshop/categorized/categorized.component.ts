@@ -193,8 +193,8 @@ export class CategorizedComponent implements OnInit {
           retro.id = this.retroRight.retroId;
           retro.state = 2;
           retro.templateId=this.retro.templateId;
-          this.chatService.setCurrentRetro(retro);
-          this.chatService.getCategorizedMessage();     
+          // this.chatService.setCurrentRetro(retro);
+          // this.chatService.getCategorizedMessage();     
         },
         (error) => { }
       );
@@ -231,7 +231,7 @@ export class CategorizedComponent implements OnInit {
   
           $("#categoryModal").modal("hide");
          
-           this.chatService.getCategorizedMessage();     
+          //  this.chatService.getCategorizedMessage();     
            let currentUser=this.authService.currentUserValue;
      
         
@@ -244,7 +244,7 @@ export class CategorizedComponent implements OnInit {
            message.date = new Date();
            message.isCategorized = false;
            message.retroId =  this.selectedMessages[0].retroId;
-           this.chatService.sendMessage(message);
+          //  this.chatService.sendMessage(message);
 
            this.selectedMessages = [];
            this.categorized.title = "";

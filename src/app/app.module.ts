@@ -44,6 +44,8 @@ import { SharedService } from "./services/shared.service";
 import { AlertifyService } from "./services/alertify.service";
 import * as firebase from 'firebase';
 import { PagesModule } from "./pages/pages.module";
+import { DashboardComponent } from "./workshop/dashboard/dashboard.component";
+import { RetroFinishComponent } from "./workshop/retro-finish/retro-finish.component";
 
 const config = {
   apiKey: 'AIzaSyAj0b-wjz8RPScqbslxU7ByFBKOk-B37jw',
@@ -67,7 +69,7 @@ firebase.default.initializeApp(config);
     FixedPluginModule,
     BrowserModule,
     NgxSpinnerModule,
-    PagesModule
+   
   ],
   declarations: [
     AppComponent,
@@ -79,7 +81,8 @@ firebase.default.initializeApp(config);
     UserDirectiveDirective,
     LoaderComponent,
     DatetimePipe,
-
+    DashboardComponent,
+    RetroFinishComponent
   ],
   providers: [
     UserService,

@@ -263,7 +263,7 @@ export class ReportComponent implements OnInit {
         retro.state = 2;
         retro.currentPage = "/retro/report"
         retro.templateId=this.retro.templateId;
-        this.chatService.setCurrentRetro(retro);
+        // this.chatService.setCurrentRetro(retro);
       }
 
     }
@@ -286,7 +286,7 @@ export class ReportComponent implements OnInit {
         retro.state = 3;
         retro.currentPage = "/finish"
         retro.templateId=this.retro.templateId;
-        this.chatService.setCurrentRetro(retro);
+        // this.chatService.setCurrentRetro(retro);
 
       });
     });

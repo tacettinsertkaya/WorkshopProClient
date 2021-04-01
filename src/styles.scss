@@ -15,6 +15,10 @@
     height: 5px;
   }
 
+  .mt-50{
+    margin-top:50px !important;
+  }
+  
   .mini-btn {display:flex;align-items: center;flex-wrap: wrap;
     span {font-size: 14px;font-weight: 500;background-color: #2E3448;color: white;padding: 4px 7px;text-align: center;border-radius: 4px;margin-right: 5px;cursor: pointer;}
 }
@@ -65,6 +69,10 @@
 a.disabled {
   pointer-events: none;
   cursor: default;
+}
+
+a {
+  cursor: pointer;
 }
 
 .checkbox-theme__pseudo-control {flex-shrink: 0;}

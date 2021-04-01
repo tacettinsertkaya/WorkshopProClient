@@ -196,7 +196,7 @@ export class VoteComponent implements OnInit {
     data.retroId = this.retroRight.retroId;
     data.userId = currentUser.userId;
 
-    this.chatService.setVote(data);
+    // this.chatService.setVote(data);
   }
 
   private getMessage(messageId: number) {

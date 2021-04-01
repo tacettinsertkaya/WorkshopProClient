@@ -29,7 +29,7 @@ export class UserHubService {
 
         this._hubConnection = new HubConnectionBuilder()
             .withUrl(environment.serverBaseUrl + "/UserHub")
-            .configureLogging(LogLevel.Information)
+            .configureLogging(LogLevel.Debug)
             .build();
     }
 
@@ -42,7 +42,7 @@ export class UserHubService {
             })
             .catch((err) => {
                 console.log("Error while establishing connection, retrying...");
-                setTimeout(function () {
+                setTimeout(()=> {
                     this.startConnection();
                 }, 5000);
             });

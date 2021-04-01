@@ -13,7 +13,7 @@ export class AlertifyService {
             title: "Başarılı",
             text: "İşlem Başarılı",
             type: "success",
-            timer:2000
+            timer:2500
           })
     }
 
@@ -22,7 +22,7 @@ export class AlertifyService {
             title: "Başarısız",
             text: "İşlem sırasında hata oluştu",
             type: "error",
-            timer:2000
+            timer:2500
           })
     }
 
@@ -31,7 +31,7 @@ export class AlertifyService {
             title: "Uyarı",
             text:msg,
             type: "warning",
-            timer:2000
+            timer:2500
           })
     }
 

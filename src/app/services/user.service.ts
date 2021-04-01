@@ -14,6 +14,8 @@ import { UserResetPassword } from '../models/user-reset-password';
 import { ResolveStart, Router } from '@angular/router';
 import { Role } from 'app/models/role';
 import { UserFilter } from 'app/models/dto/user-filter';
+import * as firebase from 'firebase';
+import { snapshotToArray } from "app/helpers/firebase-helper";
 
 @Injectable(
   {
@@ -61,7 +63,7 @@ export class UserService {
         return false;
       }
     }
-    else{
+    else {
       return false;
     }
   }
@@ -148,8 +150,8 @@ export class UserService {
     );
   }
 
-   // tslint:disable-next-line:typedef
-   getUserByRetro(id: string) {
+  // tslint:disable-next-line:typedef
+  getUserByRetro(id: string) {
     return this.baseService.get<User>(
       id,
       environment.serverBaseUrl,
@@ -168,7 +170,7 @@ export class UserService {
 
 
   // tslint:disable-next-line:typedef
-  getAllUser(userFilter:UserFilter) {
+  getAllUser(userFilter: UserFilter) {
     return this.baseService.post<User[]>(userFilter,
       environment.serverBaseUrl,
       EndPoints.USERS + '/GetAllUser'
@@ -204,9 +206,28 @@ export class UserService {
 
   // tslint:disable-next-line:typedef
   logout() {
+    console.log("logout")
+    let currentUser = this.currentUserValue;
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
 
     this.currentUserSubject.next(null);
+     
+    if (currentUser){
+      
+      var leadsRef = firebase.default.database().ref('onlineuser/');
+      leadsRef.on('value', function (snapshot) {
+          var data = snapshotToArray(snapshot);
+          var filterUser = data.filter(p => p.userId == currentUser.userId);
+          if (filterUser.length > 0) {
+              filterUser.forEach(p => {
+                  firebase.default.database().ref('onlineuser/' + p.key).remove();
+
+              })
+          }
+      });
+    }
+
+
   }
 }

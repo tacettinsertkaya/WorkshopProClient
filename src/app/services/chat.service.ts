@@ -42,14 +42,14 @@ export class ChatService {
   constructor(private userService: UserService,private sharedService: SharedService) {
     this.createConnection();
     this.registerOnServerEvents();
-    this.commentOnServerEvents();
-    this.RetroConfigurationOnServerEvents();
-    this.getCurrentRetroEvents();
-    this.voteOnServerEvents();
-    this.currentRetroEvents();
-    this.getSelectedSubjectEvents();
-    this.AllUserRightOnServerEvents();
-    this.getCategorizedMessageEvents();
+    // this.commentOnServerEvents();
+    // this.RetroConfigurationOnServerEvents();
+    // this.getCurrentRetroEvents();
+    // this.voteOnServerEvents();
+    // this.currentRetroEvents();
+    // this.getSelectedSubjectEvents();
+    // this.AllUserRightOnServerEvents();
+    // this.getCategorizedMessageEvents();
     this.onlineUserOnServerEvents();
     this.offlineUserOnServerEvents();
     this.retroAnnouncementOnServerEvents();
@@ -107,29 +107,29 @@ export class ChatService {
   }
 
 
-  sendMessage(message: Message) {
-    this._hubConnection.invoke("NewMessage", message).catch(err =>this.startConnection());
-  }
+  // sendMessage(message: Message) {
+  //   this._hubConnection.invoke("NewMessage", message).catch(err =>this.startConnection());
+  // }
 
-  sendComment(comment: Comment) {
-    this._hubConnection.invoke("NewComment", comment).catch(err =>this.startConnection());
-  }
+  // sendComment(comment: Comment) {
+  //   this._hubConnection.invoke("NewComment", comment).catch(err =>this.startConnection());
+  // }
 
-  setVote(data: VoteDto) {
-    this._hubConnection.invoke("setVote", data).catch(err =>this.startConnection());
-  }
+  // setVote(data: VoteDto) {
+  //   this._hubConnection.invoke("setVote", data).catch(err =>this.startConnection());
+  // }
 
   setOnlineUser(data: string) {
     this._hubConnection.invoke("GetOnlineUser", data).catch(err =>this.startConnection());
   }
 
-  setCurrentRetro(data: Retro) {
+  // setCurrentRetro(data: Retro) {
 
-    this._hubConnection.invoke("setCurrentRetro", data).catch(err =>this.startConnection());
+  //   this._hubConnection.invoke("setCurrentRetro", data).catch(err =>this.startConnection());
 
-    firebase.default.database().ref('currentRetro/').child(data.id).set(data);
+  //   firebase.default.database().ref('currentRetro/').child(data.id).set(data);
     
-  }
+  // }
 
 
 
@@ -140,10 +140,10 @@ export class ChatService {
 
  
 
-  setCurrentRetroConfig(data: Retro) {
+  // setCurrentRetroConfig(data: Retro) {
 
-    this._hubConnection.invoke("setCurrentRetroConfig", data).catch(err =>this.startConnection());
-  }
+  //   this._hubConnection.invoke("setCurrentRetroConfig", data).catch(err =>this.startConnection());
+  // }
 
 
   setRetroAnnouncement(data:RetroAnnouncement) {
@@ -151,17 +151,17 @@ export class ChatService {
     this._hubConnection.invoke("setRetroAnnouncement",data).catch(err =>this.startConnection());
   }
 
-  getCategorizedMessage() {
-    this._hubConnection.invoke("getCategorizedMessage").catch(err =>this.startConnection());
-  }
+  // getCategorizedMessage() {
+  //   this._hubConnection.invoke("getCategorizedMessage").catch(err =>this.startConnection());
+  // }
 
-  getMessage() {
-    this._hubConnection.invoke("GetMessage").catch(err =>this.startConnection());
-  }
+  // getMessage() {
+  //   this._hubConnection.invoke("GetMessage").catch(err =>this.startConnection());
+  // }
 
-  getAllUserRights(retro) {
-    this._hubConnection.invoke("allUserRight", retro).catch(err =>this.startConnection());
-  }
+  // getAllUserRights(retro) {
+  //   this._hubConnection.invoke("allUserRight", retro).catch(err =>this.startConnection());
+  // }
 
   private onlineUserOnServerEvents(): void {
     this._hubConnection.on("OnlineUser", (data: any) => {
@@ -190,53 +190,53 @@ export class ChatService {
     // });
   }
 
-  private commentOnServerEvents(): void {
-    this._hubConnection.on("CommentReceived", (data: any) => {
-      this.commentReceived.emit(data);
-    });
-  }
+  // private commentOnServerEvents(): void {
+  //   this._hubConnection.on("CommentReceived", (data: any) => {
+  //     this.commentReceived.emit(data);
+  //   });
+  // }
 
 
-  private RetroConfigurationOnServerEvents(): void {
-    this._hubConnection.on("RetroConfig", (data: any) => {
-      this.retroConfigurationReceived.emit(data);
-    });
-  }
+  // private RetroConfigurationOnServerEvents(): void {
+  //   this._hubConnection.on("RetroConfig", (data: any) => {
+  //     this.retroConfigurationReceived.emit(data);
+  //   });
+  // }
 
-  private AllUserRightOnServerEvents(): void {
-    this._hubConnection.on("allUserRight", (data: any) => {
-      this.allUserRight.emit(data);
-    });
-  }
+  // private AllUserRightOnServerEvents(): void {
+  //   this._hubConnection.on("allUserRight", (data: any) => {
+  //     this.allUserRight.emit(data);
+  //   });
+  // }
 
-  private voteOnServerEvents(): void {
-    this._hubConnection.on("VoteReceived", (data: any) => {
-      this.voteReceived.emit(data);
-    });
-  }
+  // private voteOnServerEvents(): void {
+  //   this._hubConnection.on("VoteReceived", (data: any) => {
+  //     this.voteReceived.emit(data);
+  //   });
+  // }
 
-  private currentRetroEvents(): void {
-    this._hubConnection.on("currentRetroReceived", (data: any) => {
-      this.currentRetroReceived.emit(data);
-    });
-  }
+  // private currentRetroEvents(): void {
+  //   this._hubConnection.on("currentRetroReceived", (data: any) => {
+  //     this.currentRetroReceived.emit(data);
+  //   });
+  // }
 
-  private getCurrentRetroEvents(): void {
-    this._hubConnection.on("getCurrentRetroReceived", (data: any) => {
-      this.currentRetro.emit(data);
-    });
-  }
+  // private getCurrentRetroEvents(): void {
+  //   this._hubConnection.on("getCurrentRetroReceived", (data: any) => {
+  //     this.currentRetro.emit(data);
+  //   });
+  // }
 
-  private getSelectedSubjectEvents(): void {
-    this._hubConnection.on("getSelectedSubjectReceived", (data: any) => {
-      this.subjectReceived.emit(data);
-    });
-  }
+  // private getSelectedSubjectEvents(): void {
+  //   this._hubConnection.on("getSelectedSubjectReceived", (data: any) => {
+  //     this.subjectReceived.emit(data);
+  //   });
+  // }
 
 
-  private getCategorizedMessageEvents(): void {
-    this._hubConnection.on("categorizedMessageReceived", (data: any) => {
-      this.categorizedMessage.emit(data);
-    });
-  }
+  // private getCategorizedMessageEvents(): void {
+  //   this._hubConnection.on("categorizedMessageReceived", (data: any) => {
+  //     this.categorizedMessage.emit(data);
+  //   });
+  // }
 }

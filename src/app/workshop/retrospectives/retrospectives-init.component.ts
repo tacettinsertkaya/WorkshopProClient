@@ -239,8 +239,8 @@ export class RetrospectivesInitComponent implements OnInit {
           retro.state = 2;
           retro.currentPage = "/retro/subject"
           
-          this.chatService.setCurrentRetro(retro);
-          this.chatService.getAllUserRights(retro);
+          // this.chatService.setCurrentRetro(retro);
+          // this.chatService.getAllUserRights(retro);
 
           this.groups[0].group.state = 1;
 

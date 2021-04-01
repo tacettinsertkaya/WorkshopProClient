@@ -20,6 +20,10 @@ import { Group } from "app/models/group";
 import { AlertifyService } from "app/services/alertify.service";
 import { RetroHubService } from "app/services/hub/retro-hub.service";
 import { UserHubService } from "app/services/hub/user-hub.service";
+import { GuidGenerator } from "app/helpers/guid-generator";
+
+import * as firebase from 'firebase';
+import { snapshotToArray } from "app/helpers/firebase-helper";
 
 @Component({
   selector: 'app-retro-start',
@@ -63,7 +67,12 @@ export class RetroStartComponent implements OnInit {
     let id = this.route.snapshot.params.id;
     localStorage.setItem("retro", "");
     if (this.isUser()) {
-      this.router.navigate(["/current/retro/subject", id]);
+      this.router.navigate(["/current/subject", id]);
+    }
+
+    if (this.isLeader()) {
+      this.getFilterGroup();
+      this.isCheckCompanyRetroRight();
     }
   }
 
@@ -74,6 +83,14 @@ export class RetroStartComponent implements OnInit {
   isLeader() {
     return this.authService.hasRole("Leader");
   }
+
+  isCheckFailed() {
+
+    return this.isFailed || this.isRetroFailed;
+  }
+
+
+
 
 
 
@@ -107,11 +124,61 @@ export class RetroStartComponent implements OnInit {
 
   }
 
-  isCheckFailed() {
 
-    return this.isFailed || this.isRetroFailed;
+
+  getFilterGroup() {
+    let filter = new GroupFilter();
+    filter.companyId = this.authService.currentUserValue.companyId;
+    filter.leaderId = this.authService.currentUserValue.userId;
+    filter.state = 0;
+    this.getAllGroup(filter);
   }
 
+
+  getAllGroup(filter) {
+
+
+    this.groupService
+      .getAllGroup(filter)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+          this.groups = res;
+
+          if (this.groups.length <= 0) {
+            this.isFailed = true;
+            swal(
+              {
+                title: 'Uyarı!',
+                text: 'Atanmış bir retro grubunuz bulunmamaktadır.',
+                type: 'warning',
+                showConfirmButton: false,
+                timer: 4000,
+                buttonsStyling: false
+              }
+            )
+          }
+          else {
+            this.isFailed = false;
+          }
+
+
+        },
+        (error) => {
+          this.alertifyService.error();
+        }
+      );
+  }
+
+  updateGroup(group: Group) {
+    this.groupService
+      .update(group)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+
+        });
+  }
 
 
   saveConfig() {
@@ -129,29 +196,36 @@ export class RetroStartComponent implements OnInit {
 
           this.config = res;
 
-          let userRight = new UserRight();
-          userRight.retroId = this.config.retroId;
-          userRight.ideaRight = this.config.ideaRight;
-          userRight.commentRight = this.config.commentRight;
-          userRight.voteRight = this.config.voteRight;
-          this.sharedService.retroRightSetValue(userRight);
 
           let currentUser = this.authService.currentUserValue;
-          
+
           let retro = new Retro();
           retro.id = res.retroId;
           retro.userId = currentUser.userId;
           retro.state = 2;
           retro.currentPage = "/current/subject"
 
-          this.retroHubService.setCurrentRetro(retro);
-          this.userHubService.setAllUserRights(retro);
+          this.configService.setCurrentRetro(retro);
 
           this.groups[0].group.state = 1;
 
+          this.updateGroup(this.groups[0].group);
+
+          let generator = new GuidGenerator();
 
 
-          this.router.navigate(["/current/subject"]);
+
+          let current = new Retro();
+          current.currentPage = "/current/subject";
+          current.id = generator.newGuid();
+
+          const newMessage = firebase.default.database().ref('currentpath/').push();
+          newMessage.set(current).then(p=>{
+
+            this.router.navigate(["/current/subject"])
+          });
+
+        
         },
         (error) => {
           this.alertifyService.error()

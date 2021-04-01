@@ -29,6 +29,9 @@ import { AlertifyService } from "app/services/alertify.service";
 import { AuthenticateResponse } from "app/models/authenticate-response";
 import * as firebase from 'firebase';
 import { snapshotToArray } from "app/helpers/firebase-helper";
+import { RetroConfigurationService } from "app/services/retro-configuration";
+import { FirebaseOnlineUser } from "app/models/firebase-online-user";
+
 //Metadata
 export interface RouteInfo {
   path: string;
@@ -109,8 +112,8 @@ export const ADMIN_ROUTES: RouteInfo[] = [
 
 export const LEADER_ROUTES: RouteInfo[] = [
   {
-    path: "/retro/start",
-    title: "Retro",
+    path: "/current/start",
+    title: "Atölye",
     type: "link",
     icontype: "fa fa-star",
   },
@@ -205,44 +208,53 @@ export const ROUTES: RouteInfo[] = [
   templateUrl: "sidebar.component.html",
 })
 export class SidebarComponent {
-
+  isShow: boolean = true;
   constructor(private router: Router,
     private authService: UserService,
     private sharedService: SharedService,
     private alertifyService: AlertifyService,
     private _clipboardService: ClipboardService,
     private cdr: ChangeDetectorRef,
+    private configureService: RetroConfigurationService,
     private chatService: ChatService, private _ngZone: NgZone,
   ) {
 
-    this.chatService.setOnlineUser("");
 
-    this.subscribeToEvents();
-    this.subscribeRetroAnnouncementToEvents();
-    this.subscribeToCurrentRetroEvents();
+    this.isShow = this.isLeader() || this.isMember();
 
-    this.sharedService.currentRetro.subscribe((retro: any) => {
+    console.log("this.isShow", this.isShow);
+    if (this.isShow) {
+      console.log("this.isShow", this.isShow);
 
-      if (retro) {
-        this.currentRetro = retro;
-        this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
+      firebase.default.database().ref('onlineuser/').on('value', (resp: any) => {
+
+        var res = snapshotToArray(resp);
+        if (this.currentRetro) {
+          console.log("onlineUser-res", res);
+
+          if (res.length > 0) {
+
+            let onlineUser = res.filter(p => p.retroId == this.currentRetro.id);
+            this.onlineUser = onlineUser;
+            console.log("onlineUser", onlineUser);
+
+          }
+
+        }
+      });
+    }
+
+
+    firebase.default.database().ref('currentpath/').limitToLast(1).on('value', (resp: any) => {
+      var data = snapshotToArray(resp);
+      if (data.length > 0) {
+        let currentPage = data[0].currentPage;
+        if (currentPage == "/current/subject")
+          this.getLastCurrentRetro();
+
       }
     });
 
-
-    // firebase.default.database().ref('currentRetro/').limitToLast(1).on('value', (resp: any) => {
-    //   var res = snapshotToArray(resp);
-    //   var data = res[0];
-    //   if (data) {
-    //     let retro = new Retro();
-    //     retro.id = data.id;
-    //     retro.state = data.state;
-    //     retro.userId = this.currentRetro.userId;
-
-
-    //     this.sharedService.currentRetroSetValue(retro);
-    //   }
-    // });
 
 
   }
@@ -250,11 +262,12 @@ export class SidebarComponent {
   @ViewChild("titleInput") titleInput: ElementRef;
   public menuItems: any[];
   users: Array<User> = [];
-  onlineUser: Array<AuthenticateResponse> = [];
+  onlineUser: Array<FirebaseOnlineUser> = [];
   announcements: Array<RetroAnnouncement> = [];
   contentText: string = '';
   currentRetro: Retro;
   inviteLink: string = "";
+
   isNotMobileMenu() {
     if (window.outerWidth > 991) {
       return false;
@@ -265,6 +278,32 @@ export class SidebarComponent {
   ngAfterViewInit() {
 
     this.cdr.detectChanges();
+  }
+
+
+  showAnnouncement(){
+    $('#announcementModal').modal("show");
+  }
+
+  isCheckPage(){
+    let page = this.router.url;
+    let currentPages=[
+      "/current/subject",
+      "/current/template",
+      "/current/brainstorm",
+      "/current/categorize",
+      "/current/comment",
+      "/current/vote",
+      "/current/report",
+    ];
+    let isPage=currentPages.filter(p=>p==page);
+
+    if(isPage.length>0){
+      return true;
+    }
+    else{
+      return false;
+    }
   }
 
   get isAuthorized() {
@@ -302,12 +341,28 @@ export class SidebarComponent {
     if (this.isMember()) {
       this.menuItems = MEMBER_ROUTES;
     }
-
-    this.currentRetro = this.sharedService.currentRetroValue;
-
+    this.getLastCurrentRetro();
 
   }
+  getLastCurrentRetro() {
 
+    this.configureService
+      .getLastRetro()
+      .pipe(first())
+      .subscribe(
+        (res) => {
+
+          this.currentRetro = res;
+
+          console.log(" this.currentRetro ", this.currentRetro);
+          if (this.currentRetro) {
+            this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
+          }
+        },
+        (error) => {
+
+        });
+  }
 
 
   copyLink() {
@@ -324,29 +379,12 @@ export class SidebarComponent {
   }
 
 
-  private subscribeToEvents(): void {
-    this.chatService.onlineUserReceived.subscribe((data: Array<AuthenticateResponse>) => {
-      this._ngZone.run(() => {
-
-        this.onlineUser = data;
-        this.getAllUser();
-      });
-    });
-  }
-
-  private subscribeRetroAnnouncementToEvents(): void {
-    this.chatService.announcementReceived.subscribe((data: RetroAnnouncement) => {
-      this._ngZone.run(() => {
-
-        if (this.currentRetro) {
-          if (data.retroId == this.currentRetro.id)
-            this.announcements.push(data);
-        }
 
 
-      });
-    });
-  }
+
+
+
+
 
   getShortName(user: AuthenticateResponse) {
     let shortName = user.name[0].toUpperCase() + user.surname[0].toUpperCase();
@@ -366,51 +404,30 @@ export class SidebarComponent {
 
   sendAnnouncement() {
     let context = this.titleInput.nativeElement.value;
-    if (context) {
+
+    if (context && this.currentRetro) {
+
       let data = new RetroAnnouncement();
       data.contentText = this.titleInput.nativeElement.value;
       data.retroId = this.currentRetro.id;
       data.userId = this.authService.currentUserValue.userId;
 
-      this.chatService.setRetroAnnouncement(data);
-      this.contentText = '';
+      const newMessage = firebase.default.database().ref('announcement/').push();
+      newMessage.set(data);
+
+
       this.titleInput.nativeElement.value = '';
+      this.contentText = '';
+
+
+
     }
   }
 
 
-  private subscribeToCurrentRetroEvents(): void {
-    this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
-      this._ngZone.run(() => {
-        this.currentRetro = retro;
-        this.sharedService.currentRetro.next(retro);
-      })
-    });
-  }
 
 
-  getAllUser() {
-    let filterRoles = ["Member"];
-    if (this.authService.currentUserValue) {
 
-      let userFilter = new UserFilter();
-      userFilter.companyId = this.authService.currentUserValue ? this.authService.currentUserValue.companyId : '';
-      userFilter.filterRoles = filterRoles;
 
-      this.authService
-        .getAllUser(userFilter)
-        .pipe(first())
-        .subscribe(
-          (res) => {
-            this.users = res;
-            this.users = _.orderBy(res, ['userName'], ['asc']);
-          },
-          (error) => {
-            this.alertifyService.error();
-
-          }
-        );
-    }
-  }
 
 }

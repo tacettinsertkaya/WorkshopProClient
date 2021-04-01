@@ -121,7 +121,7 @@ export class SchemaComponent implements OnInit {
       retro.state = 2;
       retro.templateId = templateId;
       retro.currentPage = "/retro/brainstorm"
-      this.chatService.setCurrentRetro(retro);
+      // this.chatService.setCurrentRetro(retro);
       this.sharedService.currentRetroSetValue(retro);
 
     }

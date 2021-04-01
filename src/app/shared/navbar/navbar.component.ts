@@ -10,6 +10,13 @@ import { SharedService } from 'app/services/shared.service';
 import { Retro } from 'app/models/retro';
 import { ChangeDetectorRef, AfterContentChecked } from '@angular/core'
 import swal from 'sweetalert2';
+import * as firebase from 'firebase';
+import { snapshotToArray } from "app/helpers/firebase-helper";
+import { filter, first } from 'rxjs/operators';
+import { RetroConfigurationService } from 'app/services/retro-configuration';
+import { VirtualTimeScheduler } from 'rxjs';
+
+
 declare var $: any;
 
 var misc: any = {
@@ -25,6 +32,7 @@ var misc: any = {
 })
 
 export class NavbarComponent implements OnInit, AfterViewChecked {
+
     private listTitles: any[];
     location: Location;
     private nativeElement: Node;
@@ -37,22 +45,26 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
     announcements: Array<RetroAnnouncement> = [];
 
 
+
+
+
+
     constructor(location: Location, private sharedService: SharedService,
         private _ngZone: NgZone, private renderer: Renderer2, private element: ElementRef, private router: Router,
         private userService: UserService,
         private chatService: ChatService,
+        private configureService: RetroConfigurationService,
         private cdRef: ChangeDetectorRef
     ) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
-        this.subscribeToCurrentRetroEvents();
         this.subscribeRetroAnnouncementToEvents();
+
 
 
     }
     ngAfterViewChecked() {
-
         this.cdRef.detectChanges();
 
     }
@@ -82,57 +94,119 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
         });
 
 
-        this.currentRetro = this.sharedService.currentRetroValue;
+        this.getLastCurrentRetro();
+
+
 
     }
 
-    private subscribeToCurrentRetroEvents(): void {
-        this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
-            this._ngZone.run(() => {
-                this.currentRetro = retro;
-            })
-        });
+    getLastCurrentRetro() {
+
+        this.configureService
+            .getLastRetro()
+            .pipe(first())
+            .subscribe(
+                (res) => {
+
+                    this.currentRetro = res;
+
+
+                },
+                (error) => {
+
+                });
     }
+
+
 
 
     private subscribeRetroAnnouncementToEvents(): void {
-        this.chatService.announcementReceived.subscribe((data: RetroAnnouncement) => {
-            this._ngZone.run(() => {
-              
-                if (this.currentRetro) {
-                    if (data.retroId == this.currentRetro.id){
-                        this.announcements.push(data);
-                 
 
-                     
+        if (this.isLeader() || this.isMember()) {
+            firebase.default.database().ref('announcement/').limitToLast(1).on('value', (resp: any) => {
+                var res = snapshotToArray(resp);
+                if (this.currentRetro && res.length > 0) {
 
-                          swal({
-                            text: data.contentText,
+
+                    if (res[0].retroId == this.currentRetro.id) {
+                        let an = res[0];
+                        this.announcements.push(an);
+
+
+
+                        swal({
+                            text: an.contentText,
                             position: 'top-end',
                             showConfirmButton: false,
                             timer: 2000
-                          })
-                      
-                      
-                     
+                        })
 
 
                     }
                 }
 
-
             });
-        });
+        }
+
+
+
+
     }
 
     logout() {
-        this.chatService.userOffline();
+        let currentUser = this.userService.currentUserValue;
+
+      
+        if (currentUser) {
+         
+            if (this.isLeader() || this.isMember()) {
+
+                if(this.isLeader()){
+                    let retro = new Retro();
+                    retro.id = "";
+                    retro.state = 3;
+                    retro.currentPage = "/current/finish"
+                    retro.templateId="";
+            
+                    const newMessage = firebase.default.database().ref('currentpath/').push();
+                    newMessage.set(retro);
+              
+                }
+
+
+                var leadsRef = firebase.default.database().ref('onlineuser/');
+                leadsRef.on('value', function (snapshot) {
+                    var data = snapshotToArray(snapshot);
+                    var filterUser = data.filter(p => p.userId == currentUser.userId);
+                    if (filterUser.length > 0) {
+                        filterUser.forEach(p => {
+                            firebase.default.database().ref('onlineuser/' + p.key).remove();
+
+                        })
+                    }
+                });
+            }
+
+        }
 
         localStorage.removeItem('currentUser');
         this.userService.currentUserSetValue(null);
-        this.router.navigate(['/login']);
+        this.router.navigate(["/login"])
+
+
 
     }
+
+    isLeader() {
+        return this.userService.hasRole("Leader");
+    }
+
+    isMember() {
+        return this.userService.hasRole("Member");
+
+    }
+
+
     minimizeSidebar() {
         const body = document.getElementsByTagName('body')[0];
 

@@ -211,7 +211,7 @@ export class BrainstormComponent implements OnInit {
       this.message.isCategorized = false;
       this.message.retroId = this.retro.id;
 
-      this.chatService.sendMessage(this.message);
+      // this.chatService.sendMessage(this.message);
       this.inputText[headerId] = "";
        
       const newMessage = firebase.default.database().ref('messages/').push();

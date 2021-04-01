@@ -127,11 +127,10 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('token', user.token);
             this.userService.currentUserSetValue(user);
             if (this.userService.hasRole("Leader") || this.userService.hasRole("Member"))
-              this.router.navigate(['/retro/start']);
+            {  this.router.navigate(['/current/start']);}
             else
               this.router.navigate(['/']);
             this.loading = false;
-            this.sharedService.tabSource.next("");
           },
           (error) => {
           

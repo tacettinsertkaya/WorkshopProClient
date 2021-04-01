@@ -143,7 +143,7 @@ export class CommentsComponent implements OnInit {
       this.comment.commentText = this.commentText;
       this.comment.date = new Date();
       this.comment.retroId = this.retroRight.retroId;
-      this.chatService.sendComment(this.comment);
+      // this.chatService.sendComment(this.comment);
       this.commentText = "";
       $("#commentModal").modal("hide");
     }

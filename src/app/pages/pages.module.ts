@@ -49,7 +49,7 @@ import { UserHubService } from 'app/services/hub/user-hub.service';
     RetroVoteComponent,
     RetroReportComponent,
     SubjectHeaderComponent,
-    TabHeaderComponent
+    TabHeaderComponent,
 ],
 providers:[
     HttpClient,

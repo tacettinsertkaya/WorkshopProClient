@@ -15,6 +15,7 @@
       <div
         *ngIf="(loginForm.get('username').invalid && ( loginForm.get('username').touched) || loginForm.get('username').dirty)">
         <small *ngIf="loginForm.get('username').errors?.required" class="text-danger">Kullanıcı adı giriniz</small>
+        
       </div>
     </div>
 
@@ -37,6 +38,8 @@
       <div
         *ngIf="(loginForm.get('alias').invalid && ( loginForm.get('alias').touched) || loginForm.get('alias').dirty)">
         <small *ngIf="loginForm.get('alias').errors?.required" class="text-danger">Takma ad giriniz</small>
+        <small *ngIf="loginForm.get('alias').errors?.pattern" class="text-danger">Takma ad için sadece ingilizce karakterler giriniz</small>
+
       </div>
     </div>
 

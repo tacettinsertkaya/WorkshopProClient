@@ -245,12 +245,12 @@ export class SidebarComponent {
     }
 
 
-    firebase.default.database().ref('currentpath/').limitToLast(1).on('value', (resp: any) => {
+    firebase.default.database().ref('currentpath/').orderByChild("id").equalTo(this.retroId).limitToLast(1).on('value', (resp: any) => {
       var data = snapshotToArray(resp);
       if (data.length > 0) {
         let currentPage = data[0].currentPage;
         if (currentPage == "/current/subject")
-          this.getLastCurrentRetro();
+          this.getLastCurrentRetro(this.retroId);
 
       }
     });
@@ -267,6 +267,7 @@ export class SidebarComponent {
   contentText: string = '';
   currentRetro: Retro;
   inviteLink: string = "";
+  retroId: string = "";
 
   isNotMobileMenu() {
     if (window.outerWidth > 991) {
@@ -341,13 +342,20 @@ export class SidebarComponent {
     if (this.isMember()) {
       this.menuItems = MEMBER_ROUTES;
     }
-    this.getLastCurrentRetro();
+    
+ 
+    this.retroId=this.authService.currentRetroIdValue;
+
+    if(this.retroId){
+      this.getLastCurrentRetro(this.retroId);
+    }
+
 
   }
-  getLastCurrentRetro() {
+  getLastCurrentRetro(retroId) {
 
     this.configureService
-      .getLastRetro()
+      .getCurrentRetro(retroId)
       .pipe(first())
       .subscribe(
         (res) => {
@@ -366,16 +374,47 @@ export class SidebarComponent {
 
 
   copyLink() {
-    this._clipboardService.copyFromContent(this.inviteLink)
 
-    swal({
-      title: "Başarılı bir kopyalandı.",
-      position: "center",
-      showConfirmButton: false,
-      type: "success",
-      timer: 2000
-    })
+    this.retroId=this.authService.currentRetroIdValue;
 
+    if(this.retroId){
+     
+      this.configureService
+      .getCurrentRetro(this.retroId)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+
+          this.currentRetro = res;
+
+          if (this.currentRetro) {
+            this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
+            this._clipboardService.copyFromContent(this.inviteLink)
+
+            swal({
+              title: "Başarılı bir şekilde kopyalandı.",
+              position: "center",
+              showConfirmButton: false,
+              type: "success",
+              timer: 2000
+            })
+        
+          }
+        },
+        (error) => {
+          swal({
+            title: "Link kopyalanamadı.",
+            position: "center",
+            showConfirmButton: false,
+            type: "error",
+            timer: 2000
+          })
+        });
+    }
+
+
+
+   
   }
 
 

@@ -7,6 +7,7 @@ import { RetroHubService } from 'app/services/hub/retro-hub.service';
 import { RetroConfigurationService } from 'app/services/retro-configuration';
 import { SharedService } from 'app/services/shared.service';
 import { SubjectsService } from 'app/services/subject.service';
+import { UserService } from 'app/services/user.service';
 import { first } from 'rxjs/operators';
 
 @Component({
@@ -17,9 +18,11 @@ import { first } from 'rxjs/operators';
 export class SubjectHeaderComponent implements OnInit {
   currentRetro: Retro;
   selectSubject: Subject=new Subject();
+  retroId:string='';
 
   constructor(
     private subjectService: SubjectsService,
+    private userService: UserService,
     private retroConfigurationService: RetroConfigurationService,
     private retroHubService: RetroHubService,
     private sharedService:SharedService,
@@ -30,15 +33,20 @@ export class SubjectHeaderComponent implements OnInit {
 
 
   ngOnInit() {
-    this.getLastCurrentRetro();
+    
+    this.retroId=this.userService.currentRetroIdValue;
+
+    if(this.retroId){
+      this.getLastCurrentRetro(this.retroId);
+    }
   }
 
 
 
-  getLastCurrentRetro() {
+  getLastCurrentRetro(retroId:string) {
 
     this.retroConfigurationService
-      .getLastRetro()
+      .getCurrentRetro(retroId)
       .pipe(first())
       .subscribe(
         (res) => {

@@ -26,9 +26,15 @@ export class UserService {
   private currentUserSubject: BehaviorSubject<AuthenticateResponse>;
   public currentUser: Observable<AuthenticateResponse>;
 
+  private currentRetroIdSubject: BehaviorSubject<string>;
+  public currentRetroId: Observable<string>;
+
   constructor(private http: HttpClient, private baseService: BaseService, private router: Router) {
     this.currentUserSubject = new BehaviorSubject<AuthenticateResponse>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+
+    this.currentRetroIdSubject = new BehaviorSubject<string>(JSON.parse(localStorage.getItem('currentRetroId')));
+    this.currentRetroId = this.currentRetroIdSubject.asObservable();
 
   }
 
@@ -36,10 +42,26 @@ export class UserService {
     return this.currentUserSubject.value;
   }
 
+  public get currentRetroIdValue(): string {
+    if (this.currentRetroIdSubject.value) {
+      return this.currentRetroIdSubject.value;
+    }
+    else {
+      this.currentRetroIdSubject = new BehaviorSubject<string>(JSON.parse(localStorage.getItem('currentRetroId')));
+      return this.currentRetroIdSubject.value;
+    }
+  }
+
   // tslint:disable-next-line:typedef
   public currentUserSetValue(value) {
     this.currentUserSubject.next(value);
     localStorage.setItem('currentUser', JSON.stringify(value));
+
+  }
+
+  public currentRetroIdSetValue(value) {
+    this.currentRetroIdSubject.next(value);
+    localStorage.setItem('currentRetroId', JSON.stringify(value));
 
   }
 
@@ -210,21 +232,22 @@ export class UserService {
     let currentUser = this.currentUserValue;
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
+    localStorage.removeItem('currentRetroId');
 
     this.currentUserSubject.next(null);
-     
-    if (currentUser){
-      
+
+    if (currentUser) {
+
       var leadsRef = firebase.default.database().ref('onlineuser/');
       leadsRef.on('value', function (snapshot) {
-          var data = snapshotToArray(snapshot);
-          var filterUser = data.filter(p => p.userId == currentUser.userId);
-          if (filterUser.length > 0) {
-              filterUser.forEach(p => {
-                  firebase.default.database().ref('onlineuser/' + p.key).remove();
+        var data = snapshotToArray(snapshot);
+        var filterUser = data.filter(p => p.userId == currentUser.userId);
+        if (filterUser.length > 0) {
+          filterUser.forEach(p => {
+            firebase.default.database().ref('onlineuser/' + p.key).remove();
 
-              })
-          }
+          })
+        }
       });
     }
 

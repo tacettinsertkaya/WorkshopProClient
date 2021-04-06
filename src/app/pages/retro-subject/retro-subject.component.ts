@@ -39,8 +39,7 @@ export class RetroSubjectComponent implements OnInit {
   companys: Array<Company> = [];
   companyId: string = '';
 
-  currentRetro: Retro;
-
+  retroId:string='';
 
   constructor(
     private subjectService: SubjectsService,
@@ -59,29 +58,19 @@ export class RetroSubjectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.getSubjects();
+    
     this.existUser();
 
     this.subject.companyId = this.authService.currentUserValue.companyId;
     this.getAllCompany();
-    this.getLastCurrentRetro();
+    this.retroId=this.authService.currentRetroIdValue;
+
+    if(this.retroId){
+      this.getSubjects();
+    }
   }
 
-  getLastCurrentRetro() {
-
-    this.configurationService
-      .getLastRetro()
-      .pipe(first())
-      .subscribe(
-        (res) => {
-
-          this.currentRetro = res;
-
-        },
-        (error) => {
-
-        });
-  }
+  
 
 
   selectSubject(subject: any) {
@@ -93,7 +82,7 @@ export class RetroSubjectComponent implements OnInit {
       this.selectSubjectId = subject.id;
 
       let retro = new Retro();
-      retro.id = this.currentRetro.id;
+      retro.id = this.retroId;
       retro.state = 2;
       retro.subjectId = this.selectSubjectId;
       retro.currentPage = "/current/template";
@@ -103,13 +92,12 @@ export class RetroSubjectComponent implements OnInit {
         selectSubjectDto.id = subject.id;
         selectSubjectDto.subjectTitle = subject.subjectTitle;
         selectSubjectDto.subjectDescription = subject.subjectDescription;
-        selectSubjectDto.retroId = this.currentRetro.id;
+        selectSubjectDto.retroId = this.retroId;
 
-        let generator=new GuidGenerator();
 
         let current = new Retro();
         current.currentPage = "/current/template";
-        current.id = generator.newGuid();
+        current.id =this.retroId;
         const newMessage = firebase.default.database().ref('currentpath/').push();
         newMessage.set(current);
 
@@ -150,7 +138,8 @@ export class RetroSubjectComponent implements OnInit {
   getSubjects() {
     let filter = new SubjectFilter();
     filter.companyId = this.authService.currentUserValue.companyId;
-
+    filter.retroId=this.retroId;
+    
     this.subjectService
       .getAllSubject(filter)
       .pipe(first())

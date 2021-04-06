@@ -99,13 +99,13 @@ export class RetroConfigurationService {
   }
   
 
-  getLastRetro(){
-    return this.baseService.get<Retro>(
-      "",
-      environment.serverBaseUrl,
-      EndPoints.RETRO_CONFIGURATION+'/GetCurrentRetro'
-    );
-  }
+  // getLastRetro(){
+  //   return this.baseService.get<Retro>(
+  //     "",
+  //     environment.serverBaseUrl,
+  //     EndPoints.RETRO_CONFIGURATION+'/GetCurrentRetro'
+  //   );
+  // }
 
   update(RetroConfigration: any) {
     return this.baseService.update<RetroConfigration>(

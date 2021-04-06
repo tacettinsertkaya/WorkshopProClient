@@ -19,7 +19,7 @@ export class TabHeaderComponent implements OnInit {
   @ViewChild("widgetsContent") widgetsContent;
   currentTab: string = "";
   pathIndex: number = 0;
-
+  retroId: string = '';
   ngAfterViewInit(): void {
     const width = window.innerWidth;
     if (width <= 576)
@@ -32,39 +32,44 @@ export class TabHeaderComponent implements OnInit {
     private router: Router,
     private authService: UserService,) {
 
-    firebase.default.database().ref('currentpath/').limitToLast(1).on('value', (resp: any) => {
+    this.retroId = this.authService.currentRetroIdValue;
+    firebase.default.database().ref('currentpath/').orderByChild("id").equalTo(this.retroId).limitToLast(1).on('value', (resp: any) => {
 
       var data = snapshotToArray(resp);
+      console.log("route-data", data);
       if (data.length > 0) {
         let currentPage = data[0].currentPage;
         let scrollDestination = currentPage.split("/");
-        if (scrollDestination.length >= 2) {
-          console.log("scrollDestination[2]", scrollDestination[2]);
-          const elementList = document.querySelectorAll('.' + scrollDestination[2]);
-          const element = elementList[0] as HTMLElement;
+        console.log("data[0].id", this.retroId);
+        if (data[0].id == this.retroId) {
+          if (scrollDestination.length >= 2) {
+            console.log("scrollDestination[2]", scrollDestination[2]);
+            const elementList = document.querySelectorAll('.' + scrollDestination[2]);
+            const element = elementList[0] as HTMLElement;
 
-          if (element != undefined)
-            element.scrollIntoView({ behavior: 'smooth' });
-        }
-
-
-
-        if (currentPage != "/current/finish") {
-
-          this.router.navigate([currentPage])
-        }
-        else {
-          
-          if (this.isLeader()) {
-            firebase.default.database().ref("/currentPath").remove();
-
+            if (element != undefined)
+              element.scrollIntoView({ behavior: 'smooth' });
           }
 
 
-          this.authService.logout();
-          this.router.navigate(["/current/finish"])
 
- 
+          if (currentPage != "/current/finish") {
+
+            this.router.navigate([currentPage])
+          }
+          else {
+
+            if (this.isLeader()) {
+              firebase.default.database().ref("/currentPath").remove();
+
+            }
+
+
+            this.authService.logout();
+            this.router.navigate(["/current/finish"])
+
+
+          }
         }
       }
     });
@@ -75,7 +80,11 @@ export class TabHeaderComponent implements OnInit {
   ngOnInit() {
     this.currentTab = this.router.url;
 
-    this.clickTab(this.currentTab, false)
+
+    this.retroId = this.authService.currentRetroIdValue;
+    if (this.retroId) {
+      this.clickTab(this.currentTab, false)
+    }
   }
 
   isActive(currentTab) {
@@ -95,7 +104,7 @@ export class TabHeaderComponent implements OnInit {
     let generator = new GuidGenerator();
     let current = new Retro();
     current.currentPage = this.currentTab;
-    current.id = generator.newGuid();
+    current.id = this.retroId;
 
     if (this.isLeader()) {
       const newMessage = firebase.default.database().ref('currentpath/').push();

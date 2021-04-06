@@ -39,7 +39,6 @@ export class RetroTemplateComponent implements OnInit {
       order: 1,
     },
   ];
-  currentRetro: Retro;
   selectSubject: Subject=new Subject();
   
   templates: Template[] = [];
@@ -47,6 +46,7 @@ export class RetroTemplateComponent implements OnInit {
   isUser: boolean = false;
   companys: Array<Company> = [];
   companyId: string = '';
+  retroId: string = '';
 
   data = new Template();
   /**
@@ -85,7 +85,12 @@ export class RetroTemplateComponent implements OnInit {
     this.getAllCompany();
 
     this.data.companyId = this.authService.currentUserValue.companyId;
-    this.getLastCurrentRetro();
+
+    this.retroId=this.authService.currentRetroIdValue;
+    if(this.retroId){
+      this.getRetroSubject(this.retroId);
+      this.getTemplateList();
+    }
 
   }
 
@@ -109,26 +114,7 @@ export class RetroTemplateComponent implements OnInit {
   }
 
 
-  getLastCurrentRetro() {
-
-    this.configureService
-      .getLastRetro()
-      .pipe(first())
-      .subscribe(
-        (res) => {
-
-          this.currentRetro = res;
-         
-
-          if (this.currentRetro){
-            this.getRetroSubject(this.currentRetro.id);
-            this.getTemplateList();
-          }
-        },
-        (error) => {
-
-        });
-  }
+  
 
   private getRetroSubject(retroId) {
     this.subjectService
@@ -155,7 +141,7 @@ export class RetroTemplateComponent implements OnInit {
     if (this.authService.hasRole("Leader")) {
 
       let retro = new Retro();
-      retro.id = this.currentRetro.id;
+      retro.id = this.retroId;
       retro.state = 2;
       retro.subjectId=this.selectSubject.id;
       retro.templateId = templateId;
@@ -169,7 +155,7 @@ export class RetroTemplateComponent implements OnInit {
         (res)=>{
           let current = new Retro();
           current.currentPage = "/current/brainstorm";
-          current.id = generator.newGuid();
+          current.id = this.retroId;
           const newMessage = firebase.default.database().ref('currentpath/').push();
           newMessage.set(current).then(p=>{
             this.router.navigate(["/current/brainstorm"]);
@@ -207,7 +193,7 @@ export class RetroTemplateComponent implements OnInit {
   getTemplateList() {
     let filter = new TemplateFilter();
     filter.companyId = this.authService.currentUserValue.companyId;
-    filter.retroId = this.currentRetro.id;
+    filter.retroId = this.retroId;
 
     this.templateService
       .getAllTemplate(filter)

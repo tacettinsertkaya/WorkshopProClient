@@ -4,7 +4,15 @@
  */
  @import "assets/scss/main.scss";
 
-
+ 
+ .full-username{
+  max-width:200px;display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color:white  !important;
+  overflow-x: hidden;
+ }
 
   [data-notify="progressbar"] {
     margin-bottom: 0px;
@@ -50,14 +58,15 @@
 
 .dropdown-width {
   width: 200px;
-  left: 50%;
-  transform: translate(-50%,50%) !important;
+  left: 10%;
+  top:10%;
+  // transform: translate(-50%,50%) !important;
 }
 .dropdown-width .dropdown-item {
   white-space: normal;
 }
 .card-description{
-  word-break: break-all ;
+  // word-break: break-all ;
   padding-right: 7px;
 }
 

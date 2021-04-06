@@ -25,8 +25,8 @@ export class LoginComponent implements OnInit {
   private toggleButton;
   private sidebarVisible: boolean;
   private nativeElement: Node;
-   
-  errorMessage='';
+
+  errorMessage = '';
   loading = false;
   submitted = false;
   // tslint:disable-next-line:no-inferrable-types
@@ -48,9 +48,9 @@ export class LoginComponent implements OnInit {
     this.sidebarVisible = false;
     this.id = this.route.snapshot.params.id;
 
-    
-    if (this.id != undefined && this.userService.hasRole("Member")){
-      this.router.navigate(["/retro",this.id]);
+
+    if (this.id != undefined && this.userService.hasRole("Member")) {
+      this.router.navigate(["/retro", this.id]);
     }
 
     if (this.userService.currentUserValue) {
@@ -69,7 +69,9 @@ export class LoginComponent implements OnInit {
           Validators.required,
 
         ]],
-      alias: ['']
+      alias: ['',
+       [Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // <-- Allow letters and numbers only
+      ]]
     });
   }
   checkFullPageBackgroundImage() {
@@ -126,15 +128,16 @@ export class LoginComponent implements OnInit {
             localStorage.setItem('currentUser', JSON.stringify(user));
             localStorage.setItem('token', user.token);
             this.userService.currentUserSetValue(user);
-            if (this.userService.hasRole("Leader") || this.userService.hasRole("Member"))
-            {  this.router.navigate(['/current/start']);}
+            if (this.userService.hasRole("Leader") || this.userService.hasRole("Member")) { this.router.navigate(['/current/start']); }
             else
               this.router.navigate(['/']);
             this.loading = false;
+            localStorage.removeItem("currentRetroId");
+            this.userService.currentRetroIdSetValue("");
           },
           (error) => {
-          
-            this.errorMessage=error
+
+            this.errorMessage = error
             this.error = error;
             this.loading = false;
           }
@@ -144,8 +147,8 @@ export class LoginComponent implements OnInit {
     }
   }
 
-  clearError(){
-    this.errorMessage='';
+  clearError() {
+    this.errorMessage = '';
   }
 
   logout() {

@@ -78,6 +78,7 @@ export class RetroVoteComponent implements OnInit {
   template: Template = new Template();
 
   currentRetro: Retro;
+  retroId:string='';
   selectSubject: Subject = new Subject();
   
   constructor(
@@ -97,7 +98,6 @@ export class RetroVoteComponent implements OnInit {
     firebase.default.database().ref('vote/').limitToLast(1).on('value', (resp: any) => {
       if (this.currentRetro) {
         var data = snapshotToArray(resp);
-console.log("data-vote",data);
         if (data.length>0) {
           this.messageService
           .getAllNonCategoryMessage(this.currentRetro.id)
@@ -116,15 +116,19 @@ console.log("data-vote",data);
   }
 
   ngOnInit() {
-    this.getLastCurrentRetro();
+    this.retroId = this.authService.currentRetroIdValue;
+    if (this.retroId) {
+      this.getLastCurrentRetro(this.retroId);
+    }
+
     this.existUser();
 
   }
 
-  getLastCurrentRetro() {
+  getLastCurrentRetro(retroId) {
 
     this.configureService
-      .getLastRetro()
+      .getCurrentRetro(retroId)
       .pipe(first())
       .subscribe(
         (res) => {

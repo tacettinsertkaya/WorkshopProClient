@@ -45,7 +45,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
     announcements: Array<RetroAnnouncement> = [];
 
 
-
+   retroId:string='';
 
 
 
@@ -94,16 +94,19 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
         });
 
 
-        this.getLastCurrentRetro();
+        this.retroId=this.userService.currentRetroIdValue;
 
+        if(this.retroId){
+          this.getLastCurrentRetro(this.retroId);
+        }
 
 
     }
 
-    getLastCurrentRetro() {
+    getLastCurrentRetro(retroId) {
 
         this.configureService
-            .getLastRetro()
+            .getCurrentRetro(retroId)
             .pipe(first())
             .subscribe(
                 (res) => {
@@ -118,6 +121,9 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
     }
 
 
+    clickAnnounModal(){
+        $('#announcementListModal').modal('show');
+    }
 
 
     private subscribeRetroAnnouncementToEvents(): void {
@@ -127,18 +133,19 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
                 var res = snapshotToArray(resp);
                 if (this.currentRetro && res.length > 0) {
 
-
+                    
                     if (res[0].retroId == this.currentRetro.id) {
                         let an = res[0];
                         this.announcements.push(an);
-
+                         console.log(" this.announcements", this.announcements);
 
 
                         swal({
                             text: an.contentText,
                             position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 2000
+                            showConfirmButton: true,
+                            confirmButtonText:'Kapat',
+                            timer: 5000
                         })
 
 
@@ -156,21 +163,19 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
     logout() {
         let currentUser = this.userService.currentUserValue;
 
-      
+        
         if (currentUser) {
          
             if (this.isLeader() || this.isMember()) {
 
                 if(this.isLeader()){
                     let retro = new Retro();
-                    retro.id = "";
-                    retro.state = 3;
+                    retro.id = this.userService.currentRetroIdValue;
                     retro.currentPage = "/current/finish"
-                    retro.templateId="";
             
                     const newMessage = firebase.default.database().ref('currentpath/').push();
                     newMessage.set(retro);
-              
+                    localStorage.removeItem('currentRetroId');
                 }
 
 
@@ -190,6 +195,8 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
         }
 
         localStorage.removeItem('currentUser');
+   
+        
         this.userService.currentUserSetValue(null);
         this.router.navigate(["/login"])
 

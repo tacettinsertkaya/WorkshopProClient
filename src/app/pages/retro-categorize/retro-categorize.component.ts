@@ -62,7 +62,7 @@ export class RetroCategorizeComponent implements OnInit {
   template: Template = new Template();
   currentRetro: Retro;
   selectSubject: Subject = new Subject();
-
+  retroId:string='';
 
   constructor(
     private messageService: MessageService,
@@ -91,16 +91,19 @@ export class RetroCategorizeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.retroId = this.authService.currentRetroIdValue;
+    if (this.retroId) {
+      this.getLastCurrentRetro(this.retroId);
+    }
 
-    this.getLastCurrentRetro();
     this.existUser();
   }
 
 
-  getLastCurrentRetro() {
+  getLastCurrentRetro(retroId) {
 
     this.configureService
-      .getLastRetro()
+      .getCurrentRetro(retroId)
       .pipe(first())
       .subscribe(
         (res) => {

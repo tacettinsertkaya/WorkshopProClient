@@ -69,6 +69,7 @@ export class RetroReportComponent implements OnInit {
   currentRetro: Retro;
 
   onlineUsers:Array<any>=[];
+  retroId:string='';
 
   constructor(
 
@@ -103,16 +104,21 @@ export class RetroReportComponent implements OnInit {
       this.currentCompany = this.userService.currentUserValue.company;
     }
 
-    this.getLastCurrentRetro();
+    this.retroId=this.userService.currentRetroIdValue;
+
+    if(this.retroId){
+      this.getLastCurrentRetro(this.retroId);
+    }
+
 
 
 
   }
 
-  getLastCurrentRetro() {
+  getLastCurrentRetro(retroId) {
 
     this.configureService
-      .getLastRetro()
+      .getCurrentRetro(retroId)
       .pipe(first())
       .subscribe(
         (res) => {
@@ -339,9 +345,7 @@ export class RetroReportComponent implements OnInit {
 
         let retro = new Retro();
         retro.id = this.currentRetro.id;
-        retro.state = 3;
         retro.currentPage = "/current/finish"
-        retro.templateId=this.currentRetro.templateId;
 
         const newMessage = firebase.default.database().ref('currentpath/').push();
         newMessage.set(retro);

@@ -71,25 +71,30 @@ export class MemberLoginComponent implements OnInit {
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
     this.id = this.route.snapshot.params.id;
-
+    localStorage.removeItem("currentRetroId");
+    this.userService.currentRetroIdSetValue(this.id);
     this.userService.logout();
 
     this.getRetro();
 
   }
 
-  getRetro(){
-    firebase.default.database().ref('currentpath/').limitToLast(1).on('value', (resp: any) => {
+  getRetro() {
+    console.log("this.id", this.id);
+    firebase.default.database().ref('currentpath/').orderByChild("id").equalTo(this.id).limitToLast(1).on('value', (resp: any) => {
 
       var data = snapshotToArray(resp);
-      if (data.length > 0) {
+      console.log("data", data);
+      if (data.length > 0 && data[0].id == this.id) {
         let currentPage = data[0].currentPage;
 
         if (currentPage == "/current/finish") {
           this.router.navigate([currentPage])
         }
-      
+
       }
+
+
     });
 
   }
@@ -101,16 +106,21 @@ export class MemberLoginComponent implements OnInit {
       alias: ['',
         [
           Validators.required,
+          Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // <-- Allow letters and numbers only
 
         ]],
       name: ['',
         [
           Validators.required,
+          // Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // <-- Allow letters and numbers only
+
 
         ]],
       surname: ['',
         [
           Validators.required,
+          // Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // <-- Allow letters and numbers only
+
 
         ]]
     });
@@ -298,9 +308,11 @@ export class MemberLoginComponent implements OnInit {
                   .pipe(first())
                   .subscribe(
                     (userRes) => {
+
                       localStorage.setItem('currentUser', JSON.stringify(userRes));
                       localStorage.setItem('token', userRes.token);
 
+                      this.userService.currentRetroIdSetValue(this.id);
                       this.userService.currentUserSetValue(userRes);
 
 
@@ -317,15 +329,19 @@ export class MemberLoginComponent implements OnInit {
 
 
 
-                      firebase.default.database().ref('currentpath/').limitToLast(1).on('value', (resp: any) => {
+                      firebase.default.database().ref('currentpath/').orderByChild("id").equalTo(this.id).limitToLast(1).on('value', (resp: any) => {
 
                         var data = snapshotToArray(resp);
+                        console.log("data", data);
                         if (data.length > 0) {
                           let currentPage = data[0].currentPage;
+                          let retroId = data[0].id;
+                          console.log("currentPage.id", currentPage.id);
+                          console.log("this.id", this.id);
 
-                          if (currentPage != "/current/finish") 
+                          if (currentPage != "/current/finish" && retroId == this.id)
                             this.router.navigate([currentPage])
-                         
+
 
                         }
                       });

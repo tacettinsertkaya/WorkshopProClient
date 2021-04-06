@@ -1,40 +1,79 @@
 <div class="header d-flex justify-content-end align-items-center">
   <div class="header__navigation">
-    
-  
-      <div class="header__toggle-sidebar">
-        <button class="btn btn-icon-theme font-size-lg" id="toggleSidebar">
-          <i class="fa fa-bars"></i>
-        </button>
-      </div>
-    
-    </div> 
+
+
+    <div class="header__toggle-sidebar">
+      <button class="btn btn-icon-theme font-size-lg" id="toggleSidebar">
+        <i class="fa fa-bars"></i>
+      </button>
+    </div>
+
+  </div>
   <div class="dropdown">
-    <a class="btn  dropdown-toggle"  id="bell" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+    <a class="btn  dropdown-toggle" (click)="clickAnnounModal()">
       <i class="fa fa-bell"></i>
-     
-      <small  *ngIf="announcements.length>0" class="badge">({{announcements.length}})</small>
-  </a>
-    <div class="dropdown-menu dropdown-width" aria-labelledby="bell">
+
+      <small *ngIf="announcements.length>0" class="badge">({{announcements.length}})</small>
+    </a>
+    <!-- <div class="dropdown-menu dropdown-width"  aria-labelledby="bell" style="margin-top:50px !important">
       <a class="dropdown-item"  *ngFor="let item of announcements">{{item.contentText}} </a>
       <a class="dropdown-item"  *ngIf="announcements.length==0"> Gelen bildirim bulunamadı </a>
      
-    </div>
+    </div> -->
   </div>
-  
 
- 
+
+
   <div class="header__user">
     <div class="dropdown">
       <button class="btn btn-default dropdown-toggle" type="button" id="headerUserDropdown" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
+        aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-user"></i>
         <span>Hoşgeldin, {{userName}}</span>
       </button>
-      <div class="dropdown-menu w-100" aria-labelledby="headerUserDropdown" style="border-radius: 30px;    margin-top: 10px;">
-       
-        <a class="dropdown-item bg-transparent"  (click)="logout()">Çıkış Yap</a>
+      <div class="dropdown-menu w-100" aria-labelledby="headerUserDropdown"
+        style="border-radius: 30px;    margin-top: 10px;">
+
+        <a class="dropdown-item bg-transparent" (click)="logout()">Çıkış Yap</a>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+<div id="announcementListModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Duyurular</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class=" mb-5">
+
+
+          <div class="row" *ngIf="isLeader()">
+            <div class="col-sm-12" *ngFor="let item of announcements;let i = index">
+              <div class="form-group">
+                
+                <textarea class="form-control" style="height: auto !important;" rows="5">
+                  {{item.contentText}}
+                  </textarea>
+              </div>
+
+
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="modal-footer">
+
       </div>
     </div>
   </div>

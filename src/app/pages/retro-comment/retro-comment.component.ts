@@ -65,6 +65,7 @@ export class RetroCommentComponent implements OnInit {
 
 
   currentRetro: Retro;
+  retroId:string='';
   selectSubject: Subject = new Subject();
 
 
@@ -103,7 +104,11 @@ export class RetroCommentComponent implements OnInit {
 
   ngOnInit() {
 
-    this.getLastCurrentRetro();
+    this.retroId = this.authService.currentRetroIdValue;
+    if (this.retroId) {
+      this.getLastCurrentRetro(this.retroId);
+    }
+
 
 
     this.existUser();
@@ -111,10 +116,10 @@ export class RetroCommentComponent implements OnInit {
   }
 
 
-  getLastCurrentRetro() {
+  getLastCurrentRetro(retroId) {
 
     this.configureService
-      .getLastRetro()
+      .getCurrentRetro(retroId)
       .pipe(first())
       .subscribe(
         (res) => {

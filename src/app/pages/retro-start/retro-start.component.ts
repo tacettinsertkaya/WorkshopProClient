@@ -24,6 +24,7 @@ import { GuidGenerator } from "app/helpers/guid-generator";
 
 import * as firebase from 'firebase';
 import { snapshotToArray } from "app/helpers/firebase-helper";
+import { CursorError } from "@angular/compiler/src/ml_parser/lexer";
 
 @Component({
   selector: 'app-retro-start',
@@ -217,15 +218,17 @@ export class RetroStartComponent implements OnInit {
 
           let current = new Retro();
           current.currentPage = "/current/subject";
-          current.id = generator.newGuid();
+          current.id = res.retroId;
+          
+          this.authService.currentRetroIdSetValue(current.id);
 
           const newMessage = firebase.default.database().ref('currentpath/').push();
-          newMessage.set(current).then(p=>{
+          newMessage.set(current).then(p => {
 
             this.router.navigate(["/current/subject"])
           });
 
-        
+
         },
         (error) => {
           this.alertifyService.error()

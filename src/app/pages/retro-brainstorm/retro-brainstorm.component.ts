@@ -27,22 +27,22 @@ declare var $: any;
   templateUrl: './retro-brainstorm.component.html',
   styleUrls: ['./retro-brainstorm.component.css'],
   animations: [
-    
+
     trigger('slideDownUp', [
       transition("* => *",
-       [
-        query(":leave", [stagger(500, [animate("0.5s", style({ opacity: 0 }))])], {
-          optional: true
-        }),
-        query(
-          ":enter",
-          [
-            style({ opacity: 0 }),
-            stagger(500, [animate("0.5s", style({ opacity: 1 }))])
-          ],
-          { optional: true }
-        )
-      ])
+        [
+          query(":leave", [stagger(500, [animate("0.5s", style({ opacity: 0 }))])], {
+            optional: true
+          }),
+          query(
+            ":enter",
+            [
+              style({ opacity: 0 }),
+              stagger(500, [animate("0.5s", style({ opacity: 1 }))])
+            ],
+            { optional: true }
+          )
+        ])
 
     ]),
 
@@ -63,7 +63,9 @@ export class RetroBrainstormComponent implements OnInit {
   @ViewChild("myDiv") divView: ElementRef;
   subscription: Subscription
   retroRight: UserRight = new UserRight();
+
   currentRetro: Retro;
+  retroId: string = '';
 
   constructor(
     private chatService: ChatService,
@@ -96,8 +98,11 @@ export class RetroBrainstormComponent implements OnInit {
   ngOnInit(): void {
 
     this.existUser();
-    this.getLastCurrentRetro();
 
+    this.retroId = this.authService.currentRetroIdValue;
+    if (this.retroId) {
+      this.getLastCurrentRetro(this.retroId);
+    }
   }
 
   existUser() {
@@ -106,10 +111,10 @@ export class RetroBrainstormComponent implements OnInit {
 
 
 
-  getLastCurrentRetro() {
+  getLastCurrentRetro(retroId) {
 
     this.configureService
-      .getLastRetro()
+      .getCurrentRetro(retroId)
       .pipe(first())
       .subscribe(
         (res) => {
@@ -118,8 +123,8 @@ export class RetroBrainstormComponent implements OnInit {
 
 
           if (this.currentRetro) {
-           console.log("currentRetro-tempalte",this.currentRetro);
-           
+            console.log("currentRetro-tempalte", this.currentRetro);
+
             this.getRetroSubject(this.currentRetro.id);
             this.getTemplate(this.currentRetro.templateId);
             this.getUserRight(this.currentRetro.id);
@@ -139,7 +144,7 @@ export class RetroBrainstormComponent implements OnInit {
 
       if (messages !== undefined) {
         this.messages = messages.reverse();
-        
+
       }
     });
 

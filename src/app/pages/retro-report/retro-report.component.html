@@ -65,7 +65,7 @@
     </div>
   
   
-  
+<!--   
   
     <div class="report-section mb-5" *ngIf="messages.length>0">
       <h3 class="report-section__title">Diğer Fikirler</h3>
@@ -77,10 +77,10 @@
           <div class="report-section__content" *ngFor="let message of GetHeaderMessage(tmp.id)">
             <div class="card card-theme box-shadow-xs mb-3">
               <div class="card-body p-1 d-flex">
-                <div class="card-description" style="width: 95%;"> 
+                <div class="card-description"  style="width: calc(100% - 70px);"> 
                   {{message.messageText}}
                 </div>
-                <div class="d-flex align-items-end" style="width: 5%;">
+                <div class="d-flex align-items-end" style="width:70px;">
                   <button class="btn btn-icon-theme"><i class="fa fa-thumbs-up"></i> ({{message.voteCount}})</button>
                 </div>
               </div>
@@ -88,7 +88,7 @@
           </div>
         </div>
       </div>
-    </div>
+    </div> -->
   
   
     <div class="report-header mb-5">
@@ -123,10 +123,10 @@
             <div class="card card-theme box-shadow-xs mb-3"
               *ngFor=" let message of GetHeaderCategorizedMessages(tmp.id);let index">
               <div class="card-body p-1 d-flex">
-                <div class="card-description" style="width: 95%;">
+                <div class="card-description" style="width: calc(100% - 70px);">
                   {{message.messageText}}
                 </div>
-                <div class="d-flex align-items-end" style="width: 5%;">
+                <div class="d-flex align-items-end" style="width:70px;">
                   <button class="btn btn-icon-theme"><i class="fa fa-thumbs-up"></i> ({{message.voteCount}})</button>
                 </div>
               </div>
@@ -157,10 +157,10 @@
           <div class="report-section__content" *ngFor="let message of GetHeaderMessage(tmp.id)">
             <div class="card card-theme box-shadow-xs mb-3">
               <div class="card-body p-1 d-flex">
-                <div class="card-description" style="width: 95%;">
+                <div class="card-description" style="width: calc(100% - 70px);">
                   {{message.messageText}}
                 </div>
-                <div class="d-flex align-items-end" style="width: 5%;">
+                <div class="d-flex align-items-end" style="width: 70px;">
                   <button class="btn btn-icon-theme"><i class="fa fa-thumbs-up"></i> ({{message.voteCount}})</button>
                 </div>
               </div>

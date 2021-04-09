@@ -222,7 +222,6 @@ export class SidebarComponent {
 
     this.isShow = this.isLeader() || this.isMember();
 
-    console.log("this.isShow", this.isShow);
     if (this.isShow) {
       console.log("this.isShow", this.isShow);
 
@@ -389,8 +388,9 @@ export class SidebarComponent {
 
           if (this.currentRetro) {
             this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
-            this._clipboardService.copyFromContent(this.inviteLink)
+            // this._clipboardService.copyFromContent(this.inviteLink)
 
+            this.copyToClipboard(this.inviteLink);
             swal({
               title: "Başarılı bir şekilde kopyalandı.",
               position: "center",
@@ -414,10 +414,59 @@ export class SidebarComponent {
 
 
 
+    
+
+
+
    
   }
 
+   copyToClipboard(textToCopy) {
+    var textArea;
+     console.log("textToCopy",textToCopy);
+    function isOS() {
+      console.log("isOS",navigator.userAgent.match(/ipad|iphone/i));
 
+      //can use a better detection logic here
+      return navigator.userAgent.match(/ipad|iphone/i);
+    }
+  
+    function createTextArea(text) {
+      textArea = document.createElement('textArea');
+      textArea.readOnly = true;
+      textArea.contentEditable = true;
+      textArea.value = text;
+      console.log("clip-value",text);
+      document.body.appendChild(textArea);
+    }
+  
+    function selectText() {
+      var range, selection;
+  
+      if (isOS()) {
+        console.log("select-text-value-ios");
+        range = document.createRange();
+        range.selectNodeContents(textArea);
+        selection = window.getSelection();
+        selection.removeAllRanges();
+        selection.addRange(range);
+        textArea.setSelectionRange(0, 999999);
+      } else {
+        console.log("select-text-not-ios");
+
+        textArea.select();
+      }
+    }
+  
+    function copyTo() {
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+    }
+  
+    createTextArea(textToCopy);
+    selectText();
+    copyTo();
+  }
 
 
 

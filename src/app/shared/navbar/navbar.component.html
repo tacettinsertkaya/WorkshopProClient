@@ -9,8 +9,8 @@
     </div>
 
   </div>
-  <div class="dropdown">
-    <a class="btn  dropdown-toggle" (click)="clickAnnounModal()">
+  <div >
+    <a class="btn" (click)="clickAnnounModal()">
       <i class="fa fa-bell"></i>
 
       <small *ngIf="announcements.length>0" class="badge">({{announcements.length}})</small>
@@ -56,13 +56,14 @@
         <div class=" mb-5">
 
 
-          <div class="row" *ngIf="isLeader()">
+          <div class="row" >
             <div class="col-sm-12" *ngFor="let item of announcements;let i = index">
-              <div class="form-group">
-                
-                <textarea class="form-control" style="height: auto !important;" rows="5">
-                  {{item.contentText}}
-                  </textarea>
+              
+              <div class="alert alert-success" role="alert">
+
+              <div class="well well-lg"  style="height: auto !important;" rows="5">
+               {{i+1 }}.  {{item.contentText}}
+                </div>
               </div>
 
 

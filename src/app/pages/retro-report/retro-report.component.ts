@@ -35,6 +35,9 @@ import { snapshotToArray } from "app/helpers/firebase-helper";
 import * as firebase from 'firebase';
 import { ReportFile } from "app/models/dto/report-file";
 import { OnlineUser } from "app/models/dto/online-user";
+import { FirebaseOnlineUser } from "app/models/firebase-online-user";
+import { RetroReset } from "app/models/dto/retro-reset";
+import { dynamicSort } from "app/helpers/object-short";
 
 declare var $: any;
 
@@ -68,8 +71,9 @@ export class RetroReportComponent implements OnInit {
   retroRight: UserRight = new UserRight();
   currentRetro: Retro;
 
-  onlineUsers:Array<any>=[];
-  retroId:string='';
+  onlineUsers: Array<FirebaseOnlineUser> = [];
+  retroId: string = '';
+
 
   constructor(
 
@@ -90,10 +94,9 @@ export class RetroReportComponent implements OnInit {
 
 
 
-  
 
-    
- 
+
+
 
   }
 
@@ -104,9 +107,9 @@ export class RetroReportComponent implements OnInit {
       this.currentCompany = this.userService.currentUserValue.company;
     }
 
-    this.retroId=this.userService.currentRetroIdValue;
+    this.retroId = this.userService.currentRetroIdValue;
 
-    if(this.retroId){
+    if (this.retroId) {
       this.getLastCurrentRetro(this.retroId);
     }
 
@@ -131,7 +134,7 @@ export class RetroReportComponent implements OnInit {
             // this.getFirebaseMessage();
             this.getRetroSubject(this.currentRetro.id);
             this.getRetroTemplate(this.currentRetro.id);
-      
+
             this.getUserRight(this.currentRetro.id);
             this.getOnlineUser();
           }
@@ -141,7 +144,7 @@ export class RetroReportComponent implements OnInit {
         });
   }
 
- 
+
 
 
   getUserRight(retroId) {
@@ -179,7 +182,7 @@ export class RetroReportComponent implements OnInit {
         });
   }
 
-  
+
 
 
 
@@ -206,7 +209,7 @@ export class RetroReportComponent implements OnInit {
   }
 
 
-  getOnlineUser(){
+  getOnlineUser() {
     firebase.default.database().ref('onlineuser/').on('value', (resp: any) => {
 
       var res = snapshotToArray(resp);
@@ -216,7 +219,7 @@ export class RetroReportComponent implements OnInit {
         if (res.length > 0) {
 
           this.onlineUsers = res.filter(p => p.retroId == this.currentRetro.id);
-          console.log("onlineUser", this.onlineUsers );
+          console.log("onlineUser", this.onlineUsers);
 
         }
 
@@ -227,7 +230,7 @@ export class RetroReportComponent implements OnInit {
 
 
 
- 
+
 
 
 
@@ -269,10 +272,16 @@ export class RetroReportComponent implements OnInit {
           if (this.categorizedMessages.length > 10) {
             let overdata = this.categorizedMessages.slice(11, this.categorizedMessages.length);
             this.categorizedMessages = this.categorizedMessages.slice(0, 10);
-            this.messages.push(...overdata);
+           
 
+            this.messages.push(...overdata);
+           
+
+            console.log("this.messages",this.messages);
           }
-          this.sortedlist();
+          // this.sortedlist();
+          this.messages.sort(dynamicSort("voteCount"))
+          this.categorizedMessages.sort(dynamicSort("voteCount"));
           this.showOverlay = false;
         },
         (error) => { }
@@ -290,10 +299,10 @@ export class RetroReportComponent implements OnInit {
 
   createPdf() {
     this.showOverlay = true;
-    let data=new ReportFile();
-    data.retroId=this.currentRetro.id;
-    data.onlineUsers=this.onlineUsers;
-    
+    let data = new ReportFile();
+    data.retroId = this.currentRetro.id;
+    data.onlineUsers = this.onlineUsers;
+
     this.retroConfigurationService.getRetroReport(data).subscribe((data) => {
 
       let blob = new Blob([data], { type: 'application/pdf' });
@@ -323,9 +332,9 @@ export class RetroReportComponent implements OnInit {
         retro.id = this.currentRetro.id;
         retro.state = 2;
         retro.currentPage = "/current/report"
-        retro.templateId=this.retro.templateId;
+        retro.templateId = this.retro.templateId;
 
-     
+
       }
 
     }
@@ -337,11 +346,20 @@ export class RetroReportComponent implements OnInit {
       let currentUser = this.userService.currentUserValue;
       currentUser.company = res;
       this.userService.currentUserSetValue(currentUser);
-      
+
       let filter = new GroupFilter();
       filter.companyId = this.userService.currentUserValue.companyId;
       filter.leaderId = this.userService.currentUserValue.userId;
-      this.groupService.getReset(filter).pipe().subscribe((res) => {
+
+      let resetData = new RetroReset();
+      resetData.filter = filter;
+
+      let userIds = this.onlineUsers.map(function (item) { return item.userId; });
+      resetData.users = userIds;
+
+
+
+      this.groupService.getReset(resetData).pipe().subscribe((res) => {
 
         let retro = new Retro();
         retro.id = this.currentRetro.id;
@@ -349,7 +367,7 @@ export class RetroReportComponent implements OnInit {
 
         const newMessage = firebase.default.database().ref('currentpath/').push();
         newMessage.set(retro);
-  
+
 
       });
     });

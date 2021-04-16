@@ -23,7 +23,6 @@ import { RetroAnnouncement } from "app/models/retro-announcement";
 import { Retro } from "app/models/retro";
 import { SharedService } from "app/services/shared.service";
 import { environment } from "../../environments/environment";
-import { ClipboardService } from "ngx-clipboard";
 import swal from "sweetalert2";
 import { AlertifyService } from "app/services/alertify.service";
 import { AuthenticateResponse } from "app/models/authenticate-response";
@@ -213,7 +212,6 @@ export class SidebarComponent {
     private authService: UserService,
     private sharedService: SharedService,
     private alertifyService: AlertifyService,
-    private _clipboardService: ClipboardService,
     private cdr: ChangeDetectorRef,
     private configureService: RetroConfigurationService,
     private chatService: ChatService, private _ngZone: NgZone,
@@ -361,7 +359,6 @@ export class SidebarComponent {
 
           this.currentRetro = res;
 
-          console.log(" this.currentRetro ", this.currentRetro);
           if (this.currentRetro) {
             this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
           }
@@ -370,7 +367,20 @@ export class SidebarComponent {
 
         });
   }
+  copyInputMessage(inputElement){
+    inputElement.select();
+    document.execCommand('copy');
+    inputElement.setSelectionRange(0, 0);
 
+    swal({
+      title: "Başarılı bir şekilde kopyalandı.",
+      position: "center",
+      showConfirmButton: false,
+      type: "success",
+      timer: 2000
+    })
+
+  }
 
   copyLink() {
 
@@ -387,10 +397,24 @@ export class SidebarComponent {
           this.currentRetro = res;
 
           if (this.currentRetro) {
-            this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
+           let value = environment.appUrl + "member/" + this.currentRetro.id;
             // this._clipboardService.copyFromContent(this.inviteLink)
 
-            this.copyToClipboard(this.inviteLink);
+            // this.copyToClipboard(this.inviteLink);
+
+            let selBox = document.createElement('textarea');
+            selBox.style.position = 'fixed';
+            selBox.style.left = '0';
+            selBox.style.top = '0';
+            selBox.style.opacity = '0';
+            selBox.value = value;
+            document.body.appendChild(selBox);
+            selBox.focus();
+            selBox.select();
+            document.execCommand('copy');
+            document.body.removeChild(selBox);
+
+
             swal({
               title: "Başarılı bir şekilde kopyalandı.",
               position: "center",

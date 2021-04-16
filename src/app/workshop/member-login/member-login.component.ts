@@ -280,7 +280,7 @@ export class MemberLoginComponent implements OnInit {
 
 
 
-          this.login.username = user.userName;
+          this.login.username = res.userName;
           this.login.password = user.rawPassword;
           this.login.alias = data.alias;
 

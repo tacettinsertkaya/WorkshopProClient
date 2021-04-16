@@ -75,7 +75,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
 
 
         if (this.userService.currentUserValue != null) {
-            this.userName = this.userService.currentUserValue.userName;
+            this.userName = this.userService.currentUserValue.name;
         }
 
         this.listTitles = ROUTES.filter(listTitle => listTitle);

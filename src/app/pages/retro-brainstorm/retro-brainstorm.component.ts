@@ -67,6 +67,8 @@ export class RetroBrainstormComponent implements OnInit {
   currentRetro: Retro;
   retroId: string = '';
 
+  isDisabled:boolean=false;
+
   constructor(
     private chatService: ChatService,
     private _ngZone: NgZone,
@@ -211,6 +213,7 @@ export class RetroBrainstormComponent implements OnInit {
 
   sendMessage(headerId: string): void {
     const msg = this.inputText[headerId];
+    
     if (this.filterTrim(msg) !== "") {
 
       let currentUser = this.authService.currentUserValue;
@@ -229,7 +232,6 @@ export class RetroBrainstormComponent implements OnInit {
       this.configureService.newMessage(this.message).subscribe((res) => {
         this.retroRight = res;
         this.inputText[headerId] = "";
-
         const newMessage = firebase.default.database().ref('messages/').push();
         newMessage.set(this.message);
       });

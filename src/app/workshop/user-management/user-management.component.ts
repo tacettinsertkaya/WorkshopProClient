@@ -10,6 +10,8 @@ import { CompanyService } from "app/services/company.service";
 import { Company } from "app/models/company";
 import { UserFilter } from "app/models/dto/user-filter";
 import { AlertifyService } from "app/services/alertify.service";
+import { GuidGenerator } from "app/helpers/guid-generator";
+import { GroupService } from "app/services/group.service";
 
 declare var $: any;
 
@@ -32,6 +34,7 @@ export class UserManagementComponent implements OnInit {
     private alertifyService: AlertifyService,
     private sharedService: SharedService,
     private companyService: CompanyService,
+    private groupService: GroupService,
 
 
   ) { }
@@ -39,7 +42,7 @@ export class UserManagementComponent implements OnInit {
     this.userType = "Leader";
     this.user.companyId = this.userService.currentUserValue.companyId;
     this.currentCompany = this.userService.currentUserValue.company;
-    this.user.statu="Leader";
+    this.user.statu = "Leader";
     this.getAllUser(this.userType);
     this.getAllCompany();
   }
@@ -63,7 +66,7 @@ export class UserManagementComponent implements OnInit {
           this.companys = res;
         },
         (error) => {
-         this.alertifyService.error()
+          this.alertifyService.error()
         }
       );
   }
@@ -97,9 +100,9 @@ export class UserManagementComponent implements OnInit {
       );
   }
 
-  newUser(){
+  newUser() {
     $("#addModal").modal("show");
-    this.user.statu=this.userType;
+    this.user.statu = this.userType;
   }
   editUser(userId: any) {
     this.userService
@@ -168,9 +171,16 @@ export class UserManagementComponent implements OnInit {
               this.user.userName = "";
               this.user.rawPassword = "";
               this.user.statu = "";
-          
+
               if (this.userType == "Leader") {
-                this.currentCompany.retroCount = this.currentCompany.retroCount - 1
+                this.currentCompany.retroCount = this.currentCompany.retroCount - 1;
+                let dataObject = {
+                  companyId : this.userService.currentUserValue.companyId,
+                  groupName : new GuidGenerator().newGuid(),
+                  leaderId : res.id
+                }
+
+                this.saveLeaderUser(dataObject);
               }
               if (this.userType == "Member") {
                 this.currentCompany.participantCount = this.currentCompany.participantCount - 1;
@@ -182,7 +192,7 @@ export class UserManagementComponent implements OnInit {
                 let currentUser = this.userService.currentUserValue;
                 currentUser.company = res;
                 this.userService.currentUserSetValue(currentUser);
-                
+
                 this.getAllUser(this.userType);
 
                 $("#addModal").modal("hide");
@@ -203,16 +213,16 @@ export class UserManagementComponent implements OnInit {
             title: "Başarısız",
             text: "Maksimum lider sayısına ulaştınız",
             type: "error",
-            timer:2000
+            timer: 2000
           });
-      
+
         }
         if (this.currentCompany.participantCount <= 0) {
           swal({
             title: "Başarısız",
             text: "Maksimum üye sayısına ulaştınız",
             type: "error",
-            timer:2000
+            timer: 2000
           });
 
         }
@@ -228,7 +238,7 @@ export class UserManagementComponent implements OnInit {
             this.user.userName = "";
             this.user.rawPassword = "";
             this.user.statu = "";
-             this.alertifyService.success()
+            this.alertifyService.success()
             this.getAllUser(this.userType);
             this.isUpdate = false;
             $("#addModal").modal("hide");
@@ -240,6 +250,47 @@ export class UserManagementComponent implements OnInit {
         );
     }
   }
+
+  saveLeaderUser(data: any) {
+
+
+
+    if (this.isCheckRetro()) {
+      data.memberCount = this.currentCompany.participantCount;
+      this.groupService
+        .create(data)
+        .pipe(first())
+        .subscribe(
+          (res) => {
+
+          },
+          (error) => {
+            this.alertifyService.error();
+
+          }
+        );
+
+    }
+    else {
+      if (this.currentCompany.retroCount <= 0) {
+
+        swal(
+          {
+            title: 'Uyarı!',
+            text: 'Maksimum grup sayısına ulaştınız.',
+            type: 'warning',
+            showConfirmButton: false,
+            timer: 4000,
+            buttonsStyling: false
+          }
+        )
+
+      }
+    }
+
+
+  }
+
 
   showSwal(type, id = 0) {
 

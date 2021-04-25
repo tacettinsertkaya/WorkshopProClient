@@ -106,6 +106,7 @@ export class SubjectComponent implements OnInit {
       .pipe(first())
       .subscribe((res) => {
         this.subject = res;
+        console.log("subject",this.subject);
         this.isUpdate = true;
         $("#addModal").modal("show");
       });
@@ -134,6 +135,7 @@ export class SubjectComponent implements OnInit {
       ""
     );
     
+    console.log("data",data);
 
     if (!this.isUpdate) {
       data.createRole='Admin';

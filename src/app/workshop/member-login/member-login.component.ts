@@ -24,6 +24,7 @@ import { AlertifyService } from 'app/services/alertify.service';
 import * as firebase from 'firebase';
 import { snapshotToArray } from "app/helpers/firebase-helper";
 import { FirebaseOnlineUser } from 'app/models/firebase-online-user';
+import { GuidGenerator } from 'app/helpers/guid-generator';
 
 declare var $: any;
 @Component({
@@ -103,12 +104,7 @@ export class MemberLoginComponent implements OnInit {
   loginAddForm() {
     this.loginForm = this.formBuilder.group({
 
-      alias: ['',
-        [
-          Validators.required,
-          Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // <-- Allow letters and numbers only
-
-        ]],
+      alias: [''],
       name: ['',
         [
           Validators.required,
@@ -267,7 +263,7 @@ export class MemberLoginComponent implements OnInit {
       let data = Object.assign({}, this.loginForm.value);
 
       let user = new User();
-      user.userName = data.alias;
+      user.userName =new  GuidGenerator().newGuid();
       user.name = data.name;
       user.surname = data.surname;
       user.email = data.alias + moment().format() + '@gmail.com';

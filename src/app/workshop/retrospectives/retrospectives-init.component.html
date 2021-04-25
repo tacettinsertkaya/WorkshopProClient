@@ -5,7 +5,7 @@
 <div class="create-retro d-flex justify-content-end" style="background-image: url('assets/img/retro-bg.png')">
  
   <form #configForm="ngForm"  (ngSubmit)="saveConfig()" class="create-retro__form">
-    <h3 class="card-title">Retro Başlat</h3>
+    <h3 class="card-title">Atölye Başlat</h3>
     <div class="form-group">
       <label>Fikir Hakkı Sayısı</label>
       <input type="number" [disabled]="isCheckFailed()" class="form-control" [(ngModel)]="config.ideaRight"

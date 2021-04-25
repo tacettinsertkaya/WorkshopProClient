@@ -17,7 +17,6 @@ import { SubjectsService } from "app/services/subject.service";
 import * as moment from 'moment'
 
 import { ViewChild, ElementRef } from '@angular/core';
-import { jsPDF } from "jspdf";
 import { RetroConfigurationService } from "app/services/retro-configuration";
 import { NgxSpinnerService } from "ngx-spinner";
 import { TemplateService } from "app/services/template.service";
@@ -193,20 +192,6 @@ export class RetroReportComponent implements OnInit {
   }
 
 
-  @ViewChild('content', { static: true }) content: ElementRef;
-  public SavePDF(): void {
-
-    var pdf = new jsPDF('l', 'pt', 'a4');
-    var options = {
-      pagesplit: true
-    };
-
-    pdf.addHTML(document.getElementById('report-content'), 0, 0, options, function () {
-      pdf.save("report.pdf");
-    });
-
-
-  }
 
 
   getOnlineUser() {
@@ -357,19 +342,22 @@ export class RetroReportComponent implements OnInit {
       let userIds = this.onlineUsers.map(function (item) { return item.userId; });
       resetData.users = userIds;
 
-
-
+      
       this.groupService.getReset(resetData).pipe().subscribe((res) => {
 
-        let retro = new Retro();
-        retro.id = this.currentRetro.id;
-        retro.currentPage = "/current/finish"
-
-        const newMessage = firebase.default.database().ref('currentpath/').push();
-        newMessage.set(retro);
-
+      
 
       });
+
+      let retro = new Retro();
+      retro.id = this.currentRetro.id;
+      retro.currentPage = "/current/finish"
+
+      const newMessage = firebase.default.database().ref('currentpath/').push();
+      newMessage.set(retro);
+
+
+
     });
   }
 

@@ -45,7 +45,7 @@
 
     <ng-container>
       <div class="sidebar__participants" *ngIf="onlineUser.length>0 &&  isShow " >
-        <span class="sidebar__section-title">Aktif Katılımcılar</span>
+        <span class="sidebar__section-title">Aktif Katılımcılar <span class="side-bar-mini" *ngIf="onlineUser.length>0">({{onlineUser.length}})</span> </span>
         <ul class="sidebar__participant-list">
           <div >
             <div *ngFor="let user of onlineUser">

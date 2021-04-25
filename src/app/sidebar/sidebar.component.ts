@@ -80,13 +80,13 @@ export const SUPER_ADMIN_ROUTES: RouteInfo[] = [
 
 export const ADMIN_ROUTES: RouteInfo[] = [
 
-  {
-    path: "/groups",
-    title: "Gruplar",
-    type: "link",
-    icontype: "fa fa-object-group",
+  // {
+  //   path: "/groups",
+  //   title: "Gruplar",
+  //   type: "link",
+  //   icontype: "fa fa-object-group",
 
-  },
+  // },
   {
     path: "/users",
     title: "Kullanıcılar",

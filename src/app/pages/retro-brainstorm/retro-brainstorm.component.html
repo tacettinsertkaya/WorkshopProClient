@@ -25,7 +25,7 @@
     <div class="card card-theme card-theme--warning card-custom-borderless">
       <div class="card-body p-0">
         <div class="form-group mb-0">
-          <textarea [disabled]="retroRight.ideaRight <= 0" style="height: auto !important;resize: none;border:none;"
+          <textarea [disabled]="retroRight.ideaRight <= 0 " style="height: auto !important;resize: none;border:none;"
             rows="3" class="form-control  card-theme--warning scroll" [(ngModel)]="inputText[detail.id]"
             (keydown.enter)="sendMessage(detail.id)"></textarea>
         </div>

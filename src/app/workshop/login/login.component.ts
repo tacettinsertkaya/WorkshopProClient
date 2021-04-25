@@ -10,6 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticateResponse } from '../../models/authenticate-response';
 import { ErrorMessage } from 'app/models/dto/error-message';
 import { SharedService } from 'app/services/shared.service';
+import { GuidGenerator } from 'app/helpers/guid-generator';
 
 declare var $: any;
 @Component({
@@ -69,9 +70,7 @@ export class LoginComponent implements OnInit {
           Validators.required,
 
         ]],
-      alias: ['',
-       [Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // <-- Allow letters and numbers only
-      ]]
+      alias: ['']
     });
   }
   checkFullPageBackgroundImage() {
@@ -116,7 +115,8 @@ export class LoginComponent implements OnInit {
       this.login = Object.assign({}, this.loginForm.value);
 
       if (this.login.alias == "") {
-        this.login.alias = this.login.username;
+        this.login.alias = new GuidGenerator().newGuid();
+        
       }
 
       this.userService

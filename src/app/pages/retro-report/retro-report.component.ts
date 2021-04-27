@@ -1,4 +1,4 @@
-import { Component, ModuleWithComponentFactories, NgZone, OnInit } from "@angular/core";
+import { Component, ModuleWithComponentFactories, NgZone, OnInit, ɵɵtrustConstantResourceUrl } from "@angular/core";
 import { Categorized } from "app/models/categorized";
 import { Category } from "app/models/category";
 import { CategorizedMessage } from "app/models/dto/categorized-message";
@@ -199,7 +199,6 @@ export class RetroReportComponent implements OnInit {
 
       var res = snapshotToArray(resp);
       if (this.currentRetro) {
-        console.log("onlineUser-res", res);
 
         if (res.length > 0) {
 
@@ -247,26 +246,32 @@ export class RetroReportComponent implements OnInit {
   private getMessage(retroId) {
 
     this.messageService
-      .getAllNonCategoryMessage(retroId)
+      .getReportMessage(retroId)
       .pipe(first())
       .subscribe(
         (data) => {
-          this.messages = data.filter(p => p.voteCount == 0);
-          this.categorizedMessages = data.filter(p => p.voteCount > 0);
+          console.log("data",data);
+          this.messages =data.messages;
+          this.categorizedMessages = data.categorizedMessages;
 
-          if (this.categorizedMessages.length > 10) {
-            let overdata = this.categorizedMessages.slice(11, this.categorizedMessages.length);
-            this.categorizedMessages = this.categorizedMessages.slice(0, 10);
+          // console.log( "this.categorizedMessages", this.categorizedMessages);
+          // console.log( "this.messages", this.messages);
+
+          // if (this.categorizedMessages.length > 10) {
+          //   let overdata = this.categorizedMessages.slice(11, this.categorizedMessages.length);
+          //   this.categorizedMessages = this.categorizedMessages.slice(0, 10);
            
 
-            this.messages.push(...overdata);
+          //   this.messages.push(...overdata);
            
 
-            console.log("this.messages",this.messages);
-          }
-          // this.sortedlist();
-          this.messages.sort(dynamicSort("voteCount"))
-          this.categorizedMessages.sort(dynamicSort("voteCount"));
+          //   this.messages.sort(dynamicSort("voteCount"))
+          //   this.categorizedMessages.sort(dynamicSort("voteCount"));
+          // }
+
+         
+          // this.messages.sort(dynamicSort("voteCount"))
+          // this.categorizedMessages.sort(dynamicSort("voteCount"));
           this.showOverlay = false;
         },
         (error) => { }

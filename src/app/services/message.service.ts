@@ -7,6 +7,7 @@ import { EndPoints } from "./end-points";
 import { Message } from "../models/message";
 import { isNullOrUndefined } from "util";
 import { CategorizedMessage } from "app/models/dto/categorized-message";
+import { ReportMessage } from "app/models/dto/report-message";
 
 @Injectable()
 export class MessageService {
@@ -70,6 +71,14 @@ export class MessageService {
       "",
       environment.serverBaseUrl,
       EndPoints.MESSAGE + "/NonCategoryMessage/"+retroId
+    );
+  }
+
+  getReportMessage(retroId) {
+    return this.baseService.get<ReportMessage>(
+      "",
+      environment.serverBaseUrl,
+      EndPoints.MESSAGE + "/GetReportMessage/"+retroId
     );
   }
 

@@ -48,8 +48,8 @@ import { DashboardComponent } from "./workshop/dashboard/dashboard.component";
 import { RetroFinishComponent } from "./workshop/retro-finish/retro-finish.component";
 
 const config = {
-  apiKey: 'AIzaSyAj0b-wjz8RPScqbslxU7ByFBKOk-B37jw',
-  databaseURL: 'https://workshoppro-75580-default-rtdb.firebaseio.com/'
+  apiKey: 'AIzaSyCM-C-yfThGubItLxobdSnmJh4FtA2BleM',
+  databaseURL: 'https://workshoppro-76f29-default-rtdb.europe-west1.firebasedatabase.app'
 };
 
 firebase.default.initializeApp(config);

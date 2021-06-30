@@ -40,6 +40,7 @@ import { AdminComponent } from "./admin/admin.component";
 import { GroupService } from "app/services/group.service";
 import { DatetimePipe } from "app/pipes/datetime.pipe";
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { ImageUploadComponent } from "app/shared/image-upload/image-upload.component";
 
 @NgModule({
   imports: [CommonModule, RouterModule.forChild(WorkshopRoutes), FormsModule,ReactiveFormsModule],
@@ -60,7 +61,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     CompanyManagementComponent,
     GroupsComponent,
     AdminComponent,
-    
+    ImageUploadComponent
 
   ],
   providers: [

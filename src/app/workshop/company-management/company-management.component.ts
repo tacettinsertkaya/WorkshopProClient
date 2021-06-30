@@ -9,6 +9,7 @@ import { User } from "app/models/user";
 import { Company } from "app/models/Company";
 import { CompanyService } from "app/services/company.service";
 import { AlertifyService } from "app/services/alertify.service";
+import { UploadService } from "app/services/upload.service";
 
 declare var $: any;
 
@@ -22,10 +23,14 @@ export class CompanyManagementComponent implements OnInit {
   companys: Array<Company> = [];
   company: Company = new Company();
   isUpdate: boolean = false;
+  preViewUrl:string='';
+  isPreview:boolean=false;
+  
   constructor(
     private userService: UserService,
     private alertifyService: AlertifyService,
     private companyService: CompanyService,
+    private uploadService: UploadService,
     private sharedService: SharedService
   ) {}
   ngOnInit() {
@@ -49,17 +54,37 @@ export class CompanyManagementComponent implements OnInit {
       );
   }
 
+  addCompany(){
+    this.company=new Company();
+    this.preViewUrl='';
+    $("#addCompanyModal").modal("show");
+
+  }
 
   editCompany(companyId: any) {
+    this.preViewUrl = '';
+
     this.companyService
       .getCompany(companyId)
       .pipe(first())
       .subscribe((res) => {
         this.company = res;
         this.isUpdate = true;
+
+        this.uploadService
+        .GET_IMAGE(this.company.imagePath)
+        .pipe(first())
+        .subscribe((res) => {
+          this.preViewUrl = res[0];
+        });
+
+
+
         $("#addCompanyModal").modal("show");
       });
   }
+
+
   removeCompany(companyId: any) {
     this.companyService
       .delete(companyId)
@@ -74,6 +99,15 @@ export class CompanyManagementComponent implements OnInit {
         }
       );
   }
+
+  
+
+  receiveImages($event) {
+    let images = $event;
+    this.company.imagePath=images[0];
+    this.preViewUrl='';
+  }
+
 
   saveCompany() {
   

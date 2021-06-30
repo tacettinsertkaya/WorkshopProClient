@@ -8,7 +8,7 @@
     top: 0;
   }
   .loader {
-    height: 4px;
+    height: 1px;
     width: 100%;
     position: relative;
     overflow: hidden;
@@ -20,7 +20,7 @@
     content: "";
     left: -200px;
     width: 200px;
-    height: 4px;
+    height: 1px;
     background-color: #EF8259;
     animation: loading 2s linear infinite;
   }

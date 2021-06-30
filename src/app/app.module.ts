@@ -84,7 +84,8 @@ firebase.default.initializeApp(config);
     LoaderComponent,
     DatetimePipe,
     DashboardComponent,
-    RetroFinishComponent
+    RetroFinishComponent,
+    
   ],
   providers: [
     UserService,

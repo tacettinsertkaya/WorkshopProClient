@@ -209,14 +209,14 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent {
   isShow: boolean = true;
-  logo:string='';
+  logo: string = '';
   constructor(private router: Router,
     private authService: UserService,
     private uploadService: UploadService,
     private sharedService: SharedService,
     private alertifyService: AlertifyService,
     private cdr: ChangeDetectorRef,
-    
+
     private configureService: RetroConfigurationService,
     private chatService: ChatService, private _ngZone: NgZone,
   ) {
@@ -230,13 +230,13 @@ export class SidebarComponent {
 
         var res = snapshotToArray(resp);
         if (this.currentRetro) {
-       
+
 
           if (res.length > 0) {
 
             let onlineUser = res.filter(p => p.retroId == this.currentRetro.id);
             this.onlineUser = onlineUser;
-            
+
           }
 
         }
@@ -283,13 +283,13 @@ export class SidebarComponent {
   }
 
 
-  showAnnouncement(){
+  showAnnouncement() {
     $('#announcementModal').modal("show");
   }
 
-  isCheckPage(){
+  isCheckPage() {
     let page = this.router.url;
-    let currentPages=[
+    let currentPages = [
       "/current/subject",
       "/current/template",
       "/current/brainstorm",
@@ -298,16 +298,16 @@ export class SidebarComponent {
       "/current/vote",
       "/current/report",
     ];
-    let isPage=currentPages.filter(p=>p==page);
+    let isPage = currentPages.filter(p => p == page);
 
-    if(page=='/current/start'){
-      this.onlineUser=[];
+    if (page == '/current/start') {
+      this.onlineUser = [];
     }
 
-    if(isPage.length>0){
+    if (isPage.length > 0) {
       return true;
     }
-    else{
+    else {
       return false;
     }
   }
@@ -334,7 +334,7 @@ export class SidebarComponent {
 
   }
 
-  
+
 
   ngOnInit() {
     if (this.isSuperAdmin()) {
@@ -349,11 +349,11 @@ export class SidebarComponent {
     if (this.isMember()) {
       this.menuItems = MEMBER_ROUTES;
     }
-    
- 
-    this.retroId=this.authService.currentRetroIdValue;
 
-    if(this.retroId){
+
+    this.retroId = this.authService.currentRetroIdValue;
+
+    if (this.retroId) {
       this.getLastCurrentRetro(this.retroId);
     }
 
@@ -361,24 +361,26 @@ export class SidebarComponent {
 
   }
 
-  getUserImage(){
-    let company=this.authService.currentUserValue.company;
-    this.uploadService
-    .GET_IMAGE(company.imagePath)
-    .pipe(first())
-    .subscribe((res) => {
-      this.logo = res[0];
-    });
+  getUserImage() {
+    let company = this.authService.currentUserValue.company;
+    if (company) {
+      this.uploadService
+        .GET_IMAGE(company.imagePath)
+        .pipe(first())
+        .subscribe((res) => {
+          this.logo = res[0];
+        });
+    }
   }
 
-  getLogo(){
-     if(this.logo)
-       return this.logo;
-     else
-       return 'assets/img/logo.png'
+  getLogo() {
+    if (this.logo)
+      return this.logo;
+    else
+      return 'assets/img/logo.png'
   }
 
-  
+
   getLastCurrentRetro(retroId) {
 
     this.configureService
@@ -397,7 +399,7 @@ export class SidebarComponent {
 
         });
   }
-  copyInputMessage(inputElement){
+  copyInputMessage(inputElement) {
     inputElement.select();
     document.execCommand('copy');
     inputElement.setSelectionRange(0, 0);
@@ -414,75 +416,75 @@ export class SidebarComponent {
 
   copyLink() {
 
-    this.retroId=this.authService.currentRetroIdValue;
+    this.retroId = this.authService.currentRetroIdValue;
 
-    if(this.retroId){
-     
+    if (this.retroId) {
+
       this.configureService
-      .getCurrentRetro(this.retroId)
-      .pipe(first())
-      .subscribe(
-        (res) => {
+        .getCurrentRetro(this.retroId)
+        .pipe(first())
+        .subscribe(
+          (res) => {
 
-          this.currentRetro = res;
+            this.currentRetro = res;
 
-          if (this.currentRetro) {
-           let value = environment.appUrl + "member/" + this.currentRetro.id;
-            // this._clipboardService.copyFromContent(this.inviteLink)
+            if (this.currentRetro) {
+              let value = environment.appUrl + "member/" + this.currentRetro.id;
+              // this._clipboardService.copyFromContent(this.inviteLink)
 
-            // this.copyToClipboard(this.inviteLink);
+              // this.copyToClipboard(this.inviteLink);
 
-            let selBox = document.createElement('textarea');
-            selBox.style.position = 'fixed';
-            selBox.style.left = '0';
-            selBox.style.top = '0';
-            selBox.style.opacity = '0';
-            selBox.value = value;
-            document.body.appendChild(selBox);
-            selBox.focus();
-            selBox.select();
-            document.execCommand('copy');
-            document.body.removeChild(selBox);
+              let selBox = document.createElement('textarea');
+              selBox.style.position = 'fixed';
+              selBox.style.left = '0';
+              selBox.style.top = '0';
+              selBox.style.opacity = '0';
+              selBox.value = value;
+              document.body.appendChild(selBox);
+              selBox.focus();
+              selBox.select();
+              document.execCommand('copy');
+              document.body.removeChild(selBox);
 
 
+              swal({
+                title: "Başarılı bir şekilde kopyalandı.",
+                position: "center",
+                showConfirmButton: false,
+                type: "success",
+                timer: 2000
+              })
+
+            }
+          },
+          (error) => {
             swal({
-              title: "Başarılı bir şekilde kopyalandı.",
+              title: "Link kopyalanamadı.",
               position: "center",
               showConfirmButton: false,
-              type: "success",
+              type: "error",
               timer: 2000
             })
-        
-          }
-        },
-        (error) => {
-          swal({
-            title: "Link kopyalanamadı.",
-            position: "center",
-            showConfirmButton: false,
-            type: "error",
-            timer: 2000
-          })
-        });
+          });
     }
 
 
 
-    
 
 
 
-   
+
+
   }
 
-   copyToClipboard(textToCopy) {
+  copyToClipboard(textToCopy) {
     var textArea;
     function isOS() {
 
       //can use a better detection logic here
       return navigator.userAgent.match(/ipad|iphone/i);
     }
-  
+
     function createTextArea(text) {
       textArea = document.createElement('textArea');
       textArea.readOnly = true;
@@ -490,10 +492,10 @@ export class SidebarComponent {
       textArea.value = text;
       document.body.appendChild(textArea);
     }
-  
+
     function selectText() {
       var range, selection;
-  
+
       if (isOS()) {
         range = document.createRange();
         range.selectNodeContents(textArea);
@@ -506,12 +508,12 @@ export class SidebarComponent {
         textArea.select();
       }
     }
-  
+
     function copyTo() {
       document.execCommand('copy');
       document.body.removeChild(textArea);
     }
-  
+
     createTextArea(textToCopy);
     selectText();
     copyTo();

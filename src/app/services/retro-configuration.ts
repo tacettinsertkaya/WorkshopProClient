@@ -151,6 +151,18 @@ export class RetroConfigurationService {
   return this.http.post<any>(`${environment.serverBaseUrl}/RetroConfiguration/CreatePDF`,data, httpOptions);
   }
 
+  getRetroUserReport(data:any) {
+
+  const httpOptions = {
+    responseType: 'blob' as 'json',
+  };
+
+  return this.http.post<any>(`${environment.serverBaseUrl}/RetroConfiguration/CreateRetroPDF`,data, httpOptions);
+  }
+
+  
+ 
+
   getCurrentRetro(retroId) {
     return this.baseService.get<Retro>(
       retroId,

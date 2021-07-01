@@ -45,8 +45,10 @@ export class ImageUploadComponent implements OnInit {
       .IMAGE_UPLOAD(formData)
       .pipe(first())
       .subscribe((result) => {
+        
         let path=result[0];
         this.imagePathList.push(path);
+
         this.uploadService
         .GET_IMAGE(path)
         .pipe(first())

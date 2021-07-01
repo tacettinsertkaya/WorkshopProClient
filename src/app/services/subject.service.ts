@@ -7,6 +7,9 @@ import { EndPoints } from "./end-points";
 import { Subject } from "../models/subject";
 import { isNullOrUndefined } from "util";
 import { SubjectFilter } from "app/models/dto/subject-filter";
+import { Retro } from "app/models/retro";
+import { RetroUserReport } from "app/models/dto/retro-user-report";
+import { RetroUser } from "app/models/retro-user";
 
 @Injectable()
 export class SubjectsService {
@@ -61,6 +64,32 @@ export class SubjectsService {
       filter,
       environment.serverBaseUrl,
       EndPoints.SUBJECT+'/GetListByFilter'
+    );
+  }
+
+  getRetroListBySubject(id:string) {
+    return this.baseService.list<RetroUserReport>(
+      "",
+      environment.serverBaseUrl,
+      EndPoints.RETRO_CONFIGURATION+'/GetListRetroBySubjectId/'+id
+    );
+  }
+
+  getRetroReport(id:string) {
+    return this.baseService.list<any>(
+      "",
+      environment.serverBaseUrl,
+      EndPoints.RETRO_CONFIGURATION+'/GetListRetroBySubjectId/'+id
+    );
+  }
+
+
+  
+  getListRetroUser(id:string) {
+    return this.baseService.list<RetroUser>(
+      "",
+      environment.serverBaseUrl,
+      EndPoints.RETRO_CONFIGURATION+'/GetListRetroUser/'+id
     );
   }
 }

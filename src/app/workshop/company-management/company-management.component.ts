@@ -70,7 +70,7 @@ export class CompanyManagementComponent implements OnInit {
       .subscribe((res) => {
         this.company = res;
         this.isUpdate = true;
-
+     console.log("this.comao",this.company);
         this.uploadService
         .GET_IMAGE(this.company.imagePath)
         .pipe(first())
@@ -105,6 +105,7 @@ export class CompanyManagementComponent implements OnInit {
   receiveImages($event) {
     let images = $event;
     this.company.imagePath=images[0];
+    console.log("recevir-images",images);
     this.uploadService
     .GET_IMAGE(this.company.imagePath)
     .pipe(first())

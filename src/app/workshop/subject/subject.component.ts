@@ -11,6 +11,9 @@ import { CompanyService } from "app/services/company.service";
 import { Company } from "app/models/company";
 import { SubjectFilter } from "app/models/dto/subject-filter";
 import { AlertifyService } from "app/services/alertify.service";
+import { RetroUserReport } from "app/models/dto/retro-user-report";
+import { RetroConfigurationService } from "app/services/retro-configuration";
+import { ReportFile } from "app/models/dto/report-file";
 
 declare var $: any;
 
@@ -28,12 +31,15 @@ export class SubjectComponent implements OnInit {
   companys: Array<Company> = [];
   companyId: string = '';
   
+  retroList:Array<RetroUserReport>=[];
+  showOverlay = false;
 
   constructor(
     private subjectService: SubjectsService,
     private authService: UserService,
     private sharedService: SharedService,
     private alertifyService: AlertifyService,
+    private retroConfigurationService: RetroConfigurationService,
     private chatService: ChatService,
     private companyService: CompanyService,
     private _ngZone: NgZone,
@@ -82,7 +88,47 @@ export class SubjectComponent implements OnInit {
 }
 
 getRetro(subjectId:string){
-        
+
+  this.subjectService
+  .getRetroListBySubject(subjectId)
+  .pipe(first())
+  .subscribe(
+    (res) => {
+      this.retroList = res;
+      console.log("this.retrolist",this.retroList);
+
+ 
+  
+
+      $('#retroModal').modal('show');
+    },
+    (error) => {
+      this.alertifyService.error();
+
+    }
+  );
+}
+getRetroReport(retroId:string){
+
+  this.showOverlay = true;
+
+
+  let data = new ReportFile();
+  data.retroId = retroId;
+
+  this.retroConfigurationService.getRetroUserReport(data).subscribe((data) => {
+    let blob = new Blob([data], { type: 'application/pdf' });
+    var downloadURL = window.URL.createObjectURL(data);
+    var link = document.createElement('a');
+    link.href = downloadURL;
+    link.download = "report.pdf";
+    link.click();
+    this.showOverlay = false;
+
+  });
+
+
+  
 }
 
 
@@ -97,6 +143,7 @@ getRetro(subjectId:string){
       .subscribe(
         (res) => {
           this.subjects = res;
+
         },
         (error) => {
           this.alertifyService.error();
@@ -115,6 +162,10 @@ getRetro(subjectId:string){
         $("#addModal").modal("show");
       });
   }
+
+
+
+
   removeSubject(subjectId: any) {
     this.subjectService
       .delete(subjectId)

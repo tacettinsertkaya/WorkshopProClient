@@ -71,7 +71,6 @@ export class SubjectHeaderComponent implements OnInit {
         (res) => {
 
           this.selectSubject = res;
-          console.log("getRetroSubject", this.selectSubject );
           
         },
         (error) => {

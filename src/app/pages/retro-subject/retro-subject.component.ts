@@ -40,6 +40,7 @@ export class RetroSubjectComponent implements OnInit {
   companyId: string = '';
 
   retroId:string='';
+  currentUserId:string='';
 
   constructor(
     private subjectService: SubjectsService,
@@ -68,6 +69,9 @@ export class RetroSubjectComponent implements OnInit {
     if(this.retroId){
       this.getSubjects();
     }
+
+    this.currentUserId=this.authService.currentUserValue.userId
+
   }
 
   
@@ -135,6 +139,11 @@ export class RetroSubjectComponent implements OnInit {
       );
   }
 
+  isCheckOwner(subject:Subject){
+      
+      return this.currentUserId==subject.userId;
+  }
+
   getSubjects() {
     let filter = new SubjectFilter();
     filter.companyId = this.authService.currentUserValue.companyId;
@@ -167,6 +176,7 @@ export class RetroSubjectComponent implements OnInit {
         $("#addModal").modal("show");
       });
   }
+  
   removeSubject(subjectId: any) {
     this.subjectService
       .delete(subjectId)

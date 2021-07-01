@@ -1,7 +1,8 @@
 <div class="sidebar">
   <div class="sidebar__header">
     <div class="sidebar__header-content">
-      <img src="assets/img/logo.png" alt="" style="max-width: 200px;" class="sidebar__logo">
+      <img [src]="getLogo()" alt="" style="max-width: 200px;" class="sidebar__logo">
+
       <button class="btn btn-icon-theme" id="hideSidebar">
         <i class="fa fa-angle-double-left"></i>
       </button>

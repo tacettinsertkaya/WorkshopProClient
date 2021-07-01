@@ -36,14 +36,11 @@ export class TabHeaderComponent implements OnInit {
     firebase.default.database().ref('currentpath/').orderByChild("id").equalTo(this.retroId).limitToLast(1).on('value', (resp: any) => {
 
       var data = snapshotToArray(resp);
-      console.log("route-data", data);
       if (data.length > 0) {
         let currentPage = data[0].currentPage;
         let scrollDestination = currentPage.split("/");
-        console.log("data[0].id", this.retroId);
         if (data[0].id == this.retroId) {
           if (scrollDestination.length >= 2) {
-            console.log("scrollDestination[2]", scrollDestination[2]);
             const elementList = document.querySelectorAll('.' + scrollDestination[2]);
             const element = elementList[0] as HTMLElement;
 
@@ -62,11 +59,18 @@ export class TabHeaderComponent implements OnInit {
             if (this.isLeader()) {
               firebase.default.database().ref("/currentPath").remove();
 
+             
+             this.router.navigate(["/current/start"])
+           
+             
+            }
+            else {
+              this.authService.logout();
+              this.router.navigate(["/current/finish"])
             }
 
 
-            this.authService.logout();
-            this.router.navigate(["/current/finish"])
+
 
 
           }
@@ -112,7 +116,6 @@ export class TabHeaderComponent implements OnInit {
 
       let scrollDestination = tab.split("/");
       if (scrollDestination.length >= 2) {
-        console.log("scrollDestination[2]", scrollDestination[2]);
         const elementList = document.querySelectorAll('.' + scrollDestination[2]);
         const element = elementList[0] as HTMLElement;
         if (element != undefined)

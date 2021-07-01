@@ -7,12 +7,13 @@
 </div>
 <div class="d-flex align-items-center justify-content-between mb-2 users-header ">
   <div class="users-details">
-    <span class="pill-title mr-2 text-bold"
-      [ngClass]="{'text-success': getUserLeader()>0, 'text-danger':getUserLeader()<=0 }">Lider Hakkı: {{ getUserLeader()
-      }}</span>
     <span class="pill-title text-bold"
-      [ngClass]="{'text-success': getUserMember()>0, 'text-danger':getUserMember()<=0 }">Üye Hakkı: {{ getUserMember()
+      [ngClass]="{'text-success': getLeaderCount()>0, 'text-danger':getLeaderCount()<=0 }">Lider Hakkı: {{ getLeaderCount()
       }}</span>
+    <span class="pill-title mr-2 text-bold"
+      [ngClass]="{'text-success': getUserLeader()>0, 'text-danger':getUserLeader()<=0 }">Retro Hakkı: {{ getUserLeader()
+      }}</span>
+    
   </div>
   <div class="add-user">
     <div class="form-group" style="margin-right: 0 !important;">

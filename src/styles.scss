@@ -60,6 +60,29 @@
     font-size: 1.1rem;
 }
 
+.corner-button{
+ position: absolute;
+ top: -10px;
+ right: -10px;
+ display: none;
+}
+
+.card-theme:hover .corner-button{
+   display: block;
+}
+
+.corner-button-template{
+  position: absolute;
+  top: -10px;
+  right: 0px;
+  display: none;
+  z-index: 9999;
+}
+
+.corner-item:hover .corner-button-template{
+   display: block;
+}
+
 
 .dropdown-width {
   width: 200px;

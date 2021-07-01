@@ -81,11 +81,9 @@ export class MemberLoginComponent implements OnInit {
   }
 
   getRetro() {
-    console.log("this.id", this.id);
     firebase.default.database().ref('currentpath/').orderByChild("id").equalTo(this.id).limitToLast(1).on('value', (resp: any) => {
 
       var data = snapshotToArray(resp);
-      console.log("data", data);
       if (data.length > 0 && data[0].id == this.id) {
         let currentPage = data[0].currentPage;
 
@@ -188,7 +186,6 @@ export class MemberLoginComponent implements OnInit {
 
           this.retroConfigurationService.getCurrentRetro(this.id).subscribe(res => {
             this.currentRetro = res;
-            console.log("res", res);
           })
         },
         (error) => {
@@ -328,12 +325,10 @@ export class MemberLoginComponent implements OnInit {
                       firebase.default.database().ref('currentpath/').orderByChild("id").equalTo(this.id).limitToLast(1).on('value', (resp: any) => {
 
                         var data = snapshotToArray(resp);
-                        console.log("data", data);
                         if (data.length > 0) {
                           let currentPage = data[0].currentPage;
                           let retroId = data[0].id;
-                          console.log("currentPage.id", currentPage.id);
-                          console.log("this.id", this.id);
+                      
 
                           if (currentPage != "/current/finish" && retroId == this.id)
                             this.router.navigate([currentPage])

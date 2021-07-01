@@ -55,6 +55,10 @@ export class UserManagementComponent implements OnInit {
     return this.userService.currentUserValue.company.participantCount;
   }
 
+  getLeaderCount() {
+    return this.userService.currentUserValue.company.leaderCount;
+  }
+
   getAllCompany() {
 
 
@@ -116,16 +120,20 @@ export class UserManagementComponent implements OnInit {
   }
 
   isCheckRetro() {
-    if (this.userType == "Leader")
-      return this.currentCompany.retroCount > 0 ? true : false;
-
+    if (this.userType == "Leader"){
+      // return this.currentCompany.retroCount > 0 ? true : false;
+      return this.currentCompany.leaderCount > 0 ? true : false;
+    }
     if (this.userType == "Member")
       return this.currentCompany.participantCount > 0 ? true : false;
   }
 
   removeUser(userId: any) {
-    if (this.userType == "Leader")
+    if (this.userType == "Leader"){
       this.currentCompany.retroCount = this.currentCompany.retroCount + 1
+      this.currentCompany.leaderCount = this.currentCompany.leaderCount + 1
+
+    }
     if (this.userType == "Member")
       this.currentCompany.participantCount = this.currentCompany.participantCount + 1;
 
@@ -173,7 +181,9 @@ export class UserManagementComponent implements OnInit {
               this.user.statu = "";
 
               if (this.userType == "Leader") {
-                this.currentCompany.retroCount = this.currentCompany.retroCount - 1;
+                // this.currentCompany.retroCount = this.currentCompany.retroCount - 1;
+                this.currentCompany.leaderCount = this.currentCompany.leaderCount - 1;
+
                 let dataObject = {
                   companyId : this.userService.currentUserValue.companyId,
                   groupName : new GuidGenerator().newGuid(),

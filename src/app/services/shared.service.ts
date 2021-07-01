@@ -34,7 +34,6 @@ export class SharedService {
       firebase.default.database().ref('currentRetro/').limitToLast(1).on('value', (resp: any) => {
       
         var data = snapshotToArray(resp);
-        console.log("data",data);
         if (data !== undefined) {
           this.currentRetro.next(data[0]);
         }

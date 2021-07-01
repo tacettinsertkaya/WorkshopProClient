@@ -49,6 +49,7 @@ export class RetroTemplateComponent implements OnInit {
   retroId: string = '';
 
   data = new Template();
+  currentUserId:string='';
   /**
    *
    */
@@ -91,6 +92,8 @@ export class RetroTemplateComponent implements OnInit {
       this.getRetroSubject(this.retroId);
       this.getTemplateList();
     }
+
+    this.currentUserId=this.authService.currentUserValue.userId;
 
   }
 
@@ -188,6 +191,31 @@ export class RetroTemplateComponent implements OnInit {
         }
       });
     }
+  }
+
+  
+  isCheckOwner(subject:Subject){
+      
+    return this.currentUserId==subject.userId;
+}
+
+
+  removeTemplate(template:Template) {
+ 
+
+    this.templateService
+      .delete(template.id)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+         
+       this.getTemplateList()
+          
+        },
+        (error) => {
+          this.alertifyService.error();
+        }
+      );
   }
 
   getTemplateList() {

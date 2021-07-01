@@ -125,7 +125,6 @@ export class RetroBrainstormComponent implements OnInit {
 
 
           if (this.currentRetro) {
-            console.log("currentRetro-tempalte", this.currentRetro);
 
             this.getRetroSubject(this.currentRetro.id);
             this.getTemplate(this.currentRetro.templateId);

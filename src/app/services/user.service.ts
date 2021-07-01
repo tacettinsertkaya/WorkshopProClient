@@ -228,7 +228,6 @@ export class UserService {
 
   // tslint:disable-next-line:typedef
   logout() {
-    console.log("logout")
     let currentUser = this.currentUserValue;
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');

@@ -17,7 +17,9 @@
   
   
   <div class="row mt-5" *ngIf="templates.length > 0">
-    <div class="col-sm-6 col-xs-12 mb-3" *ngFor="let template of templates; let i = index">
+    <div class="col-sm-6 col-xs-12 mb-3 corner-item" *ngFor="let template of templates; let i = index">
+      <a href="javascript:;"  *ngIf="isCheckOwner(template)" class="corner-button-template" (click)="removeTemplate(template)"><i class="fa fa-times-circle fa-2x text-danger"></i></a>
+
       <a [class.disabled]="isUser" *ngIf="
       template.templateDetail.length >= 1 &&
       template.templateDetail[0].header != ''
@@ -30,6 +32,7 @@
           </h3>
         </div>
       </a>
+
       <a  [class.disabled]="isUser"  *ngIf="
       template.templateDetail.length == 1 &&
       template.templateDetail[0].header == ''

@@ -137,7 +137,6 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
                     if (res[0].retroId == this.currentRetro.id) {
                         let an = res[0];
                         this.announcements.push(an);
-                         console.log(" this.announcements", this.announcements);
 
 
                         swal({

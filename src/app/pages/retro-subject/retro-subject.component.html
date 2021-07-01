@@ -10,6 +10,7 @@
   <div class="row">
     <div class="col-sm-4" *ngFor="let subject of subjects; let i = index">
       <div class="mb-3 card card-theme box-shadow" >
+        <a href="javascript:;" *ngIf="isCheckOwner(subject)" class="corner-button" (click)="removeSubject(subject.id)"><i class="fa fa-times-circle fa-2x text-danger"></i></a>
         <a [class.disabled]="isUser" (click)="selectSubject(subject)" [ngClass]="{ active: selectSubjectId == subject.id }">
           <div class="card-body">
             <h3 class="card-title">{{ subject.subjectTitle }}</h3>

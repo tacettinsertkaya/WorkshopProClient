@@ -86,7 +86,6 @@ export class RetrospectivesComponent implements OnInit {
     firebase.default.database().ref('currentRetro/').limitToLast(1).on('value', (resp: any) => {
  
       var data = snapshotToArray(resp);
-      console.log("current-retro(subject)",data);
       if (data !== undefined) {
         this.sharedService.currentRetro.next(data[0]);
         this.currentRetro = data[0];
@@ -249,7 +248,6 @@ export class RetrospectivesComponent implements OnInit {
         this.currentRetro = retro;
         this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
         if (this.currentRetro.state > 2) {
-          console.log("state",this.currentRetro);
           this.getRetroSubject(this.currentRetro.id);
         }
       }

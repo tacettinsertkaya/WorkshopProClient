@@ -81,11 +81,16 @@ export class SubjectComponent implements OnInit {
   });
 }
 
+getRetro(subjectId:string){
+        
+}
+
 
   getSubjects() {
     let filter=new SubjectFilter();
     filter.companyId=this.authService.currentUserValue.companyId;
-     
+    filter.isAdmin=true;
+
     this.subjectService
       .getAllSubject(filter)
       .pipe(first())
@@ -106,7 +111,6 @@ export class SubjectComponent implements OnInit {
       .pipe(first())
       .subscribe((res) => {
         this.subject = res;
-        console.log("subject",this.subject);
         this.isUpdate = true;
         $("#addModal").modal("show");
       });

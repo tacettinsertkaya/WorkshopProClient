@@ -90,9 +90,8 @@ export class RetroCommentComponent implements OnInit {
 
           if (message.length > 0 && message[0].comments != null) {
             
-            console.log("message[0].comments",message[0].comments)
+         
             message[0].comments.unshift(comment);
-            console.log("message[0].comments.reverse()",message[0].comments)
 
           }
         }
@@ -261,7 +260,6 @@ export class RetroCommentComponent implements OnInit {
         (data) => {
           this.messages = data.filter(p => p.isCategorized == false);
 
-          console.log(" this.messages", this.messages);
           this.messages.forEach(item=>{
             item.comments=item.comments.reverse();
           })

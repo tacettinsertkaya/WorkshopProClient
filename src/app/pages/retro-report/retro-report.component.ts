@@ -203,7 +203,6 @@ export class RetroReportComponent implements OnInit {
         if (res.length > 0) {
 
           this.onlineUsers = res.filter(p => p.retroId == this.currentRetro.id);
-          console.log("onlineUser", this.onlineUsers);
 
         }
 
@@ -250,28 +249,10 @@ export class RetroReportComponent implements OnInit {
       .pipe(first())
       .subscribe(
         (data) => {
-          console.log("data",data);
-          this.messages =data.messages;
+          this.messages = data.messages;
           this.categorizedMessages = data.categorizedMessages;
 
-          // console.log( "this.categorizedMessages", this.categorizedMessages);
-          // console.log( "this.messages", this.messages);
 
-          // if (this.categorizedMessages.length > 10) {
-          //   let overdata = this.categorizedMessages.slice(11, this.categorizedMessages.length);
-          //   this.categorizedMessages = this.categorizedMessages.slice(0, 10);
-           
-
-          //   this.messages.push(...overdata);
-           
-
-          //   this.messages.sort(dynamicSort("voteCount"))
-          //   this.categorizedMessages.sort(dynamicSort("voteCount"));
-          // }
-
-         
-          // this.messages.sort(dynamicSort("voteCount"))
-          // this.categorizedMessages.sort(dynamicSort("voteCount"));
           this.showOverlay = false;
         },
         (error) => { }
@@ -347,21 +328,21 @@ export class RetroReportComponent implements OnInit {
       let userIds = this.onlineUsers.map(function (item) { return item.userId; });
       resetData.users = userIds;
 
-      
+
       this.groupService.getReset(resetData).pipe().subscribe((res) => {
 
-      
+
 
       });
 
-      let retro = new Retro();
-      retro.id = this.currentRetro.id;
-      retro.currentPage = "/current/finish"
+        let retro = new Retro();
+        retro.id = this.currentRetro.id;
+        retro.currentPage = "/current/finish"
 
-      const newMessage = firebase.default.database().ref('currentpath/').push();
-      newMessage.set(retro);
+        const newMessage = firebase.default.database().ref('currentpath/').push();
+        newMessage.set(retro);
 
-
+      
 
     });
   }

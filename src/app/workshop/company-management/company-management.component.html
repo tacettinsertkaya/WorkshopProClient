@@ -16,7 +16,7 @@
       <thead>
       <tr>
         <th>Şirket Adı</th>
-        <th class="text-center">Maksimum Katılımcı</th>
+        <th class="text-center">Maksimum Lider</th>
         <th class="text-center">Maksimum Retro</th>
         <th class="text-right" style="padding-right: 20px;">İşlemler</th>
       </tr>
@@ -24,7 +24,7 @@
       <tbody>
         <tr *ngFor="let row of companys">
           <td>{{ row.companyName }}</td>
-          <td class="text-center">{{ row.participantCount }}</td>
+          <td class="text-center">{{ row.leaderCount }}</td>
           <td class="text-center">{{ row.retroCount }}</td>
         
         <td>
@@ -84,14 +84,16 @@
                 />
           </div>
           <div class="form-group">
-            <label for="maxContributorCount">Maximum Katılımcı Sayısı</label>
+            <label for="maxContributorCount">Maximum Lider Sayısı</label>
             <input
                    type="number"
                   class="form-control "
-                  [(ngModel)]="company.participantCount"
+                  [(ngModel)]="company.leaderCount"
                   [ngModelOptions]="{ standalone: true }"
                 />
           </div>
+
+          
           
           <div class="row">
             <div class="col-12">

@@ -30,6 +30,7 @@ import * as firebase from 'firebase';
 import { snapshotToArray } from "app/helpers/firebase-helper";
 import { RetroConfigurationService } from "app/services/retro-configuration";
 import { FirebaseOnlineUser } from "app/models/firebase-online-user";
+import { UploadService } from "app/services/upload.service";
 
 //Metadata
 export interface RouteInfo {
@@ -208,11 +209,14 @@ export const ROUTES: RouteInfo[] = [
 })
 export class SidebarComponent {
   isShow: boolean = true;
+  logo:string='';
   constructor(private router: Router,
     private authService: UserService,
+    private uploadService: UploadService,
     private sharedService: SharedService,
     private alertifyService: AlertifyService,
     private cdr: ChangeDetectorRef,
+    
     private configureService: RetroConfigurationService,
     private chatService: ChatService, private _ngZone: NgZone,
   ) {
@@ -221,24 +225,24 @@ export class SidebarComponent {
     this.isShow = this.isLeader() || this.isMember();
 
     if (this.isShow) {
-      console.log("this.isShow", this.isShow);
 
       firebase.default.database().ref('onlineuser/').on('value', (resp: any) => {
 
         var res = snapshotToArray(resp);
         if (this.currentRetro) {
-          console.log("onlineUser-res", res);
+       
 
           if (res.length > 0) {
 
             let onlineUser = res.filter(p => p.retroId == this.currentRetro.id);
             this.onlineUser = onlineUser;
-            console.log("onlineUser", onlineUser);
-
+            
           }
 
         }
       });
+
+
     }
 
 
@@ -296,6 +300,10 @@ export class SidebarComponent {
     ];
     let isPage=currentPages.filter(p=>p==page);
 
+    if(page=='/current/start'){
+      this.onlineUser=[];
+    }
+
     if(isPage.length>0){
       return true;
     }
@@ -326,6 +334,8 @@ export class SidebarComponent {
 
   }
 
+  
+
   ngOnInit() {
     if (this.isSuperAdmin()) {
       this.menuItems = SUPER_ADMIN_ROUTES;
@@ -347,8 +357,28 @@ export class SidebarComponent {
       this.getLastCurrentRetro(this.retroId);
     }
 
+    this.getUserImage();
 
   }
+
+  getUserImage(){
+    let company=this.authService.currentUserValue.company;
+    this.uploadService
+    .GET_IMAGE(company.imagePath)
+    .pipe(first())
+    .subscribe((res) => {
+      this.logo = res[0];
+    });
+  }
+
+  getLogo(){
+     if(this.logo)
+       return this.logo;
+     else
+       return 'assets/img/logo.png'
+  }
+
+  
   getLastCurrentRetro(retroId) {
 
     this.configureService
@@ -447,9 +477,7 @@ export class SidebarComponent {
 
    copyToClipboard(textToCopy) {
     var textArea;
-     console.log("textToCopy",textToCopy);
     function isOS() {
-      console.log("isOS",navigator.userAgent.match(/ipad|iphone/i));
 
       //can use a better detection logic here
       return navigator.userAgent.match(/ipad|iphone/i);
@@ -460,7 +488,6 @@ export class SidebarComponent {
       textArea.readOnly = true;
       textArea.contentEditable = true;
       textArea.value = text;
-      console.log("clip-value",text);
       document.body.appendChild(textArea);
     }
   
@@ -468,7 +495,6 @@ export class SidebarComponent {
       var range, selection;
   
       if (isOS()) {
-        console.log("select-text-value-ios");
         range = document.createRange();
         range.selectNodeContents(textArea);
         selection = window.getSelection();
@@ -476,7 +502,6 @@ export class SidebarComponent {
         selection.addRange(range);
         textArea.setSelectionRange(0, 999999);
       } else {
-        console.log("select-text-not-ios");
 
         textArea.select();
       }

@@ -105,7 +105,13 @@ export class CompanyManagementComponent implements OnInit {
   receiveImages($event) {
     let images = $event;
     this.company.imagePath=images[0];
-    this.preViewUrl='';
+    this.uploadService
+    .GET_IMAGE(this.company.imagePath)
+    .pipe(first())
+    .subscribe((res) => {
+      this.preViewUrl = res[0];
+    });
+   
   }
 
 

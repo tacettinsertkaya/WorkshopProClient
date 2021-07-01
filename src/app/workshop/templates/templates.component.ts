@@ -178,7 +178,8 @@ export class TemplatesComponent implements OnInit {
   getTemplateList() {
    let filter=new TemplateFilter();
    filter.companyId=this.authService.currentUserValue.companyId;
-
+   filter.isAdmin=true;
+   
     this.templateService
       .getAllTemplate(filter)
       .pipe(first())

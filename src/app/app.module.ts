@@ -17,7 +17,7 @@ import { AdminLayoutComponent } from "./layouts/admin/admin-layout.component";
 import { AuthLayoutComponent } from "./layouts/auth/auth-layout.component";
 import { AppRoutes } from "./app.routing";
 
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -47,6 +47,9 @@ import { PagesModule } from "./pages/pages.module";
 import { DashboardComponent } from "./workshop/dashboard/dashboard.component";
 import { RetroFinishComponent } from "./workshop/retro-finish/retro-finish.component";
 
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
 const config = {
   apiKey: 'AIzaSyDZqPnzXZbtXQUH7umv30cAPL3bJLYiPC8',
   databaseURL: 'https://workshoppro3-default-rtdb.europe-west1.firebasedatabase.app/'
@@ -71,7 +74,13 @@ firebase.default.initializeApp(config);
     FixedPluginModule,
     BrowserModule,
     NgxSpinnerModule,
-   
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+  })
   ],
   declarations: [
     AppComponent,
@@ -114,3 +123,8 @@ firebase.default.initializeApp(config);
 
 })
 export class AppModule {}
+
+
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http);
+}

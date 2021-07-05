@@ -4,7 +4,9 @@ import { Message } from "./models/message";
 import * as firebase from 'firebase';
 import { Subscription } from "rxjs";
 import { NavigationStart, Router } from "@angular/router";
-export let browserRefresh=false;
+import { TranslateService } from "@ngx-translate/core";
+import { UserService } from "./services/user.service";
+export let browserRefresh = false;
 // const config = {
 //   apiKey: 'AIzaSyAj0b-wjz8RPScqbslxU7ByFBKOk-B37jw',
 //   databaseURL: 'https://workshoppro-75580-default-rtdb.firebaseio.com/'
@@ -21,15 +23,18 @@ export class AppComponent implements OnInit {
    *
    */
 
-   subscription:Subscription
-  constructor(private chatService: ChatService,private router:Router) {
+  subscription: Subscription
+  constructor(private chatService: ChatService,
+    private userService: UserService,
+    private translate: TranslateService,
+    private router: Router) {
 
     // firebase.default.initializeApp(config);
 
     this.subscription = router.events.subscribe((event) => {
       if (event instanceof NavigationStart) {
         browserRefresh = !router.navigated;
-       
+
       }
     });
 
@@ -42,6 +47,12 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
+
+    const browserLang = this.translate.getBrowserLang();
+    this.translate.use(browserLang.match(/en|tr/) ? browserLang : "en");
+
+    this.translate.setDefaultLang('en');
+    this.userService.currentLangSetValue(browserLang);
 
   }
 

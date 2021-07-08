@@ -3,9 +3,230 @@
     
 
     "login": {
-        "title": "Giriş Yap"
+        "title": "Giriş Yap",
+        "username":"Kullanıcı Adı",
+        "username_validation":"Kullanıcı adı giriniz",
+        "password":"Şifre",
+        "password_validation":"Şifre giriniz",
+        "login":"Giriş Yap"
+        
+    },
+    "member_login":{
+        "title":"Giriş Yap"
+    },
     
-    }
+    "company": {
+       "title": "Şirketler",    
+       "add_company":"Şirket Ekle",    
+       "maximum_leader": "Maksimum Lider",
+       "maximum_retro": "Maksimum Retro",     
+       "transactions": "İşlemler",
+       "company_name": "Şirket Adı",
+       "give_up": "Vazgeç",
+       "save": "kaydet",
+       "Company_Logo": "Şirket Logosu"
+
+    },
+
+    "admin": {
+        "title": "Adminler",
+        "add_admin": "Admin Ekle",  
+        "username": "Kullanıcı Adı",
+        "password": "Şifre",
+        "email": "Eposta",
+        "company": "Şirket",
+        "transactions": "İşlemler",
+        "give_up": "Vazgeç",
+        "new_password": "Yeni Şifre",
+        "Password Repeat": "Şifre Tekrar",
+        "save": "Kaydet"
+
+    },
+     
+    "super_admin": {
+        "title": "Super Admin",
+        "add_super_admin": "Super Admin Ekle",
+        "username": "Kullanıcı Adı",
+        "password":"Şifre",     
+        "transactions": "İşlemler",
+        "email": "Eposta" 
+   
+   
+    },
+     
+    "user_management": {
+        "title": "Kullanıcılar",
+        "add_user": "Kullanıcı Ekle",
+        "leader_right": "Lider Hakkı",
+        "number_of_retro": "Retro Sayısı",
+        "leader": "Lider",
+        "member": "Üye",      
+        "username": "Kullanıcı Adı",
+        "password": "Şifre",  
+        "status": "Statü",
+        "transactions": "İşlemler",
+        "select_company": "Şirket Seçiniz",
+        "company": "Şirket",
+        "give_up": "Vazgeç",
+        "save": "Kaydet"
+        
 
 
-}
+    },
+
+    "subject": {
+        "title": "Konular",
+        "add_subject": "Konu Ekle",
+        "subject": "Konu",
+        "transactions": "İşlemler",
+        "select_company": "Şirket Seçiniz",
+        "hood": "Başlık",
+        "detail": "Detay",
+        "give_up": "Vazgeç",
+        "save": "Kaydet",
+        "leader": "Lider",
+        "close": "Kaat"  
+        
+    },
+    
+      "templates": {
+        "title": "Şablonlar",  
+        "add_template": "Şablon Ekle",
+        "add_new_template": "Yeni Şablon Ekle",
+        "select_company": "Şirket Seçiniz",
+        "desk": "Sıra",
+        "give_up": "Vazgeç",
+        "save": "Kaydet"
+        
+    },
+    
+      "retro_start": {
+        "title": "Atölye Başlat",
+        "number_of_Intellectual_Rights": "Fikir Hakkı Sayısı",
+        "Number_of_Comments": "Yorum Hakkı Sayısı",
+        "Number_of_Voting_Rights": "Oylama Hakkı Sayısı",
+        "start": "Başlat"
+    },
+    
+      "retro_subject": {
+        "add_subject": "Konu Ekle",
+        "select_company": "Şirket Seçiniz",
+        "company": "Şirket",
+        "hood": "Başlık",
+        "detail": "Detay",
+        "give_up": "Vazgeç",
+        "save": "Kaydet"
+         
+
+
+
+      },
+
+      "retro_template": {
+          "add_template": "Şablon Ekle",
+          "continue_without_template": "Şablonsuz Devam Et",
+          "add_new_template": "Yeni Şablon Ekle",
+          "company": "Şirket",
+          "add_company": "Şirket Ekle",
+          "hood": "Başlık",
+          "desk": "Sıra",
+          "give_up": "Vazgeç",
+          "save": "Kaydet"
+          
+
+          
+       },
+
+       "retro_brainstrom": {
+        "Number_of_Intellectual_Rights": "Fikir Hakkı Sayısı"
+
+
+     
+      },
+       
+       "retro_categorize": {
+        "categorize": "Kategorize Et",
+        "give_up": "Vazgeç",
+        "create": "Oluştur",
+        "enter_title": "Başlık Giriniz"
+
+
+
+      },
+      
+      "retro_comment": {
+          "give_up": "Vazgeç",
+          "send": "Gönder",
+          "comment": "Yorum"
+
+
+
+
+
+        },
+
+       "retro_vote": {
+           "voting_right": "Oylama Hakkı",
+           "comments": "Yorumlar",
+           "vote": "Oy Ver"
+           
+
+
+
+
+        },
+       
+        "retro_report": {
+            "finish_the_workshop": "Atölyeyi Bitir",
+            "create_pdf": "Pdf Oluştur",
+            "title": "YÖNETİCİ ÖZETİ",
+            "topic": "Konu",
+            "Priority_Ideas": "Öncellikli Fikirler",
+            "report": "Rapor",
+            "Other_Ideas": "Diğer Fikirler" 
+
+   
+
+
+
+        },
+          
+         "sidebar": {
+           "invite_link": "Davet Linki",
+           "announcement": "Duyuru",
+           "Active_Participants": "Aktif Katılımcılar",
+           "send": "Gönder"
+
+
+
+        },
+
+         "tab_header": {
+           "select_topic": "Konu Seç",
+           "Choose_Template": "Şablon Seç",
+           "Develop_an_Idea": "Fikir Geliştir",
+           "categorize": "Categorize",
+           "comment": "Yorum Yap",
+           "vote": "Oyla",
+           "report": "Raporla"
+      
+        },  
+
+          "navbar": {
+           "welcome": "Hoşgeldin",
+           "announcements": "Duyurular"
+        },
+        
+          "image_upload": {
+           "load": "Yükle"
+          
+          }
+           
+                  
+     
+
+ 
+
+
+             
+      }

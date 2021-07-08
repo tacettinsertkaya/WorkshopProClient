@@ -1,3 +1,178 @@
 {
-    
+  "login": {
+    "title": "Anmeldung ",
+    "username": "Nutzername ",
+    "username_validation": "Benutzername eingeben ",
+    "password": "Passwort",
+    "password_validation": "Passwort eingeben ",
+    "login": "Anmeldung        "
+  },
+  "member_login": {
+    "title": "Anmeldung        "
+  },
+
+  "company": {
+    "title": "Unternehmen",
+    "add_company": "Firma hinzufügen",
+    "maximum_leader": "maximaler Führer",
+    "maximum_retro": "maximal retro",
+    "transactions": "Transaktionen",
+    "company_name": "Name der Firma",
+    "give_up": "Gib auf",
+    "save": "speichern",
+    "Company_Logo": "Firmenlogo       "
+  },
+
+  "admin": {
+    "title": "Admins",
+    "add_admin": "Administrator hinzufügen ",
+    "username": "Nutzername ",
+    "password": "Passwort ",
+    "email": "email",
+    "company": "Unternehmen",
+    "transactions": "Transaktionen",
+    "give_up": "Gib auf ",
+    "new_password": "Neues Kennwort ",
+    "Password Repeat": "Passwort erneut ",
+    "save": "speichern        "
+  },
+
+  "super_admin": {
+    "title": "höchster Vorgesetzter ",
+    "add_super_admin": "Super-Admin hinzufügen ",
+    "username": "Nutzername",
+    "password": "passwort",
+    "transactions": "Transaktionen",
+    "email": "Email"
+  },
+
+  "user_management": {
+    "title": "Benutzer",
+    "add_user": "Nutzer hinzufügen ",
+    "leader_right": "Anführer richtig ",
+    "number_of_retro": "Anzahl der Retro ",
+    "leader": "Führer",
+    "member": "Mitglied",
+    "username": "Nutzername",
+    "password": "passwort",
+    "status": "Status",
+    "transactions": "Transaktionen ",
+    "select_company": "Bitte Firma wählen ",
+    "company": "Unternehmen",
+    "give_up": "Gib auf ",
+    "save": "speichern"
+  },
+
+  "subject": {
+    "title": "Themen",
+    "add_subject": "Betreff hinzufügen ",
+    "subject": "Gegenstand",
+    "transactions": "Transaktionen",
+    "select_company": "Bitte Firma wählen ",
+    "hood": "Kapuze",
+    "detail": "Detail",
+    "give_up": "Gib auf ",
+    "save": "speichern ",
+    "leader": "Führer",
+    "close": "falten"
+  },
+
+  "templates": {
+    "title": "Vorlagen",
+    "add_template": "Vorlage hinzufügen ",
+    "add_new_template": "neue Vorlage hinzufügen ",
+    "select_company": "Bitte Firma wählen ",
+    "desk": "Schreibtisch",
+    "give_up": "Gib auf ",
+    "save": "speichern"
+  },
+
+  "retro_start": {
+    "title": "Werkstatt starten ",
+    "number_of_Intellectual_Rights": "Anzahl des geistigen Eigentums ",
+    "Number_of_Comments": "Anzahl der Kommentare ",
+    "Number_of_Voting_Rights": "Anzahl der Stimmrechte ",
+    "start": "Start"
+  },
+
+  "retro_subject": {
+    "add_subject": "Betreff hinzufügen",
+    "select_company": "Bitte Firma wählen",
+    "company": "Unternehmen",
+    "hood": "Kapuze",
+    "detail": "Detail",
+    "give_up": "Gib auf",
+    "save": "speichern"
+  },
+
+  "retro_template": {
+    "add_template": "Vorlage hinzufügen",
+    "continue_without_template": "Ohne Vorlage fortfahren",
+    "add_new_template": "neue Vorlage hinzufügen",
+    "company": "Unternehmen",
+    "add_company": "Firma hinzufügen",
+    "hood": "Kapuze",
+    "desk": "Schreibtisch",
+    "give_up": "Gib auf",
+    "save": "speichern"
+  },
+
+  "retro_brainstrom": {
+    "Number_of_Intellectual_Rights": "Anzahl des geistigen Eigentums"
+  },
+
+  "retro_categorize": {
+    "categorize": "kategorisieren",
+    "give_up": "Gib auf",
+    "create": "erstellen",
+    "enter_title": "Titel eingeben"
+  },
+
+  "retro_comment": {
+    "give_up": "Gib auf",
+    "send": "senden",
+    "comment": "Kommentar"
+  },
+
+  "retro_vote": {
+    "voting_right": "Stimmrecht",
+    "comments": "Bemerkungen",
+    "vote": "Abstimmung"
+  },
+
+  "retro_report": {
+    "finish_the_workshop": "Beende den Workshop",
+    "create_pdf": "PDF erzeugen",
+    "title": "Zusammenfassung",
+    "topic": "Gegenstand",
+    "Priority_Ideas": "vorrangige Ideen",
+    "report": "Bericht",
+    "Other_Ideas": "andere Ideen"
+  },
+
+  "sidebar": {
+    "invite_link": "Einladungslink",
+    "announcement": "Ankündigung",
+    "Active_Participants": "aktive Teilnehmer",
+    "send": "senden"
+  },
+
+  "tab_header": {
+    "select_topic": "Wähle ein Thema",
+    "Choose_Template": "Vorlage wählen",
+    "Develop_an_Idea": "eine Idee entwickeln",
+    "categorize": "kategorisieren ",
+    "comment": "Kommentar",
+    "vote": "Abstimmung",
+    "report": "Bericht"
+  },
+
+  "navbar": {
+    "welcome": "Herzlich willkommen",
+    "announcements": "Ankündigungen"
+  },
+
+  "image_upload": {
+    "load": "Belastung"
+  }
 }

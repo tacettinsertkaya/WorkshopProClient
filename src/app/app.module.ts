@@ -80,7 +80,7 @@ firebase.default.initializeApp(config);
           useFactory: HttpLoaderFactory,
           deps: [HttpClient]
       }
-  })
+    })
   ],
   declarations: [
     AppComponent,

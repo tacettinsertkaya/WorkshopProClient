@@ -1,3 +1,178 @@
 {
-    
+  "login": {
+    "title": "Авторизоваться",
+    "username": "Имя пользователя",
+    "username_validation": "Введите имя пользователя",
+    "password": "пароль",
+    "password_validation": "введите пароль",
+    "login": "Авторизоваться"
+  },
+  "member_login": {
+    "title": "Авторизоваться"
+  },
+
+  "company": {
+    "title": "Компании",
+    "add_company": "Добавить компанию",
+    "maximum_leader": "максимальный лидер",
+    "maximum_retro": "максимальное ретро ",
+    "transactions": "Сделки",
+    "company_name": "Название компании",
+    "give_up": "сдаться",
+    "save": "Сохранить",
+    "Company_Logo": "Логотип компании"
+  },
+
+  "admin": {
+    "title": "админы",
+    "add_admin": "добавить администратора",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "email": "Электронное письмо",
+    "company": "Компания",
+    "transactions": "Сделки",
+    "give_up": "сдаться",
+    "new_password": "Новый пароль",
+    "Password Repeat": "Повторить пароль",
+    "save": "Сохранить"
+  },
+
+  "super_admin": {
+    "title": "супер админ",
+    "add_super_admin": "Добавить суперадминистратора",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "transactions": "Сделки",
+    "email": "Электронное письмо"
+  },
+
+  "user_management": {
+    "title": "Пользователи",
+    "add_user": "Добавить пользователя",
+    "leader_right": "лидер право",
+    "number_of_retro": "количество ретро",
+    "leader": "Лидер",
+    "member": "член",
+    "username": "Имя пользователя",
+    "password": "пароль",
+    "status": "статус",
+    "transactions": "сделки",
+    "select_company": "Пожалуйста, выберите компанию",
+    "company": "Компания",
+    "give_up": "сдаться",
+    "save": "Сохранить"
+  },
+
+  "subject": {
+    "title": "Темы",
+    "add_subject": "добавить тему",
+    "subject": "предмет",
+    "transactions": "Сделки",
+    "select_company": "Пожалуйста, выберите компанию",
+    "hood": "капюшон",
+    "detail": "Деталь",
+    "give_up": "сдаться",
+    "save": "Сохранить",
+    "leader": "Лидер",
+    "close": "складывать"
+  },
+
+  "templates": {
+    "title": "шаблоны",
+    "add_template": "Добавить шаблон",
+    "add_new_template": "Добавить новый шаблон",
+    "select_company": "Пожалуйста, выберите компанию",
+    "desk": "стол письменный",
+    "give_up": "сдаться",
+    "save": "Сохранить"
+  },
+
+  "retro_start": {
+    "title": "начать семинар ",
+    "number_of_Intellectual_Rights": "Количество интеллектуальной собственности",
+    "Number_of_Comments": "количество комментариев",
+    "Number_of_Voting_Rights": "количество прав голоса",
+    "start": "Начало"
+  },
+
+  "retro_subject": {
+    "add_subject": "добавить тему",
+    "select_company": "Пожалуйста, выберите компанию",
+    "company": "Компания",
+    "hood": "капюшон",
+    "detail": "деталь",
+    "give_up": "сдаться",
+    "save": "Сохранить"
+  },
+
+  "retro_template": {
+    "add_template": "добавить шаблон  ",
+    "continue_without_template": "продолжить без шаблона  ",
+    "add_new_template": "добавить новый шаблон  ",
+    "company": "Компания  ",
+    "add_company": "Добавить компанию  ",
+    "hood": "капюшон",
+    "desk": "стол письменный  ",
+    "give_up": "сдаться",
+    "save": "Сохранить"
+  },
+
+  "retro_brainstrom": {
+    "Number_of_Intellectual_Rights": "Количество интеллектуальной собственностиq"
+  },
+
+  "retro_categorize": {
+    "categorize": "категоризировать",
+    "give_up": "сдаться",
+    "create": "Создавать",
+    "enter_title": "Введите название"
+  },
+
+  "retro_comment": {
+    "give_up": "сдаться",
+    "send": "Отправить",
+    "comment": "комментарий"
+  },
+
+  "retro_vote": {
+    "voting_right": "право голоса",
+    "comments": "Комментарии",
+    "vote": "голосование   "
+  },
+
+  "retro_report": {
+    "finish_the_workshop": "закончить мастерскую ",
+    "create_pdf": "создать pdf ",
+    "title": "управляющее резюме ",
+    "topic": "предмет",
+    "Priority_Ideas": "приоритетные идеи ",
+    "report": "отчет",
+    "Other_Ideas": "другие идеи    "
+  },
+
+  "sidebar": {
+    "invite_link": "пригласительная ссылка",
+    "announcement": "объявление",
+    "Active_Participants": "активные участники",
+    "send": "Отправить"
+  },
+
+  "tab_header": {
+    "select_topic": "выберите тему",
+    "Choose_Template": "выбрать шаблон",
+    "Develop_an_Idea": "разработать идею",
+    "categorize": "категоризированы",
+    "comment": "комментарий",
+    "vote": "комментарий",
+    "report": "отчет"
+  },
+
+  "navbar": {
+    "welcome": "Добро пожаловать",
+    "announcements": "объявления"
+  },
+
+  "image_upload": {
+    "load": "нагрузка"
+  }
 }

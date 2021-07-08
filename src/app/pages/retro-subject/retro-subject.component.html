@@ -2,7 +2,7 @@
 
 <div class="d-flex justify-content-end mb-3 mt-3">
     <button class="btn btn-theme" *ngIf="!isUser" type="button" data-toggle="modal" data-target="#addModal">
-      <span>Konu Ekle</span>
+      <span>{{ 'retro_subject.add_subject' | translate }}</span>
   
     </button>
   </div>
@@ -38,22 +38,22 @@
           <div class="modal-body">
   
             <div class="form-group">
-              <label>Şirket</label>
+              <label>{{ 'retro_subject.company' | translate }}</label>
               <select class="form-control" disabled [(ngModel)]="subject.companyId"
                 [ngModelOptions]="{ standalone: true }">
-                <option value="" selected>Şirket Seçiniz</option>
+                <option value="" selected>{{ 'retro_subject.select_company' | translate }}</option>
                 <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
   
               </select>
   
             </div>
             <div class="form-group">
-              <label>Başlık</label>
+              <label>{{ 'retro_subject.hood' | translate }}</label>
               <input style="max-height: max-content" rows="10" class="form-control textarea"
                 [(ngModel)]="subject.subjectTitle" [ngModelOptions]="{ standalone: true }" />
             </div>
             <div class="form-group">
-              <label for="exampleFormControlTextarea1">Detay</label>
+              <label for="exampleFormControlTextarea1">{{ 'retro_subject.detail' | translate }}</label>
               <textarea class="form-control" style="height: auto !important;" [(ngModel)]="subject.subjectDescription" [ngModelOptions]="{ standalone: true }" id="exampleFormControlTextarea1" rows="3"></textarea>
             </div>
             
@@ -61,10 +61,10 @@
           </div>
           <div class="modal-footer d-flex align-items-center">
             <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-              data-dismiss="modal">Vazgeç
+              data-dismiss="modal">{{ 'retro_subject.give_up' | translate }}
             </button>
             <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-              Kaydet
+              {{ 'retro_subject.save' | translate }}
             </button>
           </div>
         </div>

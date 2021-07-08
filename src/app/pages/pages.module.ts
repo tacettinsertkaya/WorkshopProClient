@@ -24,6 +24,8 @@ import { CommentService } from 'app/services/comment.service';
 import { CategoryService } from 'app/services/category.service';
 import { RetroHubService } from 'app/services/hub/retro-hub.service';
 import { UserHubService } from 'app/services/hub/user-hub.service';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { HttpLoaderFactory } from 'app/app.module';
 
 
 @NgModule({
@@ -31,7 +33,14 @@ import { UserHubService } from 'app/services/hub/user-hub.service';
         CommonModule,
         RouterModule.forChild(PagesRoutes),
         FormsModule,
-        FormsModule
+        FormsModule,
+        TranslateModule.forChild({
+            loader: {
+                provide: TranslateLoader,
+                useFactory: HttpLoaderFactory,
+                deps: [HttpClient]
+            }
+          })
     ],
     declarations: [
    

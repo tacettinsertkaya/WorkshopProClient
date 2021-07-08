@@ -1,9 +1,232 @@
 {
-   
-    "login": {
-        "title": "Giriş Yap"
+
     
-    }
+
+    "login": {
+        "title": "login",
+        "username":"username",
+        "username_validation":"username validation",
+        "password":"password",
+        "password_validation":"password validation",
+        "login":"login"
+        
+    },
+    "member_login":{
+        "title":"login"
+    },
+    
+    "company": {
+       "title": "companies",    
+       "add_company":"add company",    
+       "maximum_leader": "Maximum leader",
+       "maximum_retro": "Maximum retro",     
+       "transactions": "transactions",
+       "company_name": "company name",
+       "give_up": "give up",
+       "save": "save",
+       "Company_Logo": "company logo"
+
+    },
+
+    "admin": {
+        "title": "Admins",
+        "add_admin": "Add admin",  
+        "username": "username",
+        "password": "password",
+        "email": "Email",
+        "company": "company",
+        "transactions": "transactions",
+        "give_up": "give up",
+        "new_password": "new password",
+        "Password Repeat": "password repeat",
+        "save": "save"
+
+    },
+     
+    "super_admin": {
+        "title": "Super Admin",
+        "add_super_admin": "add super admin",
+        "username": "user name",
+        "password":"password",     
+        "transactions": "transactions",
+        "email": "Email" 
+   
+   
+    },
+     
+    "user_management": {
+        "title": "users",
+        "add_user": "add user",
+        "leader_right": "Leader right",
+        "number_of_retro": "number of retro",
+        "leader": "Leader",
+        "member": "member",      
+        "username": "username",
+        "password": "password",  
+        "status": "Status",
+        "transactions": "transactions",
+        "select_company": "select company",
+        "company": "company",
+        "give_up": "give up",
+        "save": "save"
+        
+
+
+    },
+
+    "subject": {
+        "title": "topics",
+        "add_subject": "add subject",
+        "subject": "subject",
+        "transactions": "transactions",
+        "select_company": "select company",
+        "hood": "hood",
+        "detail": "Detail",
+        "give_up": "give up",
+        "save": "save",
+        "leader": "leader",
+        "close": "close"  
+        
+    },
+    
+      "templates": {
+        "title": "templates",  
+        "add_template": "add template",
+        "add_new_template": "add new template",
+        "select_company": "select company",
+        "desk": "desk",
+        "give_up": "give up",
+        "save": "save"
+        
+    },
+    
+      "retro_start": {
+        "title": "start workshop",
+        "number_of_Intellectual_Rights": "number of intellectual rights",
+        "Number_of_Comments": "number of comments",
+        "Number_of_Voting_Rights": "number of voting rights",
+        "start": "start"
+    },
+    
+      "retro_subject": {
+        "add_subject": "add subject",
+        "select_company": "select company",
+        "company": "company",
+        "hood": "hood",
+        "detail": "detail",
+        "give_up": "give up",
+        "save": "save"
+         
+
+
+
+      },
+
+      "retro_template": {
+          "add_template": "add template",
+          "continue_without_template": "continue without template",
+          "add_new_template": "add new template",
+          "company": "company",
+          "add_company": "add company",
+          "hood": "hood",
+          "desk": "desk",
+          "give_up": "give up",
+          "save": "save"
+          
+
+          
+       },
+
+       "retro_brainstrom": {
+        "Number_of_Intellectual_Rights": "number of intellectual rights"
+
+
+     
+      },
+       
+       "retro_categorize": {
+        "categorize": "categorize",
+        "give_up": "give up",
+        "create": "create",
+        "enter_title": "enter title"
+
+
+
+      },
+      
+      "retro_comment": {
+          "give_up": "give up",
+          "send": "send",
+          "comment": "comment"
+
+
+
+
+
+        },
+
+       "retro_vote": {
+           "voting_right": "voting right",
+           "comments": "comments",
+           "vote": "vote"
+           
+
+
+
+
+        },
+       
+        "retro_report": {
+            "finish_the_workshop": "finish the workshop",
+            "create_pdf": "create pdf",
+            "title": "executive summary",
+            "topic": "topic",
+            "Priority_Ideas": "priority ideas",
+            "report": "Report",
+            "Other_Ideas": "other ideas" 
 
    
-}
+
+
+
+        },
+          
+         "sidebar": {
+           "invite_link": "invite link",
+           "announcement": "announcement",
+           "Active_Participants": "Active participants",
+           "send": "send"
+
+
+
+        },
+
+         "tab_header": {
+           "select_topic": "select topic",
+           "Choose_Template": "choose template",
+           "Develop_an_Idea": "develop an idea",
+           "categorize": "Categorize",
+           "comment": "comment",
+           "vote": "vote",
+           "report": "Report"
+      
+        },  
+
+          "navbar": {
+           "welcome": "welcome",
+           "announcements": "announcements"
+        },
+        
+          "image_upload": {
+           "load": "load"
+          
+          }
+           
+                  
+     
+
+ 
+
+
+             
+      }

@@ -5,14 +5,14 @@
     <a class="navigation-link template subject"     [class.active]="isActive('/current/subject')"
     (click)="clickTab('/current/subject',true)"
       >
-      Konu Seç
+      {{ 'tab_header.select_topic' | translate }}
     </a>
   </li>
   <li class="navigation-item">
     <a class="navigation-link  template"    [class.active]="isActive('/current/template')"
       (click)="clickTab('/current/template',true)"
      >
-      Şablon Seç
+     {{ 'tab_header.Choose_Template' | translate }}
     </a>
   </li>
 
@@ -20,7 +20,7 @@
     <a class="navigation-link  brainstorm"    [class.active]="isActive('/current/brainstorm')"
       (click)="clickTab('/current/brainstorm',true)"
       >
-      Fikir Geliştir
+      {{ 'tab_header.Develop_an_Idea' | translate }}
     </a>
   </li>
   <li class="navigation-item">
@@ -28,20 +28,20 @@
     <a class="navigation-link  categorize"   [class.active]="isActive('/current/categorize')"
       (click)="clickTab('/current/categorize',true)"
       >
-      Kategorize Et
+      {{ 'tab_header.categorize' | translate }}
     </a>
   </li>
   <li class="navigation-item">
     <a class="navigation-link  categorize"  [class.active]="isActive('/current/comment')"
       (click)="clickTab('/current/comment',true)">
-      Yorum Yap
+      {{ 'tab_header.comment' | translate }}
     </a>
   </li>
 
   <li class="navigation-item">
     <a class="navigation-link  comment"     [class.active]="isActive('/current/vote')"
       (click)="clickTab('/current/vote',true)">
-      Oyla
+      {{ 'tab_header.vote' | translate }}
     </a>
   </li>
 
@@ -49,7 +49,7 @@
     <a class="navigation-link  vote report finish"   [class.active]="isActive('/current/report')"
       (click)="clickTab('/current/report',true)"
       >
-      Raporla
+      {{ 'tab_header.report' | translate }}
     </a>
   </li>
 </ul>

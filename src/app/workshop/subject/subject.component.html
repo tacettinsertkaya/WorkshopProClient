@@ -2,9 +2,9 @@
 
 
 <div class="d-flex align-items-center justify-content-between mb-3 mt-4">
-  <h3 class=" mb-0">Konular</h3>
+  <h3 class=" mb-0">{{ 'subject.title' | translate }}</h3>
 <button class="btn btn-theme btn-vertical-padding btn-horizontal-padding-md" data-toggle="modal"
-  data-target="#addModal">Konu Ekle </button>
+  data-target="#addModal">{{ 'subject.add_subject' | translate }}</button>
 </div>
 
 
@@ -14,9 +14,10 @@
     <table class="table w-100 table-theme">
       <thead>
         <tr>
-          <th>Konu</th>
+          <th>{{ 'subject.subject' | translate }}
+          </th>
 
-          <th class="text-right">İşlemler</th>
+          <th class="text-right">{{ 'subject.transactions' | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -66,19 +67,19 @@
             <label>Şirket</label>
             <select class="form-control" disabled [(ngModel)]="subject.companyId"
               [ngModelOptions]="{ standalone: true }">
-              <option value="" selected>Şirket Seçiniz</option>
+              <option value="" selected>{{ 'subject.select_company' | translate }}</option>
               <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
 
             </select>
 
           </div>
           <div class="form-group">
-            <label>Başlık</label>
+            <label>{{ 'subject.hood' | translate }}</label>
             <input style="max-height: max-content" rows="10" class="form-control textarea"
               [(ngModel)]="subject.subjectTitle" [ngModelOptions]="{ standalone: true }" />
           </div>
           <div class="form-group">
-            <label>Detay</label>
+            <label>{{ 'subject.detail' | translate }}</label>
             <textarea style="max-height: max-content" rows="10" class="form-control textarea"
               [(ngModel)]="subject.subjectDescription" [ngModelOptions]="{ standalone: true }"></textarea>
           </div>
@@ -86,10 +87,10 @@
         </div>
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-            data-dismiss="modal">Vazgeç
+            data-dismiss="modal">{{ 'subject.give_up' | translate }}
           </button>
           <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-            Kaydet
+            {{ 'subject.save' | translate }}
           </button>
         </div>
       </div>
@@ -112,9 +113,9 @@
           <table class="table w-100 table-theme">
             <thead>
               <tr>
-                <th>Lider</th>
+                <th>{{ 'subject.leader' | translate }}</th>
       
-                <th class="text-right">Rapor</th>
+                <th class="text-right"></th>
               </tr>
             </thead>
             <tbody>
@@ -142,7 +143,7 @@
         </div>
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-            data-dismiss="modal">Kapat
+            data-dismiss="modal">{{ 'subject.close' | translate }}
           </button>
          
         </div>

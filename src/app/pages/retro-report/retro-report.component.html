@@ -6,11 +6,10 @@
 
     <div class="row">
       <div class="container">
-        <button type="button" class="btn btn-danger float-right ml-5" *ngIf="isLeader()" (click)="finishRetro()">Atölyeyi 
-          Bitir</button>
+        <button type="button" class="btn btn-danger float-right ml-5" *ngIf="isLeader()" (click)="finishRetro()">{{ 'retro_report.finish_the_workshop' | translate }}</button>
   
         <button id="generate" class="btn btn-success float-right" *ngIf="isLeader()" (click)="createPdf()">
-          PDF Oluştur</button>
+          {{ 'retro_report.create_pdf' | translate }}</button>
   
       </div>
     </div>
@@ -18,7 +17,7 @@
   
     <div class="report-header mb-5">
   
-      <h1 class="report-header__title">Yönetici Özeti</h1>
+      <h1 class="report-header__title">{{ 'retro_report.title' | translate }}</h1>
       <span class="report-header__description">
         Raporun bu bölümünde atölye çalışmasında ele alınan her bir konuya ait öneriler, sonunda yapılan oylama
         sonuçlarına
@@ -28,7 +27,7 @@
     </div>
   
     <div class="report-section mb-5">
-      <h3 class="report-section__title">Konu</h3>
+      <h3 class="report-section__title">{{ 'retro_report.topic' | translate }}</h3>
       <div class="card card-theme card-theme--cyan">
         <div class="card-body p-2">
           <h4 class="card-title">{{subject.subjectTitle}}</h4>
@@ -41,7 +40,7 @@
   
   
     <div class="report-section mb-5" *ngIf="categorizedMessages.length>0">
-      <h3 class="report-section__title">Öncelikli Fikirler</h3>
+      <h3 class="report-section__title">{{ 'retro_report.Priority_Ideas' | translate }}</h3>
   
       <div *ngFor="let tmp of template.templateDetail">
         <div *ngIf="GetHeaderCategorizedMessages(tmp.id).length>0">
@@ -92,7 +91,7 @@
   
   
     <div class="report-header mb-5">
-      <h1 class="report-header__title">Rapor</h1>
+      <h1 class="report-header__title">{{ 'retro_report.report' | translate }}</h1>
       <span class="report-header__description">
         Bu bölümünde atölye çalışmasının sonunda ortaya çıkan fikirler, bu fikirlere ait yorumlar, her bir fikire ait
         oylama sonuçları sunulmuştur.
@@ -100,7 +99,7 @@
     </div>
   
     <div class="report-section mb-5">
-      <h3 class="report-section__title">Konu</h3>
+      <h3 class="report-section__title">{{ 'retro_report.topic' | translate }}</h3>
       <div class="card card-theme card-theme--cyan mb-3">
         <div class="card-body p-2">
           <h4 class="card-title"> {{subject.subjectTitle}}</h4>
@@ -115,7 +114,7 @@
   
   
     <div class="report-section category mb-5" *ngIf="categorizedMessages.length>0">
-      <h3 class="report-section__title">Öncelikli Fikirler</h3>
+      <h3 class="report-section__title">{{ 'retro_report.Priority_Ideas' | translate }}</h3>
       <div *ngFor="let tmp of template.templateDetail">
         <div *ngIf="GetHeaderCategorizedMessages(tmp.id).length>0">
           <h5 class="report-section__subtitle">{{tmp.header}}</h5>
@@ -138,8 +137,8 @@
                     {{comment.commentText}}
                   </div>
                 </div>
-              </div>
-  
+                </div>
+    
             </div>
            
           
@@ -150,7 +149,7 @@
     </div>
   
     <div class="report-section category mb-5" *ngIf="messages.length>0">
-      <h3 class="report-section__title">Diğer Fikirler</h3>
+      <h3 class="report-section__title">{{ 'retro_report.Other_Ideas' | translate }}</h3>
       <div *ngFor="let tmp of template.templateDetail">
         <div *ngIf="GetHeaderMessage(tmp.id).length>0">
           <h5 class="report-section__subtitle">{{tmp.header}}</h5>

@@ -8,7 +8,7 @@
       <div class="col-sm-6">
         <button *ngIf="!isUser" type="button" data-toggle="modal" data-target="#addModal"
         class=" float-right btn btn-theme btn-horizontal-padding btn-vertical-padding">
-          Şablon Ekle
+        {{ 'retro_template.add_template' | translate }}
         </button>
       
       </div>
@@ -40,7 +40,8 @@
         <div class="card box-shadow card-theme d-flex justify-content-center align-items-center">
           <h3 class="card-title mb-2 mt-2 text-secondary">|
             <span class="align-baseline" >
-              Şablonsuz devam et 
+              {{ 'retro_template.continue_without_template' | translate }}
+ 
             </span>
           </h3>
         </div>
@@ -57,7 +58,7 @@
       <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Yeni Şablon Ekle</h5>
+            <h5 class="modal-title" id="exampleModalLongTitle">{{ 'retro_template.add_new_template' | translate }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -65,9 +66,9 @@
           <div class="modal-body">
   
             <div class="form-group">
-              <label>Şirket</label>
+              <label>{{ 'retro_template.company' | translate }}</label>
               <select class="form-control" disabled [(ngModel)]="data.companyId" [ngModelOptions]="{ standalone: true }">
-                <option value="" selected>Şirket Seçiniz</option>
+                <option value="" selected>{{ 'retro_template.add_company' | translate }}</option>
                 <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
   
               </select>
@@ -80,13 +81,13 @@
              
               <div class="template-title-group" *ngFor="let header of headers; let i = index">
                 <div class="form-group">
-                  <label>Başlık</label>
+                  <label>{{ 'retro_template.hood' | translate }}</label>
                   <input type="text" class="form-control" [(ngModel)]="header.header" name="header_{{ header.order }}"
                     placeholder="Başlık Giriniz" />
                 </div>
                 <div class="template-title-group__utils">
                   <div class="form-group">
-                    <label>Sıra</label>
+                    <label>{{ 'retro_template.desk' | translate }}</label>
                     <select class="form-control" (change)="changeSort()" [(ngModel)]="header.order"
                       name="order_{{ header.order }}" placeholder="Sıra">
                       <option *ngFor="let i of orderlist; let i = index" [value]="i">
@@ -108,10 +109,10 @@
           <div class="modal-footer d-flex align-items-center">
             <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
               data-dismiss="modal">
-              Vazgeç
+              {{ 'retro_template.give_up' | translate }}
             </button>
             <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-              Kaydet
+              {{ 'retro_template.save' | translate }}
             </button>
           </div>
         </div>

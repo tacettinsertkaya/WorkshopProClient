@@ -1,0 +1,178 @@
+{
+  "login": {
+    "title": "Connexion",
+    "username": "Nom d'utilisateur",
+    "username_validation": "Saisissez votre nom d'utilisateur",
+    "password": "le mot de passe",
+    "password_validation": "Entrer le mot de passe",
+    "login": "Connexion"
+  },
+  "member_login": {
+    "title": "Connexion"
+  },
+
+  "company": {
+    "title": "entreprises",
+    "add_company": "ajouter une entreprise",
+    "maximum_leader": "chef maximum",
+    "maximum_retro": "rétro maximum",
+    "transactions": "transactions",
+    "company_name": "Nom de la compagnie",
+    "give_up": "abandonner",
+    "save": "Sauvegarder",
+    "Company_Logo": "logo d'entreprise"
+  },
+
+  "admin": {
+    "title": "administrateurs",
+    "add_admin": "ajouter un administrateur",
+    "username": "Nom d'utilisateur",
+    "password": "le mot de passe",
+    "email": "E-mail",
+    "company": "entreprise",
+    "transactions": "transactions",
+    "give_up": "abandonner",
+    "new_password": "nouveau mot de passe",
+    "Password Repeat": "nouveau mot de passe",
+    "save": "Sauvegarder"
+  },
+
+  "super_admin": {
+    "title": "super administrateur",
+    "add_super_admin": "ajouter un super administrateur",
+    "username": "Nom d'utilisateur",
+    "password": "le mot de passe",
+    "transactions": "transactions",
+    "email": "e-mail"
+  },
+
+  "user_management": {
+    "title": "utilisateurs",
+    "add_user": "ajouter un utilisateur",
+    "leader_right": "chef à droite",
+    "number_of_retro": "nombre de rétro",
+    "leader": "chef",
+    "member": "membre",
+    "username": "Nom d'utilisateur",
+    "password": "le mot de passe",
+    "status": "statut",
+    "transactions": "transactions",
+    "select_company": "s'il vous plaît choisir l'entreprise",
+    "company": "entreprise",
+    "give_up": "abandonner",
+    "save": "Sauvegarder"
+  },
+
+  "subject": {
+    "title": "les sujets",
+    "add_subject": "Ajouter un sujet",
+    "subject": "matière",
+    "transactions": "transactions",
+    "select_company": "s'il vous plaît choisir l'entreprise",
+    "hood": "capuche",
+    "detail": "détail",
+    "give_up": "abandonner",
+    "save": "Sauvegarder",
+    "leader": "chef",
+    "close": "plier"
+  },
+
+  "templates": {
+    "title": "modèles",
+    "add_template": "ajouter un modèle",
+    "add_new_template": "ajouter un nouveau modèle",
+    "select_company": "s'il vous plaît choisir l'entreprise",
+    "desk": "bureau",
+    "give_up": "abandonner",
+    "save": "Sauvegarder"
+  },
+
+  "retro_start": {
+    "title": "démarrer l'atelier",
+    "number_of_Intellectual_Rights": "nombre de propriété intellectuelle",
+    "Number_of_Comments": "nombre de commentaires",
+    "Number_of_Voting_Rights": "nombre de droits de vote",
+    "start": "démarrer"
+  },
+
+  "retro_subject": {
+    "add_subject": "Ajouter un sujet",
+    "select_company": "s'il vous plaît choisir l'entreprise",
+    "company": "entreprise",
+    "hood": "capuche",
+    "detail": "détail",
+    "give_up": "abandonner",
+    "save": "Sauvegarder"
+  },
+
+  "retro_template": {
+    "add_template": "ajouter un modèle",
+    "continue_without_template": "continuer sans modèle",
+    "add_new_template": "ajouter un nouveau modèle",
+    "company": "entreprise",
+    "add_company": "ajouter une entreprise",
+    "hood": "capuche",
+    "desk": "bureau",
+    "give_up": "abandonner",
+    "save": "Sauvegarder"
+  },
+
+  "retro_brainstrom": {
+    "Number_of_Intellectual_Rights": "nombre de propriété intellectuelle"
+  },
+
+  "retro_categorize": {
+    "categorize": "classer par catégories",
+    "give_up": "abandonner",
+    "create": "créer",
+    "enter_title": "entrer le titre"
+  },
+
+  "retro_comment": {
+    "give_up": "abandonner",
+    "send": "envoyer",
+    "comment": "commenter"
+  },
+
+  "retro_vote": {
+    "voting_right": "droit de vote",
+    "comments": "commentaires",
+    "vote": "vote"
+  },
+
+  "retro_report": {
+    "finish_the_workshop": "terminer l'atelier",
+    "create_pdf": "créer un pdf",
+    "title": "résumé",
+    "topic": "matière",
+    "Priority_Ideas": "idées prioritaires",
+    "report": "rapport",
+    "Other_Ideas": "d'autres idées"
+  },
+
+  "sidebar": {
+    "invite_link": "lien d'invitation",
+    "announcement": "annonce",
+    "Active_Participants": "participants actifs",
+    "send": "envoyer"
+  },
+
+  "tab_header": {
+    "select_topic": "choisir un sujet",
+    "Choose_Template": "Choisir le modèle",
+    "Develop_an_Idea": "développer une idée",
+    "categorize": "classer par catégories",
+    "comment": "Commenter",
+    "vote": "vote",
+    "report": "rapport"
+  },
+
+  "navbar": {
+    "welcome": "Bienvenue",
+    "announcements": "annonces"
+  },
+
+  "image_upload": {
+    "load": "charge"
+  }
+}

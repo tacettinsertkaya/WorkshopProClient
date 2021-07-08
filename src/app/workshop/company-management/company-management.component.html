@@ -2,11 +2,11 @@
 
 <div class="row   mb-3 mt-5">
   <div class="col-sm-6 d-flex align-items-center">
-    <h3 class="float-left mb-0">Şirketler</h3>
+    <h3 class="float-left mb-0">{{ 'company.title' | translate }}</h3>
   </div>
   <div class="col-sm-6 ">
     <button class=" float-right btn btn-theme btn-horizontal-padding btn-vertical-padding" 
-     (click)="addCompany()">Şirket Ekle</button>
+     (click)="addCompany()">{{ 'company.add_company' | translate }}</button>
   </div>
 </div>
 
@@ -15,10 +15,10 @@
     <table class="table w-100 table-theme">
       <thead>
       <tr>
-        <th>Şirket Adı</th>
-        <th class="text-center">Maksimum Lider</th>
-        <th class="text-center">Maksimum Retro</th>
-        <th class="text-right" style="padding-right: 20px;">İşlemler</th>
+        <th>{{ 'company.company_name' | translate }}       </th>
+        <th class="text-center">{{ 'company.maximum_leader' | translate }}</th>      
+        <th class="text-center">{{ 'company.maximum_retro'  | translate }}</th>  
+        <th class="text-right" style="padding-right: 20px;">{{ 'company.transactions'  | translate }}</th>  
       </tr>
       </thead>
       <tbody>
@@ -65,7 +65,7 @@
       <div class="modal-body">
     
           <div class="form-group">
-            <label for="companyName">Şirket Adı</label>
+            <label for="companyName">{{ 'company.company_name' | translate }}</label>
         
             <input
             class="form-control"
@@ -75,7 +75,7 @@
 
           </div>
           <div class="form-group">
-            <label for="maxRetroCount">Maximum Retro Sayısı</label>
+            <label for="maxRetroCount">{{ 'company.maximum_retro'  | translate }}</label>
             <input
                   type="number"
                   class="form-control"
@@ -84,7 +84,7 @@
                 />
           </div>
           <div class="form-group">
-            <label for="maxContributorCount">Maximum Lider Sayısı</label>
+            <label for="maxContributorCount">{{ 'company.maximum_leader' | translate }}</label>
             <input
                    type="number"
                   class="form-control "
@@ -98,7 +98,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Şirket Logosu</label>
+                <label>{{ 'company.Company_Logo  '  | translate }}</label>
 
                 <app-image-upload  [isPreview]="isPreview" (images)="receiveImages($event)" ></app-image-upload>
                
@@ -120,10 +120,10 @@
       </div>
       <div class="modal-footer d-flex align-items-center">
         <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-                data-dismiss="modal">Vazgeç
+                data-dismiss="modal">{{ 'company.give_up '  | translate }}
         </button>
         <button  type="submit"   class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-          Kaydet
+          {{ 'company.save '  | translate }}
         </button>
       </div>
     </div>

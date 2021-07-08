@@ -29,7 +29,7 @@
       <button class="btn btn-default dropdown-toggle" type="button" id="headerUserDropdown" data-toggle="dropdown"
         aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-user"></i>
-        <span>Hoşgeldin, {{userName}}</span>
+        <span>{{ 'navbar.welcome' | translate }}, {{userName}}</span>
       </button>
       <div class="dropdown-menu w-100" aria-labelledby="headerUserDropdown"
         style="border-radius: 30px;    margin-top: 10px;">
@@ -47,7 +47,7 @@
   <div class="modal-dialog modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Duyurular</h5>
+        <h5 class="modal-title">{{ 'navbar.announcements' | translate }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>

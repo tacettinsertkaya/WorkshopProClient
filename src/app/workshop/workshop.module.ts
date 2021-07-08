@@ -41,9 +41,19 @@ import { GroupService } from "app/services/group.service";
 import { DatetimePipe } from "app/pipes/datetime.pipe";
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { ImageUploadComponent } from "app/shared/image-upload/image-upload.component";
+import { TranslateLoader, TranslateModule } from "@ngx-translate/core";
+import { HttpLoaderFactory } from "app/app.module";
 
 @NgModule({
-  imports: [CommonModule, RouterModule.forChild(WorkshopRoutes), FormsModule,ReactiveFormsModule],
+  imports: [CommonModule, RouterModule.forChild(WorkshopRoutes), FormsModule,ReactiveFormsModule,
+    TranslateModule.forChild({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+    })
+  ],
   declarations: [
     RetrospectivesComponent,
     RetrospectivesInitComponent,

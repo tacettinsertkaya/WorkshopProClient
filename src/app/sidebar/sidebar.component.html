@@ -27,7 +27,7 @@
         <div class="sidebar__menu-item-content">
           <a (click)="copyLink()" class="sidebar__menu-link">
             <i class="fa fa-envelope"></i>
-            <span>Davet Linki</span>
+            <span>{{ 'sidebar.invite_link' | translate }}</span>
           </a>
         </div>
       </li>
@@ -36,7 +36,7 @@
         <div class="sidebar__menu-item-content">
           <a (click)="showAnnouncement()" class="sidebar__menu-link">
             <i class="fa fa-bullhorn"></i>
-            <span>Duyuru</span>
+            <span>{{ 'sidebar.announcement' | translate }}</span>
           </a>
         </div>
       </li>
@@ -46,7 +46,7 @@
 
     <ng-container>
       <div class="sidebar__participants" *ngIf="onlineUser.length>0 &&  isShow " >
-        <span class="sidebar__section-title">Aktif Katılımcılar <span class="side-bar-mini" *ngIf="onlineUser.length>0">({{onlineUser.length}})</span> </span>
+        <span class="sidebar__section-title">{{ 'sidebar.active_participants' | translate }}<span class="side-bar-mini" *ngIf="onlineUser.length>0">({{onlineUser.length}})</span> </span>
         <ul class="sidebar__participant-list">
           <div >
             <div *ngFor="let user of onlineUser">
@@ -79,7 +79,7 @@
   <div class="modal-dialog" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Duyuru</h5>
+        <h5 class="modal-title">{{ 'sidebar.announcement' | translate }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -105,7 +105,7 @@
       </div>
       <div class="modal-footer">
        
-        <button *ngIf="isLeader()" type="button" (click)="sendAnnouncement()"  class="btn btn-theme btn-vertical-padding ml-3 btn-icon-text px-3">Gönder</button>
+        <button *ngIf="isLeader()" type="button" (click)="sendAnnouncement()"  class="btn btn-theme btn-vertical-padding ml-3 btn-icon-text px-3">{{ 'sidebar.send' | translate }}</button>
       </div>
     </div>
   </div>

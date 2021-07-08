@@ -5,7 +5,7 @@
   <span class="pill-title text-bold" *ngIf="retroRight != null"  [ngClass]="
   retroRight.voteRight > 0 ? 'text-success' : 'text-danger'
 ">
-    Oylama Hakkı:{{ retroRight.voteRight }}</span>
+{{ 'retro_vote.voting_right' | translate }}:{{ retroRight.voteRight }}</span>
 </div>
 
 
@@ -21,7 +21,7 @@
         <div class="card-actions d-flex justify-content-between text-nowrap">
           <button (click)="getComment(message)" class="btn btn-theme btn-horizontal-padding-xs mr-2 btn-list-comment">
             <i class="fa fa-comment-alt mr-2"></i>
-            <div class="d-md-block d-none">Yorumlar</div>
+            <div class="d-md-block d-none">{{ 'retro_vote.comments' | translate }}</div>
             
             <span class="count">{{message.commentCount}}</span>
           </button>
@@ -31,7 +31,7 @@
               'text-secondary':isVotedCheck(message.id) === true
               
             }"></i>
-            <div class="d-md-block d-none">Oy ver</div>
+            <div class="d-md-block d-none">{{ 'retro_vote.vote' | translate }}</div>
             <span class="count">{{message.voteCount}}</span>
           </button>
         </div>
@@ -48,7 +48,7 @@
       <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Yorumlar</h5>
+            <h5 class="modal-title" id="exampleModalLongTitle">{{ 'retro_vote.comments' | translate }}</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>

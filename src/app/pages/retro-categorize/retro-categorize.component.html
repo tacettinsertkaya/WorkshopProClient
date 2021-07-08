@@ -1,8 +1,8 @@
-<app-tab-header></app-tab-header>
+  <app-tab-header></app-tab-header>
 <app-subject-header></app-subject-header>
 
 <div class="d-flex justify-content-end mt-3">
-    <button *ngIf="!isUser" (click)="selectMessage()" class="btn btn-theme btn-vertical-padding btn-horizontal-padding">Kategorize Et
+    <button *ngIf="!isUser" (click)="selectMessage()" class="btn btn-theme btn-vertical-padding btn-horizontal-padding">{{ 'retro_categorize.categorize' | translate }}
     </button>
     
   </div>
@@ -48,7 +48,7 @@
           <div class="modal-body">
             
               <div class="form-group">
-                <label class="categorized-title">Başlık Giriniz</label>
+                <label class="categorized-title">{{ 'retro_categorize.enter_title' | translate }}</label>
                 <input style="max-height: max-content" rows="10" class="form-control textarea"
                   [(ngModel)]="categorized.title" [ngModelOptions]="{ standalone: true }" />
               </div>
@@ -74,10 +74,10 @@
           </div>
           <div class="modal-footer d-flex align-items-center">
             <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-              data-dismiss="modal">Vazgeç
+              data-dismiss="modal">{{ 'retro_categorize.give_up' | translate }}
             </button>
             <button type="button" (click)="saveCategorized()" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-              Oluştur
+              {{ 'retro_categorize.create' | translate }}
             </button>
           </div>
         </div>

@@ -1,10 +1,10 @@
 <div class="row   mb-3 mt-5">
   <div class="col-sm-6 d-flex align-items-center">
-    <h3 class="float-left">Adminler</h3>
+    <h3 class="float-left">{{ 'admin.title' | translate }}</h3>
   </div>
   <div class="col-sm-6">
     <button class=" float-right btn btn-theme btn-horizontal-padding btn-vertical-padding" data-toggle="modal"
-      data-target="#addModal">Admin Ekle</button>
+      data-target="#addModal">{{ 'admin.add_admin' | translate }}</button>
   </div>
 </div>
 <div class="card card-theme">
@@ -12,12 +12,12 @@
     <table class="table w-100 table-theme">
       <thead>
         <tr>
-          <th>Kullanıcı Adı</th>
-          <th>Şifre</th>
-          <th>Eposta</th>
-          <th>Şirket</th>
+          <th>{{ 'admin.username' | translate }}</th>
+          <th>{{ 'admin.password' | translate }}</th>
+          <th>{{ 'admin.email' | translate }}</th>
+          <th>{{ 'admin.company' | translate }}</th>
 
-          <th class="text-right" style="padding-right: 50px;">İşlemler</th>
+          <th class="text-right" style="padding-right: 50px;">{{ 'admin.transactions' | translate }</th>
         </tr>
       </thead>
       <tbody>
@@ -78,7 +78,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Şirket</label>
+                <label>{{ 'admin.company' | translate }}</label>
 
                 <select class="form-control" [(ngModel)]="user.companyId" [ngModelOptions]="{ standalone: true }">
                   <option value=''> Şirket Seçiniz </option>
@@ -104,7 +104,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Şifre</label>
+                <label></label>
                 <input type="text" style="max-height: max-content" rows="10" class="form-control"
                   [(ngModel)]="user.rawPassword" [ngModelOptions]="{ standalone: true }" />
               </div>
@@ -129,7 +129,7 @@
 
                 <select class="form-control" disabled [(ngModel)]="user.statu" [ngModelOptions]="{ standalone: true }">
 
-                  <option value="Admin" selected>Admin</option>
+                  <option value="{{ 'admin.admin' | translate }}" selected></option>
 
                 </select>
 
@@ -143,7 +143,7 @@
 
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-            data-dismiss="modal">Vazgeç
+            data-dismiss="modal">{{ 'admin.give_up' | translate }}
           </button>
           <button type="button" (click)="saveUser()" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
             Kaydet
@@ -176,7 +176,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Yeni Şifre</label>
+                <label>{{ 'admin.new_password' | translate }}</label>
                 <input style="max-height: max-content" rows="10" class="form-control textarea"
                   [(ngModel)]="resetPassword.newPassword" [ngModelOptions]="{ standalone: true }" />
               </div>
@@ -186,7 +186,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Şifre Tekrar</label>
+                <label>{{ 'admin.password_repeat' | translate }}</label>
                 <input type="text" style="max-height: max-content" rows="10" class="form-control"
                   [(ngModel)]="resetPassword.confirmPassword" [ngModelOptions]="{ standalone: true }" />
               </div>
@@ -197,11 +197,11 @@
 
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-            data-dismiss="modal">Vazgeç
+            data-dismiss="modal">{{ 'admin.give_up' | translate }}
           </button>
           <button (click)="changePassword()" type="button"
             class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-            Kaydet
+            {{ 'admin.save' | translate }}
           </button>
 
         </div>

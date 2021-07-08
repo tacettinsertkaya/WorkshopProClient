@@ -202,7 +202,7 @@ export class AdminComponent implements OnInit {
   
     if (type == "warning-message-and-confirmation-delete") {
       swal({
-        title: "Uyarı",
+        title: "  ",
         text: "Silmek istediğinizden emin misiniz?",
         type: "warning",
         showCancelButton: true,

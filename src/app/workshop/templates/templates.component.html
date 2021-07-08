@@ -1,8 +1,8 @@
 
 <div class="d-flex align-items-center justify-content-between mb-3 mt-4">
-  <h3 class=" mb-0">Şablonlar</h3>
+  <h3 class=" mb-0">{{ 'templates.title' | translate }}</h3>
 <button class="btn btn-theme btn-vertical-padding btn-horizontal-padding-md" data-toggle="modal"
-  data-target="#addModal">Şablon Ekle </button>
+  data-target="#addModal">{{ 'templates.add_template' | translate }}</button>
 </div>
 
 
@@ -79,7 +79,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Yeni Şablon Ekle</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">{{ 'templates.add_new_template' | translate }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -87,9 +87,9 @@
         <div class="modal-body">
 
           <div class="form-group">
-            <label>Şirket</label>
+            <label>{{ 'templates.select_company' | translate }}</label>
             <select class="form-control" disabled [(ngModel)]="data.companyId" [ngModelOptions]="{ standalone: true }">
-              <option value="" selected>Şirket Seçiniz</option>
+              <option value="" selected></option>
               <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
 
             </select>
@@ -108,7 +108,7 @@
               </div>
               <div class="template-title-group__utils">
                 <div class="form-group">
-                  <label>Sıra</label>
+                  <label>{{ 'templates.desk' | translate }}</label>
                   <select class="form-control" (change)="changeSort()" [(ngModel)]="header.order"
                     name="order_{{ header.order }}" placeholder="India">
                     <option *ngFor="let i of orderlist; let i = index" [value]="i">
@@ -130,10 +130,10 @@
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
             data-dismiss="modal">
-            Vazgeç
+            {{ 'templates.give_up' | translate }}
           </button>
           <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-            Kaydet
+            {{ 'templates.save' | translate }} 
           </button>
         </div>
       </div>

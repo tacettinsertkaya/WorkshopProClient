@@ -48,6 +48,8 @@ export class UserService {
     this.currentRetroIdSubject = new BehaviorSubject<string>(JSON.parse(localStorage.getItem('currentRetroId')));
     this.currentRetroId = this.currentRetroIdSubject.asObservable();
 
+    
+
     this.currentLangSubject = new BehaviorSubject<string>(JSON.parse(localStorage.getItem('currentLang') || '{}'));
     this.currentLang = this.currentLangSubject.asObservable();
 

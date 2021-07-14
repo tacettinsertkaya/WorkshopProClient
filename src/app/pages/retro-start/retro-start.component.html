@@ -7,7 +7,7 @@
   <form #configForm="ngForm"  (ngSubmit)="saveConfig()" class="create-retro__form">
     <h3 class="card-title">{{ 'retro_start.title' | translate }}</h3>
     <div class="form-group">
-      <label>{{ 'retro_start.number_of_Intellectual_Rights' | translate }}</label>
+      <label>{{ 'retro_start.number_of_idea_Rights' | translate }}</label>
       <input type="number" [disabled]="isCheckFailed()" class="form-control" [(ngModel)]="config.ideaRight"
         [ngModelOptions]="{ standalone: true }" />
     </div>

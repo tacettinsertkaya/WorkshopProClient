@@ -10,6 +10,7 @@ import { Company } from "app/models/Company";
 import { CompanyService } from "app/services/company.service";
 import { AlertifyService } from "app/services/alertify.service";
 import { UploadService } from "app/services/upload.service";
+import { TranslateService } from "@ngx-translate/core";
 
 declare var $: any;
 
@@ -30,6 +31,7 @@ export class CompanyManagementComponent implements OnInit {
     private userService: UserService,
     private alertifyService: AlertifyService,
     private companyService: CompanyService,
+    private translate: TranslateService,
     private uploadService: UploadService,
     private sharedService: SharedService
   ) {}
@@ -162,8 +164,9 @@ export class CompanyManagementComponent implements OnInit {
   
     if (type == "warning-message-and-confirmation-delete") {
       swal({
-        title: "Uyarı",
-        text: "Silmek istediğinizden emin misiniz?",
+        title: this.translate.instant("common.warning"),
+        text:this.translate.instant("common.confirm_delete") , 
+
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",

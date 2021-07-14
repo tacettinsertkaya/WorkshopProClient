@@ -14,6 +14,7 @@ import { AlertifyService } from "app/services/alertify.service";
 import { RetroUserReport } from "app/models/dto/retro-user-report";
 import { RetroConfigurationService } from "app/services/retro-configuration";
 import { ReportFile } from "app/models/dto/report-file";
+import * as moment from 'moment'
 
 declare var $: any;
 
@@ -26,12 +27,12 @@ export class SubjectComponent implements OnInit {
   subjects: Array<Subject> = [];
   subject: Subject = new Subject();
   isUpdate: boolean = false;
-  isUser:boolean=false;
+  isUser: boolean = false;
 
   companys: Array<Company> = [];
   companyId: string = '';
-  
-  retroList:Array<RetroUserReport>=[];
+
+  retroList: Array<RetroUserReport> = [];
   showOverlay = false;
 
   constructor(
@@ -54,88 +55,114 @@ export class SubjectComponent implements OnInit {
   }
 
   existUser() {
-    this.isUser=this.authService.hasRole("Member");
- }
+    this.isUser = this.authService.hasRole("Member");
+  }
 
 
- getAllCompany() {
+  getAllCompany() {
 
 
-  this.companyService
-    .getAllCompany()
-    .pipe(first())
-    .subscribe(
-      (res) => {
-        this.companys = res;
-      },
-      (error) => {
-       this.alertifyService.error();
-      }
-    );
-}
+    this.companyService
+      .getAllCompany()
+      .pipe(first())
+      .subscribe(
+        (res) => {
+          this.companys = res;
+        },
+        (error) => {
+          this.alertifyService.error();
+        }
+      );
+  }
 
 
- private subscribeToCurrentRetroEvents(): void {
-  this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
-    this._ngZone.run(() => {
-      if(this.authService.hasRole("Member")) {
-        this.sharedService.tabSource.next(retro.currentPage);
+  private subscribeToCurrentRetroEvents(): void {
+    this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+      this._ngZone.run(() => {
+        if (this.authService.hasRole("Member")) {
+          this.sharedService.tabSource.next(retro.currentPage);
 
-      }
-           
+        }
+
+      });
     });
-  });
-}
-
-getRetro(subjectId:string){
-
-  this.subjectService
-  .getRetroListBySubject(subjectId)
-  .pipe(first())
-  .subscribe(
-    (res) => {
-      this.retroList = res;
-      console.log("this.retrolist",this.retroList);
-
- 
-  
-
-      $('#retroModal').modal('show');
-    },
-    (error) => {
-      this.alertifyService.error();
-
-    }
-  );
-}
-getRetroReport(retroId:string){
-
-  this.showOverlay = true;
+  }
 
 
-  let data = new ReportFile();
-  data.retroId = retroId;
+  getDate(startDate: Date, endDate: Date) {
+    var date1: any = new Date(moment(endDate).format());
+    var date2: any = new Date(moment(startDate).format());
 
-  this.retroConfigurationService.getRetroUserReport(data).subscribe((data) => {
-    let blob = new Blob([data], { type: 'application/pdf' });
-    var downloadURL = window.URL.createObjectURL(data);
-    var link = document.createElement('a');
-    link.href = downloadURL;
-    link.download = "report.pdf";
-    link.click();
-    this.showOverlay = false;
+    let diffMs = (date1 - date2); // milliseconds
+    let diffDays = Math.floor(diffMs / 86400000); // days
+    let diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+    let diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
 
-  });
+    if (diffMins < 0)
+      return 0;
+      
+    return diffMins;
+    // let diff = {
+    //   seconds: 0,
+    //   minutes: diffMins,
+    //   hours: diffHrs,
+    //   days: diffDays,
+    // };
+
+    // return diff;
+  }
 
 
-  
-}
+
+  getRetro(subjectId: string) {
+
+    this.subjectService
+      .getRetroListBySubject(subjectId)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+          this.retroList = res;
+          console.log("this.retrolist", this.retroList);
+
+
+
+
+          $('#retroModal').modal('show');
+        },
+        (error) => {
+          this.alertifyService.error();
+
+        }
+      );
+  }
+  getRetroReport(retroId: string) {
+
+    this.showOverlay = true;
+
+
+    let data = new ReportFile();
+    data.retroId = retroId;
+
+    this.retroConfigurationService.getRetroUserReport(data).subscribe((data) => {
+      let blob = new Blob([data], { type: 'application/pdf' });
+      var downloadURL = window.URL.createObjectURL(data);
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "report.pdf";
+      link.click();
+      this.showOverlay = false;
+
+    });
+
+
+
+  }
 
 
   getSubjects() {
-    let filter=new SubjectFilter();
-    filter.companyId=this.authService.currentUserValue.companyId;
-    filter.isAdmin=true;
+    let filter = new SubjectFilter();
+    filter.companyId = this.authService.currentUserValue.companyId;
+    filter.isAdmin = true;
 
     this.subjectService
       .getAllSubject(filter)
@@ -189,12 +216,12 @@ getRetroReport(retroId:string){
       /[\t\r\n]/g,
       ""
     );
-    
-    console.log("data",data);
+
+    console.log("data", data);
 
     if (!this.isUpdate) {
-      data.createRole='Admin';
-      data.userId=this.authService.currentUserValue.userId;
+      data.createRole = 'Admin';
+      data.userId = this.authService.currentUserValue.userId;
       this.subjectService
         .create(data)
         .pipe(first())
@@ -214,7 +241,7 @@ getRetroReport(retroId:string){
           }
         );
     } else {
-      
+
       this.subjectService
         .update(data)
         .pipe(first())

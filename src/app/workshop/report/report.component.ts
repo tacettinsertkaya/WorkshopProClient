@@ -30,6 +30,7 @@ import { GroupFilter } from "app/models/dto/group-filter";
 import { AlertifyService } from "app/services/alertify.service";
 import swal from "sweetalert2";
 import { RetroConfigration } from "app/models/retro-configuration";
+import { TranslateService } from "@ngx-translate/core";
 
 declare var $: any;
 
@@ -69,6 +70,7 @@ export class ReportComponent implements OnInit {
     private groupService: GroupService,
     private alertifyService: AlertifyService,
     private userService: UserService,
+    private translate: TranslateService,
     private messageService: MessageService,
     private companyService: CompanyService,
     private retroConfigurationService: RetroConfigurationService,
@@ -118,8 +120,10 @@ export class ReportComponent implements OnInit {
           this.alertifyService.success()
 
           swal({
-            title: "Başarılı",
-            text: "Retro tamamlandı. Üyelerin sistemden cıkışı sağlandı",
+         
+            title: this.translate.instant("common.success"),
+            text: this.translate.instant("common.retro_complete"),
+            
             type: "success",
             timer:2000
           })

@@ -31,6 +31,7 @@ import { snapshotToArray } from "app/helpers/firebase-helper";
 import { RetroConfigurationService } from "app/services/retro-configuration";
 import { FirebaseOnlineUser } from "app/models/firebase-online-user";
 import { UploadService } from "app/services/upload.service";
+import { TranslateService } from "@ngx-translate/core";
 
 //Metadata
 export interface RouteInfo {
@@ -49,111 +50,6 @@ export interface ChildrenItems {
   type?: string;
 }
 
-export const SUPER_ADMIN_ROUTES: RouteInfo[] = [
-
-  // {
-  //   path: "/dashboard",
-  //   title: "Dashboard",
-  //   type: "link",
-  //   icontype: "fa fa-home",
-
-  // },
-  {
-    path: "/companys",
-    title: "Şirketler",
-    type: "link",
-    icontype: "fa fa-building",
-  },
-  {
-    path: "/admins",
-    title: "Adminler",
-    type: "link",
-    icontype: "fa fa-id-badge",
-  },
-  {
-    path: "/super-users",
-    title: "Super Adminler",
-    type: "link",
-    icontype: "fa fa-id-card",
-  },
-]
-
-
-export const ADMIN_ROUTES: RouteInfo[] = [
-
-  // {
-  //   path: "/groups",
-  //   title: "Gruplar",
-  //   type: "link",
-  //   icontype: "fa fa-object-group",
-
-  // },
-  {
-    path: "/users",
-    title: "Kullanıcılar",
-    type: "link",
-    icontype: "fa fa-users",
-  },
-  {
-    path: "/subjects",
-    title: "Konular",
-    type: "link",
-    icontype: "fa fa-copy",
-  },
-  {
-    path: "/templates",
-    title: "Şablonlar",
-    type: "link",
-    icontype: "fa fa-grip-horizontal",
-  },
-
-];
-
-
-export const LEADER_ROUTES: RouteInfo[] = [
-  {
-    path: "/current/start",
-    title: "Atölye",
-    type: "link",
-    icontype: "fa fa-star",
-  },
-  // {
-  //   path: "/retro/start",
-  //   title: "Retro-2",
-  //   type: "link",
-  //   icontype: "fa fa-star",
-  // },
-  // {
-  //   path: "/retro",
-  //   title: "Chat",
-  //   type: "link",
-  //   icontype: "nc-icon nc-chat-33",
-  // },
-
-  // {
-  //   path: "/invite",
-  //   title: "Davet Gönder",
-  //   type: "link",
-  //   icontype: "fa fa-envelope",
-  // },
-];
-
-
-export const MEMBER_ROUTES: RouteInfo[] = [
-
-  // {
-  //   path: "/retro-start",
-  //   title: "Chat",
-  //   type: "link",
-  //   icontype: "nc-icon nc-chat-33",
-  // }
-];
-
-
-
-
-
-//Menu Items
 export const ROUTES: RouteInfo[] = [
   {
     path: "/dashboard",
@@ -202,12 +98,183 @@ export const ROUTES: RouteInfo[] = [
 
 ];
 
+
+
+
+
+
+
+
+
 @Component({
   moduleId: module.id,
   selector: "sidebar-cmp",
   templateUrl: "sidebar.component.html",
 })
 export class SidebarComponent {
+
+
+
+
+   SUPER_ADMIN_ROUTES: RouteInfo[] = [
+
+    // {
+    //   path: "/dashboard",
+    //   title: "Dashboard",
+    //   type: "link",
+    //   icontype: "fa fa-home",
+  
+    // },
+    {
+      path: "/companys",
+      title: this.translate.instant('menu.companys'),
+      type: "link",
+      icontype: "fa fa-building",
+    },
+    {
+      path: "/admins",
+      title:this.translate.instant('menu.admins'),
+      type: "link",
+      icontype: "fa fa-id-badge",
+    },
+    {
+      path: "/super-users",
+      title: this.translate.instant('menu.superadmins'),
+      type: "link",
+      icontype: "fa fa-id-card",
+    },
+  ]
+  
+  
+ ADMIN_ROUTES: RouteInfo[] = [
+  
+    // {
+    //   path: "/groups",
+    //   title: "Gruplar",
+    //   type: "link",
+    //   icontype: "fa fa-object-group",
+  
+    // },
+    {
+      path: "/users",
+      title: this.translate.instant('menu.users'),
+      type: "link",
+      icontype: "fa fa-users",
+    },
+    {
+      path: "/subjects",
+      title:this.translate.instant('menu.topics'),
+      type: "link",
+      icontype: "fa fa-copy",
+    },
+    {
+      path: "/templates",
+      title: this.translate.instant('menu.templates'),
+      type: "link",
+      icontype: "fa fa-grip-horizontal",
+    },
+  
+  ];
+  
+  
+   LEADER_ROUTES: RouteInfo[] = [
+    {
+      path: "/current/start",
+      title: this.translate.instant('menu.retros'),
+      type: "link",
+      icontype: "fa fa-star",
+    },
+    // {
+    //   path: "/retro/start",
+    //   title: "Retro-2",
+    //   type: "link",
+    //   icontype: "fa fa-star",
+    // },
+    // {
+    //   path: "/retro",
+    //   title: "Chat",
+    //   type: "link",
+    //   icontype: "nc-icon nc-chat-33",
+    // },
+  
+    // {
+    //   path: "/invite",
+    //   title: "Davet Gönder",
+    //   type: "link",
+    //   icontype: "fa fa-envelope",
+    // },
+  ];
+  
+  
+    MEMBER_ROUTES: RouteInfo[] = [
+  
+    // {
+    //   path: "/retro-start",
+    //   title: "Chat",
+    //   type: "link",
+    //   icontype: "nc-icon nc-chat-33",
+    // }
+  ];
+  
+  
+  
+  
+  
+  //Menu Items
+  ROUTES: RouteInfo[] = [
+    {
+      path: "/dashboard",
+      title:this.translate.instant('menu.dashboard'),
+      type: "link",
+      icontype: "fa fa-home",
+  
+    },
+    {
+      path: "/retro-start",
+      title:this.translate.instant('menu.retro'),
+      type: "link",
+      icontype: "fa fa-chat",
+    },
+    {
+      path: "/templates",
+      title:this.translate.instant('menu.templates'),
+      type: "link",
+      icontype: "fa fa-grip-horizontal",
+    },
+    {
+      path: "/subjects",
+      title:this.translate.instant('menu.topics'),
+      type: "link",
+      icontype: "fa fa-copy",
+    },
+    {
+      path: "/companys",
+      title:this.translate.instant('menu.companys'),
+      type: "link",
+      icontype: "fa fa-building",
+    },
+    {
+      path: "/users",
+      title:this.translate.instant('menu.users'),
+      type: "link",
+      icontype: "fa fa-users",
+    },
+    {
+      path: "/super-users",
+      title:this.translate.instant('menu.superadmins') ,
+      type: "link",
+      icontype: "fa fa-id-card",
+    },
+  
+  
+  ];
+
+
+
+
+
+
+
   isShow: boolean = true;
   logo: string = '';
   constructor(private router: Router,
@@ -216,6 +283,7 @@ export class SidebarComponent {
     private sharedService: SharedService,
     private alertifyService: AlertifyService,
     private cdr: ChangeDetectorRef,
+    private translate: TranslateService,
 
     private configureService: RetroConfigurationService,
     private chatService: ChatService, private _ngZone: NgZone,
@@ -338,16 +406,16 @@ export class SidebarComponent {
 
   ngOnInit() {
     if (this.isSuperAdmin()) {
-      this.menuItems = SUPER_ADMIN_ROUTES;
+      this.menuItems = this.SUPER_ADMIN_ROUTES;
     }
     if (this.isAdmin()) {
-      this.menuItems = ADMIN_ROUTES;
+      this.menuItems = this.ADMIN_ROUTES;
     }
     if (this.isLeader()) {
-      this.menuItems = LEADER_ROUTES;
+      this.menuItems = this.LEADER_ROUTES;
     }
     if (this.isMember()) {
-      this.menuItems = MEMBER_ROUTES;
+      this.menuItems = this.MEMBER_ROUTES;
     }
 
 
@@ -405,7 +473,7 @@ export class SidebarComponent {
     inputElement.setSelectionRange(0, 0);
 
     swal({
-      title: "Başarılı bir şekilde kopyalandı.",
+      title:this.translate.instant('common.copy_success'),
       position: "center",
       showConfirmButton: false,
       type: "success",
@@ -448,7 +516,7 @@ export class SidebarComponent {
 
 
               swal({
-                title: "Başarılı bir şekilde kopyalandı.",
+                title: this.translate.instant('common.copy_success'),
                 position: "center",
                 showConfirmButton: false,
                 type: "success",
@@ -459,7 +527,7 @@ export class SidebarComponent {
           },
           (error) => {
             swal({
-              title: "Link kopyalanamadı.",
+              title:this.translate.instant('common.copy_fail'),
               position: "center",
               showConfirmButton: false,
               type: "error",

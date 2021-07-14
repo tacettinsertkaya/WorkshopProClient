@@ -5,7 +5,7 @@
 <div class="d-flex justify-content-end mt-3">
     <span class="pill-title text-bold" *ngIf="retroRight != null" [ngClass]="
     retroRight.commentRight > 0 ? 'text-success' : 'text-danger'
-  ">Yorum Hakkı: {{ retroRight.commentRight }}</span>
+  ">{{'common.comment_right' | translate}}: {{ retroRight.commentRight }}</span>
   </div>
   
   <div class="categories mt-5">
@@ -18,7 +18,9 @@
               {{ msg.messageText }}
             </div>
             <button [disabled]="retroRight.commentRight <= 0" (click)="addCommentModal(msg)"
-              class="btn btn-theme btn-vertical-padding ml-3 btn-icon-text px-3"><span>Yorum Yap</span> <i class="fa fa-comment"></i></button>
+              class="btn btn-theme btn-vertical-padding ml-3 btn-icon-text px-3"><span>
+                {{'common.comment' | translate}}
+              </span> <i class="fa fa-comment"></i></button>
           </div>
         </div>
         <div class="category__comments mt-3" *ngFor="let com of msg.comments">

@@ -22,6 +22,7 @@ import { AlertifyService } from "app/services/alertify.service";
 import * as firebase from 'firebase';
 import { snapshotToArray } from "app/helpers/firebase-helper";
 import { debug } from "console";
+import { TranslateService } from "@ngx-translate/core";
 
 
 declare var $: any;
@@ -76,6 +77,7 @@ export class RetrospectivesComponent implements OnInit {
     private groupService: GroupService,
     private configService: RetroConfigurationService,
     private chatService: ChatService,
+    private translate: TranslateService,
     private alertifyService: AlertifyService,
     private route: ActivatedRoute,
     private router: Router,
@@ -504,7 +506,7 @@ export class RetrospectivesComponent implements OnInit {
     inputElement.setSelectionRange(0, 0);
 
     swal({
-      title: "Başarılı bir kopyalandı.",
+      title:this.translate.instant("common.copy_success"),
       position: "center",
       showConfirmButton: false,
       type: "success",

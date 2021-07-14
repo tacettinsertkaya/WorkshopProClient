@@ -15,6 +15,7 @@ import { snapshotToArray } from "app/helpers/firebase-helper";
 import { filter, first } from 'rxjs/operators';
 import { RetroConfigurationService } from 'app/services/retro-configuration';
 import { VirtualTimeScheduler } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
 
 
 declare var $: any;
@@ -43,6 +44,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
     @ViewChild("navbar-cmp") button;
     currentRetro: Retro;
     announcements: Array<RetroAnnouncement> = [];
+    selectLanguage: string = '';
 
 
    retroId:string='';
@@ -52,6 +54,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
     constructor(location: Location, private sharedService: SharedService,
         private _ngZone: NgZone, private renderer: Renderer2, private element: ElementRef, private router: Router,
         private userService: UserService,
+        private translate: TranslateService,
         private chatService: ChatService,
         private configureService: RetroConfigurationService,
         private cdRef: ChangeDetectorRef
@@ -63,6 +66,12 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
 
 
 
+        this.selectLanguage = this.translate.currentLang;
+        if (!this.currentLang()) {
+          const browserLang = translate.getBrowserLang();
+          this.selectLanguage = browserLang;
+        }
+        this.userService.currentLangSetValue(this.selectLanguage);
     }
     ngAfterViewChecked() {
         this.cdRef.detectChanges();
@@ -102,7 +111,37 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
 
 
     }
+    getCountryFlag(value) {
 
+        if(value=='en')
+          return 'flag-icon-gb';
+        if(value=='de')
+          return 'flag-icon-de';
+        if(value=='fr')
+          return 'flag-icon-fr';
+        if(value=='ru')
+          return 'flag-icon-ru';
+        if(value=='tr')
+          return 'flag-icon-tr';
+
+        return 'flag-icon';
+      }
+
+      
+    currentLang() {
+        return this.userService.currentLangValue;
+      }
+    
+    
+      useLanguage(language: any): void {
+        this.userService.currentLangSetValue(language);
+        this.translate.use(language);
+        this.selectLanguage=language;
+      }
+    
+
+      
+      
     getLastCurrentRetro(retroId) {
 
         this.configureService

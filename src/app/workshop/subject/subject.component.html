@@ -104,7 +104,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle"> Atölyeler </h5>
+          <h5 class="modal-title" id="exampleModalLongTitle"> {{'menu.retros' | translate}} </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -114,6 +114,8 @@
             <thead>
               <tr>
                 <th>{{ 'subject.leader' | translate }}</th>
+                <th>{{ 'subject.startdate' | translate }}</th>
+                <th>{{ 'subject.time' | translate }}</th>
       
                 <th class="text-right"></th>
               </tr>
@@ -125,7 +127,19 @@
                     {{ row?.leader?.userName }}
                   </div>
                 </td>
-                <td>
+                <td  style="width: 300px;">
+                  <div class="d-flex align-items-center" style="padding: .375rem 0;">
+                    {{ row?.startDate | datetime }}
+                  </div>
+                </td>
+                <td >
+                  <div class="d-flex align-items-center" style="padding: .375rem 0;">
+                    {{ getDate(row?.startDate,row?.endDate)}} {{ 'subject.minute' | translate }}
+                  </div>
+                </td>
+
+              
+                <td >
                  <div class="d-flex align-items-center justify-content-end">
                   <button class="btn btn-default btn-icon-theme" (click)="getRetroReport(row.retro.id)"><i
                     class="fa fa-file-pdf fa-2x"></i></button>

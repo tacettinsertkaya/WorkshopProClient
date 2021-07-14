@@ -38,6 +38,15 @@ export class AppComponent implements OnInit {
       }
     });
 
+    let currentLang=this.userService.currentLangValue;
+    if(JSON.stringify(currentLang)==='{}'){
+      currentLang='tr'
+        this.userService.currentLangSetValue(currentLang);
+
+    }
+    this.translate.use(currentLang);
+    this.translate.setDefaultLang(currentLang);
+
   }
 
 
@@ -47,12 +56,7 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-
-    const browserLang = this.translate.getBrowserLang();
-    this.translate.use(browserLang.match(/en|tr/) ? browserLang : "en");
-
-    this.translate.setDefaultLang('en');
-    this.userService.currentLangSetValue(browserLang);
+   
 
   }
 

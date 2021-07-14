@@ -18,6 +18,7 @@ import { UserService } from "app/services/user.service";
 import { first } from "rxjs/operators";
 
 import * as firebase from 'firebase';
+import { TranslateService } from "@ngx-translate/core";
 
 
 declare var $: any;
@@ -71,6 +72,7 @@ export class RetroCategorizeComponent implements OnInit {
     private alertiftyService: AlertifyService,
     private authService: UserService,
     private subjectService: SubjectsService,
+    private translate:TranslateService,
     private configureService: RetroConfigurationService,
 
 
@@ -241,13 +243,13 @@ export class RetroCategorizeComponent implements OnInit {
 
     let isCheck = this.selectedMessages.filter(p => p.clientuniqueid != this.selectedMessages[0].clientuniqueid);
     if (isCheck.length > 0) {
-      this.alertiftyService.warning("Farklı başlıktaki fikirler kategorilendirilemez.")
+      this.alertiftyService.warning(this.translate.instant("common.category_validation"))
 
     }
     else {
 
       if (this.selectedMessages.length == 0)
-        this.alertiftyService.warning("Fikir seçiniz.")
+        this.alertiftyService.warning(this.translate.instant("common.select_category"))
       else
         $('#categoryModal').modal("show");
 

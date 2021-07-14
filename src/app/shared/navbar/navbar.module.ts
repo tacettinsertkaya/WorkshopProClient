@@ -7,6 +7,7 @@ import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
 import { HttpLoaderFactory } from 'app/app.module';
 import { HttpClient } from '@angular/common/http';
 
+
 @NgModule({
     imports: [ RouterModule, CommonModule,
         TranslateModule.forChild({
@@ -15,7 +16,7 @@ import { HttpClient } from '@angular/common/http';
                 useFactory: HttpLoaderFactory,
                 deps: [HttpClient]
             }
-          })
+          }),
     ],
     declarations: [ NavbarComponent ],
     exports: [ NavbarComponent ]

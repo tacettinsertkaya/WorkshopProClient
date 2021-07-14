@@ -3,7 +3,9 @@
  * Main scss file written or workshop pro application
  */
  @import "assets/scss/main.scss";
-
+.report-header__title{
+  text-transform: capitalize;
+}
  
  .full-username{
   max-width:200px;display: -webkit-box;
@@ -52,7 +54,7 @@
 }
 
 .login{
-  background-image: url('assets/img/login-bg-2.png');
+  background-image: url('assets/img/login-bg-2.jpg');
 }
 
 .side-bar-mini{
@@ -120,7 +122,7 @@ a {
   .btn-responsive {justify-content: flex-end;}
   .btn-icon-text i{display: none;}
   .login{
-    background-image: url('assets/img/login-bg-2.png');
+    background-image: url('assets/img/login-bg-2.jpg');
   }
   .btn-list-comment{
     display: flex;

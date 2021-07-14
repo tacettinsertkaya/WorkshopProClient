@@ -3,5 +3,7 @@ import { User } from "../user";
 
 export class  RetroUserReport{
     retro:Retro;
-    user:User 
+    user:User;
+    startDate:Date=new Date();
+    endDate:Date=new Date();
 }

@@ -22,6 +22,7 @@ import { GuidGenerator } from "app/helpers/guid-generator";
 declare var $: any;
 import * as firebase from 'firebase';
 import { snapshotToArray } from "app/helpers/firebase-helper";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-retro-subject',
@@ -52,6 +53,7 @@ export class RetroSubjectComponent implements OnInit {
     private userHubService: UserHubService,
     private alertifyService: AlertifyService,
     private companyService: CompanyService,
+    private translate:TranslateService,
     private router: Router,
 
 
@@ -245,8 +247,8 @@ export class RetroSubjectComponent implements OnInit {
   showSwal(type, id = 0) {
     if (type == "warning-message-and-confirmation") {
       swal({
-        title: "Herhangi bir konu bulunamadı",
-        text: "Şimdi konu oluşturmak ister misin?",
+        title: this.translate.instant("common.topic_not_found") ,
+        text:this.translate.instant("common.topic_create_request") , 
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
@@ -262,8 +264,8 @@ export class RetroSubjectComponent implements OnInit {
     }
     if (type == "warning-message-and-confirmation-delete") {
       swal({
-        title: "Uyarı",
-        text: "Silmek istediğinizden emin misiniz?",
+        title: this.translate.instant("common.warning") ,
+        text:this.translate.instant("common.confirm_delete") , 
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",

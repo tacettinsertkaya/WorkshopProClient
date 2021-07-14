@@ -24,6 +24,7 @@ import { GuidGenerator } from "app/helpers/guid-generator";
 declare var $: any;
 import * as firebase from 'firebase';
 import { snapshotToArray } from "app/helpers/firebase-helper";
+import { TranslateService } from "@ngx-translate/core";
 
 
 @Component({
@@ -62,6 +63,7 @@ export class RetroTemplateComponent implements OnInit {
     private alertifyService: AlertifyService,
     private chatService: ChatService,
     private subjectService: SubjectsService,
+    private translate: TranslateService,
     private configureService: RetroConfigurationService,
     private router: Router,
     private _ngZone: NgZone
@@ -176,8 +178,10 @@ export class RetroTemplateComponent implements OnInit {
   showSwal(type) {
     if (type == "warning-message-and-confirmation") {
       swal({
-        title: "Herhangi bir şablon bulunamadı",
-        text: "Şimdi şablon oluşturmak ister misin?",
+
+        title: this.translate.instant("common.template_not_found") ,
+        text:this.translate.instant("common.template_create_request") , 
+
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",

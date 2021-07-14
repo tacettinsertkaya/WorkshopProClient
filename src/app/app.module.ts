@@ -91,7 +91,6 @@ firebase.default.initializeApp(config);
     UserRoleDirective,
     UserDirectiveDirective,
     LoaderComponent,
-    DatetimePipe,
     DashboardComponent,
     RetroFinishComponent,
     
@@ -116,7 +115,7 @@ firebase.default.initializeApp(config);
   exports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]

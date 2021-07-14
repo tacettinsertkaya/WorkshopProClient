@@ -70,7 +70,8 @@ export class LoginComponent implements OnInit {
           Validators.required,
 
         ]],
-      alias: ['']
+      alias: [''],
+      isAgree: [null,Validators.required]
     });
   }
   checkFullPageBackgroundImage() {
@@ -105,6 +106,7 @@ export class LoginComponent implements OnInit {
 
   logIn() {
     this.submitted = true;
+    console.log("this.loginForm",this.loginForm);
     if (this.loginForm.invalid) {
       return;
     }

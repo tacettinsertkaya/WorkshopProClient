@@ -66,9 +66,11 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
 
 
 
-        this.selectLanguage = this.translate.currentLang;
+        this.selectLanguage = this.userService.currentLangValue;
+        console.log(" this.selectLanguage", this.selectLanguage);
         if (!this.currentLang()) {
-          const browserLang = translate.getBrowserLang();
+        
+          const browserLang ='tr';
           this.selectLanguage = browserLang;
         }
         this.userService.currentLangSetValue(this.selectLanguage);
@@ -134,9 +136,14 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
     
     
       useLanguage(language: any): void {
+       
+        this.selectLanguage=language;
+        this.translate.setDefaultLang(language);
         this.userService.currentLangSetValue(language);
         this.translate.use(language);
-        this.selectLanguage=language;
+        console.log("language",language)
+        window.location.reload();
+
       }
     
 
@@ -182,7 +189,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
                             text: an.contentText,
                             position: 'top-end',
                             showConfirmButton: true,
-                            confirmButtonText:'Kapat',
+                            confirmButtonText:this.translate.instant("subject.close"),
                             timer: 5000
                         })
 

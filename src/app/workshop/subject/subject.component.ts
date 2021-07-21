@@ -15,6 +15,7 @@ import { RetroUserReport } from "app/models/dto/retro-user-report";
 import { RetroConfigurationService } from "app/services/retro-configuration";
 import { ReportFile } from "app/models/dto/report-file";
 import * as moment from 'moment'
+import { TranslateService } from "@ngx-translate/core";
 
 declare var $: any;
 
@@ -39,6 +40,7 @@ export class SubjectComponent implements OnInit {
     private subjectService: SubjectsService,
     private authService: UserService,
     private sharedService: SharedService,
+    private translate: TranslateService,
     private alertifyService: AlertifyService,
     private retroConfigurationService: RetroConfigurationService,
     private chatService: ChatService,
@@ -100,7 +102,7 @@ export class SubjectComponent implements OnInit {
 
     if (diffMins < 0)
       return 0;
-      
+
     return diffMins;
     // let diff = {
     //   seconds: 0,
@@ -210,6 +212,13 @@ export class SubjectComponent implements OnInit {
       );
   }
 
+  getTitle() {
+    if (this.isUpdate)
+      return this.translate.instant('subject.edit_subject')
+    else
+      return this.translate.instant('subject.add_subject');
+  }
+
   saveSubject() {
     let data = this.subject;
     this.subject.subjectTitle = this.subject.subjectTitle.replace(
@@ -266,14 +275,14 @@ export class SubjectComponent implements OnInit {
   showSwal(type, id = 0) {
     if (type == "warning-message-and-confirmation") {
       swal({
-        title: "Herhangi bir şablon bulunamadı",
-        text: "Şimdi şablon oluşturmak ister misin?",
+        title: this.translate.instant("templates.template_not_found"),
+        text: this.translate.instant("templates.wanttocreatetemplate"),
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
         buttonsStyling: false,
       }).then((result) => {
         if (result.value) {
@@ -283,14 +292,14 @@ export class SubjectComponent implements OnInit {
     }
     if (type == "warning-message-and-confirmation-delete") {
       swal({
-        title: "Uyarı",
-        text: "Silmek istediğinizden emin misiniz?",
+        title: this.translate.instant('common.warning'),
+        text: this.translate.instant('common.confirm_delete'),
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {
         if (result.value) {
           this.removeSubject(id);

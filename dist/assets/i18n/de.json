@@ -6,7 +6,9 @@
     "username_validation": "Benutzername eingeben ",
     "password": "Passwort",
     "password_validation": "Passwort eingeben ",
-    "login": "Anmeldung        "
+    "login": "Anmeldung",
+    "login_failed":"Username or password is incorrect"
+
   },
   "member_login": {
     "title": "Anmeldung",
@@ -19,6 +21,7 @@
   "company": {
     "title": "Unternehmen",
     "add_company": "Firma hinzufügen",
+    "edit_company":"Şirket Düzenle",    
     "maximum_leader": "maximaler Führer",
     "maximum_retro": "maximal retro",
     "transactions": "Transaktionen",
@@ -31,6 +34,7 @@
   "admin": {
     "title": "Admins",
     "add_admin": "Administrator hinzufügen ",
+    "edit_admin": "Admin Düzenle",     
     "username": "Nutzername ",
     "password": "Passwort ",
     "email": "email",
@@ -38,8 +42,10 @@
     "transactions": "Transaktionen",
     "give_up": "Gib auf ",
     "new_password": "Neues Kennwort ",
-    "Password Repeat": "Passwort erneut ",
-    "save": "speichern        "
+    "password_again": "Passwort erneut ",
+    "save": "speichern",
+    "status": "Status",
+    "status_required": "Select Status"
   },
 
   "super_admin": {
@@ -48,12 +54,15 @@
     "username": "Nutzername",
     "password": "passwort",
     "transactions": "Transaktionen",
-    "email": "Email"
+    "email": "Email",
+    "status": "Status",
+    "status_required": "Select Status"
   },
 
   "user_management": {
     "title": "Benutzer",
     "add_user": "Nutzer hinzufügen ",
+    "edit_user": "Kullanıcı Düzenle",
     "leader_right": "Anführer richtig ",
     "number_of_retro": "Anzahl der Retro ",
     "leader": "Führer",
@@ -61,6 +70,7 @@
     "username": "Nutzername",
     "password": "passwort",
     "status": "Status",
+    "status_required": "Status Select",
     "transactions": "Transaktionen ",
     "select_company": "Bitte Firma wählen ",
     "company": "Unternehmen",
@@ -71,6 +81,7 @@
   "subject": {
     "title": "Themen",
     "add_subject": "Betreff hinzufügen ",
+    "edit_subject": "Edit Topic",
     "subject": "Gegenstand",
     "transactions": "Transaktionen",
     "select_company": "Bitte Firma wählen ",
@@ -94,7 +105,10 @@
     "select_company": "Bitte Firma wählen ",
     "desk": "Schreibtisch",
     "give_up": "Gib auf ",
-    "save": "speichern"
+    "save": "speichern",
+    "template_not_found":"Herhangi bir şablon bulunamadı",
+    "wanttocreatetemplate":"Şimdi şablon oluşturmak ister misin?"
+
   },
 
   "retro_start": {
@@ -193,11 +207,12 @@
   "common":{
     "copy_success":"Erfolgreich kopiert.",
     "copy_fail":"Fehler beim Kopieren des Links.",
+    "title":"Başlık",
     "title_required":"Titel eingeben",
     "categorize":"Kategorisieren",
     "comment_right":"Kommentar rechts",
     "comment":"Kommentar",
-
+    "company": "Şirket",
     "logout": "Ausloggen",
 
     "category_validation": "Ideen unter verschiedenen Titeln können nicht kategorisiert werden.",
@@ -205,7 +220,7 @@
     "success": "Erfolg",
     "operation_success": "Transaktion Erfolgreich",
     "faild": "Error",
-    "operation_faild": "Fehler während des Betriebs aufgetreten",
+    "operation_fail": "Fehler während des Betriebs aufgetreten",
     "warning": "Warnung",
     "topic_not_found":"Thema nicht gefunden",
     "topic_create_request":"Möchten Sie jetzt ein Thema erstellen?",
@@ -214,7 +229,13 @@
     "confirm_delete":"Sind Sie sicher, dass Sie löschen möchten?",
     "retro_complete":"Retro ist fertig. Mitglieder sind vom System abgemeldet",
     "agree":"Ich habe die vertraulichkeitsvereinbarung gelesen und akzeptiere sie.",
-    "agree_validation":"Sie müssen den Vertrag auswählen"
+    "agree_validation":"Sie müssen den Vertrag auswählen",
+    "yes":"Yes",
+    "no":"No",
+    "save":"Save",
+    "cancel":"Cancel",
+    "maximum_leader":"Maksimum lider sayısına ulaştınız",
+    "maximum_member": "Maksimum üye sayısına ulaştınız"
 
   },
   "menu":{

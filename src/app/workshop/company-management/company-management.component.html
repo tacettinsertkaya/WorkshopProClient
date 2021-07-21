@@ -57,7 +57,7 @@
   <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle"> {{ isUpdate ? "Şirket Güncelle" : "Şirket Ekle" }}</h5>
+        <h5 class="modal-title" id="exampleModalLongTitle">  {{ getTitle()  }}</h5>
         <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
@@ -98,7 +98,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>{{ 'company.company_logo'  | translate }}</label>
+                <label>{{ 'company.company_logo' | translate }}</label>
 
                 <app-image-upload  [isPreview]="isPreview" (images)="receiveImages($event)" ></app-image-upload>
                
@@ -120,10 +120,10 @@
       </div>
       <div class="modal-footer d-flex align-items-center">
         <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-                data-dismiss="modal">{{ 'company.give_up'  | translate }}
+                data-dismiss="modal">    {{ 'common.cancel' | translate }}
         </button>
         <button  type="submit"   class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-          {{ 'company.save'  | translate }}
+          {{ 'common.save' | translate }}
         </button>
       </div>
     </div>

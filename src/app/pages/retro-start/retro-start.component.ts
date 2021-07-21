@@ -25,6 +25,7 @@ import { GuidGenerator } from "app/helpers/guid-generator";
 import * as firebase from 'firebase';
 import { snapshotToArray } from "app/helpers/firebase-helper";
 import { CursorError } from "@angular/compiler/src/ml_parser/lexer";
+import { TranslateService } from "@ngx-translate/core";
 
 @Component({
   selector: 'app-retro-start',
@@ -59,6 +60,7 @@ export class RetroStartComponent implements OnInit {
     private alertifyService: AlertifyService,
     private _ngZone: NgZone,
     private route: ActivatedRoute,
+    private translate:TranslateService
 
   ) {
 
@@ -67,6 +69,9 @@ export class RetroStartComponent implements OnInit {
   ngOnInit(): void {
     let id = this.route.snapshot.params.id;
     localStorage.setItem("retro", "");
+    let currentLang = this.authService.currentLangValue;
+  
+  
     if (this.isUser()) {
       this.router.navigate(["/current/subject", id]);
     }
@@ -75,6 +80,8 @@ export class RetroStartComponent implements OnInit {
       this.getFilterGroup();
       this.isCheckCompanyRetroRight();
     }
+
+    
   }
 
   isUser() {

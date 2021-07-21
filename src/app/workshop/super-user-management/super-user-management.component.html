@@ -3,8 +3,7 @@
     <h3 class="float-left mb-0">{{ 'super_admin.title' | translate }}</h3>
   </div>
   <div class="col-sm-6">
-    <button class=" float-right btn btn-theme btn-horizontal-padding btn-vertical-padding" data-toggle="modal"
-      data-target="#addModal">{{ 'super_admin.add_super_admin' | translate }}</button>
+    <button class=" float-right btn btn-theme btn-horizontal-padding btn-vertical-padding" (click)="addSuperadmin()">{{ 'super_admin.add_super_admin' | translate }}</button>
   </div>
 </div>
 <div class="card card-theme">
@@ -64,7 +63,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle"> {{ isUpdate ? " Super Admin Güncelle" : "Super Admin Ekle" }}</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle"> {{getText()}} </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -108,7 +107,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Statü</label>
+                <label>{{ 'super_admin.status' | translate }}</label>
 
                 <select class="form-control" disabled    [(ngModel)]="user.statu"  [ngModelOptions]="{ standalone: true }">
                        
@@ -126,10 +125,10 @@
 
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-            data-dismiss="modal">Vazgeç
+            data-dismiss="modal"> {{ 'common.cancel' | translate}}
           </button>
           <button type="button" (click)="saveUser()" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-            Kaydet
+            {{ 'common.save' | translate}}
           </button>
         </div>
       </div>
@@ -146,7 +145,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle"> Şifre Güncelle</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle"> {{'admin.password' | translate}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -180,11 +179,11 @@
 
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-            data-dismiss="modal">{{ 'super_admin.give_up' | translate }
+            data-dismiss="modal">    {{ 'common.cancel' | translate }}
           </button>
           <button (click)="changePassword()" type="button"
             class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-            {{ 'super_admin.save' | translate }
+            {{ 'common.save' | translate }}
           </button>
 
         </div>

@@ -32,6 +32,7 @@ import { RetroConfigurationService } from "app/services/retro-configuration";
 import { FirebaseOnlineUser } from "app/models/firebase-online-user";
 import { UploadService } from "app/services/upload.service";
 import { TranslateService } from "@ngx-translate/core";
+import { ControlPosition } from "@agm/core/services/google-maps-types";
 
 //Metadata
 export interface RouteInfo {
@@ -77,7 +78,7 @@ export const ROUTES: RouteInfo[] = [
     icontype: "fa fa-copy",
   },
   {
-    path: "/companys",
+    path: "/companies",
     title: "Şirketler",
     type: "link",
     icontype: "fa fa-building",
@@ -126,20 +127,20 @@ export class SidebarComponent {
   
     // },
     {
-      path: "/companys",
-      title: this.translate.instant('menu.companys'),
+      path: "/companies",
+      title: 'menu.companys',
       type: "link",
       icontype: "fa fa-building",
     },
     {
       path: "/admins",
-      title:this.translate.instant('menu.admins'),
+      title:'menu.admins',
       type: "link",
       icontype: "fa fa-id-badge",
     },
     {
       path: "/super-users",
-      title: this.translate.instant('menu.superadmins'),
+      title:'menu.superadmins',
       type: "link",
       icontype: "fa fa-id-card",
     },
@@ -157,19 +158,19 @@ export class SidebarComponent {
     // },
     {
       path: "/users",
-      title: this.translate.instant('menu.users'),
+      title: 'menu.users',
       type: "link",
       icontype: "fa fa-users",
     },
     {
       path: "/subjects",
-      title:this.translate.instant('menu.topics'),
+      title:'menu.topics',
       type: "link",
       icontype: "fa fa-copy",
     },
     {
       path: "/templates",
-      title: this.translate.instant('menu.templates'),
+      title: 'menu.templates',
       type: "link",
       icontype: "fa fa-grip-horizontal",
     },
@@ -180,7 +181,7 @@ export class SidebarComponent {
    LEADER_ROUTES: RouteInfo[] = [
     {
       path: "/current/start",
-      title: this.translate.instant('menu.retros'),
+      title: 'menu.retros',
       type: "link",
       icontype: "fa fa-star",
     },
@@ -224,44 +225,44 @@ export class SidebarComponent {
   ROUTES: RouteInfo[] = [
     {
       path: "/dashboard",
-      title:this.translate.instant('menu.dashboard'),
+      title:'menu.dashboard',
       type: "link",
       icontype: "fa fa-home",
   
     },
     {
       path: "/retro-start",
-      title:this.translate.instant('menu.retro'),
+      title:'menu.retro',
       type: "link",
       icontype: "fa fa-chat",
     },
     {
       path: "/templates",
-      title:this.translate.instant('menu.templates'),
+      title:'menu.templates',
       type: "link",
       icontype: "fa fa-grip-horizontal",
     },
     {
       path: "/subjects",
-      title:this.translate.instant('menu.topics'),
+      title:'menu.topics',
       type: "link",
       icontype: "fa fa-copy",
     },
     {
-      path: "/companys",
-      title:this.translate.instant('menu.companys'),
+      path: "/companies",
+      title:'menu.companys',
       type: "link",
       icontype: "fa fa-building",
     },
     {
       path: "/users",
-      title:this.translate.instant('menu.users'),
+      title:'menu.users',
       type: "link",
       icontype: "fa fa-users",
     },
     {
       path: "/super-users",
-      title:this.translate.instant('menu.superadmins') ,
+      title:'menu.superadmins',
       type: "link",
       icontype: "fa fa-id-card",
     },
@@ -288,7 +289,6 @@ export class SidebarComponent {
     private configureService: RetroConfigurationService,
     private chatService: ChatService, private _ngZone: NgZone,
   ) {
-
 
     this.isShow = this.isLeader() || this.isMember();
 
@@ -405,6 +405,7 @@ export class SidebarComponent {
 
 
   ngOnInit() {
+   
     if (this.isSuperAdmin()) {
       this.menuItems = this.SUPER_ADMIN_ROUTES;
     }
@@ -417,6 +418,14 @@ export class SidebarComponent {
     if (this.isMember()) {
       this.menuItems = this.MEMBER_ROUTES;
     }
+    
+   
+    this.menuItems.forEach(menu=>{
+      menu.title=this.translate.instant(menu.title);
+
+      console.log("this.translate.instant(menu.title)",this.translate.instant(menu.title));
+      console.log("menu.title",menu.title);
+    })
 
 
     this.retroId = this.authService.currentRetroIdValue;

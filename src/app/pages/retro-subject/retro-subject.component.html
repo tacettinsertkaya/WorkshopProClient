@@ -30,7 +30,7 @@
       <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
         <div class="modal-content">
           <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle"> {{ isUpdate ? "Konu Güncelle" : "Konu Ekle" }} </h5>
+            <h5 class="modal-title" id="exampleModalLongTitle">  {{  getTitle()  }} </h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
               <span aria-hidden="true">&times;</span>
             </button>
@@ -61,10 +61,10 @@
           </div>
           <div class="modal-footer d-flex align-items-center">
             <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-              data-dismiss="modal">{{ 'retro_subject.give_up' | translate }}
+              data-dismiss="modal">{{ 'common.cancel' | translate }}
             </button>
             <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-              {{ 'retro_subject.save' | translate }}
+              {{ 'common.save' | translate }}
             </button>
           </div>
         </div>

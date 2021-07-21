@@ -82,7 +82,7 @@ export const WorkshopRoutes: Routes = [
         component: SubjectComponent,
       },
       {
-        path: "companys",
+        path: "companies",
         component: CompanyManagementComponent,
       },
       {

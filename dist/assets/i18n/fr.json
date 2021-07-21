@@ -6,7 +6,9 @@
     "username_validation": "Saisissez votre nom d'utilisateur",
     "password": "le mot de passe",
     "password_validation": "Entrer le mot de passe",
-    "login": "Connexion"
+    "login": "Connexion",
+    "login_failed":"Username or password is incorrect"
+
   },
   "member_login": {
     "title": "Connexion",
@@ -19,6 +21,7 @@
   "company": {
     "title": "entreprises",
     "add_company": "ajouter une entreprise",
+    "edit_company":"Şirket Düzenle",    
     "maximum_leader": "chef maximum",
     "maximum_retro": "rétro maximum",
     "transactions": "transactions",
@@ -31,6 +34,7 @@
   "admin": {
     "title": "administrateurs",
     "add_admin": "ajouter un administrateur",
+    "edit_admin": "Admin Düzenle", 
     "username": "Nom d'utilisateur",
     "password": "le mot de passe",
     "email": "E-mail",
@@ -39,7 +43,9 @@
     "give_up": "abandonner",
     "new_password": "nouveau mot de passe",
     "Password Repeat": "nouveau mot de passe",
-    "save": "Sauvegarder"
+    "save": "Sauvegarder",
+    "status": "статус",
+    "status_required": "Statü Seçiniz"
   },
 
   "super_admin": {
@@ -48,12 +54,15 @@
     "username": "Nom d'utilisateur",
     "password": "le mot de passe",
     "transactions": "transactions",
-    "email": "e-mail"
+    "email": "e-mail",
+    "status": "статус",
+    "status_required": "Statü Seçiniz"
   },
 
   "user_management": {
     "title": "utilisateurs",
     "add_user": "ajouter un utilisateur",
+    "edit_user": "Kullanıcı Düzenle",
     "leader_right": "chef à droite",
     "number_of_retro": "nombre de rétro",
     "leader": "chef",
@@ -61,16 +70,19 @@
     "username": "Nom d'utilisateur",
     "password": "le mot de passe",
     "status": "statut",
+    "status_required": "Statü Seçiniz",
     "transactions": "transactions",
     "select_company": "s'il vous plaît choisir l'entreprise",
     "company": "entreprise",
     "give_up": "abandonner",
     "save": "Sauvegarder"
+    
   },
 
   "subject": {
     "title": "les sujets",
     "add_subject": "Ajouter un sujet",
+    "edit_subject": "Edit Subject",
     "subject": "matière",
     "transactions": "transactions",
     "select_company": "s'il vous plaît choisir l'entreprise",
@@ -94,7 +106,10 @@
     "select_company": "s'il vous plaît choisir l'entreprise",
     "desk": "bureau",
     "give_up": "abandonner",
-    "save": "Sauvegarder"
+    "save": "Sauvegarder",
+    "template_not_found":"Herhangi bir şablon bulunamadı",
+    "wanttocreatetemplate":"Şimdi şablon oluşturmak ister misin?"
+
   },
 
   "retro_start": {
@@ -193,18 +208,19 @@
   "common":{
     "copy_success":"Copié avec succès. ",
     "copy_fail":"Échec de la copie du lien.",
+    "title":"Başlık",
     "title_required":"Entrez le titre",
     "categorize":"Classer par catégories",
     "comment_right":"Commentaire Droit",
     "comment":"Commenter",
-
+    "company": "Şirket",
     "logout": "Se déconnecter",
     "category_validation": "Les idées sous différents titres ne peuvent pas être catégorisées.",
     "select_category": "Choisissez la catégorie",
     "success": "Succès",
     "operation_success": "Transaction réussie",
     "faild": "Erreur",
-    "operation_faild": "Une erreur s'est produite pendant le fonctionnement",
+    "operation_fail": "Une erreur s'est produite pendant le fonctionnement",
     "warning": "Avertissement",
     "topic_not_found":"Sujet introuvable",
     "topic_create_request":"Voulez-vous créer un sujet maintenant ?",
@@ -213,7 +229,13 @@
     "confirm_delete":"Etes-vous sûr que vous voulez supprimer?",
     "retro_complete":"Le rétro est terminé. Les membres sont déconnectés du système",
     "agree":"J'ai lu et j'accepte l'Accord de confidentialité.",
-    "agree_validation":"Vous devez choisir le contrat"
+    "agree_validation":"Vous devez choisir le contrat",
+    "yes":"Yes",
+    "no":"No",
+    "save":"Save",
+    "cancel":"Cancel",
+    "maximum_leader":"Maksimum lider sayısına ulaştınız",
+    "maximum_member": "Maksimum üye sayısına ulaştınız"
 
   },
   "menu":{

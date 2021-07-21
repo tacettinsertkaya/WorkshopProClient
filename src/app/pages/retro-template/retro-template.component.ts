@@ -186,8 +186,8 @@ export class RetroTemplateComponent implements OnInit {
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
         buttonsStyling: false,
       }).then((result) => {
         if (result.value) {

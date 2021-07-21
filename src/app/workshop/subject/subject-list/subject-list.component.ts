@@ -13,6 +13,7 @@ import { CompanyService } from "app/services/company.service";
 import { Company } from "app/models/company";
 import { SubjectFilter } from "app/models/dto/subject-filter";
 import { AlertifyService } from "app/services/alertify.service";
+import { TranslateService } from "@ngx-translate/core";
 
 declare var $: any;
 
@@ -35,6 +36,7 @@ export class SubjectListComponent implements OnInit {
   constructor(
     private subjectService: SubjectsService,
     private sharedService: SharedService,
+    private translate:TranslateService,
     private authService: UserService,
     private chatService: ChatService,
     private alertifyService: AlertifyService,
@@ -231,14 +233,15 @@ getAllCompany() {
   showSwal(type, id = 0) {
     if (type == "warning-message-and-confirmation") {
       swal({
-        title: "Herhangi bir konu bulunamadı",
-        text: "Şimdi konu oluşturmak ister misin?",
+        title: this.translate.instant("common.topic_not_found") ,
+        text: this.translate.instant("common.topic_create_request"), 
+     
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
         buttonsStyling: false,
       }).then((result) => {
         if (result.value) {
@@ -248,14 +251,15 @@ getAllCompany() {
     }
     if (type == "warning-message-and-confirmation-delete") {
       swal({
-        title: "Uyarı",
-        text: "Silmek istediğinizden emin misiniz?",
+        title: this.translate.instant("common.warning"),
+        text: this.translate.instant("common.confirm_delete"),
+
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {
         if (result.value) {
           this.removeSubject(id);

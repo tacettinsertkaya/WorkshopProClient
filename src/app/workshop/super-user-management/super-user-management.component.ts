@@ -9,6 +9,7 @@ import { User } from "app/models/user";
 import { ResetPassword } from "app/models/reset-password";
 import { UserFilter } from "app/models/dto/user-filter";
 import { AlertifyService } from "app/services/alertify.service";
+import { TranslateService } from "@ngx-translate/core";
 
 declare var $: any;
 
@@ -22,33 +23,33 @@ export class SuperUserManagementComponent implements OnInit {
   users: Array<User> = [];
   user: User = new User();
   isUpdate: boolean = false;
-  userId:string;
-  selectedUser=new User();
-  
-  resetPassword:ResetPassword=new ResetPassword();
-  constructor(
-    private alertifyService:AlertifyService,
+  userId: string;
+  selectedUser = new User();
 
+  resetPassword: ResetPassword = new ResetPassword();
+  constructor(
+    private alertifyService: AlertifyService,
+    private translate: TranslateService,
     private userService: UserService,
     private sharedService: SharedService
-  ) {}
+  ) { }
   ngOnInit() {
     this.getAllUser();
-    this.user.statu="SuperAdmin";
+    this.user.statu = "SuperAdmin";
   }
 
 
   getAllUser() {
-    let filterRoles=["SuperAdmin"];
-    let userFilter=new UserFilter();
-    userFilter.filterRoles=filterRoles;
+    let filterRoles = ["SuperAdmin"];
+    let userFilter = new UserFilter();
+    userFilter.filterRoles = filterRoles;
 
     this.userService
       .getAllUser(userFilter)
       .pipe(first())
       .subscribe(
         (res) => {
- 
+
           this.users = res;
         },
         (error) => {
@@ -57,46 +58,56 @@ export class SuperUserManagementComponent implements OnInit {
       );
   }
 
-  OpenPasswordModal(user){
-   this.selectedUser=user;
-   $('#changePasswordModal').modal('show');
+  addSuperadmin(){
+    this.isUpdate=false;
+    $('#addModal').modal('show');
   }
-  
-  changePassword(){
-  
-    this.resetPassword.Id=this.selectedUser.id;
-    this.resetPassword.username=this.selectedUser.userName;
-  
-    this.userService
-    .resetpassword(this.resetPassword)
-    .pipe(first())
-    .subscribe(
-      (user) => {
 
-        this.resetPassword.newPassword='';
-        this.resetPassword.confirmPassword='';
+  OpenPasswordModal(user) {
+    this.selectedUser = user;
+    $('#changePasswordModal').modal('show');
+  }
+
+  changePassword() {
+
+    this.resetPassword.Id = this.selectedUser.id;
+    this.resetPassword.username = this.selectedUser.userName;
+
+    this.userService
+      .resetpassword(this.resetPassword)
+      .pipe(first())
+      .subscribe(
+        (user) => {
+
+          this.resetPassword.newPassword = '';
+          this.resetPassword.confirmPassword = '';
+          this.alertifyService.success();
+          $('#changePasswordModal').modal('hide');
+          this.getAllUser();
+        },
+        (error) => {
+
+        }
+      );
+  }
+
+  SendMail(userId: any) {
+    this.userService
+      .sendUserInfo(userId)
+      .pipe(first())
+      .subscribe((res) => {
         this.alertifyService.success();
-        $('#changePasswordModal').modal('hide');
-           this.getAllUser();
-      },
-      (error) => {
-
-      }
-    );
-  } 
-  
-  SendMail(userId: any){
-    this.userService
-    .sendUserInfo(userId)
-    .pipe(first())
-    .subscribe((res) => {
-      this.alertifyService.success();
-    });
+      });
   }
 
 
 
-
+  getText() {
+    if (this.isUpdate)
+      return this.translate.instant('super_admin.edit_super_admin')
+    else
+      return this.translate.instant('super_admin.add_super_admin')
+  }
 
 
   editUser(userId: any) {
@@ -129,8 +140,8 @@ export class SuperUserManagementComponent implements OnInit {
   saveUser() {
     let data = this.user;
 
-    this.user.name=this.user.userName;
-    this.user.surname=this.user.userName;
+    this.user.name = this.user.userName;
+    this.user.surname = this.user.userName;
 
     if (!this.isUpdate) {
       this.userService
@@ -142,7 +153,7 @@ export class SuperUserManagementComponent implements OnInit {
             this.user.rawPassword = "";
             this.user.statu = "";
             this.alertifyService.success();
-          this.getAllUser();
+            this.getAllUser();
             $("#addModal").modal("hide");
           },
           (error) => {
@@ -171,17 +182,18 @@ export class SuperUserManagementComponent implements OnInit {
   }
 
   showSwal(type, id = 0) {
-  
+
     if (type == "warning-message-and-confirmation-delete") {
       swal({
-        title: "Uyarı",
-        text: "Silmek istediğinizden emin misiniz?",
+        title: this.translate.instant("common.warning"),
+        text: this.translate.instant("common.confirm_delete"),
+
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {
         if (result.value) {
           this.removeUser(id);

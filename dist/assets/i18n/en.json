@@ -6,46 +6,56 @@
     "username_validation": "Username required",
     "password": "Password",
     "password_validation": "Password required",
-    "login": "Login"
+    "login": "Login",
+    "login_failed":"Username or password is incorrect"
   },
   "member_login": {
     "title": "Login"
   },
   "company": {
     "title": "Companies",
-    "add_company": "Add company",
-    "maximum_leader": "Leader Limit",
-    "maximum_retro": "Retro Limit",
+    "add_company": "Add Company",
+    "edit_company":"Edit Company",    
+    "maximum_leader": "Leader limit",
+    "maximum_retro": "Retro limit",
     "transactions": "Actions",
     "company_name": "Company name",
-    "give_up": "Cancel",
-    "save": "Save",
-    "Company_Logo": "Company logo"
+    "company_logo": "Company logo"
   },
   "admin": {
     "title": "Admins",
-    "add_admin": "Add admin",
+    "add_admin": "Add Admin",
+    "edit_admin": "Edit Admin", 
     "username": "Username",
     "password": "Password",
     "email": "Email",
     "company": "Company",
     "transactions": "Actions",
-    "give_up": "Cancel",
+  
     "new_password": "New password",
-    "Password Repeat": "Repeat password",
-    "save": "Save"
+    "password_again": "Repeat password",
+    "status": "Status",
+    "status_required": "Select Status"
+    
   },
   "super_admin": {
-    "title": "Super Admin",
-    "add_super_admin": "Add super admin",
+    "title": "Superadmin",
+    "add_super_admin": "Add Superadmin",
+    "edit_super_admin": "Edit Superadmin",
     "username": "Username",
     "password": "Password",
     "transactions": "Actions",
-    "email": "Email"
+    "email": "Email",
+    "new_password": "New password",
+    "password_again": "Repeat password",
+    "status": "Status",
+    "status_required": "Select Status"
+   
   },
   "user_management": {
     "title": "Users",
-    "add_user": "Add user",
+    "add_user": "Add User",
+    "edit_user": "Edit User",
     "leader_right": "Leader Limit",
     "number_of_retro": "Retro Limit",
     "leader": "Leader",
@@ -53,37 +63,42 @@
     "username": "Username",
     "password": "Password",
     "status": "Status",
+    "status_required": "Status Select",
     "transactions": "Actions",
     "select_company": "Select company",
-    "company": "Company",
-    "give_up": "Cancel",
-    "save": "Save"
+    "company": "Company"
+    
+    
   },
   "subject": {
-    "title": "Define",
-    "add_subject": "Add topic",
+    "title": "Topics",
+    "add_subject": "Add Topic",
+    "edit_subject": "Edit Topic",
     "subject": "Topic",
     "transactions": "Actions",
     "select_company": "Select company",
     "hood": "Title",
     "detail": "Details",
-    "give_up": "Cancel",
-    "save": "Save",
+
+    
     "leader": "Leader",
     "close": "Close",
-    "startdate":"Başlangıç",
-    "enddate":"Bitiş",
-    "time":"Süre",
-    "minute":"dk"
+    "startdate":"Start date",
+    "enddate":"End date",
+    "time":"Time",
+    "minute":"Min"
   },
   "templates": {
-    "title": "Layout",
+    "title": "Layouts",
     "add_template": "New Layout",
-    "add_new_template": "Add new layout",
+    "add_new_template": "Add New layout",
     "select_company": "Select company",
     "desk": "Order",
-    "give_up": "Cancel",
-    "save": "Save"
+  
+    
+    "template_not_found":"Layout not found",
+    "wanttocreatetemplate":"Do you want to create a layout now?"
+
   },
   "retro_start": {
     "title": "Start Retro",
@@ -93,36 +108,36 @@
     "start": "Start"
   },
   "retro_subject": {
-    "add_subject": "Add topic",
+    "add_subject": "Add Topic",
     "select_company": "Select company",
     "company": "Company",
     "hood": "Title",
-    "detail": "Details",
-    "give_up": "Cancel",
-    "save": "Save"
+    "detail": "Details"
+  
+    
   },
   "retro_template": {
     "add_template": "Add Layout",
     "continue_without_template": "Continue without layout",
-    "add_new_template": "Add new layout",
+    "add_new_template": "Add New layout",
     "company": "Company",
     "add_company": "Add company",
     "hood": "Title",
-    "desk": "Order",
-    "give_up": "Cancel",
-    "save": "Save"
+    "desk": "Order"
+  
+    
   },
   "retro_brainstrom": {
     "number_of_idea_Rights": "Remaining Ideas"
   },
   "retro_categorize": {
     "categorize": "Categorize",
-    "give_up": "Cancel",
+  
     "create": "Create",
     "enter_title": "Enter title"
   },
   "retro_comment": {
-    "give_up": "Cancel",
+  
     "send": "Send",
     "comment": "Comment"
   },
@@ -151,7 +166,7 @@
     "send": "Send"
   },
   "tab_header": {
-    "select_topic": "Define",
+    "select_topic": "Topics",
     "Choose_Template": "Layout",
     "Develop_an_Idea": "Brainstorm",
     "categorize": "Categorize",
@@ -169,18 +184,19 @@
   "common": {
     "copy_success": "Successfully copied.",
     "copy_fail": "Failed to copy link.",
+    "title":"Title",
     "title_required": "Enter title",
     "categorize": "Categorize",
     "comment_right": "Remaining Comments",
     "comment": "Comment",
     "logout": "Logout",
-
+    "company": "Company",
     "category_validation": "Ideas under different titles cannot be categorized.",
     "select_category": "Choose category",
-    "succcess": "Success",
-    "operation_success": "Transaction successful",
-    "faild": "Error",
-    "operation_faild": "Error occurred during operation",
+    "success": "Success",
+    "operation_success": "Action successful",
+    "fail": "Error",
+    "operation_fail": "Error occurred during operation",
     "warning": "Warning",
     "topic_not_found":"Topic not found",
     "topic_create_request":"Do you want to create a topic now?",
@@ -189,13 +205,20 @@
     "confirm_delete":"Are you sure you want to delete?",
     "retro_complete":"Retro is complete. Members are logged out",
      "agree":"I have read and accept the confidentiality agreement.",
-     "agree_validation":"You need to choose the contract"
+     "agree_validation":"You need to choose the contract",
+     "yes":"Yes",
+     "no":"No",
+     "save":"Save",
+     "cancel":"Cancel",
+     "maximum_leader":"You have reached the maximum number of leaders",
+     "maximum_member": "You have reached the maximum number of members"
+
   },
   "menu": {
     "copy_fail": "Failed to copy link.",
     "dashboard": "Home",
     "retros": "Retro",
-    "templates": "Layout",
+    "templates": "Layouts",
     "topics": "Topics",
     "companys": "Companies",
     "users": "Users",

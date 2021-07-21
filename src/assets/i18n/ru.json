@@ -6,7 +6,9 @@
     "username_validation": "Введите имя пользователя",
     "password": "пароль",
     "password_validation": "введите пароль",
-    "login": "Авторизоваться"
+    "login": "Авторизоваться",
+    "login_failed":"Username or password is incorrect"
+
   },
   "member_login": {
     "title": "Авторизоваться",
@@ -19,18 +21,21 @@
   "company": {
     "title": "Компании",
     "add_company": "Добавить компанию",
+    "edit_company":"Şirket Düzenle",    
     "maximum_leader": "максимальный лидер",
     "maximum_retro": "максимальное ретро ",
     "transactions": "Сделки",
     "company_name": "Название компании",
     "give_up": "сдаться",
     "save": "Сохранить",
-    "Company_Logo": "Логотип компании"
+    "company_logo": "Логотип компании"
   },
 
   "admin": {
     "title": "админы",
     "add_admin": "добавить администратора",
+    "edit_admin": "Admin Düzenle", 
+    
     "username": "Имя пользователя",
     "password": "Пароль",
     "email": "Электронное письмо",
@@ -39,7 +44,9 @@
     "give_up": "сдаться",
     "new_password": "Новый пароль",
     "Password Repeat": "Повторить пароль",
-    "save": "Сохранить"
+    "save": "Сохранить",
+    "status": "статус",
+    "status_required": "Statü Seçiniz"
   },
 
   "super_admin": {
@@ -48,12 +55,15 @@
     "username": "Имя пользователя",
     "password": "Пароль",
     "transactions": "Сделки",
-    "email": "Электронное письмо"
+    "email": "Электронное письмо",
+    "status": "статус",
+    "status_required": "Statü Seçiniz"
   },
 
   "user_management": {
     "title": "Пользователи",
     "add_user": "Добавить пользователя",
+    "edit_user": "Kullanıcı Düzenle",
     "leader_right": "лидер право",
     "number_of_retro": "количество ретро",
     "leader": "Лидер",
@@ -61,6 +71,7 @@
     "username": "Имя пользователя",
     "password": "пароль",
     "status": "статус",
+    "status_required": "Statü Seçiniz",
     "transactions": "сделки",
     "select_company": "Пожалуйста, выберите компанию",
     "company": "Компания",
@@ -71,6 +82,7 @@
   "subject": {
     "title": "Темы",
     "add_subject": "добавить тему",
+    "edit_subject": "Edit Subject",
     "subject": "предмет",
     "transactions": "Сделки",
     "select_company": "Пожалуйста, выберите компанию",
@@ -94,7 +106,9 @@
     "select_company": "Пожалуйста, выберите компанию",
     "desk": "стол письменный",
     "give_up": "сдаться",
-    "save": "Сохранить"
+    "save": "Сохранить",
+    "template_not_found":"Herhangi bir şablon bulunamadı",
+    "wanttocreatetemplate":"Şimdi şablon oluşturmak ister misin?"
   },
 
   "retro_start": {
@@ -194,18 +208,19 @@
   "common":{
     "copy_success":"Успешно скопировано.",
     "copy_fail":"Не удалось скопировать ссылку.",
+    "title":"Başlık",
     "title_required":"Введите название",
     "categorize":"Категоризировать",
     "comment_right":"Комментарий справа",
     "comment":"Комментарий",
-
+    "company": "Şirket",
     "logout": "Выйти",
     "category_validation": "Идеи под разными названиями не могут быть разделены на категории.",
     "select_category": "Выберите категорию",
     "success": "Успех",
     "operation_success": "Транзакция успешна",
     "faild": "Ошибка",
-    "operation_faild": "Произошла ошибка во время работы",
+    "operation_fail": "Произошла ошибка во время работы",
     "warning": "Предупреждение",
     "topic_not_found":"Тема не найдена",
     "topic_create_request":"Хотите создать тему сейчас?",
@@ -214,8 +229,13 @@
     "confirm_delete":"Вы уверены, что хотите удалить?",
     "retro_complete":"Ретро завершено. Участники вышли из системы",
     "agree":"Я прочитал и принимаю Соглашение о конфиденциальности.",
-    "agree_validation":"вам нужно выбрать договор"
-
+    "agree_validation":"вам нужно выбрать договор",
+    "yes":"Yes",
+    "no":"No",
+    "save":"Save",
+    "cancel":"Cancel",
+    "maximum_leader":"Maksimum lider sayısına ulaştınız",
+    "maximum_member": "Maksimum üye sayısına ulaştınız"
   },
   "menu":{
    

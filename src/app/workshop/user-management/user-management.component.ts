@@ -12,6 +12,7 @@ import { UserFilter } from "app/models/dto/user-filter";
 import { AlertifyService } from "app/services/alertify.service";
 import { GuidGenerator } from "app/helpers/guid-generator";
 import { GroupService } from "app/services/group.service";
+import { TranslateService } from "@ngx-translate/core";
 
 declare var $: any;
 
@@ -34,6 +35,7 @@ export class UserManagementComponent implements OnInit {
     private alertifyService: AlertifyService,
     private sharedService: SharedService,
     private companyService: CompanyService,
+    private translate: TranslateService,
     private groupService: GroupService,
 
 
@@ -57,6 +59,15 @@ export class UserManagementComponent implements OnInit {
 
   getLeaderCount() {
     return this.userService.currentUserValue.company.leaderCount;
+  }
+
+  getTitle(){
+    if(this.isUpdate){
+      return this.translate.instant("user_management.edit_user")
+    }
+    else{
+      return this.translate.instant("user_management.add_user")
+    }
   }
 
   getAllCompany() {
@@ -220,8 +231,9 @@ export class UserManagementComponent implements OnInit {
       else {
         if (this.currentCompany.retroCount <= 0) {
           swal({
-            title: "Başarısız",
-            text: "Maksimum lider sayısına ulaştınız",
+            title: this.translate.instant("common.fail"),
+            text: this.translate.instant("common.maximum_leader"),
+            
             type: "error",
             timer: 2000
           });
@@ -229,8 +241,9 @@ export class UserManagementComponent implements OnInit {
         }
         if (this.currentCompany.participantCount <= 0) {
           swal({
-            title: "Başarısız",
-            text: "Maksimum üye sayısına ulaştınız",
+            title:this.translate.instant("common.fail"),
+            text: this.translate.instant("common.maximum_member"),
+
             type: "error",
             timer: 2000
           });
@@ -306,14 +319,15 @@ export class UserManagementComponent implements OnInit {
 
     if (type == "warning-message-and-confirmation-delete") {
       swal({
-        title: "Uyarı",
-        text: "Silmek istediğinizden emin misiniz?",
+        title: this.translate.instant("common.warning"),
+        text: this.translate.instant("common.confirm_delete"),
+
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {
         if (result.value) {
           this.removeUser(id);

@@ -9,8 +9,9 @@
         "username_validation":"Kullanıcı adı giriniz",
         "password":"Şifre",
         "password_validation":"Şifre giriniz",
-        "login":"Giriş Yap"
-        
+        "login":"Giriş Yap",
+        "login_failed":"Username or password is incorrect"
+
     },
     "member_login":{
         "title":"Giriş Yap",
@@ -23,6 +24,7 @@
     "company": {
        "title": "Şirketler",    
        "add_company":"Şirket Ekle",    
+       "edit_company":"Şirket Düzenle",    
        "maximum_leader": "Maksimum Lider",
        "maximum_retro": "Maksimum Retro",     
        "transactions": "İşlemler",
@@ -36,6 +38,7 @@
     "admin": {
         "title": "Adminler",
         "add_admin": "Admin Ekle",  
+        "edit_admin": "Admin Düzenle",  
         "username": "Kullanıcı Adı",
         "password": "Şifre",
         "email": "Eposta",
@@ -49,12 +52,15 @@
     },
      
     "super_admin": {
-        "title": "Super Admin",
-        "add_super_admin": "Super Admin Ekle",
+        "title": "Superadmin",
+        "add_super_admin": "Superadmin Ekle",
+        "edit_super_admin": "Superadmin Düzenle",
         "username": "Kullanıcı Adı",
         "password":"Şifre",     
         "transactions": "İşlemler",
         "email": "Eposta" ,
+        "status": "Statü",
+        "status_required": "Statü Seçiniz",
         "give_up": "Vazgeç",
         "new_password": "Yeni Şifre",
         "password_repeat": "Şifre Tekrar",
@@ -66,6 +72,7 @@
     "user_management": {
         "title": "Kullanıcılar",
         "add_user": "Kullanıcı Ekle",
+        "edit_user": "Kullanıcı Düzenle",
         "leader_right": "Lider Hakkı",
         "number_of_retro": "Retro Sayısı",
         "leader": "Lider",
@@ -73,6 +80,7 @@
         "username": "Kullanıcı Adı",
         "password": "Şifre",  
         "status": "Statü",
+        "status_required": "Statü Seçiniz",
         "transactions": "İşlemler",
         "select_company": "Şirket Seçiniz",
         "company": "Şirket",
@@ -86,6 +94,7 @@
     "subject": {
         "title": "Konular",
         "add_subject": "Konu Ekle",
+        "edit_subject": "Konu Düzenle",
         "subject": "Konu",
         "transactions": "İşlemler",
         "select_company": "Şirket Seçiniz",
@@ -108,8 +117,9 @@
         "select_company": "Şirket Seçiniz",
         "desk": "Sıra",
         "give_up": "Vazgeç",
-        "save": "Kaydet"
-        
+        "save": "Kaydet",
+        "template_not_found":"Herhangi bir şablon bulunamadı",
+        "wanttocreatetemplate":"Şimdi şablon oluşturmak ister misin?"
     },
     
       "retro_start": {
@@ -240,18 +250,19 @@
           "common":{
             "copy_success":"Başarılı bir şekilde kopyalandı.",
             "copy_fail":"Link kopyalanamadı.",
+            "title":"Başlık",
             "title_required":"Başlık giriniz",
             "categorize":"Kategorize Et",
             "comment_right":"Yorum Hakkı",
             "comment":"Yorum",
             "logout": "Çıkış Yap",
-
+            "company": "Şirket",
             "category_validation": "Farklı başlıktaki fikirler kategorilendirilemez.",
             "select_category": "Kategori seçiniz",
             "success": "Başarılı",
             "operation_success": "İşlem Başarılı",
-            "faild": "Başarısız",
-            "operation_faild": "İşlem sırasında hata oluştu",
+            "fail": "Başarısız",
+            "operation_fail": "İşlem sırasında hata oluştu",
             "warning": "Uyarı",
             "topic_not_found":"Herhangi bir konu bulunamadı",
             "topic_create_request":"Şimdi konu oluşturmak ister misin?",
@@ -260,11 +271,15 @@
             "confirm_delete":"Silmek istediğinizden emin misiniz?",
             "retro_complete":"Retro tamamlandı. Üyelerin sistemden cıkışı sağlandı",
             "agree":"Gizlilik Sözleşmesi 'ni okudum ve kabul ediyorum.",
-            "agree_validation":"Sözleşmeyi seçiniz"
-
+            "agree_validation":"Sözleşmeyi seçiniz",
+            "yes":"Evet",
+            "no":"Hayır",
+            "save":"Kaydet",
+            "cancel":"İptal",
+            "maximum_leader":"Maksimum lider sayısına ulaştınız",
+            "maximum_member": "Maksimum üye sayısına ulaştınız"
           },
           "menu":{
-           
             "copy_fail":"Link kopyalanamadı.",
             "dashboard":"Anasayfa",
             "retros":"Atölye",

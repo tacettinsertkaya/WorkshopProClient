@@ -159,6 +159,15 @@ export class AdminComponent implements OnInit {
       );
   }
 
+  getTitle(){
+    if(this.isUpdate){
+      return  this.translate.instant("admin.edit_admin")
+    }
+    else{
+      return  this.translate.instant("admin.add_admin")
+    }
+  }
+
   saveUser() {
     let data = this.user;
 
@@ -213,8 +222,8 @@ export class AdminComponent implements OnInit {
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {
         if (result.value) {
           this.removeUser(id);

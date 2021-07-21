@@ -74,7 +74,7 @@
            
             <div class="template-title-group" *ngFor="let header of headers; let i = index">
               <div class="form-group">
-                <label>Başlık</label>
+                <label>{{ 'common.title' | translate }}</label>
                 <input type="text" class="form-control" [(ngModel)]="header.header" name="header_{{ header.order }}"
                   placeholder="{{ 'common.title_required' | translate }}" />
               </div>
@@ -102,10 +102,10 @@
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
             data-dismiss="modal">
-            Vazgeç
+            {{ 'common.cancel' | translate}}
           </button>
           <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-            Kaydet
+            {{ 'common.save' | translate}}
           </button>
         </div>
       </div>

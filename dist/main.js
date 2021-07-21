@@ -408,23 +408,23 @@ var AppComponent = /** @class */ (function () {
         this.userService = userService;
         this.translate = translate;
         this.router = router;
-        this.subscription = router.events.subscribe(function (event) {
-            if (event instanceof _angular_router__WEBPACK_IMPORTED_MODULE_2__["NavigationStart"]) {
-                browserRefresh = !router.navigated;
-            }
-        });
-        var currentLang = this.userService.currentLangValue;
-        if (JSON.stringify(currentLang) === '{}') {
-            currentLang = 'tr';
-            this.userService.currentLangSetValue(currentLang);
-        }
-        this.translate.use(currentLang);
-        this.translate.setDefaultLang(currentLang);
+        // this.subscription = router.events.subscribe((event) => {
+        //   if (event instanceof NavigationStart) {
+        //     browserRefresh = !router.navigated;
+        //   }
+        // });
     }
     AppComponent.prototype.unloadHandler = function (event) {
         window.opener.location.reload();
     };
     AppComponent.prototype.ngOnInit = function () {
+        var currentLang = this.userService.currentLangValue;
+        if (JSON.stringify(currentLang) === '{}') {
+            currentLang = 'tr';
+        }
+        this.userService.currentLangSetValue(currentLang);
+        this.translate.use(currentLang);
+        this.translate.setDefaultLang(currentLang);
     };
     AppComponent.prototype.onBeforeUnload = function () {
         this.chatService.userOffline();
@@ -2788,9 +2788,10 @@ var NavbarComponent = /** @class */ (function () {
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
         this.subscribeRetroAnnouncementToEvents();
-        this.selectLanguage = this.translate.currentLang;
+        this.selectLanguage = this.userService.currentLangValue;
+        console.log(" this.selectLanguage", this.selectLanguage);
         if (!this.currentLang()) {
-            var browserLang = translate.getBrowserLang();
+            var browserLang = 'tr';
             this.selectLanguage = browserLang;
         }
         this.userService.currentLangSetValue(this.selectLanguage);
@@ -2837,9 +2838,12 @@ var NavbarComponent = /** @class */ (function () {
         return this.userService.currentLangValue;
     };
     NavbarComponent.prototype.useLanguage = function (language) {
+        this.selectLanguage = language;
+        this.translate.setDefaultLang(language);
         this.userService.currentLangSetValue(language);
         this.translate.use(language);
-        this.selectLanguage = language;
+        console.log("language", language);
+        window.location.reload();
     };
     NavbarComponent.prototype.getLastCurrentRetro = function (retroId) {
         var _this = this;
@@ -2867,7 +2871,7 @@ var NavbarComponent = /** @class */ (function () {
                             text: an.contentText,
                             position: 'top-end',
                             showConfirmButton: true,
-                            confirmButtonText: 'Kapat',
+                            confirmButtonText: _this.translate.instant("subject.close"),
                             timer: 5000
                         });
                     }
@@ -3163,7 +3167,7 @@ var ROUTES = [
         icontype: "fa fa-copy",
     },
     {
-        path: "/companys",
+        path: "/companies",
         title: "Şirketler",
         type: "link",
         icontype: "fa fa-building",
@@ -3202,20 +3206,20 @@ var SidebarComponent = /** @class */ (function () {
             //   icontype: "fa fa-home",
             // },
             {
-                path: "/companys",
-                title: this.translate.instant('menu.companys'),
+                path: "/companies",
+                title: 'menu.companys',
                 type: "link",
                 icontype: "fa fa-building",
             },
             {
                 path: "/admins",
-                title: this.translate.instant('menu.admins'),
+                title: 'menu.admins',
                 type: "link",
                 icontype: "fa fa-id-badge",
             },
             {
                 path: "/super-users",
-                title: this.translate.instant('menu.superadmins'),
+                title: 'menu.superadmins',
                 type: "link",
                 icontype: "fa fa-id-card",
             },
@@ -3229,19 +3233,19 @@ var SidebarComponent = /** @class */ (function () {
             // },
             {
                 path: "/users",
-                title: this.translate.instant('menu.users'),
+                title: 'menu.users',
                 type: "link",
                 icontype: "fa fa-users",
             },
             {
                 path: "/subjects",
-                title: this.translate.instant('menu.topics'),
+                title: 'menu.topics',
                 type: "link",
                 icontype: "fa fa-copy",
             },
             {
                 path: "/templates",
-                title: this.translate.instant('menu.templates'),
+                title: 'menu.templates',
                 type: "link",
                 icontype: "fa fa-grip-horizontal",
             },
@@ -3249,7 +3253,7 @@ var SidebarComponent = /** @class */ (function () {
         this.LEADER_ROUTES = [
             {
                 path: "/current/start",
-                title: this.translate.instant('menu.retros'),
+                title: 'menu.retros',
                 type: "link",
                 icontype: "fa fa-star",
             },
@@ -3266,43 +3270,43 @@ var SidebarComponent = /** @class */ (function () {
         this.ROUTES = [
             {
                 path: "/dashboard",
-                title: this.translate.instant('menu.dashboard'),
+                title: 'menu.dashboard',
                 type: "link",
                 icontype: "fa fa-home",
             },
             {
                 path: "/retro-start",
-                title: this.translate.instant('menu.retro'),
+                title: 'menu.retro',
                 type: "link",
                 icontype: "fa fa-chat",
             },
             {
                 path: "/templates",
-                title: this.translate.instant('menu.templates'),
+                title: 'menu.templates',
                 type: "link",
                 icontype: "fa fa-grip-horizontal",
             },
             {
                 path: "/subjects",
-                title: this.translate.instant('menu.topics'),
+                title: 'menu.topics',
                 type: "link",
                 icontype: "fa fa-copy",
             },
             {
-                path: "/companys",
-                title: this.translate.instant('menu.companys'),
+                path: "/companies",
+                title: 'menu.companys',
                 type: "link",
                 icontype: "fa fa-building",
             },
             {
                 path: "/users",
-                title: this.translate.instant('menu.users'),
+                title: 'menu.users',
                 type: "link",
                 icontype: "fa fa-users",
             },
             {
                 path: "/super-users",
-                title: this.translate.instant('menu.superadmins'),
+                title: 'menu.superadmins',
                 type: "link",
                 icontype: "fa fa-id-card",
             },
@@ -3390,6 +3394,7 @@ var SidebarComponent = /** @class */ (function () {
         return this.authService.hasRole("Member");
     };
     SidebarComponent.prototype.ngOnInit = function () {
+        var _this = this;
         if (this.isSuperAdmin()) {
             this.menuItems = this.SUPER_ADMIN_ROUTES;
         }
@@ -3402,6 +3407,11 @@ var SidebarComponent = /** @class */ (function () {
         if (this.isMember()) {
             this.menuItems = this.MEMBER_ROUTES;
         }
+        this.menuItems.forEach(function (menu) {
+            menu.title = _this.translate.instant(menu.title);
+            console.log("this.translate.instant(menu.title)", _this.translate.instant(menu.title));
+            console.log("menu.title", menu.title);
+        });
         this.retroId = this.authService.currentRetroIdValue;
         if (this.retroId) {
             this.getLastCurrentRetro(this.retroId);
@@ -3891,7 +3901,7 @@ var LoaderComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<!-- <div class=\"create-retro d-flex justify-content-end m-5\" style=\"background-image: url('assets/img/login-bg-2.png')\"> -->\r\n<div class=\"create-retro d-flex justify-content-end  login\">\r\n  <form [formGroup]=\"loginForm\" (ngSubmit)=\"logIn()\" class=\"create-retro__form m-5\">\r\n\r\n\r\n    <h1 class=\"text-center mb-5\"> {{ 'login.title' | translate }}</h1>\r\n\r\n\r\n\r\n    <div class=\"form-group \" [ngClass]=\"{ 'input-group-focus': focus === true }\">\r\n\r\n      <label for=\"username\">{{ 'login.username' | translate }} </label>\r\n      <input type=\"text\" id=\"username\" (blur)=\"clearError()\" (focus)=\"clearError()\" class=\"form-control\"\r\n        formControlName=\"username\" (focus)=\"focus = true\" (blur)=\"focus = false\" />\r\n      <div\r\n        *ngIf=\"(loginForm.get('username').invalid && ( loginForm.get('username').touched ||  submitted || loginForm.get('username').dirty))\">\r\n        <small *ngIf=\"loginForm.get('username').errors?.required\" class=\"text-danger\">{{ 'login.username_validation' | translate }}</small>\r\n        \r\n      </div>\r\n    </div>\r\n\r\n\r\n    <div class=\"form-group \" [ngClass]=\"{ 'input-group-focus': focus === true }\">\r\n\r\n      <label for=\"password\">{{ 'login.password' | translate }}</label>\r\n      <input type=\"password\" (blur)=\"clearError()\" (focus)=\"clearError()\" formControlName=\"password\"\r\n        class=\"form-control\" (focus)=\"focus1 = true\" (blur)=\"focus1 = false\" />\r\n      <div\r\n        *ngIf=\"(loginForm.get('password').invalid && ( loginForm.get('password').touched ||  submitted || loginForm.get('password').dirty))\">\r\n        <small *ngIf=\"loginForm.get('password').errors?.required\" class=\"text-danger\">\r\n          {{ 'login.password_validation' | translate }}\r\n        </small>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group \" [ngClass]=\"{ 'input-group-focus': focus === true }\">\r\n\r\n      <label class=\"checkbox-theme\">\r\n\r\n\r\n        <span class=\"checkbox-theme__pseudo-control\"></span>\r\n        <input class=\"checkbox-theme__control\" formControlName=\"isAgree\" type=\"checkbox\">\r\n        <span>\r\n          <i class=\"fa fa-check\"></i>\r\n            <a href=\"https://joyologyindex.com/dosyalar/kvkt.pdf\" >  <span> {{'common.agree' | translate}} </span></a>\r\n        </span>\r\n\r\n      </label>\r\n      <div\r\n        *ngIf=\"(loginForm.get('isAgree').invalid && submitted)\">\r\n        <small *ngIf=\"loginForm.get('isAgree').errors?.required\" class=\"text-danger\">\r\n          {{ 'common.agree_validation' | translate }}\r\n        </small>\r\n      </div>\r\n    </div>\r\n<!-- \r\n    <div class=\"form-group \" [ngClass]=\"{ 'input-group-focus': focus === true }\">\r\n\r\n      <label for=\"username\">Takma Ad</label>\r\n      <input type=\"text\" formControlName=\"alias\" class=\"form-control\" (focus)=\"focus1 = true\" (blur)=\"focus1 = false\" />\r\n      <div\r\n        *ngIf=\"(loginForm.get('alias').invalid && ( loginForm.get('alias').touched) || loginForm.get('alias').dirty)\">\r\n        <small *ngIf=\"loginForm.get('alias').errors?.required\" class=\"text-danger\">Takma ad giriniz</small>\r\n        <small *ngIf=\"loginForm.get('alias').errors?.pattern\" class=\"text-danger\">Takma ad için sadece ingilizce karakterler giriniz</small>\r\n\r\n      </div>\r\n    </div> -->\r\n\r\n\r\n\r\n    <div class=\"d-flex btn-responsive\">\r\n      <button type=\"submit\" [disabled]=\"loginForm.get('isAgree').value!=true\" class=\"btn btn-theme btn-vertical-padding btn-horizontal-padding\">{{ 'login.login' | translate }}</button>\r\n    </div>\r\n\r\n    <p class=\"text-center text-danger\" *ngIf=\"errorMessage\">\r\n      {{errorMessage}}\r\n    </p>\r\n  </form>\r\n</div>"
+module.exports = "<!-- <div class=\"create-retro d-flex justify-content-end m-5\" style=\"background-image: url('assets/img/login-bg-2.png')\"> -->\r\n<div class=\"create-retro d-flex justify-content-end  login\">\r\n  <form [formGroup]=\"loginForm\" (ngSubmit)=\"logIn()\" class=\"create-retro__form m-5\">\r\n\r\n\r\n    <h1 class=\"text-center mb-5\"> {{ 'login.title' | translate }}</h1>\r\n\r\n\r\n\r\n    <div class=\"form-group \" [ngClass]=\"{ 'input-group-focus': focus === true }\">\r\n\r\n      <label for=\"username\">{{ 'login.username' | translate }} </label>\r\n      <input type=\"text\" id=\"username\" (blur)=\"clearError()\" (focus)=\"clearError()\" class=\"form-control\"\r\n        formControlName=\"username\" (focus)=\"focus = true\" (blur)=\"focus = false\" />\r\n      <div\r\n        *ngIf=\"(loginForm.get('username').invalid && ( loginForm.get('username').touched ||  submitted || loginForm.get('username').dirty))\">\r\n        <small *ngIf=\"loginForm.get('username').errors?.required\" class=\"text-danger\">{{ 'login.username_validation' | translate }}</small>\r\n        \r\n      </div>\r\n    </div>\r\n\r\n\r\n    <div class=\"form-group \" [ngClass]=\"{ 'input-group-focus': focus === true }\">\r\n\r\n      <label for=\"password\">{{ 'login.password' | translate }}</label>\r\n      <input type=\"password\" (blur)=\"clearError()\" (focus)=\"clearError()\" formControlName=\"password\"\r\n        class=\"form-control\" (focus)=\"focus1 = true\" (blur)=\"focus1 = false\" />\r\n      <div\r\n        *ngIf=\"(loginForm.get('password').invalid && ( loginForm.get('password').touched ||  submitted || loginForm.get('password').dirty))\">\r\n        <small *ngIf=\"loginForm.get('password').errors?.required\" class=\"text-danger\">\r\n          {{ 'login.password_validation' | translate }}\r\n        </small>\r\n      </div>\r\n    </div>\r\n\r\n    <div class=\"form-group \" [ngClass]=\"{ 'input-group-focus': focus === true }\">\r\n\r\n      <label class=\"checkbox-theme\">\r\n\r\n\r\n        <span class=\"checkbox-theme__pseudo-control\"></span>\r\n        <input class=\"checkbox-theme__control\" formControlName=\"isAgree\" type=\"checkbox\">\r\n        <span>\r\n          <i class=\"fa fa-check\"></i>\r\n            <a href=\"https://joyologyindex.com/dosyalar/kvkt.pdf\" >  <span> {{'common.agree' | translate}} </span></a>\r\n        </span>\r\n\r\n      </label>\r\n      <div\r\n        *ngIf=\"(loginForm.get('isAgree').invalid && submitted)\">\r\n        <small *ngIf=\"loginForm.get('isAgree').errors?.required\" class=\"text-danger\">\r\n          {{ 'common.agree_validation' | translate }}\r\n        </small>\r\n      </div>\r\n    </div>\r\n<!-- \r\n    <div class=\"form-group \" [ngClass]=\"{ 'input-group-focus': focus === true }\">\r\n\r\n      <label for=\"username\">Takma Ad</label>\r\n      <input type=\"text\" formControlName=\"alias\" class=\"form-control\" (focus)=\"focus1 = true\" (blur)=\"focus1 = false\" />\r\n      <div\r\n        *ngIf=\"(loginForm.get('alias').invalid && ( loginForm.get('alias').touched) || loginForm.get('alias').dirty)\">\r\n        <small *ngIf=\"loginForm.get('alias').errors?.required\" class=\"text-danger\">Takma ad giriniz</small>\r\n        <small *ngIf=\"loginForm.get('alias').errors?.pattern\" class=\"text-danger\">Takma ad için sadece ingilizce karakterler giriniz</small>\r\n\r\n      </div>\r\n    </div> -->\r\n\r\n\r\n\r\n    <div class=\"d-flex btn-responsive\">\r\n      <button type=\"submit\" [disabled]=\"loginForm.get('isAgree').value!=true\" class=\"btn btn-theme btn-vertical-padding btn-horizontal-padding\">{{ 'login.login' | translate }}</button>\r\n    </div>\r\n\r\n    <p class=\"text-center text-danger\" *ngIf=\"errorMessage\">\r\n      {{ 'login.login_failed' | translate }}\r\n    </p>\r\n  </form>\r\n</div>"
 
 /***/ }),
 
@@ -3998,7 +4008,6 @@ var LoginComponent = /** @class */ (function () {
     LoginComponent.prototype.logIn = function () {
         var _this = this;
         this.submitted = true;
-        console.log("this.loginForm", this.loginForm);
         if (this.loginForm.invalid) {
             return;
         }

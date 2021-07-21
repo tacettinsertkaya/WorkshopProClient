@@ -24,9 +24,9 @@ export class CompanyManagementComponent implements OnInit {
   companys: Array<Company> = [];
   company: Company = new Company();
   isUpdate: boolean = false;
-  preViewUrl:string='';
-  isPreview:boolean=false;
-  
+  preViewUrl: string = '';
+  isPreview: boolean = false;
+
   constructor(
     private userService: UserService,
     private alertifyService: AlertifyService,
@@ -34,7 +34,7 @@ export class CompanyManagementComponent implements OnInit {
     private translate: TranslateService,
     private uploadService: UploadService,
     private sharedService: SharedService
-  ) {}
+  ) { }
   ngOnInit() {
     this.getAllCompany();
   }
@@ -42,7 +42,7 @@ export class CompanyManagementComponent implements OnInit {
 
   getAllCompany() {
 
-    
+
     this.companyService
       .getAllCompany()
       .pipe(first())
@@ -51,14 +51,14 @@ export class CompanyManagementComponent implements OnInit {
           this.companys = res;
         },
         (error) => {
-         this.alertifyService.error()
+          this.alertifyService.error()
         }
       );
   }
 
-  addCompany(){
-    this.company=new Company();
-    this.preViewUrl='';
+  addCompany() {
+    this.company = new Company();
+    this.preViewUrl = '';
     $("#addCompanyModal").modal("show");
 
   }
@@ -72,13 +72,13 @@ export class CompanyManagementComponent implements OnInit {
       .subscribe((res) => {
         this.company = res;
         this.isUpdate = true;
-     console.log("this.comao",this.company);
+        console.log("this.comao", this.company);
         this.uploadService
-        .GET_IMAGE(this.company.imagePath)
-        .pipe(first())
-        .subscribe((res) => {
-          this.preViewUrl = res[0];
-        });
+          .GET_IMAGE(this.company.imagePath)
+          .pipe(first())
+          .subscribe((res) => {
+            this.preViewUrl = res[0];
+          });
 
 
 
@@ -102,24 +102,24 @@ export class CompanyManagementComponent implements OnInit {
       );
   }
 
-  
+
 
   receiveImages($event) {
     let images = $event;
-    this.company.imagePath=images[0];
-    console.log("recevir-images",images);
+    this.company.imagePath = images[0];
+    console.log("recevir-images", images);
     this.uploadService
-    .GET_IMAGE(this.company.imagePath)
-    .pipe(first())
-    .subscribe((res) => {
-      this.preViewUrl = res[0];
-    });
-   
+      .GET_IMAGE(this.company.imagePath)
+      .pipe(first())
+      .subscribe((res) => {
+        this.preViewUrl = res[0];
+      });
+
   }
 
 
   saveCompany() {
-  
+
 
     if (!this.isUpdate) {
       this.companyService
@@ -127,12 +127,12 @@ export class CompanyManagementComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (res) => {
-            this.company=new Company();
-           
-          
+            this.company = new Company();
+
+
             this.alertifyService.success()
-        
-          this.getAllCompany();
+
+            this.getAllCompany();
             $("#addCompanyModal").modal("hide");
           },
           (error) => {
@@ -145,9 +145,9 @@ export class CompanyManagementComponent implements OnInit {
         .pipe(first())
         .subscribe(
           (res) => {
-            this.company=new Company();
+            this.company = new Company();
 
-       
+
             this.alertifyService.success()
             this.getAllCompany();
             this.isUpdate = false;
@@ -160,19 +160,26 @@ export class CompanyManagementComponent implements OnInit {
     }
   }
 
+  getTitle() {
+    if (this.isUpdate)
+      return this.translate.instant("company.edit_company")
+    else
+      return this.translate.instant("company.add_company")
+
+  }
   showSwal(type, id = 0) {
-  
+
     if (type == "warning-message-and-confirmation-delete") {
       swal({
         title: this.translate.instant("common.warning"),
-        text:this.translate.instant("common.confirm_delete") , 
+        text: this.translate.instant("common.confirm_delete"),
 
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {
         if (result.value) {
           this.removeCompany(id);

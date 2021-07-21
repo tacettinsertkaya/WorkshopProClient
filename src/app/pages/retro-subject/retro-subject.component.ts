@@ -40,8 +40,8 @@ export class RetroSubjectComponent implements OnInit {
   companys: Array<Company> = [];
   companyId: string = '';
 
-  retroId:string='';
-  currentUserId:string='';
+  retroId: string = '';
+  currentUserId: string = '';
 
   constructor(
     private subjectService: SubjectsService,
@@ -53,7 +53,7 @@ export class RetroSubjectComponent implements OnInit {
     private userHubService: UserHubService,
     private alertifyService: AlertifyService,
     private companyService: CompanyService,
-    private translate:TranslateService,
+    private translate: TranslateService,
     private router: Router,
 
 
@@ -61,22 +61,22 @@ export class RetroSubjectComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    
+
     this.existUser();
 
     this.subject.companyId = this.authService.currentUserValue.companyId;
     this.getAllCompany();
-    this.retroId=this.authService.currentRetroIdValue;
+    this.retroId = this.authService.currentRetroIdValue;
 
-    if(this.retroId){
+    if (this.retroId) {
       this.getSubjects();
     }
 
-    this.currentUserId=this.authService.currentUserValue.userId
+    this.currentUserId = this.authService.currentUserValue.userId
 
   }
 
-  
+
 
 
   selectSubject(subject: any) {
@@ -103,7 +103,7 @@ export class RetroSubjectComponent implements OnInit {
 
         let current = new Retro();
         current.currentPage = "/current/template";
-        current.id =this.retroId;
+        current.id = this.retroId;
         const newMessage = firebase.default.database().ref('currentpath/').push();
         newMessage.set(current);
 
@@ -141,16 +141,16 @@ export class RetroSubjectComponent implements OnInit {
       );
   }
 
-  isCheckOwner(subject:Subject){
-      
-      return this.currentUserId==subject.userId;
+  isCheckOwner(subject: Subject) {
+
+    return this.currentUserId == subject.userId;
   }
 
   getSubjects() {
     let filter = new SubjectFilter();
     filter.companyId = this.authService.currentUserValue.companyId;
-    filter.retroId=this.retroId;
-    
+    filter.retroId = this.retroId;
+
     this.subjectService
       .getAllSubject(filter)
       .pipe(first())
@@ -178,7 +178,7 @@ export class RetroSubjectComponent implements OnInit {
         $("#addModal").modal("show");
       });
   }
-  
+
   removeSubject(subjectId: any) {
     this.subjectService
       .delete(subjectId)
@@ -194,7 +194,12 @@ export class RetroSubjectComponent implements OnInit {
       );
   }
 
-
+  getTitle() {
+    if (this.isUpdate)
+      return this.translate.instant("subject.edit_subject");
+    else
+      return this.translate.instant("subject.add_subject");
+  }
 
   saveSubject() {
     let data = this.subject;
@@ -247,14 +252,14 @@ export class RetroSubjectComponent implements OnInit {
   showSwal(type, id = 0) {
     if (type == "warning-message-and-confirmation") {
       swal({
-        title: this.translate.instant("common.topic_not_found") ,
-        text:this.translate.instant("common.topic_create_request") , 
+        title: this.translate.instant("common.topic_not_found"),
+        text: this.translate.instant("common.topic_create_request"),
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant('common.yes'),
+        cancelButtonText: this.translate.instant('common.no'),
         buttonsStyling: false,
       }).then((result) => {
         if (result.value) {
@@ -264,14 +269,14 @@ export class RetroSubjectComponent implements OnInit {
     }
     if (type == "warning-message-and-confirmation-delete") {
       swal({
-        title: this.translate.instant("common.warning") ,
-        text:this.translate.instant("common.confirm_delete") , 
+        title: this.translate.instant("common.warning"),
+        text: this.translate.instant("common.confirm_delete"),
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {
         if (result.value) {
           this.removeSubject(id);

@@ -31,21 +31,15 @@ export class AppComponent implements OnInit {
 
     // firebase.default.initializeApp(config);
 
-    this.subscription = router.events.subscribe((event) => {
-      if (event instanceof NavigationStart) {
-        browserRefresh = !router.navigated;
+    // this.subscription = router.events.subscribe((event) => {
+    //   if (event instanceof NavigationStart) {
+    //     browserRefresh = !router.navigated;
 
-      }
-    });
+    //   }
+    // });
 
-    let currentLang=this.userService.currentLangValue;
-    if(JSON.stringify(currentLang)==='{}'){
-      currentLang='tr'
-        this.userService.currentLangSetValue(currentLang);
+  
 
-    }
-    this.translate.use(currentLang);
-    this.translate.setDefaultLang(currentLang);
 
   }
 
@@ -56,8 +50,16 @@ export class AppComponent implements OnInit {
   }
 
   ngOnInit() {
-   
+    let currentLang = this.userService.currentLangValue;
 
+    if (JSON.stringify(currentLang) === '{}') {
+      
+      currentLang = 'tr'
+
+    }
+    this.userService.currentLangSetValue(currentLang);
+    this.translate.use(currentLang);
+    this.translate.setDefaultLang(currentLang);
   }
 
   @HostListener('window:beforeunload')

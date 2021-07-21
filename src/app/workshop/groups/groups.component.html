@@ -88,8 +88,8 @@
         </div>
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-            data-dismiss="modal">Vazgeç</button>
-          <button type="submit" [disabled]="groupCreateForm.invalid" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">Kaydet</button>
+            data-dismiss="modal">    {{ 'common.cancel' | translate}}</button>
+          <button type="submit" [disabled]="groupCreateForm.invalid" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">    {{ 'common.save' | translate}}</button>
         </div>
       </div>
     </div>

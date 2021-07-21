@@ -647,11 +647,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _helpers_auth_guard__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./helpers/auth.guard */ "./src/app/helpers/auth.guard.ts");
 /* harmony import */ var _layouts_admin_admin_layout_component__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./layouts/admin/admin-layout.component */ "./src/app/layouts/admin/admin-layout.component.ts");
 /* harmony import */ var _layouts_auth_auth_layout_component__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./layouts/auth/auth-layout.component */ "./src/app/layouts/auth/auth-layout.component.ts");
-/* harmony import */ var _workshop_dashboard_dashboard_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./workshop/dashboard/dashboard.component */ "./src/app/workshop/dashboard/dashboard.component.ts");
-/* harmony import */ var _workshop_login_login_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./workshop/login/login.component */ "./src/app/workshop/login/login.component.ts");
-/* harmony import */ var _workshop_member_login_member_login_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./workshop/member-login/member-login.component */ "./src/app/workshop/member-login/member-login.component.ts");
-/* harmony import */ var _workshop_retro_finish_retro_finish_component__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./workshop/retro-finish/retro-finish.component */ "./src/app/workshop/retro-finish/retro-finish.component.ts");
-
+/* harmony import */ var _workshop_login_login_component__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./workshop/login/login.component */ "./src/app/workshop/login/login.component.ts");
+/* harmony import */ var _workshop_member_login_member_login_component__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./workshop/member-login/member-login.component */ "./src/app/workshop/member-login/member-login.component.ts");
+/* harmony import */ var _workshop_retro_finish_retro_finish_component__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./workshop/retro-finish/retro-finish.component */ "./src/app/workshop/retro-finish/retro-finish.component.ts");
 
 
 
@@ -659,20 +657,20 @@ __webpack_require__.r(__webpack_exports__);
 
 
 var AppRoutes = [
-    {
-        path: "",
-        redirectTo: "dashboard",
-        pathMatch: "full",
-    },
+    // {
+    //   path: "",
+    //   redirectTo: "dashboard",
+    //   pathMatch: "full",
+    // },
     {
         path: "",
         component: _layouts_admin_admin_layout_component__WEBPACK_IMPORTED_MODULE_1__["AdminLayoutComponent"],
         canActivate: [_helpers_auth_guard__WEBPACK_IMPORTED_MODULE_0__["AuthGuard"]],
         children: [
-            {
-                path: "dashboard",
-                component: _workshop_dashboard_dashboard_component__WEBPACK_IMPORTED_MODULE_3__["DashboardComponent"],
-            },
+            // {
+            //   path: "dashboard",
+            //   component: DashboardComponent,
+            // },
             {
                 path: "",
                 loadChildren: "./workshop/workshop.module#WorkshopModule",
@@ -689,15 +687,15 @@ var AppRoutes = [
         children: [
             {
                 path: "member/:id",
-                component: _workshop_member_login_member_login_component__WEBPACK_IMPORTED_MODULE_5__["MemberLoginComponent"],
+                component: _workshop_member_login_member_login_component__WEBPACK_IMPORTED_MODULE_4__["MemberLoginComponent"],
             },
             {
                 path: "login",
-                component: _workshop_login_login_component__WEBPACK_IMPORTED_MODULE_4__["LoginComponent"],
+                component: _workshop_login_login_component__WEBPACK_IMPORTED_MODULE_3__["LoginComponent"],
             },
             {
                 path: "current/finish",
-                component: _workshop_retro_finish_retro_finish_component__WEBPACK_IMPORTED_MODULE_6__["RetroFinishComponent"]
+                component: _workshop_retro_finish_retro_finish_component__WEBPACK_IMPORTED_MODULE_5__["RetroFinishComponent"]
             },
         ],
     },
@@ -4078,7 +4076,7 @@ var LoginComponent = /** @class */ (function () {
 /*! no static exports found */
 /***/ (function(module, exports) {
 
-module.exports = "<div class=\"create-retro d-flex justify-content-end  login\">\r\n  <form [formGroup]=\"loginForm\" (ngSubmit)=\"logIn()\" class=\"create-retro__form\">\r\n\r\n\r\n    <h1 class=\"text-center mb-5\">{{'member_login.title' | translate}}</h1>\r\n\r\n    <!-- <div class=\"form-group \" [ngClass]=\"{ 'input-group-focus': focus === true }\">\r\n\r\n      <label for=\"username\">Takma Ad</label>\r\n      <input [disabled]=\"isFailed\" (blur)=\"clearError()\" (focus)=\"clearError()\" type=\"text\" formControlName=\"alias\"\r\n        class=\"form-control\" (focus)=\"focus1 = true\" (blur)=\"focus1 = false\" />\r\n\r\n      <div\r\n        *ngIf=\"(loginForm.get('alias').invalid && ( loginForm.get('alias').touched) || loginForm.get('alias').dirty)\">\r\n        <small *ngIf=\"loginForm.get('alias').errors?.required\" class=\"text-danger\">Takma ad giriniz</small>\r\n        <small *ngIf=\"loginForm.get('alias').errors?.pattern\" class=\"text-danger\">Takma ad için sadece ingilizce karakterler giriniz</small>\r\n      </div>\r\n    </div> -->\r\n\r\n\r\n\r\n    <div class=\"form-group \" >\r\n\r\n      <label for=\"username\">{{ 'member_login.name' | translate }}</label>\r\n      <input [disabled]=\"isFailed\" (blur)=\"clearError()\" (focus)=\"clearError()\" type=\"text\" formControlName=\"name\"\r\n        class=\"form-control\"  />\r\n\r\n      <div\r\n        *ngIf=\"(loginForm.get('name').invalid && ( loginForm.get('name').touched) || loginForm.get('name').dirty)\">\r\n        <small *ngIf=\"loginForm.get('name').errors?.required\" class=\"text-danger\">{{ 'member_login.name_validation' | translate }}</small>\r\n      </div>\r\n    </div>\r\n\r\n\r\n\r\n    <div class=\"form-group \" >\r\n\r\n      <label for=\"username\">{{ 'login.surname' | translate }}</label>\r\n      <input [disabled]=\"isFailed\" (blur)=\"clearError()\" (focus)=\"clearError()\" type=\"text\" formControlName=\"surname\"\r\n        class=\"form-control\"  />\r\n\r\n      <div\r\n        *ngIf=\"(loginForm.get('surname').invalid && ( loginForm.get('surname').touched) || loginForm.get('surname').dirty)\">\r\n        <small *ngIf=\"loginForm.get('surname').errors?.required\" class=\"text-danger\">{{ 'member_login.surname_validation' | translate }}<</small>\r\n      </div>\r\n    </div>\r\n\r\n\r\n\r\n    <div class=\"d-flex justify-content-end\">\r\n      <button type=\"submit\" [disabled]=\"isFailed\"\r\n        class=\"btn btn-theme btn-vertical-padding btn-horizontal-padding\">{{'login.login' | translate}}</button>\r\n    </div>\r\n\r\n    <p class=\"text-center text-danger\" *ngIf=\"errorMessage\">\r\n      {{errorMessage}}\r\n    </p>\r\n  </form>\r\n</div>\r\n\r\n\r\n"
+module.exports = "<div class=\"create-retro d-flex justify-content-end  login\">\r\n  <form [formGroup]=\"loginForm\" (ngSubmit)=\"logIn()\" class=\"create-retro__form\">\r\n\r\n\r\n    <h1 class=\"text-center mb-5\">{{'member_login.title' | translate}}</h1>\r\n\r\n    <!-- <div class=\"form-group \" [ngClass]=\"{ 'input-group-focus': focus === true }\">\r\n\r\n      <label for=\"username\">Takma Ad</label>\r\n      <input [disabled]=\"isFailed\" (blur)=\"clearError()\" (focus)=\"clearError()\" type=\"text\" formControlName=\"alias\"\r\n        class=\"form-control\" (focus)=\"focus1 = true\" (blur)=\"focus1 = false\" />\r\n\r\n      <div\r\n        *ngIf=\"(loginForm.get('alias').invalid && ( loginForm.get('alias').touched) || loginForm.get('alias').dirty)\">\r\n        <small *ngIf=\"loginForm.get('alias').errors?.required\" class=\"text-danger\">Takma ad giriniz</small>\r\n        <small *ngIf=\"loginForm.get('alias').errors?.pattern\" class=\"text-danger\">Takma ad için sadece ingilizce karakterler giriniz</small>\r\n      </div>\r\n    </div> -->\r\n\r\n\r\n\r\n    <div class=\"form-group \" >\r\n\r\n      <label for=\"username\">{{ 'member_login.name' | translate }}</label>\r\n      <input [disabled]=\"isFailed\" (blur)=\"clearError()\" (focus)=\"clearError()\" type=\"text\" formControlName=\"name\"\r\n        class=\"form-control\"  />\r\n\r\n      <div\r\n        *ngIf=\"(loginForm.get('name').invalid && ( loginForm.get('name').touched) || loginForm.get('name').dirty)\">\r\n        <small *ngIf=\"loginForm.get('name').errors?.required\" class=\"text-danger\">{{ 'member_login.name_validation' | translate }}</small>\r\n      </div>\r\n    </div>\r\n\r\n\r\n\r\n    <div class=\"form-group \" >\r\n\r\n      <label for=\"username\">{{ 'member_login.surname' | translate }}</label>\r\n      <input [disabled]=\"isFailed\" (blur)=\"clearError()\" (focus)=\"clearError()\" type=\"text\" formControlName=\"surname\"\r\n        class=\"form-control\"  />\r\n\r\n      <div\r\n        *ngIf=\"(loginForm.get('surname').invalid && ( loginForm.get('surname').touched) || loginForm.get('surname').dirty)\">\r\n        <small *ngIf=\"loginForm.get('surname').errors?.required\" class=\"text-danger\">{{ 'member_login.surname_validation' | translate }}</small>\r\n      </div>\r\n    </div>\r\n\r\n\r\n\r\n    <div class=\"d-flex justify-content-end\">\r\n      <button type=\"submit\" [disabled]=\"isFailed\"\r\n        class=\"btn btn-theme btn-vertical-padding btn-horizontal-padding\">{{'login.login' | translate}}</button>\r\n    </div>\r\n\r\n    <p class=\"text-center text-danger\" *ngIf=\"errorMessage\">\r\n      {{ 'login.login_failed' | translate }}\r\n    </p>\r\n  </form>\r\n</div>\r\n\r\n\r\n"
 
 /***/ }),
 

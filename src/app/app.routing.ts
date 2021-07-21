@@ -10,20 +10,20 @@ import { MemberLoginComponent } from "./workshop/member-login/member-login.compo
 import { RetroFinishComponent } from "./workshop/retro-finish/retro-finish.component";
 
 export const AppRoutes: Routes = [
-  {
-    path: "",
-    redirectTo: "dashboard",
-    pathMatch: "full",
-  },
+  // {
+  //   path: "",
+  //   redirectTo: "dashboard",
+  //   pathMatch: "full",
+  // },
   {
     path: "",
     component: AdminLayoutComponent,
     canActivate: [AuthGuard],
     children: [
-      {
-        path: "dashboard",
-        component: DashboardComponent,
-      },
+      // {
+      //   path: "dashboard",
+      //   component: DashboardComponent,
+      // },
      
 
       {

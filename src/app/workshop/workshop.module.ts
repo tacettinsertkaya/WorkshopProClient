@@ -72,7 +72,8 @@ import { HttpLoaderFactory } from "app/app.module";
     GroupsComponent,
     AdminComponent,
     ImageUploadComponent,
-    DatetimePipe
+    DatetimePipe,
+
   ],
   providers: [
 

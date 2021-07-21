@@ -10,7 +10,11 @@
     "login_failed":"Username or password is incorrect"
   },
   "member_login": {
-    "title": "Login"
+    "title": "Login",
+    "name": "Name",
+    "name_validation": "Name required",
+    "surname": "Surname",
+    "surname_validation": "Surname required"
   },
   "company": {
     "title": "Companies",

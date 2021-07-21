@@ -35,13 +35,13 @@
 
     <div class="form-group " >
 
-      <label for="username">{{ 'login.surname' | translate }}</label>
+      <label for="username">{{ 'member_login.surname' | translate }}</label>
       <input [disabled]="isFailed" (blur)="clearError()" (focus)="clearError()" type="text" formControlName="surname"
         class="form-control"  />
 
       <div
         *ngIf="(loginForm.get('surname').invalid && ( loginForm.get('surname').touched) || loginForm.get('surname').dirty)">
-        <small *ngIf="loginForm.get('surname').errors?.required" class="text-danger">{{ 'member_login.surname_validation' | translate }}<</small>
+        <small *ngIf="loginForm.get('surname').errors?.required" class="text-danger">{{ 'member_login.surname_validation' | translate }}</small>
       </div>
     </div>
 
@@ -53,7 +53,7 @@
     </div>
 
     <p class="text-center text-danger" *ngIf="errorMessage">
-      {{errorMessage}}
+      {{ 'login.login_failed' | translate }}
     </p>
   </form>
 </div>

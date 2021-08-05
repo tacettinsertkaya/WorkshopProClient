@@ -150,7 +150,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle">Şablon Güncelle</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">{{'templates.edit_layout' | translate}}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -158,9 +158,9 @@
         <div class="modal-body">
 
           <div class="form-group">
-            <label>Şirket</label>
+            <label>{{ 'templates.select_company' | translate }}</label>
             <select class="form-control" disabled [(ngModel)]="data.companyId" [ngModelOptions]="{ standalone: true }">
-              <option value="" selected>Şirket Seçiniz</option>
+              <option value="" selected>{{ 'templates.select_company' | translate }}</option>
               <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
 
             </select>
@@ -182,7 +182,7 @@
               </div>
               <div class="template-title-group__utils">
                 <div class="form-group">
-                  <label>Sıra</label>
+                  <label>{{ 'templates.desk' | translate }}</label>
                   <select class="form-control" (change)="changeSort()" [(ngModel)]="header.order"
                     name="order_{{ header.order }}" placeholder="India">
                     <option *ngFor="let i of orderlist; let i = index" [value]="i">

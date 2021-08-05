@@ -40,7 +40,6 @@
     "password_again": "Repeat password",
     "status": "Status",
     "status_required": "Select Status"
-    
   },
   "super_admin": {
     "title": "Superadmin",
@@ -96,6 +95,7 @@
     "title": "Layouts",
     "add_template": "New Layout",
     "add_new_template": "Add New layout",
+    "edit_layout":"Edit Layout",
     "select_company": "Select company",
     "desk": "Order",
   
@@ -213,6 +213,7 @@
      "yes":"Yes",
      "no":"No",
      "save":"Save",
+     "update":"Update",
      "cancel":"Cancel",
      "maximum_leader":"You have reached the maximum number of leaders",
      "maximum_member": "You have reached the maximum number of members"

@@ -113,8 +113,8 @@
   "retro_start": {
     "title": "Atölye Başlat",
     "number_of_idea_Rights": "Fikir Hakkı Sayısı",
-    "Number_of_Comments": "Yorum Hakkı Sayısı",
-    "Number_of_Voting_Rights": "Oylama Hakkı Sayısı",
+    "number_of_Comments": "Yorum Hakkı Sayısı",
+    "number_of_Voting_Rights": "Oylama Hakkı Sayısı",
     "start": "Başlat"
   },
   "retro_subject": {
@@ -140,8 +140,8 @@
   "retro_brainstrom": {
     "title": "Retro Başlat",
     "number_of_idea_Rights": "Fikir Hakkı Sayısı",
-    "Number_of_Comments": "Yorum Hakkı Sayısı",
-    "Number_of_Voting_Rights": "Oy Hakkı Sayısı",
+    "number_of_Comments": "Yorum Hakkı Sayısı",
+    "number_of_Voting_Rights": "Oy Hakkı Sayısı",
     "start": "Başlat"
   },
   "retro_categorize": {
@@ -182,7 +182,7 @@
     "select_topic": "Konu Seç",
     "Choose_Template": "Şablon Seç",
     "Develop_an_Idea": "Fikir Geliştir",
-    "categorize": "Categorize",
+    "categorize": "Kategorize Et",
     "comment": "Yorum Yap",
     "vote": "Oyla",
     "report": "Raporla"

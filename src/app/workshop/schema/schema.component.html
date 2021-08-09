@@ -21,7 +21,7 @@
   " (click)="selectTemplate(template.id)" [ngClass]="{ active: selectTemplateId == template.id }">
       <div class="card box-shadow card-theme d-flex justify-content-center align-items-center">
         <h3 class="card-title mb-2 mt-2 text-secondary mini-btn">
-          <span class="align-baseline" *ngFor="let detail of template.templateDetail; let j = index">
+          <span class="align-baseline m-1" *ngFor="let detail of template.templateDetail; let j = index">
             {{ detail.header }}
           </span>
         </h3>
@@ -33,7 +33,7 @@
   " (click)="selectTemplate(template.id)" [ngClass]="{ active: selectTemplateId == template.id }">
       <div class="card box-shadow card-theme d-flex justify-content-center align-items-center">
         <h3 class="card-title mb-2 mt-2 text-secondary">|
-          <span class="align-baseline" >
+          <span class="align-baseline m-1" >
             Şablonsuz devam et 
           </span>
         </h3>

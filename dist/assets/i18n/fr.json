@@ -2,12 +2,12 @@
   "login": {
     "title": "Connexion",
     "username": "Nom d'utilisateur",
-    "surname": "nom de famille",
+    "surname": "Nom de famille",
     "username_validation": "Saisissez votre nom d'utilisateur",
-    "password": "le mot de passe",
+    "password": "Mot de passe",
     "password_validation": "Entrer le mot de passe",
     "login": "Connexion",
-    "login_failed":"Username or password is incorrect"
+    "login_failed":"L'identifiant ou le mot de passe est incorrect"
 
   },
   "member_login": {
@@ -19,114 +19,114 @@
   },
 
   "company": {
-    "title": "entreprises",
-    "add_company": "ajouter une entreprise",
-    "edit_company":"Şirket Düzenle",    
-    "maximum_leader": "chef maximum",
-    "maximum_retro": "rétro maximum",
-    "transactions": "transactions",
-    "company_name": "Nom de la compagnie",
-    "give_up": "abandonner",
+    "title": "Entreprises",
+    "add_company": "Ajouter une entreprise",
+    "edit_company":"Modifier l'entreprise",    
+    "maximum_leader": "Leader maximum",
+    "maximum_retro": "Retro maximum",
+    "transactions": "Actions",
+    "company_name": "Nom de l'entreprise",
+    "give_up": "Annuler",
     "save": "Sauvegarder",
-    "company_logo": "logo d'entreprise"
+    "company_logo": "Logo de l'entreprise"
   },
 
   "admin": {
-    "title": "administrateurs",
-    "add_admin": "ajouter un administrateur",
-    "edit_admin": "Admin Düzenle", 
+    "title": "Admins",
+    "add_admin": "Ajouter un administrateur",
+    "edit_admin": "Editer l'administrateur", 
     "username": "Nom d'utilisateur",
-    "password": "le mot de passe",
-    "email": "E-mail",
-    "company": "entreprise",
-    "transactions": "transactions",
-    "give_up": "abandonner",
-    "new_password": "nouveau mot de passe",
-    "Password Repeat": "nouveau mot de passe",
+    "password": "Mot de passe",
+    "email": "Email",
+    "company": "Entreprise",
+    "transactions": "Actions",
+    "give_up": "Annuler",
+    "new_password": "Nouveau mot de passe",
+    "Password Repeat": "Répéter le mot de passe",
     "save": "Sauvegarder",
-    "status": "статус",
-    "status_required": "Statü Seçiniz"
+    "status": "Statut",
+    "status_required": "Définir le statut"
   },
 
   "super_admin": {
-    "title": "super administrateur",
-    "add_super_admin": "ajouter un super administrateur",
+    "title": "Superadmin",
+    "add_super_admin": "Ajouter un Superadmin",
     "username": "Nom d'utilisateur",
-    "password": "le mot de passe",
-    "transactions": "transactions",
-    "email": "e-mail",
-    "status": "статус",
-    "status_required": "Statü Seçiniz"
+    "password": "Mot de passe",
+    "transactions": "Actions",
+    "email": "E-mail",
+    "status": "Statut",
+    "status_required": "Définir le statut"
   },
 
   "user_management": {
-    "title": "utilisateurs",
-    "add_user": "ajouter un utilisateur",
-    "edit_user": "Kullanıcı Düzenle",
-    "leader_right": "chef à droite",
-    "number_of_retro": "nombre de rétro",
-    "leader": "chef",
-    "member": "membre",
+    "title": "Utilisateurs",
+    "add_user": "Ajouter un utilisateur",
+    "edit_user": "Modifier l'utilisateur",
+    "leader_right": "Leader maximum",
+    "number_of_retro": "Retro maximum",
+    "leader": "Leader",
+    "member": "Membre",
     "username": "Nom d'utilisateur",
-    "password": "le mot de passe",
-    "status": "statut",
-    "status_required": "Statü Seçiniz",
-    "transactions": "transactions",
-    "select_company": "s'il vous plaît choisir l'entreprise",
-    "company": "entreprise",
-    "give_up": "abandonner",
+    "password": "Mot de passe",
+    "status": "Statut",
+    "status_required": "Définir le statut",
+    "transactions": "Actions",
+    "select_company": "Sélectionnez une entreprise",
+    "company": "Entreprise",
+    "give_up": "Annuler",
     "save": "Sauvegarder"
     
   },
 
   "subject": {
-    "title": "les sujets",
+    "title": "Sujets",
     "add_subject": "Ajouter un sujet",
-    "edit_subject": "Edit Subject",
+    "edit_subject": "Editer le sujet",
     "subject": "matière",
-    "transactions": "transactions",
-    "select_company": "s'il vous plaît choisir l'entreprise",
-    "hood": "capuche",
-    "detail": "détail",
-    "give_up": "abandonner",
+    "transactions": "Actions",
+    "select_company": "Sélectionnez une entreprise",
+    "hood": "Titre",
+    "detail": "Détails",
+    "give_up": "Annuler",
     "save": "Sauvegarder",
-    "leader": "chef",
-    "close": "plier",
-    "startdate":"date de début",
-    "enddate":"date de fin",
-    "time":"temps",
-    "minute":"min"
+    "leader": "Leader",
+    "close": "Fermer",
+    "startdate":"Date de début",
+    "enddate":"Date de fin",
+    "time":"Durée",
+    "minute":"Minute"
 
   },
 
   "templates": {
-    "title": "modèles",
-    "add_template": "ajouter un modèle",
-    "add_new_template": "ajouter un nouveau modèle",
-    "select_company": "s'il vous plaît choisir l'entreprise",
-    "desk": "bureau",
-    "give_up": "abandonner",
+    "title": "Mises en page",
+    "add_template": "Nouvelle mise en page",
+    "add_new_template": "Ajouter une nouvelle mise en page",
+    "select_company": "Sélectionnez une entreprise",
+    "desk": "Rang",
+    "give_up": "Annuler",
     "save": "Sauvegarder",
-    "template_not_found":"Herhangi bir şablon bulunamadı",
-    "wanttocreatetemplate":"Şimdi şablon oluşturmak ister misin?"
+    "template_not_found":"Mise en page introuvable",
+    "wanttocreatetemplate":"Créer une mise en page maintenant?"
 
   },
 
   "retro_start": {
-    "title": "démarrer l'atelier",
-    "number_of_idea_Rights": "nombre de propriété intellectuelle",
-    "Number_of_Comments": "nombre de commentaires",
-    "Number_of_Voting_Rights": "nombre de droits de vote",
-    "start": "démarrer"
+    "title": "Démarrer l'atelier",
+    "number_of_idea_Rights": "Limite des idées",
+    "number_of_Comments": "Limite des commentaires",
+    "number_of_Voting_Rights": "Limite des votes",
+    "start": "Démarrer"
   },
 
   "retro_subject": {
     "add_subject": "Ajouter un sujet",
-    "select_company": "s'il vous plaît choisir l'entreprise",
-    "company": "entreprise",
-    "hood": "capuche",
+    "select_company": "Sélectionnez une entreprise",
+    "company": "Entreprise",
+    "hood": "Titre",
     "detail": "détail",
-    "give_up": "abandonner",
+    "give_up": "Annuler",
     "save": "Sauvegarder"
   },
 
@@ -136,119 +136,119 @@
     "add_new_template": "ajouter un nouveau modèle",
     "company": "entreprise",
     "add_company": "ajouter une entreprise",
-    "hood": "capuche",
-    "desk": "bureau",
-    "give_up": "abandonner",
+    "hood": "Titre",
+    "desk": "Rang",
+    "give_up": "Annuler",
     "save": "Sauvegarder"
   },
 
   "retro_brainstrom": {
-    "Number_of_idea_Rights": "nombre de propriété intellectuelle"
+    "number_of_idea_Rights": "Idées restantes"
   },
 
   "retro_categorize": {
-    "categorize": "classer par catégories",
-    "give_up": "abandonner",
-    "create": "créer",
-    "enter_title": "entrer le titre"
+    "categorize": "Catégoriser",
+    "give_up": "Annuler",
+    "create": "Créer",
+    "enter_title": "Entrer le titre"
   },
 
   "retro_comment": {
-    "give_up": "abandonner",
-    "send": "envoyer",
-    "comment": "commenter"
+    "give_up": "Annuler",
+    "send": "Envoyer",
+    "comment": "Commenter"
   },
 
   "retro_vote": {
-    "voting_right": "droit de vote",
-    "comments": "commentaires",
-    "vote": "vote"
+    "voting_right": "Votes restants",
+    "comments": "Commentaires",
+    "vote": "Voter"
   },
 
   "retro_report": {
-    "finish_the_workshop": "terminer l'atelier",
-    "create_pdf": "créer un pdf",
+    "finish_the_workshop": "Terminer l'atelier",
+    "create_pdf": "Créer un pdf",
     "title": "résumé",
-    "topic": "matière",
-    "Priority_Ideas": "idées prioritaires",
-    "report": "rapport",
-    "Other_Ideas": "d'autres idées",
-    "report_subtitle":"Raporun bu bölümünde atölye çalışmasında ele alınan her bir konuya ait öneriler, sonunda yapılan oylama sonuçlarına bağlı olarak “öncelikli” olarak tanımlanan fikirler ve her bir fikir için verilen oy sayıları özetlenmiştir.",
-    "footer_title":"Bu bölümünde atölye çalışmasının sonunda ortaya çıkan fikirler, bu fikirlere ait yorumlar, her bir fikire ait oylama sonuçları sunulmuştur.",
-    "completed_message":"Atölyemiz sona ermiştir. Katılımınız için teşekkür ederiz."
+    "topic": "Rapporter",
+    "Priority_Ideas": "Des idées remarquables",
+    "report": "Rapport",
+    "Other_Ideas": "Autres idées",
+    "report_subtitle":"Dans cette section du rapport, les suggestions pour chaque question, les idées définies comme 'prioritaires' en fonction des résultats du vote, et le nombre de votes donnés pour chaque idée sont résumés.",
+    "footer_title":"Dans cette section, les idées qui ont émergé à la fin de l'atelier, les commentaires sur ces idées et les résultats du vote pour chaque idée sont présentés.",
+    "completed_message":"Notre atelier est terminé. Nous vous remercions de votre participation."
 
   },
 
   "sidebar": {
-    "invite_link": "lien d'invitation",
-    "announcement": "annonce",
-    "active_participants": "participants actifs",
-    "send": "envoyer"
+    "invite_link": "Lien d'invitation",
+    "announcement": "Annonce",
+    "active_participants": "Participants actifs",
+    "send": "Envoyer"
   },
 
   "tab_header": {
-    "select_topic": "choisir un sujet",
-    "Choose_Template": "Choisir le modèle",
-    "Develop_an_Idea": "développer une idée",
-    "categorize": "classer par catégories",
+    "select_topic": "Sujet",
+    "Choose_Template": "Mises en page",
+    "Develop_an_Idea": "Remue-méninges",
+    "categorize": "Catégoriser",
     "comment": "Commenter",
-    "vote": "vote",
-    "report": "rapport"
+    "vote": "Voter",
+    "report": "Rapport"
   },
 
   "navbar": {
     "welcome": "Bienvenue",
-    "announcements": "annonces"
+    "announcements": "Annonces"
   },
 
   "image_upload": {
-    "load": "charge"
+    "load": "Télécharger"
   },
   
   "common":{
-    "copy_success":"Copié avec succès. ",
+    "copy_success":"Copié avec succès.",
     "copy_fail":"Échec de la copie du lien.",
-    "title":"Başlık",
+    "title":"Titre",
     "title_required":"Entrez le titre",
-    "categorize":"Classer par catégories",
-    "comment_right":"Commentaire Droit",
+    "categorize":"Catégoriser",
+    "comment_right":"Limite des idées",
     "comment":"Commenter",
-    "company": "Şirket",
+    "company": "Entreprise",
     "logout": "Se déconnecter",
     "category_validation": "Les idées sous différents titres ne peuvent pas être catégorisées.",
     "select_category": "Choisissez la catégorie",
     "success": "Succès",
-    "operation_success": "Transaction réussie",
+    "operation_success": "Action réussie",
     "faild": "Erreur",
-    "operation_fail": "Une erreur s'est produite pendant le fonctionnement",
+    "operation_fail": "Erreur survenue pendant l'opération",
     "warning": "Avertissement",
     "topic_not_found":"Sujet introuvable",
-    "topic_create_request":"Voulez-vous créer un sujet maintenant ?",
-    "template_not_found":"Modèle introuvable",
-    "template_create_request":"Voulez-vous créer un modèle maintenant ?",
+    "topic_create_request":"Voulez-vous créer un sujet maintenant?",
+    "template_not_found":"Mise en page introuvable",
+    "template_create_request":"Voulez-vous créer une mise en page maintenant?",
     "confirm_delete":"Etes-vous sûr que vous voulez supprimer?",
-    "retro_complete":"Le rétro est terminé. Les membres sont déconnectés du système",
+    "retro_complete":"Le rétro est terminé. Les membres sont déconnectés du système.",
     "agree":"J'ai lu et j'accepte l'Accord de confidentialité.",
-    "agree_validation":"Vous devez choisir le contrat",
-    "yes":"Yes",
-    "no":"No",
-    "save":"Save",
-    "cancel":"Cancel",
-    "maximum_leader":"Maksimum lider sayısına ulaştınız",
-    "maximum_member": "Maksimum üye sayısına ulaştınız"
+    "agree_validation":"Vous devez choisir le contrat.",
+    "yes":"Oui",
+    "no":"Non",
+    "save":"Sauvegarder",
+    "cancel":"Annuler",
+    "maximum_leader":"Vous avez atteint le nombre maximum de leaders.",
+    "maximum_member": "Vous avez atteint le nombre maximum de membres."
 
   },
   "menu":{
    
     "copy_fail":"Échec de la copie du lien.",
-    "dashboard":"Domicile",
+    "dashboard":"Page d'accueil",
     "retros":"Rétro",
-    "templates":"Modèle",
-    "topics":"Les sujets",
+    "templates":"Mises en page",
+    "topics":"Sujets",
     "companys":"Entreprises",
     "users":"Utilisateurs",
-    "superadmins":"Super-administrateurs",
-    "admins":"Administrateurs"
+    "superadmins":"Superadmins",
+    "admins":"Admins"
   }
    
 }

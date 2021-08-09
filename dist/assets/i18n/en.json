@@ -107,8 +107,8 @@
   "retro_start": {
     "title": "Start Retro",
     "number_of_idea_Rights": "Idea Limit",
-    "Number_of_Comments": "Comment Limit",
-    "Number_of_Voting_Rights": "Vote Limit",
+    "number_of_Comments": "Comment Limit",
+    "number_of_Voting_Rights": "Vote Limit",
     "start": "Start"
   },
   "retro_subject": {

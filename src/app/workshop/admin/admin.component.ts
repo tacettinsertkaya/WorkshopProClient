@@ -3,7 +3,7 @@ import { Subject } from "app/models/subject";
 import { SubjectsService } from "app/services/subject.service";
 import { first } from "rxjs/operators";
 import { SharedService } from "app/services/shared.service";
-import swal from "sweetalert2";
+import Swal  from "sweetalert2";
 import { UserService } from "app/services/user.service";
 import { User } from "app/models/user";
 import { ResetPassword } from "app/models/reset-password";
@@ -212,16 +212,16 @@ export class AdminComponent implements OnInit {
   showSwal(type, id = 0) {
   
     if (type == "warning-message-and-confirmation-delete") {
-      swal({
+      Swal.fire({
         title: " ",
         text:this.translate.instant("common.confirm_delete") , 
 
 
         
-        type: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonClass: "btn btn-success",
-        cancelButtonClass: "btn btn-danger",
+        
+        
         confirmButtonText: this.translate.instant("common.yes"),
         cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {

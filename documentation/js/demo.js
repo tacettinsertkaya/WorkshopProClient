@@ -506,14 +506,14 @@ demo = {
 
     showSwal: function(type){
         if(type == 'basic'){
-        	swal({
+        	Swal.fire({
                 title: "Here's a message!",
                 buttonsStyling: false,
                 confirmButtonClass: "btn btn-success btn-fill"
             });
 
     	}else if(type == 'title-and-text'){
-        	swal({
+        	Swal.fire({
                 title: "Here's a message!",
                 text: "It's pretty, isn't it?",
                 buttonsStyling: false,
@@ -521,26 +521,26 @@ demo = {
             });
 
     	}else if(type == 'success-message'){
-        	swal({
+        	Swal.fire({
                 title: "Good job!",
                 text: "You clicked the button!",
                 buttonsStyling: false,
                 confirmButtonClass: "btn btn-success btn-fill",
-                type: "success"
+                icon: "success"
             });
 
     	}else if(type == 'warning-message-and-confirmation'){
-            swal({
+            Swal.fire({
                     title: 'Are you sure?',
                     text: "You won't be able to revert this!",
-                    type: 'warning',
+                    icon: 'warning',
                     showCancelButton: true,
                     confirmButtonClass: 'btn btn-success btn-fill',
                     cancelButtonClass: 'btn btn-danger btn-fill',
                     confirmButtonText: 'Yes, delete it!',
                     buttonsStyling: false
                 }).then(function() {
-                  swal({
+                  Swal.fire({
                     title: 'Deleted!',
                     text: 'Your file has been deleted.',
                     type: 'success',
@@ -549,10 +549,10 @@ demo = {
                     })
                 });
     	}else if(type == 'warning-message-and-cancel'){
-            swal({
+            Swal.fire({
                     title: 'Are you sure?',
                     text: 'You will not be able to recover this imaginary file!',
-                    type: 'warning',
+                    icon: 'warning',
                     showCancelButton: true,
                     confirmButtonText: 'Yes, delete it!',
                     cancelButtonText: 'No, keep it',
@@ -560,7 +560,7 @@ demo = {
                     cancelButtonClass: "btn btn-danger btn-fill",
                     buttonsStyling: false
                 }).then(function() {
-                  swal({
+                  Swal.fire({
                     title: 'Deleted!',
                     text: 'Your imaginary file has been deleted.',
                     type: 'success',
@@ -570,7 +570,7 @@ demo = {
                 }, function(dismiss) {
                   // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
                   if (dismiss === 'cancel') {
-                    swal({
+                    Swal.fire({
                       title: 'Cancelled',
                       text: 'Your imaginary file is safe :)',
                       type: 'error',
@@ -581,7 +581,7 @@ demo = {
                 })
 
     	}else if(type == 'custom-html'){
-        	swal({
+        	Swal.fire({
                 title: 'HTML example',
                 buttonsStyling: false,
                 confirmButtonClass: "btn btn-success btn-fill",
@@ -592,13 +592,13 @@ demo = {
                 });
 
     	}else if(type == 'auto-close'){
-        	swal({ title: "Auto close alert!",
+        	Swal.fire({ title: "Auto close alert!",
             	   text: "I will close in 2 seconds.",
             	   timer: 2000,
             	   showConfirmButton: false
                 });
     	} else if(type == 'input-field'){
-            swal({
+            Swal.fire({
                     title: 'Input something',
                     html: '<div class="form-group">' +
                               '<input id="input-field" type="text" class="form-control" />' +
@@ -608,7 +608,7 @@ demo = {
                     cancelButtonClass: 'btn btn-danger btn-fill',
                     buttonsStyling: false
                 }).then(function(result) {
-                    swal({
+                    Swal.fire({
                         type: 'success',
                         html: 'You entered: <strong>' +
                                 $('#input-field').val() +
@@ -722,7 +722,7 @@ demo = {
         function onFinishWizard(){
             //here you can do something, sent the form to server via ajax and show a success message with swal
 
-            swal("Good job!", "You clicked the finish button!", "success");
+            Swal.fire("Good job!", "You clicked the finish button!", "success");
         }
     },
 
@@ -840,14 +840,14 @@ demo = {
 			select: function(start, end) {
 
                 // on select we show the Sweet Alert modal with an input
-				swal({
+				Swal.fire({
     				title: 'Create an Event',
     				html: '<div class="form-group">' +
                             '<input class="form-control" placeholder="Event Title" id="input-field">' +
                         '</div>',
     				showCancelButton: true,
-                    confirmButtonClass: 'btn btn-success',
-                    cancelButtonClass: 'btn btn-danger',
+                    
+                    
                     buttonsStyling: false
                 }).then(function(result) {
 

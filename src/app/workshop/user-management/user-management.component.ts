@@ -3,7 +3,6 @@ import { Subject } from "app/models/subject";
 import { SubjectsService } from "app/services/subject.service";
 import { first } from "rxjs/operators";
 import { SharedService } from "app/services/shared.service";
-import swal from "sweetalert2";
 import { UserService } from "app/services/user.service";
 import { User } from "app/models/user";
 import { CompanyService } from "app/services/company.service";
@@ -13,6 +12,7 @@ import { AlertifyService } from "app/services/alertify.service";
 import { GuidGenerator } from "app/helpers/guid-generator";
 import { GroupService } from "app/services/group.service";
 import { TranslateService } from "@ngx-translate/core";
+import Swal  from "sweetalert2";
 
 declare var $: any;
 
@@ -230,21 +230,20 @@ export class UserManagementComponent implements OnInit {
       }
       else {
         if (this.currentCompany.retroCount <= 0) {
-          swal({
+          Swal.fire({
             title: this.translate.instant("common.fail"),
             text: this.translate.instant("common.maximum_leader"),
             
-            type: "error",
+            icon: "error",
             timer: 2000
           });
 
         }
         if (this.currentCompany.participantCount <= 0) {
-          swal({
+          Swal.fire({
             title:this.translate.instant("common.fail"),
             text: this.translate.instant("common.maximum_member"),
-
-            type: "error",
+            icon: "error",
             timer: 2000
           });
 
@@ -297,11 +296,11 @@ export class UserManagementComponent implements OnInit {
     else {
       if (this.currentCompany.retroCount <= 0) {
 
-        swal(
+        Swal.fire(
           {
             title: 'Uyarı!',
             text: 'Maksimum grup sayısına ulaştınız.',
-            type: 'warning',
+            icon: 'warning',
             showConfirmButton: false,
             timer: 4000,
             buttonsStyling: false
@@ -318,17 +317,14 @@ export class UserManagementComponent implements OnInit {
   showSwal(type, id = 0) {
 
     if (type == "warning-message-and-confirmation-delete") {
-      swal({
+      Swal.fire({
         title: this.translate.instant("common.warning"),
         text: this.translate.instant("common.confirm_delete"),
-
-        type: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonClass: "btn btn-success",
-        cancelButtonClass: "btn btn-danger",
         confirmButtonText: this.translate.instant("common.yes"),
-        cancelButtonText: this.translate.instant("common.no"),
-      }).then((result) => {
+        cancelButtonText: this.translate.instant("common.no")
+            }).then((result) => {
         if (result.value) {
           this.removeUser(id);
         }

@@ -1457,7 +1457,7 @@ var RetroStartComponent = /** @class */ (function () {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_12___default()({
                     title: 'Uyarı!',
                     text: 'Şirketinize ait  retro hakkı bulunmamaktadır.',
-                    type: 'warning',
+                    icon: 'warning',
                     showConfirmButton: false,
                     timer: 4000,
                     buttonsStyling: false
@@ -1487,7 +1487,7 @@ var RetroStartComponent = /** @class */ (function () {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_12___default()({
                     title: 'Uyarı!',
                     text: 'Atanmış bir retro grubunuz bulunmamaktadır.',
-                    type: 'warning',
+                    icon: 'warning',
                     showConfirmButton: false,
                     timer: 4000,
                     buttonsStyling: false
@@ -1816,10 +1816,10 @@ var RetroSubjectComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                 title: this.translate.instant("common.topic_not_found"),
                 text: this.translate.instant("common.topic_create_request"),
-                type: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: "btn btn-success",
-                cancelButtonClass: "btn btn-danger",
+                
+                
                 confirmButtonText: this.translate.instant('common.yes'),
                 cancelButtonText: this.translate.instant('common.no'),
                 buttonsStyling: false,
@@ -1833,10 +1833,10 @@ var RetroSubjectComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                 title: this.translate.instant("common.warning"),
                 text: this.translate.instant("common.confirm_delete"),
-                type: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: "btn btn-success",
-                cancelButtonClass: "btn btn-danger",
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
             }).then(function (result) {
@@ -2046,10 +2046,10 @@ var RetroTemplateComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                 title: this.translate.instant("common.template_not_found"),
                 text: this.translate.instant("common.template_create_request"),
-                type: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: "btn btn-success",
-                cancelButtonClass: "btn btn-danger",
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
                 buttonsStyling: false,

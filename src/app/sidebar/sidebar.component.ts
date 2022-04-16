@@ -10,6 +10,7 @@ import {
   ChangeDetectorRef,
 } from "@angular/core";
 import { NgZone } from "@angular/core";
+import * as firebase from 'firebase';
 
 import { Router } from "@angular/router";
 import { UserFilter } from "app/models/dto/user-filter";
@@ -23,16 +24,14 @@ import { RetroAnnouncement } from "app/models/retro-announcement";
 import { Retro } from "app/models/retro";
 import { SharedService } from "app/services/shared.service";
 import { environment } from "../../environments/environment";
-import swal from "sweetalert2";
+import Swal  from "sweetalert2";
 import { AlertifyService } from "app/services/alertify.service";
 import { AuthenticateResponse } from "app/models/authenticate-response";
-import * as firebase from 'firebase';
 import { snapshotToArray } from "app/helpers/firebase-helper";
 import { RetroConfigurationService } from "app/services/retro-configuration";
 import { FirebaseOnlineUser } from "app/models/firebase-online-user";
 import { UploadService } from "app/services/upload.service";
 import { TranslateService } from "@ngx-translate/core";
-import { ControlPosition } from "@agm/core/services/google-maps-types";
 
 //Metadata
 export interface RouteInfo {
@@ -481,11 +480,11 @@ export class SidebarComponent {
     document.execCommand('copy');
     inputElement.setSelectionRange(0, 0);
 
-    swal({
+    Swal.fire({
       title:this.translate.instant('common.copy_success'),
       position: "center",
       showConfirmButton: false,
-      type: "success",
+      icon: "success",
       timer: 2000
     })
 
@@ -524,22 +523,22 @@ export class SidebarComponent {
               document.body.removeChild(selBox);
 
 
-              swal({
+              Swal.fire({
                 title: this.translate.instant('common.copy_success'),
                 position: "center",
                 showConfirmButton: false,
-                type: "success",
+                icon: "success",
                 timer: 2000
               })
 
             }
           },
           (error) => {
-            swal({
+            Swal.fire({
               title:this.translate.instant('common.copy_fail'),
               position: "center",
               showConfirmButton: false,
-              type: "error",
+              icon: "error",
               timer: 2000
             })
           });

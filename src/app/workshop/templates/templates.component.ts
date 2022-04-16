@@ -4,7 +4,7 @@ import { TemplateDetail } from 'app/models/template-detail';
 import { TemplateService } from 'app/services/template.service';
 import { first } from 'rxjs/operators';
 import { SharedService } from 'app/services/shared.service';
-import swal from 'sweetalert2';
+import Swal  from 'sweetalert2';
 import { TemplateDetailService } from 'app/services/template-detail.service';
 import { ChatService } from 'app/services/chat.service';
 import { UserService } from 'app/services/user.service';
@@ -143,13 +143,11 @@ export class TemplatesComponent implements OnInit {
 
   showSwal(type, id = 0) {
     if (type == 'warning-message-and-confirmation') {
-      swal({
+      Swal.fire({
         title: this.translate.instant("templates.template_not_found"),
         text: this.translate.instant("templates.wanttocreatetemplate"),
-        type: 'warning',
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
         confirmButtonText: this.translate.instant("common.yes"),
         cancelButtonText: this.translate.instant("common.no"),
         buttonsStyling: false,
@@ -160,14 +158,14 @@ export class TemplatesComponent implements OnInit {
       });
     }
     if (type == 'warning-message-and-confirmation-delete') {
-      swal({
+      Swal.fire({
         title: this.translate.instant("common.warning"),
         text: this.translate.instant("common.confirm_delete"),
 
-        type: 'warning',
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonClass: 'btn btn-success',
-        cancelButtonClass: 'btn btn-danger',
+        
+        
         confirmButtonText: this.translate.instant("common.yes"),
         cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {

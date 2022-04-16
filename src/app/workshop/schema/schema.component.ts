@@ -4,7 +4,7 @@ import { TemplateDetail } from "app/models/template-detail";
 import { TemplateService } from "app/services/template.service";
 import { first } from "rxjs/operators";
 import { SharedService } from "app/services/shared.service";
-import swal from "sweetalert2";
+import Swal  from "sweetalert2";
 import { UserService } from "app/services/user.service";
 import { ChatService } from "app/services/chat.service";
 import { Retro } from "app/models/retro";
@@ -131,13 +131,13 @@ export class SchemaComponent implements OnInit {
 
   showSwal(type) {
     if (type == "warning-message-and-confirmation") {
-      swal({
+      Swal.fire({
         title: this.translate.instant("templates.template_not_found"),
         text: this.translate.instant("templates.wanttocreatetemplate"),
-        type: "warning",
+        icon: 'warning',
         showCancelButton: true,
-        confirmButtonClass: "btn btn-success",
-        cancelButtonClass: "btn btn-danger",
+        
+        
         confirmButtonText: this.translate.instant("common.yes"),
         cancelButtonText: this.translate.instant("common.no"),
         buttonsStyling: false,

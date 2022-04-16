@@ -9,14 +9,13 @@ import { Observable } from 'rxjs';
 import { ActivatedRoute, Router } from '@angular/router';
 import { AuthenticateResponse } from '../../models/authenticate-response';
 import * as moment from 'moment';
-import { ControlPosition } from '@agm/core/services/google-maps-types';
 import { RetroConfigurationService } from 'app/services/retro-configuration';
 import { UserRight } from 'app/models/userRight';
 import { Retro } from 'app/models/retro';
 import { GroupDto } from 'app/models/dto/group-dto';
 import { GroupFilter } from 'app/models/dto/group-filter';
 import { GroupService } from 'app/services/group.service';
-import swal from 'sweetalert2';
+import Swal  from 'sweetalert2';
 import { Group } from 'app/models/group';
 import { SharedService } from 'app/services/shared.service';
 import { AlertifyService } from 'app/services/alertify.service';
@@ -221,11 +220,11 @@ export class MemberLoginComponent implements OnInit {
           if (this.groups.length > 0) {
             if (this.groups[0].group.memberCount <= 0) {
               this.isFailed = true;
-              swal(
+              Swal.fire(
                 {
                   title: 'Uyarı!',
                   text: 'Retroya ait üye sayısı aşılmıştır.',
-                  type: 'warning',
+                  icon: 'warning',
                   showConfirmButton: false,
                   timer: 4000,
                   buttonsStyling: false

@@ -28,11 +28,13 @@ export const AppRoutes: Routes = [
 
       {
         path: "",
-        loadChildren: "./workshop/workshop.module#WorkshopModule",
+        loadChildren: () => import("./workshop/workshop.module").then(m => m.WorkshopModule)
+
       },
       {
         path: "current",
-        loadChildren: "./pages/pages.module#PagesModule",
+        loadChildren: () => import("./pages/pages.module").then(m => m.PagesModule)
+
       },
 
      

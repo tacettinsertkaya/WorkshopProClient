@@ -4,7 +4,7 @@ import { TemplateDetail } from 'app/models/template-detail';
 import { TemplateService } from 'app/services/template.service';
 import { first, timeoutWith } from 'rxjs/operators';
 import { SharedService } from 'app/services/shared.service';
-import swal from 'sweetalert2';
+import Swal  from 'sweetalert2';
 import { TemplateDetailService } from 'app/services/template-detail.service';
 import { ChatService } from 'app/services/chat.service';
 import { UserService } from 'app/services/user.service';
@@ -236,11 +236,11 @@ export class GroupsComponent implements OnInit {
         else {
           if (this.currentCompany.retroCount <= 0) {
 
-            swal(
+            Swal.fire(
               {
                 title: 'Uyarı!',
                 text: 'Maksimum grup sayısına ulaştınız.',
-                type: 'warning',
+                icon: 'warning',
                 showConfirmButton: false,
                 timer: 4000,
                 buttonsStyling: false

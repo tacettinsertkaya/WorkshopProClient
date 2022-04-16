@@ -27,7 +27,7 @@ import { CompanyService } from "app/services/company.service";
 import { GroupService } from "app/services/group.service";
 import { GroupFilter } from "app/models/dto/group-filter";
 import { AlertifyService } from "app/services/alertify.service";
-import swal from "sweetalert2";
+import Swal  from "sweetalert2";
 import { RetroConfigration } from "app/models/retro-configuration";
 import { UserRight } from "app/models/userRight";
 import { snapshotToArray } from "app/helpers/firebase-helper";

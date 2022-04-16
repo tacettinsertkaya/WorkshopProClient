@@ -14,7 +14,7 @@ import { CategorizedMessage } from "app/models/dto/categorized-message";
 import { GroupService } from "app/services/group.service";
 import { GroupDto } from "app/models/dto/group-dto";
 import { GroupFilter } from "app/models/dto/group-filter";
-import swal from "sweetalert2";
+import Swal  from "sweetalert2";
 import { CompanyService } from "app/services/company.service";
 import { Group } from "app/models/group";
 import { AlertifyService } from "app/services/alertify.service";
@@ -113,11 +113,11 @@ export class RetroStartComponent implements OnInit {
           let company = res;
           if (company && company.retroCount <= 0) {
             this.isRetroFailed = true;
-            swal(
+            Swal.fire(
               {
                 title: 'Uyarı!',
                 text: 'Şirketinize ait  retro hakkı bulunmamaktadır.',
-                type: 'warning',
+                icon: 'warning',
                 showConfirmButton: false,
                 timer: 4000,
                 buttonsStyling: false
@@ -155,11 +155,11 @@ export class RetroStartComponent implements OnInit {
 
           if (this.groups.length <= 0) {
             this.isFailed = true;
-            swal(
+            Swal.fire(
               {
                 title: 'Uyarı!',
                 text: 'Atanmış bir retro grubunuz bulunmamaktadır.',
-                type: 'warning',
+                icon: 'warning',
                 showConfirmButton: false,
                 timer: 4000,
                 buttonsStyling: false

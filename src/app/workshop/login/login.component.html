@@ -7,7 +7,7 @@
 
 
 
-    <div class="form-group " [ngClass]="{ 'input-group-focus': focus === true }">
+    <div class="form-group " [class.input-group-focus]="focus === true ">
 
       <label for="username">{{ 'login.username' | translate }} </label>
       <input type="text" id="username" (blur)="clearError()" (focus)="clearError()" class="form-control"
@@ -20,7 +20,7 @@
     </div>
 
 
-    <div class="form-group " [ngClass]="{ 'input-group-focus': focus === true }">
+    <div class="form-group " [class.input-group-focus]=" focus === true ">
 
       <label for="password">{{ 'login.password' | translate }}</label>
       <input type="password" (blur)="clearError()" (focus)="clearError()" formControlName="password"

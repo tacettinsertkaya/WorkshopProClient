@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild, HostListener } from '@angular/core';
-import { Subscription } from 'rxjs/Subscription';
+import { Subscription } from 'rxjs';
 import 'rxjs/add/operator/filter';
 import { NavbarComponent } from '../../shared/navbar/navbar.component';
 import { Location, LocationStrategy, PathLocationStrategy, PopStateEvent, PlatformLocation } from '@angular/common';

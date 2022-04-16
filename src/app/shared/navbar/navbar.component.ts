@@ -1,20 +1,19 @@
-import { Component, OnInit, ViewChild, ElementRef, Directive, NgZone, AfterViewChecked, Renderer2 } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, NgZone, AfterViewChecked, Renderer2 } from '@angular/core';
 import { ROUTES } from '../.././sidebar/sidebar.component';
-import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
-import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
-import { Subscription } from 'rxjs/Subscription';
+import { Router } from '@angular/router';
+import { Location } from '@angular/common';
+import { Subscription } from 'rxjs';
 import { UserService } from 'app/services/user.service';
 import { ChatService } from 'app/services/chat.service';
 import { RetroAnnouncement } from 'app/models/retro-announcement';
 import { SharedService } from 'app/services/shared.service';
 import { Retro } from 'app/models/retro';
-import { ChangeDetectorRef, AfterContentChecked } from '@angular/core'
-import swal from 'sweetalert2';
+import { ChangeDetectorRef } from '@angular/core'
+import Swal  from 'sweetalert2';
 import * as firebase from 'firebase';
 import { snapshotToArray } from "app/helpers/firebase-helper";
-import { filter, first } from 'rxjs/operators';
+import { first } from 'rxjs/operators';
 import { RetroConfigurationService } from 'app/services/retro-configuration';
-import { VirtualTimeScheduler } from 'rxjs';
 import { TranslateService } from '@ngx-translate/core';
 
 
@@ -97,12 +96,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
         if (body.classList.contains('sidebar-mini')) {
             misc.sidebar_mini_active = true;
         }
-        this._router = this.router.events.filter(event => event instanceof NavigationEnd).subscribe((event: NavigationEnd) => {
-            const $layer = document.getElementsByClassName('close-layer')[0];
-            if ($layer) {
-                $layer.remove();
-            }
-        });
+       
 
 
         this.retroId=this.userService.currentRetroIdValue;
@@ -185,7 +179,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
                         this.announcements.push(an);
 
 
-                        swal({
+                        Swal.fire({
                             text: an.contentText,
                             position: 'top-end',
                             showConfirmButton: true,

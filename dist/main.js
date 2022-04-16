@@ -570,7 +570,7 @@ var AppModule = /** @class */ (function () {
                 _angular_forms__WEBPACK_IMPORTED_MODULE_5__["ReactiveFormsModule"],
                 _angular_router__WEBPACK_IMPORTED_MODULE_2__["RouterModule"].forRoot(_app_routing__WEBPACK_IMPORTED_MODULE_15__["AppRoutes"], { useHash: true, relativeLinkResolution: 'legacy' }),
                 _ng_bootstrap_ng_bootstrap__WEBPACK_IMPORTED_MODULE_6__["NgbModule"],
-                _angular_http__WEBPACK_IMPORTED_MODULE_3__["HttpModule"],
+                _angular_http__WEBPACK_IMPORTED_MODULE_3__["HttpClientModule"],
                 _angular_common_http__WEBPACK_IMPORTED_MODULE_16__["HttpClientModule"],
                 _sidebar_sidebar_module__WEBPACK_IMPORTED_MODULE_9__["SidebarModule"],
                 _shared_navbar_navbar_module__WEBPACK_IMPORTED_MODULE_12__["NavbarModule"],
@@ -1328,7 +1328,7 @@ var AlertifyService = /** @class */ (function () {
         sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()({
             title: this.translate.instant("common.success"),
             text: this.translate.instant("common.operation_success"),
-            type: "success",
+            icon: "success",
             timer: 2500
         });
     };
@@ -1336,7 +1336,7 @@ var AlertifyService = /** @class */ (function () {
         sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()({
             title: this.translate.instant("common.fail"),
             text: this.translate.instant("common.operation_fail"),
-            type: "error",
+            icon: "error",
             timer: 2500
         });
     };
@@ -1344,7 +1344,7 @@ var AlertifyService = /** @class */ (function () {
         sweetalert2__WEBPACK_IMPORTED_MODULE_1___default()({
             title: this.translate.instant("common.warning"),
             text: msg,
-            type: "warning",
+            icon: 'warning',
             timer: 2500
         });
     };
@@ -3455,7 +3455,7 @@ var SidebarComponent = /** @class */ (function () {
             title: this.translate.instant('common.copy_success'),
             position: "center",
             showConfirmButton: false,
-            type: "success",
+            icon: "success",
             timer: 2000
         });
     };
@@ -3487,7 +3487,7 @@ var SidebarComponent = /** @class */ (function () {
                         title: _this.translate.instant('common.copy_success'),
                         position: "center",
                         showConfirmButton: false,
-                        type: "success",
+                        icon: "success",
                         timer: 2000
                     });
                 }
@@ -3496,7 +3496,7 @@ var SidebarComponent = /** @class */ (function () {
                     title: _this.translate.instant('common.copy_fail'),
                     position: "center",
                     showConfirmButton: false,
-                    type: "error",
+                    icon: "error",
                     timer: 2000
                 });
             });
@@ -4279,7 +4279,7 @@ var MemberLoginComponent = /** @class */ (function () {
                     sweetalert2__WEBPACK_IMPORTED_MODULE_13___default()({
                         title: 'Uyarı!',
                         text: 'Retroya ait üye sayısı aşılmıştır.',
-                        type: 'warning',
+                        icon: 'warning',
                         showConfirmButton: false,
                         timer: 4000,
                         buttonsStyling: false

@@ -975,10 +975,10 @@ var AdminComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_3___default()({
                 title: " ",
                 text: this.translate.instant("common.confirm_delete"),
-                type: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: "btn btn-success",
-                cancelButtonClass: "btn btn-danger",
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
             }).then(function (result) {
@@ -1959,10 +1959,10 @@ var CompanyManagementComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_3___default()({
                 title: this.translate.instant("common.warning"),
                 text: this.translate.instant("common.confirm_delete"),
-                type: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: "btn btn-success",
-                cancelButtonClass: "btn btn-danger",
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
             }).then(function (result) {
@@ -2193,7 +2193,7 @@ var GroupsComponent = /** @class */ (function () {
                         sweetalert2__WEBPACK_IMPORTED_MODULE_3___default()({
                             title: 'Uyarı!',
                             text: 'Maksimum grup sayısına ulaştınız.',
-                            type: 'warning',
+                            icon: 'warning',
                             showConfirmButton: false,
                             timer: 4000,
                             buttonsStyling: false
@@ -2390,7 +2390,7 @@ var ReportComponent = /** @class */ (function () {
                     sweetalert2__WEBPACK_IMPORTED_MODULE_21___default()({
                         title: _this.translate.instant("common.success"),
                         text: _this.translate.instant("common.retro_complete"),
-                        type: "success",
+                        icon: "success",
                         timer: 2000
                     });
                 }
@@ -2669,7 +2669,7 @@ var RetrospectivesInitComponent = /** @class */ (function () {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_14___default()({
                     title: 'Uyarı!',
                     text: 'Şirketinize ait  retro hakkı bulunmamaktadır.',
-                    type: 'warning',
+                    icon: 'warning',
                     showConfirmButton: false,
                     timer: 4000,
                     buttonsStyling: false
@@ -2702,7 +2702,7 @@ var RetrospectivesInitComponent = /** @class */ (function () {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_14___default()({
                     title: 'Uyarı!',
                     text: 'Atanmış bir retro grubunuz bulunmamaktadır.',
-                    type: 'warning',
+                    icon: 'warning',
                     showConfirmButton: false,
                     timer: 4000,
                     buttonsStyling: false
@@ -3216,7 +3216,7 @@ var RetrospectivesComponent = /** @class */ (function () {
             title: this.translate.instant("common.copy_success"),
             position: "center",
             showConfirmButton: false,
-            type: "success",
+            icon: "success",
             timer: 2000
         });
     };
@@ -3491,10 +3491,10 @@ var SchemaComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                 title: this.translate.instant("templates.template_not_found"),
                 text: this.translate.instant("templates.wanttocreatetemplate"),
-                type: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: "btn btn-success",
-                cancelButtonClass: "btn btn-danger",
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
                 buttonsStyling: false,
@@ -3815,10 +3815,10 @@ var SubjectListComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                 title: this.translate.instant("common.topic_not_found"),
                 text: this.translate.instant("common.topic_create_request"),
-                type: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: "btn btn-success",
-                cancelButtonClass: "btn btn-danger",
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
                 buttonsStyling: false,
@@ -3832,10 +3832,10 @@ var SubjectListComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                 title: this.translate.instant("common.warning"),
                 text: this.translate.instant("common.confirm_delete"),
-                type: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: "btn btn-success",
-                cancelButtonClass: "btn btn-danger",
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
             }).then(function (result) {
@@ -4112,10 +4112,10 @@ var SubjectComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                 title: this.translate.instant("templates.template_not_found"),
                 text: this.translate.instant("templates.wanttocreatetemplate"),
-                type: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: "btn btn-success",
-                cancelButtonClass: "btn btn-danger",
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
                 buttonsStyling: false,
@@ -4129,10 +4129,10 @@ var SubjectComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_5___default()({
                 title: this.translate.instant('common.warning'),
                 text: this.translate.instant('common.confirm_delete'),
-                type: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: "btn btn-success",
-                cancelButtonClass: "btn btn-danger",
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
             }).then(function (result) {
@@ -4351,10 +4351,10 @@ var SuperUserManagementComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_3___default()({
                 title: this.translate.instant("common.warning"),
                 text: this.translate.instant("common.confirm_delete"),
-                type: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: "btn btn-success",
-                cancelButtonClass: "btn btn-danger",
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
             }).then(function (result) {
@@ -4538,10 +4538,10 @@ var TemplatesComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_6___default()({
                 title: this.translate.instant("templates.template_not_found"),
                 text: this.translate.instant("templates.wanttocreatetemplate"),
-                type: 'warning',
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
                 buttonsStyling: false,
@@ -4555,10 +4555,10 @@ var TemplatesComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_6___default()({
                 title: this.translate.instant("common.warning"),
                 text: this.translate.instant("common.confirm_delete"),
-                type: 'warning',
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: 'btn btn-success',
-                cancelButtonClass: 'btn btn-danger',
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
             }).then(function (result) {
@@ -4913,7 +4913,7 @@ var UserManagementComponent = /** @class */ (function () {
                     sweetalert2__WEBPACK_IMPORTED_MODULE_3___default()({
                         title: this.translate.instant("common.fail"),
                         text: this.translate.instant("common.maximum_leader"),
-                        type: "error",
+                        icon: "error",
                         timer: 2000
                     });
                 }
@@ -4921,7 +4921,7 @@ var UserManagementComponent = /** @class */ (function () {
                     sweetalert2__WEBPACK_IMPORTED_MODULE_3___default()({
                         title: this.translate.instant("common.fail"),
                         text: this.translate.instant("common.maximum_member"),
-                        type: "error",
+                        icon: "error",
                         timer: 2000
                     });
                 }
@@ -4961,7 +4961,7 @@ var UserManagementComponent = /** @class */ (function () {
                 sweetalert2__WEBPACK_IMPORTED_MODULE_3___default()({
                     title: 'Uyarı!',
                     text: 'Maksimum grup sayısına ulaştınız.',
-                    type: 'warning',
+                    icon: 'warning',
                     showConfirmButton: false,
                     timer: 4000,
                     buttonsStyling: false
@@ -4976,10 +4976,10 @@ var UserManagementComponent = /** @class */ (function () {
             sweetalert2__WEBPACK_IMPORTED_MODULE_3___default()({
                 title: this.translate.instant("common.warning"),
                 text: this.translate.instant("common.confirm_delete"),
-                type: "warning",
+                icon: 'warning',
                 showCancelButton: true,
-                confirmButtonClass: "btn btn-success",
-                cancelButtonClass: "btn btn-danger",
+                
+                
                 confirmButtonText: this.translate.instant("common.yes"),
                 cancelButtonText: this.translate.instant("common.no"),
             }).then(function (result) {

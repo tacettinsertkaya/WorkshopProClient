@@ -17,11 +17,10 @@ import { GroupService } from "app/services/group.service";
 import { GroupDto } from "app/models/dto/group-dto";
 import { Group } from "app/models/group";
 import { JsonpClientBackend } from "@angular/common/http";
-import swal from "sweetalert2";
+import Swal  from "sweetalert2";
 import { AlertifyService } from "app/services/alertify.service";
 import * as firebase from 'firebase';
 import { snapshotToArray } from "app/helpers/firebase-helper";
-import { debug } from "console";
 import { TranslateService } from "@ngx-translate/core";
 
 
@@ -505,11 +504,11 @@ export class RetrospectivesComponent implements OnInit {
     document.execCommand('copy');
     inputElement.setSelectionRange(0, 0);
 
-    swal({
+    Swal.fire({
       title:this.translate.instant("common.copy_success"),
       position: "center",
       showConfirmButton: false,
-      type: "success",
+      icon: "success",
       timer: 2000
     })
 

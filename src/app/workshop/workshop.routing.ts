@@ -11,6 +11,12 @@ import { SuperUserManagementComponent } from "./super-user-management/super-user
 import { CompanyManagementComponent } from "./company-management/company-management.component";
 import { GroupsComponent } from "./groups/groups.component";
 import { AdminComponent } from "./admin/admin.component";
+import { SubjectListComponent } from "./subject/subject-list/subject-list.component";
+import { SchemaComponent } from "./schema/schema.component";
+import { BrainstormComponent } from "./brainstorm/brainstorm.component";
+import { CategorizedComponent } from "./categorized/categorized.component";
+import { CommentsComponent } from "./comments/comments.component";
+import { VoteComponent } from "./vote/vote.component";
 
 export const WorkshopRoutes: Routes = [
   {
@@ -19,15 +25,49 @@ export const WorkshopRoutes: Routes = [
       {
         path: "retro",
         component: RetrospectivesComponent,
+        children: [
+        
+          {
+            path: "subject",
+            component: SubjectListComponent,
+          },
+          {
+            path: "subject/:id",
+            component: SubjectListComponent,
+          },
+          {
+            path: "template",
+            component: SchemaComponent,
+          },
+          {
+            path: "brainstorm",
+            component: BrainstormComponent,
+          },
+          {
+            path: "categorize",
+            component: CategorizedComponent,
+          },
+          {
+            path: "comment",
+            component: CommentsComponent,
+          },
+          {
+            path: "vote",
+            component: VoteComponent,
+          },
+
+
+        ]
       },
       {
-        path: "retro/:id",
-        component: RetrospectivesComponent,
-      },
-      {
-        path: "retro-start",
+        path: "retro/start",
         component: RetrospectivesInitComponent,
       },
+      // {
+      //   path: "retro/:id",
+      //   component: RetrospectivesComponent,
+      // },
+     
      
       {
         path: "templates",
@@ -42,7 +82,7 @@ export const WorkshopRoutes: Routes = [
         component: SubjectComponent,
       },
       {
-        path: "companys",
+        path: "companies",
         component: CompanyManagementComponent,
       },
       {

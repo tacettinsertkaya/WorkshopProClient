@@ -11,6 +11,7 @@ import { Company } from "app/models/company";
 import { CompanyService } from "app/services/company.service";
 import { UserFilter } from "app/models/dto/user-filter";
 import { AlertifyService } from "app/services/alertify.service";
+import { TranslateService } from "@ngx-translate/core";
 
 declare var $: any;
 
@@ -35,6 +36,7 @@ export class AdminComponent implements OnInit {
     private userService: UserService,
     private companyService:CompanyService,
     private alertifyService:AlertifyService,
+    private translate:TranslateService,
     private sharedService: SharedService
   ) {}
   ngOnInit() {
@@ -157,6 +159,15 @@ export class AdminComponent implements OnInit {
       );
   }
 
+  getTitle(){
+    if(this.isUpdate){
+      return  this.translate.instant("admin.edit_admin")
+    }
+    else{
+      return  this.translate.instant("admin.add_admin")
+    }
+  }
+
   saveUser() {
     let data = this.user;
 
@@ -202,14 +213,17 @@ export class AdminComponent implements OnInit {
   
     if (type == "warning-message-and-confirmation-delete") {
       swal({
-        title: "Uyarı",
-        text: "Silmek istediğinizden emin misiniz?",
+        title: " ",
+        text:this.translate.instant("common.confirm_delete") , 
+
+
+        
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {
         if (result.value) {
           this.removeUser(id);

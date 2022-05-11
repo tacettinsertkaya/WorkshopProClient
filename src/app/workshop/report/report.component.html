@@ -3,7 +3,7 @@
 
   <div class="row">
     <div class="container">
-      <button type="button" class="btn btn-danger float-right ml-5" *ngIf="isLeader()" (click)="finishRetro()">Retroyu
+      <button type="button" class="btn btn-danger float-right ml-5" *ngIf="isLeader()" (click)="finishRetro()">Atölyeyi
         Bitir</button>
 
       <button id="generate" class="btn btn-success float-right" *ngIf="isLeader()" (click)="createPdf()">
@@ -13,7 +13,7 @@
   </div>
 
 
-  <div class="report-header">
+  <div class="report-header mb-5">
 
     <h1 class="report-header__title">Yönetici Özeti</h1>
     <span class="report-header__description">
@@ -26,7 +26,7 @@
 
   <div class="report-section mb-5">
     <h3 class="report-section__title">Konu</h3>
-    <div class="card card-theme card-theme--cyan mb-3">
+    <div class="card card-theme card-theme--cyan">
       <div class="card-body p-2">
         <h4 class="card-title">{{subject.subjectTitle}}</h4>
         <div class="card-description">{{subject.subjectDescription}}
@@ -47,10 +47,10 @@
           <div class="card card-theme box-shadow-xs mb-3"
             *ngFor=" let message of GetHeaderCategorizedMessages(tmp.id);let index">
             <div class="card-body p-1 d-flex">
-              <div class="card-description " style="width: 95%;">
+              <div class="card-description " style="width: calc(100% - 70px);">
                 {{message.messageText}}
               </div>
-              <div class="d-flex align-items-end" style="width: 5%;">
+              <div class="d-flex align-items-end" style="width: 70px;">
                 <button class="btn btn-icon-theme"><i class="fa fa-thumbs-up"></i> ({{message.voteCount}})</button>
               </div>
             </div>
@@ -88,7 +88,7 @@
   </div>
 
 
-  <div class="report-header">
+  <div class="report-header mb-5">
     <h1 class="report-header__title">Rapor</h1>
     <span class="report-header__description">
       Bu bölümünde atölye çalışmasının sonunda ortaya çıkan fikirler, bu fikirlere ait yorumlar, her bir fikire ait
@@ -111,7 +111,7 @@
 
 
 
-  <div class="report-section category" *ngIf="categorizedMessages.length>0">
+  <div class="report-section category mb-5" *ngIf="categorizedMessages.length>0">
     <h3 class="report-section__title">Öncelikli Fikirler</h3>
     <div *ngFor="let tmp of template.templateDetail">
       <div *ngIf="GetHeaderCategorizedMessages(tmp.id).length>0">
@@ -146,8 +146,7 @@
     </div>
   </div>
 
-
-  <div class="report-section category" *ngIf="messages.length>0">
+  <div class="report-section category mb-5" *ngIf="messages.length>0">
     <h3 class="report-section__title">Diğer Fikirler</h3>
     <div *ngFor="let tmp of template.templateDetail">
       <div *ngIf="GetHeaderMessage(tmp.id).length>0">
@@ -162,15 +161,16 @@
                 <button class="btn btn-icon-theme"><i class="fa fa-thumbs-up"></i> ({{message.voteCount}})</button>
               </div>
             </div>
-          </div>
-          <div class="category__comments mt-3">
-            <div class="card card-theme card-theme--blue mb-3 w-75 box-shadow-xs"
-              *ngFor="let comment of message.comments">
-              <div class="card-body p-1 text-dark">
-                {{comment.commentText}}
+            <div class="category__comments mt-3">
+              <div class="card card-theme card-theme--blue mb-3 w-75 box-shadow-xs"
+                *ngFor="let comment of message.comments">
+                <div class="card-body p-1 text-dark">
+                  {{comment.commentText}}
+                </div>
               </div>
             </div>
           </div>
+        
           
         </div>
       </div>

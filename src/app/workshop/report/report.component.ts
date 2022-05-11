@@ -30,6 +30,7 @@ import { GroupFilter } from "app/models/dto/group-filter";
 import { AlertifyService } from "app/services/alertify.service";
 import swal from "sweetalert2";
 import { RetroConfigration } from "app/models/retro-configuration";
+import { TranslateService } from "@ngx-translate/core";
 
 declare var $: any;
 
@@ -69,6 +70,7 @@ export class ReportComponent implements OnInit {
     private groupService: GroupService,
     private alertifyService: AlertifyService,
     private userService: UserService,
+    private translate: TranslateService,
     private messageService: MessageService,
     private companyService: CompanyService,
     private retroConfigurationService: RetroConfigurationService,
@@ -81,7 +83,7 @@ export class ReportComponent implements OnInit {
     });
 
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
-      this.retroRight = right;
+      this.retroRight = this.sharedService.retroRightValue;
     });
 
 
@@ -110,14 +112,18 @@ export class ReportComponent implements OnInit {
           this.chatService.userOffline();
 
           localStorage.removeItem('currentUser');
+          localStorage.removeItem('retroRight');
+          localStorage.removeItem('selectSubject');
           this.userService.currentUserSetValue(null);
           this.router.navigate(['/login']);
-
+          
           this.alertifyService.success()
 
           swal({
-            title: "Başarılı",
-            text: "Retro tamamlandı. Üyelerin sistemden cıkışı sağlandı",
+         
+            title: this.translate.instant("common.success"),
+            text: this.translate.instant("common.retro_complete"),
+            
             type: "success",
             timer:2000
           })
@@ -127,7 +133,7 @@ export class ReportComponent implements OnInit {
     });
   }
 
-  @ViewChild('content') content: ElementRef;
+  @ViewChild('content', { static: true }) content: ElementRef;
   public SavePDF(): void {
 
     var pdf = new jsPDF('l', 'pt', 'a4');
@@ -259,8 +265,9 @@ export class ReportComponent implements OnInit {
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
-        retro.currentPage = "/report"
-        this.chatService.setCurrentRetro(retro);
+        retro.currentPage = "/retro/report"
+        retro.templateId=this.retro.templateId;
+        // this.chatService.setCurrentRetro(retro);
       }
 
     }
@@ -282,7 +289,8 @@ export class ReportComponent implements OnInit {
         retro.id = this.retro.id;
         retro.state = 3;
         retro.currentPage = "/finish"
-        this.chatService.setCurrentRetro(retro);
+        retro.templateId=this.retro.templateId;
+        // this.chatService.setCurrentRetro(retro);
 
       });
     });

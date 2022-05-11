@@ -1,0 +1,252 @@
+{
+  "login": {
+    "title": "Авторизоваться",
+    "username": "Имя пользователя",
+    "surname": "Фамилия",
+    "username_validation": "Введите имя пользователя",
+    "password": "пароль",
+    "password_validation": "введите пароль",
+    "login": "Авторизоваться",
+    "login_failed":"Логин или пароль неверны"
+
+  },
+  "member_login": {
+    "title": "Авторизоваться",
+    "name":"название",
+    "name_validation":"имя обязательно",
+    "surname":"фамилия",
+    "surname_required":"требуется фамилия"
+  },
+
+  "company": {
+    "title": "Компании",
+    "add_company": "Добавить компанию",
+    "edit_company":"Редактировать Компанию",    
+    "maximum_leader": "Макс. Лидер",
+    "maximum_retro": "Макс. Ретро",
+    "transactions": "Действия",
+    "company_name": "Название компании",
+    "give_up": "Отмена",
+    "save": "Сохранить",
+    "company_logo": "Логотип компании"
+  },
+
+  "admin": {
+    "title": "Administrators",
+    "add_admin": "Добавить администратора",
+    "edit_admin": "Admin Düzenle", 
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "email": "Электронное письмо",
+    "company": "Компания",
+    "transactions": "Действия",
+    "give_up": "Отмена",
+    "new_password": "Новый пароль",
+    "Password Repeat": "Новый пароль ещё раз",
+    "save": "Сохранить",
+    "status": "статус",
+    "status_required": "введите статус"
+  },
+
+  "super_admin": {
+    "title": "супер администратор",
+    "add_super_admin": "Добавить суперадминистратора",
+    "username": "Имя пользователя",
+    "password": "Пароль",
+    "transactions": "Действия",
+    "email": "Электронная почта",
+    "status": "статус",
+    "status_required": "введите статус"
+  },
+
+  "user_management": {
+    "title": "Пользователи",
+    "add_user": "Добавить пользователя",
+    "edit_user": "редактировать пользователя",
+    "leader_right": "Кол-во лидер",
+    "number_of_retro": "Кол-во ретро",
+    "leader": "лидер",
+    "member": "член",
+    "username": "Имя пользователя",
+    "password": "пароль",
+    "status": "статус",
+    "status_required": "введите статус",
+    "transactions": "Действия",
+    "select_company": "выберите компанию",
+    "company": "Компания",
+    "give_up": "Отмена",
+    "save": "Сохранить"
+  },
+
+  "subject": {
+    "title": "Темы",
+    "add_subject": "добавить тему",
+    "edit_subject": "Редактировать тему",
+    "subject": "тема",
+    "transactions": "Сделки",
+    "select_company": "выберите компанию",
+    "hood": "Заголовок",
+    "detail": "Подробная информация",
+    "give_up": "Отмена",
+    "save": "Сохранить",
+    "leader": "Лидер",
+    "close": "Закрыть",  
+    "startdate":"Начало",
+    "enddate":"Дата окончания",
+    "time":"Длительность",
+    "minute":"Минуты"
+
+  },
+
+  "templates": {
+    "title": "Шаблоны",
+    "add_template": "Добавить шаблон",
+    "add_new_template": "Добавить новый шаблон",
+    "select_company": "Выберите компанию",
+    "desk": "Заказ",
+    "give_up": "Отмена",
+    "save": "Сохранить",
+    "template_not_found":"шаблон не найден",
+    "wanttocreatetemplate":"Вы хотите создать шаблон сейчас?"
+  },
+
+  "retro_start": {
+    "title": "Начать воркшоп",
+    "number_of_idea_Rights": "Макс. кол-во идей",
+    "number_of_Comments": "Макс. кол-во комментариев",
+    "number_of_Voting_Rights": "Макс. кол-во оценок",
+    "start": "Начать"
+  },
+
+  "retro_subject": {
+    "add_subject": "добавить тему",
+    "select_company": "Выберите компанию",
+    "company": "Компании",
+    "hood": "капюшон",
+    "detail": "деталь",
+    "give_up": "Отмена",
+    "save": "Сохранить"
+  },
+
+  "retro_template": {
+    "add_template": "добавить шаблон  ",
+    "continue_without_template": "продолжить без шаблона  ",
+    "add_new_template": "добавить новый шаблон  ",
+    "company": "Компания  ",
+    "add_company": "Добавить компанию  ",
+    "hood": "Заголовок",
+    "desk": "Заказ",
+    "give_up": "Отмена",
+    "save": "Сохранить"
+  },
+
+  "retro_brainstrom": {
+    "number_of_idea_Rights": "Оставшееся кол-во идей"
+  },
+
+  "retro_categorize": {
+    "categorize": "Категоризировать",
+    "give_up": "Отмена",
+    "create": "Создать",
+    "enter_title": "Введите заголовок"
+  },
+
+  "retro_comment": {
+    "give_up": "Отмена",
+    "send": "Отправить",
+    "comment": "Оставить комментарий"
+  },
+
+  "retro_vote": {
+    "voting_right": "Оставшееся кол-во оценок",
+    "comments": "Комментарии",
+    "vote": "Оценить"
+  },
+
+  "retro_report": {
+    "finish_the_workshop": "Завершить воркшоп",
+    "create_pdf": "Создать PDF",
+    "title": "Краткий отчёт",
+    "topic": "предмет",
+    "Priority_Ideas": "Приоритетные идеи",
+    "report": "Отчёт",
+    "other_Ideas": "Другие идеи",
+    "report_subtitle":"В данном разделе отчёта Вы можете найти советы касательно тем, которые были рассмотрены на воркшопе; идеи, признанные 'приоритетными' в результате голосования, проведённого по окончании воркшопа, а также количество голосов, отданное за ту или иную идею.",
+    "footer_title":"В данном разделе представлены идеи, которые зародились во время воркшопа, комментарии по данным идеям, а также результаты голосования касательно данных идей.",
+    "completed_message":"Наш воркшоп завершён. Спасибо за то, что приняли участие."
+
+  },
+
+  "sidebar": {
+    "invite_link": "Ссылка-приглашение",
+    "announcement": "Объявление",
+    "active_participants": "Активные участники",
+    "send": "Отправить"
+  },
+
+  "tab_header": {
+    "select_topic": "Темы",
+    "Choose_Template": "Шаблоны",
+    "Develop_an_Idea": "Мозговой штурм",
+    "categorize": "Категоризировать",
+    "comment": "Оставить комментарий",
+    "vote": "Оценить",
+    "report": "Отчёт"
+  },
+
+  "navbar": {
+    "welcome": "Добро пожаловать",
+    "announcements": "Объявление"
+  },
+
+  "image_upload": {
+    "load": "Добавить"
+  },
+
+  
+  "common":{
+    "copy_success":"Скопировано успешно",
+    "copy_fail":"Не удалось скопировать ссылку.",
+    "title":"Заголовок",
+    "title_required":"требуется название",
+    "categorize":"Категоризировать",
+    "comment_right":"Оставшееся кол-во комментариев",
+    "comment":"Комментарий",
+    "company": "Компании",
+    "logout": "выйти",
+    "category_validation": "Идеи под разными названиями не могут быть разделены на категории.",
+    "select_category": "Выберите категорию",
+    "success": "Успешно",
+    "operation_success": "Выполнено успешно",
+    "faild": "Неуспешно",
+    "operation_fail": "Во время выполнения операции возникла ошибка",
+    "warning": "Оповещение",
+    "topic_not_found":"тема не найдена",
+    "topic_create_request":"Хотите создать тему сейчас?",
+    "template_not_found":"шаблон не найден",
+    "template_create_request":"Вы хотите создать шаблон сейчас?",
+    "confirm_delete":"Вы уверены в том, что хотите удалить?",
+    "retro_complete":"Ретро завершено. Участники вышли из системы.",
+    "agree":"Я прочитал(а) и принимаю Соглашение о Безопасности.",
+    "agree_validation":"Вы должны принять соглашение.",
+    "yes":"Да",
+    "no":"Нет",
+    "save":"Сохранить",
+    "cancel":"Отмена",
+    "maximum_leader":"Вы достигли максимального количества лидеров.",
+    "maximum_member": "Вы достигли максимального количества участников."
+  },
+  "menu":{
+   
+    "copy_fail":"Не удалось скопировать ссылку.",
+    "dashboard":"Дом",
+    "retros":"Воркшоп",
+    "templates":"Шаблоны",
+    "topics":"Темы",
+    "companys":"Компании",
+    "users":"пользователи",
+    "superadmins":"Cуперадминистраторы",
+    "admins":"Администраторы"
+  }
+   
+}

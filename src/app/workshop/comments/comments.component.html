@@ -1,7 +1,7 @@
 <div class="d-flex justify-content-end mt-3">
   <span class="pill-title text-bold" *ngIf="retroRight != null" [ngClass]="
   retroRight.commentRight > 0 ? 'text-success' : 'text-danger'
-">Yorum Hakkı: {{ retroRight.commentRight }}</span>
+"> {{'common.comment_right' | translate}}: {{ retroRight.commentRight }}</span>
 </div>
 
 <div class="categories mt-5">
@@ -9,12 +9,16 @@
     <h5 *ngIf="GetHeaderMessage(tmp.id).length>0">{{tmp.header}}</h5>
     <div *ngFor="let msg of GetHeaderMessage(tmp.id)" class="mt-3">
       <div class="card card-theme box-shadow-sm border-radius-lg">
-        <div class="card-body p-2 d-flex justify-content-between">
+        <div class="card-body p-2 d-flex justify-content-between align-items-start">
           <div class="content">
             {{ msg.messageText }}
           </div>
           <button [disabled]="retroRight.commentRight <= 0" (click)="addCommentModal(msg)"
-            class="btn btn-theme btn-vertical-padding btn-horizontal-padding-md ml-3">Yorum Yap</button>
+            class="btn btn-theme btn-vertical-padding ml-3 btn-icon-text px-3"><span>
+
+
+              {{'common.comment' | translate}}
+            </span> <i class="fa fa-comment"></i></button>
         </div>
       </div>
       <div class="category__comments mt-3" *ngFor="let com of msg.comments">
@@ -29,17 +33,7 @@
   </div>
 </div>
 
-<!-- <div class="row" *ngIf="!isUser"  >
-  <div class="col-md-3 offset-9">
-    <button
-     
-      (click)="nextCategorize()"
-      class="btn btn-round btn-success btn-block btn-lg float-right"
-    >
-      OYLA
-    </button>
-  </div>
-</div> -->
+
 
 
 

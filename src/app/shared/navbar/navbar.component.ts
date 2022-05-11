@@ -1,4 +1,4 @@
-import { Component, OnInit, Renderer, ViewChild, ElementRef, Directive, NgZone, AfterViewChecked } from '@angular/core';
+import { Component, OnInit, ViewChild, ElementRef, Directive, NgZone, AfterViewChecked, Renderer2 } from '@angular/core';
 import { ROUTES } from '../.././sidebar/sidebar.component';
 import { Router, ActivatedRoute, NavigationEnd, NavigationStart } from '@angular/router';
 import { Location, LocationStrategy, PathLocationStrategy } from '@angular/common';
@@ -10,6 +10,14 @@ import { SharedService } from 'app/services/shared.service';
 import { Retro } from 'app/models/retro';
 import { ChangeDetectorRef, AfterContentChecked } from '@angular/core'
 import swal from 'sweetalert2';
+import * as firebase from 'firebase';
+import { snapshotToArray } from "app/helpers/firebase-helper";
+import { filter, first } from 'rxjs/operators';
+import { RetroConfigurationService } from 'app/services/retro-configuration';
+import { VirtualTimeScheduler } from 'rxjs';
+import { TranslateService } from '@ngx-translate/core';
+
+
 declare var $: any;
 
 var misc: any = {
@@ -25,6 +33,7 @@ var misc: any = {
 })
 
 export class NavbarComponent implements OnInit, AfterViewChecked {
+
     private listTitles: any[];
     location: Location;
     private nativeElement: Node;
@@ -35,24 +44,38 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
     @ViewChild("navbar-cmp") button;
     currentRetro: Retro;
     announcements: Array<RetroAnnouncement> = [];
+    selectLanguage: string = '';
+
+
+   retroId:string='';
+
 
 
     constructor(location: Location, private sharedService: SharedService,
-        private _ngZone: NgZone, private renderer: Renderer, private element: ElementRef, private router: Router,
+        private _ngZone: NgZone, private renderer: Renderer2, private element: ElementRef, private router: Router,
         private userService: UserService,
+        private translate: TranslateService,
         private chatService: ChatService,
+        private configureService: RetroConfigurationService,
         private cdRef: ChangeDetectorRef
     ) {
         this.location = location;
         this.nativeElement = element.nativeElement;
         this.sidebarVisible = false;
-        this.subscribeToCurrentRetroEvents();
         this.subscribeRetroAnnouncementToEvents();
 
 
+
+        this.selectLanguage = this.userService.currentLangValue;
+        console.log(" this.selectLanguage", this.selectLanguage);
+        if (!this.currentLang()) {
+        
+          const browserLang ='tr';
+          this.selectLanguage = browserLang;
+        }
+        this.userService.currentLangSetValue(this.selectLanguage);
     }
     ngAfterViewChecked() {
-
         this.cdRef.detectChanges();
 
     }
@@ -63,7 +86,7 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
 
 
         if (this.userService.currentUserValue != null) {
-            this.userName = this.userService.currentUserValue.userName;
+            this.userName = this.userService.currentUserValue.name;
         }
 
         this.listTitles = ROUTES.filter(listTitle => listTitle);
@@ -82,57 +105,160 @@ export class NavbarComponent implements OnInit, AfterViewChecked {
         });
 
 
-        this.currentRetro = this.sharedService.currentRetroValue;
+        this.retroId=this.userService.currentRetroIdValue;
+
+        if(this.retroId){
+          this.getLastCurrentRetro(this.retroId);
+        }
+
 
     }
+    getCountryFlag(value) {
 
-    private subscribeToCurrentRetroEvents(): void {
-        this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
-            this._ngZone.run(() => {
-                this.currentRetro = retro;
-            })
-        });
+        if(value=='en')
+          return 'flag-icon-gb';
+        if(value=='de')
+          return 'flag-icon-de';
+        if(value=='fr')
+          return 'flag-icon-fr';
+        if(value=='ru')
+          return 'flag-icon-ru';
+        if(value=='tr')
+          return 'flag-icon-tr';
+
+        return 'flag-icon';
+      }
+
+      
+    currentLang() {
+        return this.userService.currentLangValue;
+      }
+    
+    
+      useLanguage(language: any): void {
+       
+        this.selectLanguage=language;
+        this.translate.setDefaultLang(language);
+        this.userService.currentLangSetValue(language);
+        this.translate.use(language);
+        console.log("language",language)
+        window.location.reload();
+
+      }
+    
+
+      
+      
+    getLastCurrentRetro(retroId) {
+
+        this.configureService
+            .getCurrentRetro(retroId)
+            .pipe(first())
+            .subscribe(
+                (res) => {
+
+                    this.currentRetro = res;
+
+
+                },
+                (error) => {
+
+                });
+    }
+
+
+    clickAnnounModal(){
+        $('#announcementListModal').modal('show');
     }
 
 
     private subscribeRetroAnnouncementToEvents(): void {
-        this.chatService.announcementReceived.subscribe((data: RetroAnnouncement) => {
-            this._ngZone.run(() => {
-              
-                if (this.currentRetro) {
-                    if (data.retroId == this.currentRetro.id){
-                        this.announcements.push(data);
-                 
 
-                     
+        if (this.isLeader() || this.isMember()) {
+            firebase.default.database().ref('announcement/').limitToLast(1).on('value', (resp: any) => {
+                var res = snapshotToArray(resp);
+                if (this.currentRetro && res.length > 0) {
 
-                          swal({
-                            text: data.contentText,
+                    
+                    if (res[0].retroId == this.currentRetro.id) {
+                        let an = res[0];
+                        this.announcements.push(an);
+
+
+                        swal({
+                            text: an.contentText,
                             position: 'top-end',
-                            showConfirmButton: false,
-                            timer: 2000
-                          })
-                      
-                      
-                     
+                            showConfirmButton: true,
+                            confirmButtonText:this.translate.instant("subject.close"),
+                            timer: 5000
+                        })
 
 
                     }
                 }
 
-
             });
-        });
+        }
+
+
+
+
     }
 
     logout() {
-        this.chatService.userOffline();
+        let currentUser = this.userService.currentUserValue;
+
+        
+        if (currentUser) {
+         
+            if (this.isLeader() || this.isMember()) {
+
+                if(this.isLeader()){
+                    let retro = new Retro();
+                    retro.id = this.userService.currentRetroIdValue;
+                    retro.currentPage = "/current/finish"
+            
+                    const newMessage = firebase.default.database().ref('currentpath/').push();
+                    newMessage.set(retro);
+                    localStorage.removeItem('currentRetroId');
+                }
+
+
+                var leadsRef = firebase.default.database().ref('onlineuser/');
+                leadsRef.on('value', function (snapshot) {
+                    var data = snapshotToArray(snapshot);
+                    var filterUser = data.filter(p => p.userId == currentUser.userId);
+                    if (filterUser.length > 0) {
+                        filterUser.forEach(p => {
+                            firebase.default.database().ref('onlineuser/' + p.key).remove();
+
+                        })
+                    }
+                });
+            }
+
+        }
 
         localStorage.removeItem('currentUser');
+   
+        
         this.userService.currentUserSetValue(null);
-        this.router.navigate(['/login']);
+        this.router.navigate(["/login"])
+
+
 
     }
+
+    isLeader() {
+        return this.userService.hasRole("Leader");
+    }
+
+    isMember() {
+        return this.userService.hasRole("Member");
+
+    }
+
+
     minimizeSidebar() {
         const body = document.getElementsByTagName('body')[0];
 

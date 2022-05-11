@@ -2,9 +2,9 @@
 
 
 <div class="d-flex align-items-center justify-content-between mb-3 mt-4">
-  <h3 class=" mb-0">Konular</h3>
+  <h3 class=" mb-0">{{ 'subject.title' | translate }}</h3>
 <button class="btn btn-theme btn-vertical-padding btn-horizontal-padding-md" data-toggle="modal"
-  data-target="#addModal">Konu Ekle </button>
+  data-target="#addModal">{{ 'subject.add_subject' | translate }}</button>
 </div>
 
 
@@ -14,9 +14,10 @@
     <table class="table w-100 table-theme">
       <thead>
         <tr>
-          <th>Konu</th>
+          <th>{{ 'subject.subject' | translate }}
+          </th>
 
-          <th class="text-right">İşlemler</th>
+          <th class="text-right">{{ 'subject.transactions' | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -28,6 +29,9 @@
           </td>
           <td>
            <div class="d-flex align-items-center justify-content-end">
+            <button class="btn btn-default btn-icon-theme" (click)="getRetro(row.id)"><i
+              class="fa fa-chart-bar"></i></button>
+
             <button class="btn btn-default btn-icon-theme" (click)="editSubject(row.id)"><i
               class="fa fa-edit"></i></button>
           <button class="btn btn-default btn-icon-theme" (click)="
@@ -52,7 +56,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle"> {{ isUpdate ? "Konu Güncelle" : "Konu Ekle" }} </h5>
+          <h5 class="modal-title" id="exampleModalLongTitle"> {{getTitle()}} </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -60,22 +64,22 @@
         <div class="modal-body">
 
           <div class="form-group">
-            <label>Şirket</label>
+            <label>{{ 'common.company' | translate }}</label>
             <select class="form-control" disabled [(ngModel)]="subject.companyId"
               [ngModelOptions]="{ standalone: true }">
-              <option value="" selected>Şirket Seçiniz</option>
+              <option value="" selected>{{ 'subject.select_company' | translate }}</option>
               <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
 
             </select>
 
           </div>
           <div class="form-group">
-            <label>Başlık</label>
+            <label>{{ 'subject.hood' | translate }}</label>
             <input style="max-height: max-content" rows="10" class="form-control textarea"
               [(ngModel)]="subject.subjectTitle" [ngModelOptions]="{ standalone: true }" />
           </div>
           <div class="form-group">
-            <label>Detay</label>
+            <label>{{ 'subject.detail' | translate }}</label>
             <textarea style="max-height: max-content" rows="10" class="form-control textarea"
               [(ngModel)]="subject.subjectDescription" [ngModelOptions]="{ standalone: true }"></textarea>
           </div>
@@ -83,13 +87,81 @@
         </div>
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-            data-dismiss="modal">Vazgeç
+            data-dismiss="modal">    {{ 'common.cancel' | translate }}
           </button>
           <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-            Kaydet
+            {{ 'common.save' | translate }}
           </button>
         </div>
       </div>
     </div>
   </form>
 </div>
+
+
+<div class="modal fade" id="retroModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLongTitle"> {{'menu.retros' | translate}} </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <table class="table w-100 table-theme">
+            <thead>
+              <tr>
+                <th>{{ 'subject.leader' | translate }}</th>
+                <th>{{ 'subject.startdate' | translate }}</th>
+                <th>{{ 'subject.time' | translate }}</th>
+      
+                <th class="text-right"></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let row of retroList">
+                <td>
+                  <div class="d-flex align-items-center" style="padding: .375rem 0;">
+                    {{ row?.leader?.userName }}
+                  </div>
+                </td>
+                <td  style="width: 300px;">
+                  <div class="d-flex align-items-center" style="padding: .375rem 0;">
+                    {{ row?.startDate | datetime }}
+                  </div>
+                </td>
+                <td >
+                  <div class="d-flex align-items-center" style="padding: .375rem 0;">
+                    {{ getDate(row?.startDate,row?.endDate)}} {{ 'subject.minute' | translate }}
+                  </div>
+                </td>
+
+              
+                <td >
+                 <div class="d-flex align-items-center justify-content-end">
+                  <button class="btn btn-default btn-icon-theme" (click)="getRetroReport(row.retro.id)"><i
+                    class="fa fa-file-pdf fa-2x"></i></button>
+                 </div>
+      
+                </td>
+              </tr>
+      
+      
+            </tbody>
+          </table>
+          <div class="my-overlay" *ngIf="showOverlay">
+            <i class="fa fa-spinner fa-spin" aria-hidden="true"></i>
+          </div>
+        </div>
+        <div class="modal-footer d-flex align-items-center">
+          <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
+            data-dismiss="modal">{{ 'subject.close' | translate }}
+          </button>
+         
+        </div>
+      </div>
+    </div>
+</div>
+

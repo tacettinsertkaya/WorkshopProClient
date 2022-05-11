@@ -2,9 +2,10 @@
 @import "../abstracts/mixins";
 
 .create-retro {
-  height: calc(100vh - 5rem - 1px);
+  height:100vh;
+
   background-repeat: no-repeat;
-  background-position: left;
+  // background-position: left;
   background-size: auto;
   display: flex;
   align-items: center;

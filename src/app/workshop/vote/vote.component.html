@@ -16,7 +16,7 @@
           {{ message.messageText }}
         </div>
         <div class="card-actions d-flex justify-content-between text-nowrap">
-          <button (click)="getComment(message)" class="btn btn-theme btn-horizontal-padding-xs mr-2">
+          <button (click)="getComment(message)" class="btn btn-theme btn-horizontal-padding-xs mr-2 btn-list-comment">
             <i class="fa fa-comment-alt mr-2"></i>
             <div class="d-md-block d-none">Yorumlar</div>
             
@@ -36,13 +36,7 @@
     </div>
 
   </div>
-  <!-- <div class="row mt-5" *ngIf="!isUser">
-    <div class="col-md-3 offset-9">
-      <button type="button" (click)="nextReport()" class="btn btn-round btn-success btn-block btn-lg float-right">
-        RAPORLA
-      </button>
-    </div>
-  </div> -->
+
 
 
   <div class="modal fade" id="modalComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"

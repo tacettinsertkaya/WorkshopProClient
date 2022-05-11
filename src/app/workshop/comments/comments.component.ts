@@ -12,6 +12,7 @@ import { RetroConfigration } from "app/models/retro-configuration";
 import { Retro } from "app/models/retro";
 import { UserService } from "app/services/user.service";
 import { UserRight } from "app/models/userRight";
+import { animate, query, stagger, style, transition, trigger } from "@angular/animations";
 
 declare var $: any;
 
@@ -26,6 +27,25 @@ declare interface DataTable {
   // tslint:disable-next-line:component-selector
   selector: "comments-cmp",
   templateUrl: "comments.component.html",
+  animations: [
+    trigger('slideDownUp', [
+      transition("* => *", [
+        query(":leave", [stagger(500, [animate("0.5s", style({ opacity: 0 }))])], {
+          optional: true
+        }),
+        query(
+          ":enter",
+          [
+            style({ opacity: 0 }),
+            stagger(500, [animate("0.5s", style({ opacity: 1 }))])
+          ],
+          { optional: true }
+        )
+      ])
+     
+    ]),
+  
+  ]
 })
 export class CommentsComponent implements OnInit {
   messages = new Array<Message>();
@@ -51,7 +71,7 @@ export class CommentsComponent implements OnInit {
     this.commentToEvents();
     this.retroConfigurationToEvents();
     this.sharedService.retroRight.subscribe((right: UserRight) => {
-      this.retroRight = right;
+      this.retroRight = this.sharedService.retroRightValue;
     });
     this.subscribeToCurrentRetroEvents();
   }
@@ -67,6 +87,8 @@ export class CommentsComponent implements OnInit {
   private GetHeaderMessage(headerId){
   
       let filteredData=this.messages.filter(p=>p.clientuniqueid==headerId);
+      
+      
     return filteredData;
   }
 
@@ -89,7 +111,7 @@ export class CommentsComponent implements OnInit {
       this._ngZone.run(() => {
         
         if(this.authService.hasRole("Member")) 
-        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+        this.sharedService.tabSource.next(retro.currentPage);
 
       });
     });
@@ -121,7 +143,7 @@ export class CommentsComponent implements OnInit {
       this.comment.commentText = this.commentText;
       this.comment.date = new Date();
       this.comment.retroId = this.retroRight.retroId;
-      this.chatService.sendComment(this.comment);
+      // this.chatService.sendComment(this.comment);
       this.commentText = "";
       $("#commentModal").modal("hide");
     }
@@ -146,8 +168,8 @@ export class CommentsComponent implements OnInit {
     this.chatService.commentReceived.subscribe((comment: Comment) => {
       this._ngZone.run(() => {
         let message = this.messages.filter((p) => p.id == comment.messageId);
-
         message[0].comments.push(comment);
+        message[0].comments.reverse();
       });
     });
   }

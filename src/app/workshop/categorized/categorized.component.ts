@@ -1,3 +1,4 @@
+import { animate, query, stagger, style, transition, trigger } from "@angular/animations";
 import { Component, NgZone, OnInit } from "@angular/core";
 import { Categorized } from "app/models/categorized";
 import { Category } from "app/models/category";
@@ -23,6 +24,25 @@ declare var $: any;
   selector: "app-categorized-cmp",
   templateUrl: "./categorized.component.html",
   styleUrls: ["./categorized.component.css"],
+  animations: [
+    trigger('slideDownUp', [
+      transition("* => *", [
+        query(":leave", [stagger(500, [animate("0.5s", style({ opacity: 0 }))])], {
+          optional: true
+        }),
+        query(
+          ":enter",
+          [
+            style({ opacity: 0 }),
+            stagger(500, [animate("0.5s", style({ opacity: 1 }))])
+          ],
+          { optional: true }
+        )
+      ])
+     
+    ]),
+  
+  ]
 })
 export class CategorizedComponent implements OnInit {
   messages = new Array<Message>();
@@ -64,7 +84,7 @@ export class CategorizedComponent implements OnInit {
     });
 
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
-      this.retroRight = right;
+      this.retroRight = this.sharedService.retroRightValue;
     });
 
   }
@@ -103,7 +123,7 @@ export class CategorizedComponent implements OnInit {
         this.retro=retro;
           this.sharedService.currentRetro.next(retro);
         if(this.authService.hasRole("Member") && retro.currentPage!=null) 
-           this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+           this.sharedService.tabSource.next(retro.currentPage);
 
       });
     });
@@ -172,8 +192,9 @@ export class CategorizedComponent implements OnInit {
           let retro = new Retro();
           retro.id = this.retroRight.retroId;
           retro.state = 2;
-          this.chatService.setCurrentRetro(retro);
-          this.chatService.getCategorizedMessage();     
+          retro.templateId=this.retro.templateId;
+          // this.chatService.setCurrentRetro(retro);
+          // this.chatService.getCategorizedMessage();     
         },
         (error) => { }
       );
@@ -210,7 +231,7 @@ export class CategorizedComponent implements OnInit {
   
           $("#categoryModal").modal("hide");
          
-           this.chatService.getCategorizedMessage();     
+          //  this.chatService.getCategorizedMessage();     
            let currentUser=this.authService.currentUserValue;
      
         
@@ -223,7 +244,7 @@ export class CategorizedComponent implements OnInit {
            message.date = new Date();
            message.isCategorized = false;
            message.retroId =  this.selectedMessages[0].retroId;
-           this.chatService.sendMessage(message);
+          //  this.chatService.sendMessage(message);
 
            this.selectedMessages = [];
            this.categorized.title = "";

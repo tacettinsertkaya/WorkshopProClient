@@ -1,4 +1,4 @@
-import { Component, NgZone, OnDestroy, OnInit } from "@angular/core";
+import { Component, ElementRef, NgZone, OnDestroy, OnInit, ViewChild } from "@angular/core";
 import { SharedService } from "app/services/shared.service";
 import { Subject } from "app/models/subject";
 import { RetroConfigration } from "app/models/retro-configuration";
@@ -19,6 +19,11 @@ import { Group } from "app/models/group";
 import { JsonpClientBackend } from "@angular/common/http";
 import swal from "sweetalert2";
 import { AlertifyService } from "app/services/alertify.service";
+import * as firebase from 'firebase';
+import { snapshotToArray } from "app/helpers/firebase-helper";
+import { debug } from "console";
+import { TranslateService } from "@ngx-translate/core";
+
 
 declare var $: any;
 @Component({
@@ -49,9 +54,22 @@ export class RetrospectivesComponent implements OnInit {
   retroRights: UserRight = new UserRight();
   editmode: boolean = false;
   groups: Array<GroupDto> = [];
-  currentTab: string = '.subject';
+  currentTab: string = '/retro/subject';
   retroRight: RetroConfigration = new RetroConfigration();
+  pathIndex: number = 0;
+  // @ViewChild('widgetsContent',{static:false,read: ElementRef}) private widgetsContent: any ;
 
+  // @ViewChild('widgetsContent') widgetsContent: ElementRef;
+
+  @ViewChild("widgetsContent") widgetsContent;
+
+  ngAfterViewInit(): void {
+    const width = window.innerWidth;
+    if (width <= 576)
+      this.widgetsContent.nativeElement.scrollLeft += 150;
+
+
+  }
   constructor(
     private sharedService: SharedService,
     private subjectService: SubjectsService,
@@ -59,6 +77,7 @@ export class RetrospectivesComponent implements OnInit {
     private groupService: GroupService,
     private configService: RetroConfigurationService,
     private chatService: ChatService,
+    private translate: TranslateService,
     private alertifyService: AlertifyService,
     private route: ActivatedRoute,
     private router: Router,
@@ -66,16 +85,67 @@ export class RetrospectivesComponent implements OnInit {
   ) {
 
 
+    firebase.default.database().ref('currentRetro/').limitToLast(1).on('value', (resp: any) => {
+ 
+      var data = snapshotToArray(resp);
+      if (data !== undefined) {
+        this.sharedService.currentRetro.next(data[0]);
+        this.currentRetro = data[0];
 
+        this.sharedService.tabSource.next(this.currentRetro.currentPage);
+
+        if (this.currentRetro.id) {
+
+          let retro = new Retro();
+          retro.id = this.currentRetro.id;
+          retro.state = this.currentRetro.state;
+          retro.templateId = this.currentRetro.templateId;
+          retro.userId = this.currentRetro.userId;
+
+          if (!this.sharedService.retroRightValue.id) {
+            this.configService.getUserRight(retro).subscribe(right => {
+              this.retroRight = right;
+
+              this.sharedService.retroRightSetValue(this.retroRight);
+            })
+          }
+
+          var filterData = ['/retro/start', '/retro/subject']
+          var exist = filterData.filter(p => p == this.currentRetro.currentPage.trim())
+       
+          if (exist.length == 0) {
+
+            this.getRetroSubject(retro.id);
+          }
+
+        }
+      }
+    });
+
+
+
+
+
+
+    // this.chatService.getAllUserRights(retro);
 
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
-      this.retroRight = right;
+      this.retroRight = this.sharedService.retroRightValue;
     });
 
     this.sharedService.tabSource.subscribe((tab: string) => {
-      this.currentTab = tab ? tab : '.select-subject';
+     
+      if (tab) {
+        this.router.navigate[tab];
+      }
+      else {
+        this.router.navigate["/retro/subject"]
+      }
 
-      if (".idea-archive" == tab) {
+
+
+      if ("/retro/report" == tab) {
+        this.pathIndex = 7;
         this.isReport = true;
         this.isShow = false;
       }
@@ -86,7 +156,9 @@ export class RetrospectivesComponent implements OnInit {
       }
 
 
-      if (".select-subject" == tab) {
+      if ("/retro/subject" == tab) {
+        this.pathIndex = 1;
+
         this.isShow = false;
         this.isSelectSubject = true;
       }
@@ -96,14 +168,17 @@ export class RetrospectivesComponent implements OnInit {
 
       }
 
-      if (".select-template" == tab) {
+      if ("/retro/template" == tab) {
+        this.pathIndex = 2;
         this.isSelectTemplate = true;
       }
       else {
         this.isSelectTemplate = false;
       }
 
-      if (".brainstorm" == tab) {
+      if ("/retro/brainstorm" == tab) {
+        this.pathIndex = 3;
+
         this.isBrainstorm = true;
 
       }
@@ -112,7 +187,9 @@ export class RetrospectivesComponent implements OnInit {
 
       }
 
-      if (".comments" == tab) {
+      if ("/retro/comment" == tab) {
+        this.pathIndex = 5;
+
         this.isComment = true;
 
       }
@@ -122,7 +199,9 @@ export class RetrospectivesComponent implements OnInit {
       }
 
 
-      if (".vote" == tab) {
+      if ("/retro/vote" == tab) {
+        this.pathIndex = 6;
+
         this.isVote = true;
       }
       else {
@@ -130,14 +209,18 @@ export class RetrospectivesComponent implements OnInit {
 
       }
 
-      if (".categorize" == tab) {
+      if ("/retro/categorize" == tab) {
+        this.pathIndex = 4;
+
         this.isCategorized = true;
       }
       else {
         this.isCategorized = false;
       }
 
-      if (".idea-archive" == tab) {
+      if ("/retro/report" == tab) {
+        this.pathIndex = 7;
+
         if (this.authService.hasRole("Leader")) {
           this.getFilterGroup();
         }
@@ -147,7 +230,9 @@ export class RetrospectivesComponent implements OnInit {
 
 
 
-
+      const width = window.innerWidth;
+      if (width <= 576 && this.widgetsContent != undefined)
+        this.widgetsContent.nativeElement.scrollLeft += 150;
 
 
     });
@@ -161,12 +246,18 @@ export class RetrospectivesComponent implements OnInit {
     });
 
     this.sharedService.currentRetro.subscribe((retro: any) => {
-      if (retro) {
+      if (this.sharedService.currentRetroValue.id) {
         this.currentRetro = retro;
         this.inviteLink = environment.appUrl + "member/" + this.currentRetro.id;
+        if (this.currentRetro.state > 2) {
+          this.getRetroSubject(this.currentRetro.id);
+        }
       }
       else {
-        this.router.navigate(["/retro-start"])
+        // this.router.navigate(["/retro/start"]);
+
+
+
       }
     });
 
@@ -196,60 +287,69 @@ export class RetrospectivesComponent implements OnInit {
     }
   }
 
+  isActive(currentTab) {
+    return this.router.url == currentTab;
+  }
+
   clickTab(tab: string) {
     this.currentTab = '.' + tab;
-    console.log("retro-tab", tab);
 
-    if (".comments" == this.currentTab) {
-      this.sharedService.tabSource.next(".comments");
+    if ("/retro/comment" == this.currentTab) {
+      this.sharedService.tabSource.next("/retro/comment");
       if (this.authService.hasRole("Leader")) {
-
+        this.pathIndex = 5;
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
-        retro.currentPage = "/comments"
-        this.chatService.setCurrentRetro(retro);
+        retro.currentPage = "/retro/comment"
+        retro.templateId = this.currentRetro.templateId;
+        retro.subjectId = this.sharedService.selectSubjectValue.id;
+        // this.chatService.setCurrentRetro(retro);
       }
     }
-    if (".categorize" == this.currentTab) {
-      this.sharedService.tabSource.next(".categorize");
+    if ("/retro/categorize" == this.currentTab) {
+      this.sharedService.tabSource.next("/retro/categorize");
       if (this.authService.hasRole("Leader")) {
-
+        this.pathIndex = 4;
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
-        retro.currentPage = "/categorize"
-        this.chatService.setCurrentRetro(retro);
+        retro.currentPage = "/retro/categorize"
+        retro.templateId = this.currentRetro.templateId;
+        // this.chatService.setCurrentRetro(retro);
       }
 
 
     }
-    if (".vote" == this.currentTab) {
-      this.sharedService.tabSource.next(".vote");
+    if ("/retro/vote" == this.currentTab) {
+      this.sharedService.tabSource.next("/retro/vote");
       if (this.authService.hasRole("Leader")) {
-
+        this.pathIndex = 6;
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
-        retro.currentPage = "/vote"
-        this.chatService.setCurrentRetro(retro);
+        retro.currentPage = "/retro/vote"
+        retro.templateId = this.currentRetro.templateId;
+        // this.chatService.setCurrentRetro(retro);
       }
     }
-    if (".idea-archive" == this.currentTab) {
-      this.sharedService.tabSource.next(".idea-archive");
+    if ("/retro/report" == this.currentTab) {
+      this.sharedService.tabSource.next("/retro/report");
       if (this.authService.hasRole("Leader")) {
-
+        this.pathIndex = 7;
         let retro = new Retro();
         retro.id = this.retroRight.retroId;
         retro.state = 2;
-        retro.currentPage = "/idea-archive"
-        this.chatService.setCurrentRetro(retro);
+        retro.currentPage = "/retro/report"
+        retro.templateId = this.currentRetro.templateId;
+        // this.chatService.setCurrentRetro(retro);
       }
     }
 
 
 
-    if (".idea-archive" == this.currentTab) {
+    if ("/retro/report" == this.currentTab) {
+      this.pathIndex = 7;
       this.isReport = true;
       this.isShow = false;
     }
@@ -260,7 +360,8 @@ export class RetrospectivesComponent implements OnInit {
     }
 
 
-    if (".select-subject" == this.currentTab) {
+    if ("/retro/subject" == this.currentTab) {
+      this.pathIndex = 1;
       this.isShow = false;
       this.isSelectSubject = true;
     }
@@ -270,14 +371,17 @@ export class RetrospectivesComponent implements OnInit {
 
     }
 
-    if (".select-template" == this.currentTab) {
+    if ("/retro/template" == this.currentTab) {
+      this.pathIndex = 2;
+
       this.isSelectTemplate = true;
     }
     else {
       this.isSelectTemplate = false;
     }
 
-    if (".brainstorm" == this.currentTab) {
+    if ("/retro/brainstorm" == this.currentTab) {
+      this.pathIndex = 3;
       this.isBrainstorm = true;
 
     }
@@ -286,7 +390,9 @@ export class RetrospectivesComponent implements OnInit {
 
     }
 
-    if (".comments" == this.currentTab) {
+    if ("/retro/comment" == this.currentTab) {
+      this.pathIndex = 5;
+
       this.isComment = true;
 
     }
@@ -296,7 +402,9 @@ export class RetrospectivesComponent implements OnInit {
     }
 
 
-    if (".vote" == this.currentTab) {
+    if ("/retro/vote" == this.currentTab) {
+      this.pathIndex = 6;
+
       this.isVote = true;
     }
     else {
@@ -304,25 +412,33 @@ export class RetrospectivesComponent implements OnInit {
 
     }
 
-    if (".categorize" == this.currentTab) {
+    if ("/retro/categorize" == this.currentTab) {
+      this.pathIndex = 4;
+
       this.isCategorized = true;
     }
     else {
       this.isCategorized = false;
     }
 
-    if (".idea-archive" == this.currentTab) {
+    if ("/retro/report" == this.currentTab) {
       if (this.authService.hasRole("Leader")) {
+        this.pathIndex = 7;
+
         this.getFilterGroup();
       }
     }
+
+    const width = window.innerWidth;
+    if (width <= 576)
+      this.widgetsContent.nativeElement.scrollLeft += 150;
+
 
 
 
   }
 
   changeTab(tab) {
-    console.log("tab", tab);
 
     $(tab).click();
     $(".tab-progress").find(".nav-item").removeClass("active");
@@ -390,7 +506,7 @@ export class RetrospectivesComponent implements OnInit {
     inputElement.setSelectionRange(0, 0);
 
     swal({
-      title: "Başarılı bir kopyalandı.",
+      title:this.translate.instant("common.copy_success"),
       position: "center",
       showConfirmButton: false,
       type: "success",
@@ -436,7 +552,6 @@ export class RetrospectivesComponent implements OnInit {
         (res) => {
 
           this.selectSubject = res;
-
           this.sharedService.selectSubjectSetValue(res);
         },
         (error) => {
@@ -503,7 +618,7 @@ export class RetrospectivesComponent implements OnInit {
       this._ngZone.run(() => {
         this.sharedService.currentRetro.next(retro);
         if (this.authService.hasRole("Member")) {
-          this.sharedService.tabSource.next("." + retro.currentPage.replace("/", ""));
+          this.sharedService.tabSource.next(retro.currentPage);
           this.inviteLink = environment.appUrl + "member/" + retro.id;
         }
       });

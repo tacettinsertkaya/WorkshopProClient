@@ -1,0 +1,33 @@
+
+
+
+
+<div class="create-retro d-flex justify-content-end" style="background-image: url('assets/img/retro-bg.png')">
+ 
+  <form #configForm="ngForm"  (ngSubmit)="saveConfig()" class="create-retro__form">
+    <h3 class="card-title">{{ 'retro_start.title' | translate }}</h3>
+    <div class="form-group">
+      <label>{{ 'retro_start.number_of_idea_Rights' | translate }}</label>
+      <input type="number" [disabled]="isCheckFailed()" class="form-control" [(ngModel)]="config.ideaRight"
+        [ngModelOptions]="{ standalone: true }" />
+    </div>
+    <div class="form-group ">
+      <label>{{ 'retro_start.number_of_Comments' | translate }}</label>
+      <input type="number" [disabled]="isCheckFailed()" class="form-control" [(ngModel)]="config.commentRight"
+        [ngModelOptions]="{ standalone: true }" />
+    </div>
+    <div class="form-group ">
+      <label>{{ 'retro_start.number_of_Voting_Rights' | translate }}</label>
+      <input type="number" [disabled]="isCheckFailed()" class="form-control" [(ngModel)]="config.voteRight"
+        [ngModelOptions]="{ standalone: true }" />
+    </div>
+    <div class="d-flex justify-content-end">
+      <button type="submit" [disabled]="isCheckFailed()" class="btn btn-theme btn-vertical-padding btn-horizontal-padding">{{ 'retro_start.start' | translate }}</button>
+    </div>
+  </form>
+</div>
+
+
+
+
+

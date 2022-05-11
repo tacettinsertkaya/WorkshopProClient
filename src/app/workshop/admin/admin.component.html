@@ -1,10 +1,10 @@
 <div class="row   mb-3 mt-5">
   <div class="col-sm-6 d-flex align-items-center">
-    <h3 class="float-left">Adminler</h3>
+    <h3 class="float-left">{{ 'admin.title' | translate }}</h3>
   </div>
   <div class="col-sm-6">
     <button class=" float-right btn btn-theme btn-horizontal-padding btn-vertical-padding" data-toggle="modal"
-      data-target="#addModal">Admin Ekle</button>
+      data-target="#addModal">{{ 'admin.add_admin' | translate }}</button>
   </div>
 </div>
 <div class="card card-theme">
@@ -12,12 +12,12 @@
     <table class="table w-100 table-theme">
       <thead>
         <tr>
-          <th>Kullanıcı Adı</th>
-          <th>Şifre</th>
-          <th>Eposta</th>
-          <th>Şirket</th>
+          <th>{{ 'admin.username' | translate }}</th>
+          <th>{{ 'admin.password' | translate }}</th>
+          <th>{{ 'admin.email' | translate }}</th>
+          <th>{{ 'admin.company' | translate }}</th>
 
-          <th class="text-right" style="padding-right: 50px;">İşlemler</th>
+          <th class="text-right" style="padding-right: 50px;">{{ 'admin.transactions' | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -67,7 +67,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle"> {{ isUpdate ? " Admin Güncelle" : "Admin Ekle" }}</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle"> {{ getTitle()  }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -78,10 +78,10 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Şirket</label>
+                <label>{{ 'admin.company' | translate }}</label>
 
                 <select class="form-control" [(ngModel)]="user.companyId" [ngModelOptions]="{ standalone: true }">
-                  <option value=''> Şirket Seçiniz </option>
+                  <option value=''> {{'user_management.select_company' | translate}} </option>
 
                   <option *ngFor="let company of companys" [value]=company.id> {{company.companyName}} </option>
 
@@ -94,7 +94,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Kullanıcı Adı</label>
+                <label>{{'user_management.username' | translate}}</label>
                 <input style="max-height: max-content" rows="10" class="form-control textarea"
                   [(ngModel)]="user.userName" [ngModelOptions]="{ standalone: true }" />
               </div>
@@ -104,7 +104,9 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Şifre</label>
+                <label>
+                  {{'admin.password' | translate}}
+                </label>
                 <input type="text" style="max-height: max-content" rows="10" class="form-control"
                   [(ngModel)]="user.rawPassword" [ngModelOptions]="{ standalone: true }" />
               </div>
@@ -114,7 +116,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Email</label>
+                <label>{{'admin.email' | translate}}</label>
                 <input type="text" style="max-height: max-content" rows="10" class="form-control"
                   [(ngModel)]="user.email" [ngModelOptions]="{ standalone: true }" />
               </div>
@@ -125,11 +127,11 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Statü</label>
+                <label>{{'user_management.status' | translate}}</label>
 
                 <select class="form-control" disabled [(ngModel)]="user.statu" [ngModelOptions]="{ standalone: true }">
 
-                  <option value="Admin" selected>Admin</option>
+                  <option value="{{ 'admin.admin' | translate }}" selected></option>
 
                 </select>
 
@@ -143,10 +145,10 @@
 
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-            data-dismiss="modal">Vazgeç
+            data-dismiss="modal">    {{ 'common.cancel' | translate }}
           </button>
           <button type="button" (click)="saveUser()" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-            Kaydet
+            {{ 'common.save' | translate }}
           </button>
         </div>
       </div>
@@ -163,7 +165,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle"> Şifre Güncelle</h5>
+          <h5 class="modal-title" id="exampleModalLongTitle">{{ 'admin.password' | translate }}</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
@@ -176,7 +178,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Yeni Şifre</label>
+                <label>{{ 'admin.new_password' | translate }}</label>
                 <input style="max-height: max-content" rows="10" class="form-control textarea"
                   [(ngModel)]="resetPassword.newPassword" [ngModelOptions]="{ standalone: true }" />
               </div>
@@ -186,7 +188,7 @@
           <div class="row">
             <div class="col-12">
               <div class="form-group">
-                <label>Şifre Tekrar</label>
+                <label>{{ 'admin.password_again' | translate }}</label>
                 <input type="text" style="max-height: max-content" rows="10" class="form-control"
                   [(ngModel)]="resetPassword.confirmPassword" [ngModelOptions]="{ standalone: true }" />
               </div>
@@ -197,11 +199,11 @@
 
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-            data-dismiss="modal">Vazgeç
+            data-dismiss="modal">    {{ 'common.cancel' | translate }}
           </button>
           <button (click)="changePassword()" type="button"
             class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-            Kaydet
+            {{ 'common.save' | translate }}
           </button>
 
         </div>

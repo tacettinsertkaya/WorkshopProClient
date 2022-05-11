@@ -1,40 +1,159 @@
 <div class="header d-flex justify-content-end align-items-center">
   <div class="header__navigation">
-    
-  
-      <div class="header__toggle-sidebar">
-        <button class="btn btn-icon-theme font-size-lg" id="toggleSidebar">
-          <i class="fa fa-bars"></i>
-        </button>
-      </div>
-    
+
+
+    <div class="header__toggle-sidebar">
+      <button class="btn btn-icon-theme font-size-lg" id="toggleSidebar">
+        <i class="fa fa-bars"></i>
+      </button>
     </div>
-  <div class="dropdown">
-    <a class="btn  dropdown-toggle"  id="bell" data-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+
+  </div>
+
+  <div>
+    <a class="btn" (click)="clickAnnounModal()">
       <i class="fa fa-bell"></i>
-     
-      <small  *ngIf="announcements.length>0" class="badge">({{announcements.length}})</small>
-  </a>
-    <div class="dropdown-menu" aria-labelledby="bell">
-      <a class="dropdown-item"  *ngFor="let item of announcements">{{item.contentText}} </a>
-      <a class="dropdown-item"  *ngIf="announcements.length==0"> Gelen bildirim bulunamadı </a>
-     
+
+      <small *ngIf="announcements.length>0" class="badge">({{announcements.length}})</small>
+    </a>
+   
+  </div>
+
+  <div class="header__user pr-2">
+    <div class="dropdown">
+      <button class="btn btn-default dropdown-toggle" type="button" id="headerUserDropdown" data-toggle="dropdown"
+        aria-haspopup="true" aria-expanded="false">
+      
+          <span style="background-size: contain;background-position: 50%;background-repeat: no-repeat;"
+            class="flag-icon" [ngClass]="getCountryFlag(selectLanguage)">
+
+
+          </span>
+          <span> {{ selectLanguage }}</span>
+
+      </button>
+
+      <div class="dropdown-menu w-100" aria-labelledby="headerUserDropdown"
+        style="border-radius: 30px;    margin-top: 10px;">
+
+        <a class="dropdown-item bg-transparent" (click)="useLanguage('en')">
+          <p>
+            <span style="background-size: contain;background-position: 50%;background-repeat: no-repeat;"
+              class="flag-icon" [ngClass]="getCountryFlag('en')">
+
+            </span>
+            <span class="pl-1">
+              en
+            </span>
+          </p>
+
+        </a>
+
+        <a class="dropdown-item bg-transparent" (click)="useLanguage('tr')">
+          <p>
+            <span style="background-size: contain;background-position: 50%;background-repeat: no-repeat;"
+              class="flag-icon" [ngClass]="getCountryFlag('tr')">
+
+            </span>
+            <span class="pl-1">tr</span>
+          </p>
+        </a>
+        <a class="dropdown-item bg-transparent" (click)="useLanguage('de')">
+          <p>
+            <span style="background-size: contain;background-position: 50%;background-repeat: no-repeat;"
+              class="flag-icon" [ngClass]="getCountryFlag('de')">
+
+            </span>
+            <span class="pl-1">
+              de
+            </span>
+          </p>
+        </a>
+        <a class="dropdown-item bg-transparent" (click)="useLanguage('ru')">
+          <p>
+            <span style="background-size: contain;background-position: 50%;background-repeat: no-repeat;"
+              class="flag-icon" [ngClass]="getCountryFlag('ru')">
+
+            </span>
+            <span class="pl-1">
+              ru
+            </span>
+          </p>
+        </a>
+
+        <a class="dropdown-item bg-transparent" (click)="useLanguage('fr')">
+          <p>
+            <span style="background-size: contain;background-position: 50%;background-repeat: no-repeat;"
+              class="flag-icon" [ngClass]="getCountryFlag('fr')">
+
+            </span>
+            <span class="pl-1">
+              fr
+            </span>
+          </p>
+        </a>
+      </div>
+
     </div>
   </div>
+
+
   
 
- 
+
+
+
   <div class="header__user">
     <div class="dropdown">
       <button class="btn btn-default dropdown-toggle" type="button" id="headerUserDropdown" data-toggle="dropdown"
-              aria-haspopup="true" aria-expanded="false">
+        aria-haspopup="true" aria-expanded="false">
         <i class="fa fa-user"></i>
-        <span>Hoşgeldin, {{userName}}</span>
+        <span>{{ 'navbar.welcome' | translate }}, {{userName}}</span>
       </button>
-      <div class="dropdown-menu w-100" aria-labelledby="headerUserDropdown" style="border-radius: 30px;">
-       
-        <a class="dropdown-item bg-transparent"  (click)="logout()">Çıkış Yap</a>
+      <div class="dropdown-menu w-100" aria-labelledby="headerUserDropdown"
+        style="border-radius: 30px;    margin-top: 10px;">
+
+        <a class="dropdown-item bg-transparent" (click)="logout()">{{ 'common.logout' | translate }}</a>
+      </div>
+    </div>
+  </div>
+
+
+
+</div>
+
+<div id="announcementListModal" class="modal" tabindex="-1" role="dialog">
+  <div class="modal-dialog modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">{{ 'navbar.announcements' | translate }}</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <div class=" mb-5">
+
+
+          <div class="row">
+            <div class="col-sm-12" *ngFor="let item of announcements;let i = index">
+
+              <div class="alert alert-success" role="alert">
+
+                <div class="well well-lg" style="height: auto !important;" rows="5">
+                  {{i+1 }}. {{item.contentText}}
+                </div>
+              </div>
+
+
+            </div>
+          </div>
+
+
+        </div>
+      </div>
+      <div class="modal-footer">
+
       </div>
     </div>
   </div>

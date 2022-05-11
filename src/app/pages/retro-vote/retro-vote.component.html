@@ -1,0 +1,78 @@
+<app-tab-header></app-tab-header>
+<app-subject-header></app-subject-header>
+
+<div class="d-flex justify-content-end mt-3">
+  <span class="pill-title text-bold" *ngIf="retroRight != null"  [ngClass]="
+  retroRight.voteRight > 0 ? 'text-success' : 'text-danger'
+">
+{{ 'retro_vote.voting_right' | translate }}:{{ retroRight.voteRight }}</span>
+</div>
+
+
+
+<div class="categories mt-5" *ngFor="let tmp of template.templateDetail">
+  <div class="category" >
+    <h5 *ngIf="GetHeaderMessage(tmp.id).length>0">{{tmp.header}}</h5>
+    <div class="card card-theme box-shadow-sm border-radius-lg mb-3" *ngFor="let message of GetHeaderMessage(tmp.id)" >
+      <div class="card-body p-1 d-flex align-items-center justify-content-between" >
+        <div class="card-description">
+          {{ message.messageText }}
+        </div>
+        <div class="card-actions d-flex justify-content-between text-nowrap">
+          <button (click)="getComment(message)" class="btn btn-theme btn-horizontal-padding-xs mr-2 btn-list-comment">
+            <i class="fa fa-comment-alt mr-2"></i>
+            <div class="d-md-block d-none">{{ 'retro_vote.comments' | translate }}</div>
+            
+            <span class="count">{{message.commentCount}}</span>
+          </button>
+          <button [disabled]="retroRight.voteRight <= 0 " (click)="setVote(message)"
+            class="btn btn-theme btn-horizontal-padding-xs">
+            <i class="fa fa-thumbs-up mr-2" [ngClass]="{
+              'text-secondary':isVotedCheck(message.id) === true
+              
+            }"></i>
+            <div class="d-md-block d-none">{{ 'retro_vote.vote' | translate }}</div>
+            <span class="count">{{message.voteCount}}</span>
+          </button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <div class="modal fade" id="modalComment" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <form #templateForm="ngForm" (ngSubmit)="sendComment()">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">{{ 'retro_vote.comments' | translate }}</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+
+            <div class="row" *ngFor="let comment of message.comments">
+              <div class="col-md-12">
+                <div class="card mt-2">
+                  <div class="card-header">
+                    {{ comment.commentText }}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+
+          </div>
+
+        </div>
+      </div>
+    </form>
+  </div>
+
+
+
+  

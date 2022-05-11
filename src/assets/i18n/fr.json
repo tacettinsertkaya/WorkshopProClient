@@ -1,0 +1,254 @@
+{
+  "login": {
+    "title": "Connexion",
+    "username": "Nom d'utilisateur",
+    "surname": "Nom de famille",
+    "username_validation": "Saisissez votre nom d'utilisateur",
+    "password": "Mot de passe",
+    "password_validation": "Entrer le mot de passe",
+    "login": "Connexion",
+    "login_failed":"L'identifiant ou le mot de passe est incorrect"
+
+  },
+  "member_login": {
+    "title": "Connexion",
+    "name":"Nom",
+    "name_validation":"Nom requis",
+    "surname":"Nom de famille",
+    "surname_required":"Nom de famille requis"
+  },
+
+  "company": {
+    "title": "Entreprises",
+    "add_company": "Ajouter une entreprise",
+    "edit_company":"Modifier l'entreprise",    
+    "maximum_leader": "Leader maximum",
+    "maximum_retro": "Retro maximum",
+    "transactions": "Actions",
+    "company_name": "Nom de l'entreprise",
+    "give_up": "Annuler",
+    "save": "Sauvegarder",
+    "company_logo": "Logo de l'entreprise"
+  },
+
+  "admin": {
+    "title": "Admins",
+    "add_admin": "Ajouter un administrateur",
+    "edit_admin": "Editer l'administrateur", 
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "email": "Email",
+    "company": "Entreprise",
+    "transactions": "Actions",
+    "give_up": "Annuler",
+    "new_password": "Nouveau mot de passe",
+    "Password Repeat": "Répéter le mot de passe",
+    "save": "Sauvegarder",
+    "status": "Statut",
+    "status_required": "Définir le statut"
+  },
+
+  "super_admin": {
+    "title": "Superadmin",
+    "add_super_admin": "Ajouter un Superadmin",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "transactions": "Actions",
+    "email": "E-mail",
+    "status": "Statut",
+    "status_required": "Définir le statut"
+  },
+
+  "user_management": {
+    "title": "Utilisateurs",
+    "add_user": "Ajouter un utilisateur",
+    "edit_user": "Modifier l'utilisateur",
+    "leader_right": "Leader maximum",
+    "number_of_retro": "Retro maximum",
+    "leader": "Leader",
+    "member": "Membre",
+    "username": "Nom d'utilisateur",
+    "password": "Mot de passe",
+    "status": "Statut",
+    "status_required": "Définir le statut",
+    "transactions": "Actions",
+    "select_company": "Sélectionnez une entreprise",
+    "company": "Entreprise",
+    "give_up": "Annuler",
+    "save": "Sauvegarder"
+    
+  },
+
+  "subject": {
+    "title": "Sujets",
+    "add_subject": "Ajouter un sujet",
+    "edit_subject": "Editer le sujet",
+    "subject": "matière",
+    "transactions": "Actions",
+    "select_company": "Sélectionnez une entreprise",
+    "hood": "Titre",
+    "detail": "Détails",
+    "give_up": "Annuler",
+    "save": "Sauvegarder",
+    "leader": "Leader",
+    "close": "Fermer",
+    "startdate":"Date de début",
+    "enddate":"Date de fin",
+    "time":"Durée",
+    "minute":"Minute"
+
+  },
+
+  "templates": {
+    "title": "Mises en page",
+    "add_template": "Nouvelle mise en page",
+    "add_new_template": "Ajouter une nouvelle mise en page",
+    "select_company": "Sélectionnez une entreprise",
+    "desk": "Rang",
+    "give_up": "Annuler",
+    "save": "Sauvegarder",
+    "template_not_found":"Mise en page introuvable",
+    "wanttocreatetemplate":"Créer une mise en page maintenant?"
+
+  },
+
+  "retro_start": {
+    "title": "Démarrer l'atelier",
+    "number_of_idea_Rights": "Limite des idées",
+    "number_of_Comments": "Limite des commentaires",
+    "number_of_Voting_Rights": "Limite des votes",
+    "start": "Démarrer"
+  },
+
+  "retro_subject": {
+    "add_subject": "Ajouter un sujet",
+    "select_company": "Sélectionnez une entreprise",
+    "company": "Entreprise",
+    "hood": "Titre",
+    "detail": "détail",
+    "give_up": "Annuler",
+    "save": "Sauvegarder"
+  },
+
+  "retro_template": {
+    "add_template": "ajouter un modèle",
+    "continue_without_template": "continuer sans modèle",
+    "add_new_template": "ajouter un nouveau modèle",
+    "company": "entreprise",
+    "add_company": "ajouter une entreprise",
+    "hood": "Titre",
+    "desk": "Rang",
+    "give_up": "Annuler",
+    "save": "Sauvegarder"
+  },
+
+  "retro_brainstrom": {
+    "number_of_idea_Rights": "Idées restantes"
+  },
+
+  "retro_categorize": {
+    "categorize": "Catégoriser",
+    "give_up": "Annuler",
+    "create": "Créer",
+    "enter_title": "Entrer le titre"
+  },
+
+  "retro_comment": {
+    "give_up": "Annuler",
+    "send": "Envoyer",
+    "comment": "Commenter"
+  },
+
+  "retro_vote": {
+    "voting_right": "Votes restants",
+    "comments": "Commentaires",
+    "vote": "Voter"
+  },
+
+  "retro_report": {
+    "finish_the_workshop": "Terminer l'atelier",
+    "create_pdf": "Créer un pdf",
+    "title": "résumé",
+    "topic": "Rapporter",
+    "Priority_Ideas": "Des idées remarquables",
+    "report": "Rapport",
+    "Other_Ideas": "Autres idées",
+    "report_subtitle":"Dans cette section du rapport, les suggestions pour chaque question, les idées définies comme 'prioritaires' en fonction des résultats du vote, et le nombre de votes donnés pour chaque idée sont résumés.",
+    "footer_title":"Dans cette section, les idées qui ont émergé à la fin de l'atelier, les commentaires sur ces idées et les résultats du vote pour chaque idée sont présentés.",
+    "completed_message":"Notre atelier est terminé. Nous vous remercions de votre participation."
+
+  },
+
+  "sidebar": {
+    "invite_link": "Lien d'invitation",
+    "announcement": "Annonce",
+    "active_participants": "Participants actifs",
+    "send": "Envoyer"
+  },
+
+  "tab_header": {
+    "select_topic": "Sujet",
+    "Choose_Template": "Mises en page",
+    "Develop_an_Idea": "Remue-méninges",
+    "categorize": "Catégoriser",
+    "comment": "Commenter",
+    "vote": "Voter",
+    "report": "Rapport"
+  },
+
+  "navbar": {
+    "welcome": "Bienvenue",
+    "announcements": "Annonces"
+  },
+
+  "image_upload": {
+    "load": "Télécharger"
+  },
+  
+  "common":{
+    "copy_success":"Copié avec succès.",
+    "copy_fail":"Échec de la copie du lien.",
+    "title":"Titre",
+    "title_required":"Entrez le titre",
+    "categorize":"Catégoriser",
+    "comment_right":"Limite des idées",
+    "comment":"Commenter",
+    "company": "Entreprise",
+    "logout": "Se déconnecter",
+    "category_validation": "Les idées sous différents titres ne peuvent pas être catégorisées.",
+    "select_category": "Choisissez la catégorie",
+    "success": "Succès",
+    "operation_success": "Action réussie",
+    "faild": "Erreur",
+    "operation_fail": "Erreur survenue pendant l'opération",
+    "warning": "Avertissement",
+    "topic_not_found":"Sujet introuvable",
+    "topic_create_request":"Voulez-vous créer un sujet maintenant?",
+    "template_not_found":"Mise en page introuvable",
+    "template_create_request":"Voulez-vous créer une mise en page maintenant?",
+    "confirm_delete":"Etes-vous sûr que vous voulez supprimer?",
+    "retro_complete":"Le rétro est terminé. Les membres sont déconnectés du système.",
+    "agree":"J'ai lu et j'accepte l'Accord de confidentialité.",
+    "agree_validation":"Vous devez choisir le contrat.",
+    "yes":"Oui",
+    "no":"Non",
+    "save":"Sauvegarder",
+    "cancel":"Annuler",
+    "maximum_leader":"Vous avez atteint le nombre maximum de leaders.",
+    "maximum_member": "Vous avez atteint le nombre maximum de membres."
+
+  },
+  "menu":{
+   
+    "copy_fail":"Échec de la copie du lien.",
+    "dashboard":"Page d'accueil",
+    "retros":"Rétro",
+    "templates":"Mises en page",
+    "topics":"Sujets",
+    "companys":"Entreprises",
+    "users":"Utilisateurs",
+    "superadmins":"Superadmins",
+    "admins":"Admins"
+  }
+   
+}

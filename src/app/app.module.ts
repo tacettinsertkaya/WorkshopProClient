@@ -17,7 +17,7 @@ import { AdminLayoutComponent } from "./layouts/admin/admin-layout.component";
 import { AuthLayoutComponent } from "./layouts/auth/auth-layout.component";
 import { AppRoutes } from "./app.routing";
 
-import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -42,15 +42,30 @@ import { GroupService } from "./services/group.service";
 import { DatetimePipe } from './pipes/datetime.pipe';
 import { SharedService } from "./services/shared.service";
 import { AlertifyService } from "./services/alertify.service";
+import * as firebase from 'firebase';
+import { PagesModule } from "./pages/pages.module";
+import { DashboardComponent } from "./workshop/dashboard/dashboard.component";
+import { RetroFinishComponent } from "./workshop/retro-finish/retro-finish.component";
 
+import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
+import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+
+const config = {
+  apiKey: 'AIzaSyDZqPnzXZbtXQUH7umv30cAPL3bJLYiPC8',
+  databaseURL: 'https://workshoppro3-default-rtdb.europe-west1.firebasedatabase.app/'
+};
+
+
+
+firebase.default.initializeApp(config);
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     FormsModule,
     ReactiveFormsModule, 
-    RouterModule.forRoot(AppRoutes, { useHash: true }),
-    NgbModule.forRoot(),
+    RouterModule.forRoot(AppRoutes, { useHash: true, relativeLinkResolution: 'legacy' }),
+    NgbModule,
     HttpModule,
     HttpClientModule,
     SidebarModule,
@@ -59,6 +74,13 @@ import { AlertifyService } from "./services/alertify.service";
     FixedPluginModule,
     BrowserModule,
     NgxSpinnerModule,
+    TranslateModule.forRoot({
+      loader: {
+          provide: TranslateLoader,
+          useFactory: HttpLoaderFactory,
+          deps: [HttpClient]
+      }
+    })
   ],
   declarations: [
     AppComponent,
@@ -69,8 +91,9 @@ import { AlertifyService } from "./services/alertify.service";
     UserRoleDirective,
     UserDirectiveDirective,
     LoaderComponent,
-    DatetimePipe,
-
+    DashboardComponent,
+    RetroFinishComponent,
+    
   ],
   providers: [
     UserService,
@@ -92,10 +115,15 @@ import { AlertifyService } from "./services/alertify.service";
   exports: [
     CommonModule,
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
   bootstrap: [AppComponent],
   schemas: [ CUSTOM_ELEMENTS_SCHEMA ]
 
 })
 export class AppModule {}
+
+
+export function HttpLoaderFactory(http: HttpClient): TranslateHttpLoader {
+  return new TranslateHttpLoader(http);
+}

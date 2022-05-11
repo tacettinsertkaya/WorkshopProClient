@@ -1,0 +1,233 @@
+{
+  "login": {
+    "title": "Login",
+    "username": "Username",
+    "surname": "Surname",
+    "username_validation": "Username required",
+    "password": "Password",
+    "password_validation": "Password required",
+    "login": "Login",
+    "login_failed":"Username or password is incorrect"
+  },
+  "member_login": {
+    "title": "Login",
+    "name": "Name",
+    "name_validation": "Name required",
+    "surname": "Surname",
+    "surname_validation": "Surname required"
+  },
+  "company": {
+    "title": "Companies",
+    "add_company": "Add Company",
+    "edit_company":"Edit Company",    
+    "maximum_leader": "Leader limit",
+    "maximum_retro": "Retro limit",
+    "transactions": "Actions",
+    "company_name": "Company name",
+    "company_logo": "Company logo"
+  },
+  "admin": {
+    "title": "Admins",
+    "add_admin": "Add Admin",
+    "edit_admin": "Edit Admin", 
+    "username": "Username",
+    "password": "Password",
+    "email": "Email",
+    "company": "Company",
+    "transactions": "Actions",
+  
+    "new_password": "New password",
+    "password_again": "Repeat password",
+    "status": "Status",
+    "status_required": "Select Status"
+  },
+  "super_admin": {
+    "title": "Superadmin",
+    "add_super_admin": "Add Superadmin",
+    "edit_super_admin": "Edit Superadmin",
+    "username": "Username",
+    "password": "Password",
+    "transactions": "Actions",
+    "email": "Email",
+    "new_password": "New password",
+    "password_again": "Repeat password",
+    "status": "Status",
+    "status_required": "Select Status"
+   
+  },
+  "user_management": {
+    "title": "Users",
+    "add_user": "Add User",
+    "edit_user": "Edit User",
+    "leader_right": "Leader Limit",
+    "number_of_retro": "Retro Limit",
+    "leader": "Leader",
+    "member": "Member",
+    "username": "Username",
+    "password": "Password",
+    "status": "Status",
+    "status_required": "Status Select",
+    "transactions": "Actions",
+    "select_company": "Select company",
+    "company": "Company"
+    
+    
+  },
+  "subject": {
+    "title": "Topics",
+    "add_subject": "Add Topic",
+    "edit_subject": "Edit Topic",
+    "subject": "Topic",
+    "transactions": "Actions",
+    "select_company": "Select company",
+    "hood": "Title",
+    "detail": "Details",
+
+    
+    "leader": "Leader",
+    "close": "Close",
+    "startdate":"Start date",
+    "enddate":"End date",
+    "time":"Time",
+    "minute":"Min"
+  },
+  "templates": {
+    "title": "Layouts",
+    "add_template": "New Layout",
+    "add_new_template": "Add New layout",
+    "edit_layout":"Edit Layout",
+    "select_company": "Select company",
+    "desk": "Order",
+  
+    
+    "template_not_found":"Layout not found",
+    "wanttocreatetemplate":"Do you want to create a layout now?"
+
+  },
+  "retro_start": {
+    "title": "Start Retro",
+    "number_of_idea_Rights": "Idea Limit",
+    "number_of_Comments": "Comment Limit",
+    "number_of_Voting_Rights": "Vote Limit",
+    "start": "Start"
+  },
+  "retro_subject": {
+    "add_subject": "Add Topic",
+    "select_company": "Select company",
+    "company": "Company",
+    "hood": "Title",
+    "detail": "Details"
+  
+    
+  },
+  "retro_template": {
+    "add_template": "Add Layout",
+    "continue_without_template": "Continue without layout",
+    "add_new_template": "Add New layout",
+    "company": "Company",
+    "add_company": "Add company",
+    "hood": "Title",
+    "desk": "Order"
+  
+    
+  },
+  "retro_brainstrom": {
+    "number_of_idea_Rights": "Remaining Ideas"
+  },
+  "retro_categorize": {
+    "categorize": "Categorize",
+  
+    "create": "Create",
+    "enter_title": "Enter title"
+  },
+  "retro_comment": {
+  
+    "send": "Send",
+    "comment": "Comment"
+  },
+  "retro_vote": {
+    "voting_right": "Remaining Votes",
+    "comments": "Comments",
+    "vote": "Vote"
+  },
+  "retro_report": {
+    "finish_the_workshop": "Finish the retro",
+    "create_pdf": "Create pdf",
+    "title": "Executive summary",
+    "topic": "Topic",
+    "Priority_Ideas": "Outstanding ideas",
+    "report": "Report",
+    "Other_Ideas": "Other ideas",
+    "report_subtitle":"In this section of the report, suggestions for each issue, ideas defined as “priority” depending on the voting results, and the number of votes given for each idea are summarized.",
+    "footer_title":"In this section, the ideas that emerged at the end of the workshop, the comments on these ideas, and the voting results for each idea are presented.",
+    "completed_message":"Our workshop is over. Thank you for your participation."
+
+  },
+  "sidebar": {
+    "invite_link": "Invite link",
+    "announcement": "Announcement",
+    "active_participants": "Active participants",
+    "send": "Send"
+  },
+  "tab_header": {
+    "select_topic": "Topics",
+    "Choose_Template": "Layout",
+    "Develop_an_Idea": "Brainstorm",
+    "categorize": "Categorize",
+    "comment": "Comment",
+    "vote": "Vote",
+    "report": "Report"
+  },
+  "navbar": {
+    "welcome": "Welcome",
+    "announcements": "Announcements"
+  },
+  "image_upload": {
+    "load": "Upload"
+  },
+  "common": {
+    "copy_success": "Successfully copied.",
+    "copy_fail": "Failed to copy link.",
+    "title":"Title",
+    "title_required": "Enter title",
+    "categorize": "Categorize",
+    "comment_right": "Remaining Comments",
+    "comment": "Comment",
+    "logout": "Logout",
+    "company": "Company",
+    "category_validation": "Ideas under different titles cannot be categorized.",
+    "select_category": "Choose category",
+    "success": "Success",
+    "operation_success": "Action successful",
+    "fail": "Error",
+    "operation_fail": "Error occurred during operation",
+    "warning": "Warning",
+    "topic_not_found":"Topic not found",
+    "topic_create_request":"Do you want to create a topic now?",
+    "template_not_found":"Layout not found",
+    "template_create_request":"Do you want to create a layout now?",
+    "confirm_delete":"Are you sure you want to delete?",
+    "retro_complete":"Retro is complete. Members are logged out",
+     "agree":"I have read and accept the confidentiality agreement.",
+     "agree_validation":"You need to choose the contract",
+     "yes":"Yes",
+     "no":"No",
+     "save":"Save",
+     "update":"Update",
+     "cancel":"Cancel",
+     "maximum_leader":"You have reached the maximum number of leaders",
+     "maximum_member": "You have reached the maximum number of members"
+
+  },
+  "menu": {
+    "copy_fail": "Failed to copy link.",
+    "dashboard": "Home",
+    "retros": "Retro",
+    "templates": "Layouts",
+    "topics": "Topics",
+    "companys": "Companies",
+    "users": "Users",
+    "superadmins": "Super Admins",
+    "admins": "Admins"
+  }
+}

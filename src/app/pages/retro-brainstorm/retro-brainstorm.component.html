@@ -1,0 +1,50 @@
+<app-tab-header></app-tab-header>
+<app-subject-header></app-subject-header>
+
+
+
+
+
+<div class="d-flex justify-content-end" *ngIf="retroRight != null">
+  <span class="pill-title text-bold" [ngClass]="retroRight.ideaRight > 0 ? 'text-success' : 'text-danger'">
+    {{ 'retro_brainstrom.number_of_idea_Rights' | translate }} : {{retroRight.ideaRight}} </span>
+</div>
+<div #divView>
+
+</div>
+<div class="row mt-5">
+  <div class="mobile-brainstorm"
+    [ngClass]="{'col-xl-2':template.templateDetail.length>6, 'col':template.templateDetail.length<=6}"
+
+    *ngFor="let detail of template.templateDetail; let i = index">
+
+    <h5 class="mt-2" *ngIf="
+      template.templateDetail.length >= 1 &&
+      template.templateDetail[0].header != ''
+    "> {{ detail.header }}</h5>
+    <div class="card card-theme card-theme--warning card-custom-borderless">
+      <div class="card-body p-0">
+        <div class="form-group mb-0">
+          <textarea [disabled]="retroRight.ideaRight <= 0 " style="height: auto !important;resize: none;border:none;"
+            rows="3" class="form-control  card-theme--warning scroll" [(ngModel)]="inputText[detail.id]"
+            (keydown.enter)="sendMessage(detail.id)"></textarea>
+        </div>
+      </div>
+    </div>
+
+
+    <div *ngFor="let msg of messages">
+      <div >
+
+
+        <div class="card card-theme box-shadow-sm mt-3 " *ngIf="msg.clientuniqueid == detail.id">
+          <div class="card-description">
+            {{ msg.messageText }}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+</div>

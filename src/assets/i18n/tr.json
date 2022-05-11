@@ -1,0 +1,241 @@
+{
+  "login": {
+    "title": "Giriş Yap",
+    "username": "Kullanıcı Adı",
+    "surname": "Soyad",
+    "username_validation": "Kullanıcı adı giriniz",
+    "password": "Şifre",
+    "password_validation": "Şifre giriniz",
+    "login": "Giriş Yap",
+    "login_failed": "Username or password is incorrect"
+  },
+  "member_login": {
+    "title": "Giriş Yap",
+    "name": "Ad",
+    "name_validation": "Ad giriniz",
+    "surname": "Soyad",
+    "surname_required": "Soyad giriniz"
+  },
+  "company": {
+    "title": "Şirketler",
+    "add_company": "Şirket Ekle",
+    "edit_company": "Şirket Düzenle",
+    "maximum_leader": "Maksimum Lider",
+    "maximum_retro": "Maksimum Retro",
+    "transactions": "İşlemler",
+    "company_name": "Şirket Adı",
+    "give_up": "Vazgeç",
+    "save": "Kaydet",
+    "company_logo": "Şirket Logosu"
+  },
+  "admin": {
+    "title": "Adminler",
+    "add_admin": "Admin Ekle",
+    "edit_admin": "Admin Düzenle",
+    "username": "Kullanıcı Adı",
+    "password": "Şifre",
+    "email": "Eposta",
+    "company": "Şirket",
+    "transactions": "İşlemler",
+    "give_up": "Vazgeç",
+
+    "save": "Kaydet",
+    "new_password": "Yeni Şifre",
+    "password_again": "Şifre Tekrar",
+    "status": "Status",
+    "status_required": "Select Status"
+  },
+  "super_admin": {
+    "title": "Superadmin",
+    "add_super_admin": "Superadmin Ekle",
+    "edit_super_admin": "Superadmin Düzenle",
+    "username": "Kullanıcı Adı",
+    "password": "Şifre",
+    "transactions": "İşlemler",
+    "email": "Eposta",
+   
+    "give_up": "Vazgeç",
+    "password_repeat": "Şifre Tekrar",
+    "save": "Kaydet",
+    "new_password": "Yeni Şifre",
+    "password_again": "Şifre Tekrar",
+    "status": "Status",
+    "status_required": "Select Status"
+  },
+  "user_management": {
+    "title": "Kullanıcılar",
+    "add_user": "Kullanıcı Ekle",
+    "edit_user": "Kullanıcı Düzenle",
+    "leader_right": "Lider Hakkı",
+    "number_of_retro": "Retro Sayısı",
+    "leader": "Lider",
+    "member": "Üye",
+    "username": "Kullanıcı Adı",
+    "password": "Şifre",
+    "status": "Statü",
+    "status_required": "Statü Seçiniz",
+    "transactions": "İşlemler",
+    "select_company": "Şirket Seçiniz",
+    "company": "Şirket",
+    "give_up": "Vazgeç",
+    "save": "Kaydet"
+  },
+  "subject": {
+    "title": "Konular",
+    "add_subject": "Konu Ekle",
+    "edit_subject": "Konu Düzenle",
+    "subject": "Konu",
+    "transactions": "İşlemler",
+    "select_company": "Şirket Seçiniz",
+    "hood": "Başlık",
+    "detail": "Detay",
+    "give_up": "Vazgeç",
+    "save": "Kaydet",
+    "leader": "Lider",
+    "close": "Kapat",
+    "startdate": "Başlangıç",
+    "enddate": "Bitiş",
+    "time": "Süre",
+    "minute": "dk"
+  },
+  "templates": {
+    "title": "Şablonlar",
+    "add_template": "Şablon Ekle",
+    "edit_layout":"Şablon Düzenle",
+    "add_new_template": "Yeni Şablon Ekle",
+    "select_company": "Şirket Seçiniz",
+    "desk": "Sıra",
+    "give_up": "Vazgeç",
+    "save": "Kaydet",
+    "template_not_found": "Herhangi bir şablon bulunamadı",
+    "wanttocreatetemplate": "Şimdi şablon oluşturmak ister misin?"
+  },
+  "retro_start": {
+    "title": "Atölye Başlat",
+    "number_of_idea_Rights": "Fikir Hakkı Sayısı",
+    "number_of_Comments": "Yorum Hakkı Sayısı",
+    "number_of_Voting_Rights": "Oylama Hakkı Sayısı",
+    "start": "Başlat"
+  },
+  "retro_subject": {
+    "add_subject": "Konu Ekle",
+    "select_company": "Şirket Seçiniz",
+    "company": "Şirket",
+    "hood": "Başlık",
+    "detail": "Detay",
+    "give_up": "Vazgeç",
+    "save": "Kaydet"
+  },
+  "retro_template": {
+    "add_template": "Şablon Ekle",
+    "continue_without_template": "Şablonsuz Devam Et",
+    "add_new_template": "Yeni Şablon Ekle",
+    "company": "Şirket",
+    "add_company": "Şirket Ekle",
+    "hood": "Başlık",
+    "desk": "Sıra",
+    "give_up": "Vazgeç",
+    "save": "Kaydet"
+  },
+  "retro_brainstrom": {
+    "title": "Retro Başlat",
+    "number_of_idea_Rights": "Fikir Hakkı Sayısı",
+    "number_of_Comments": "Yorum Hakkı Sayısı",
+    "number_of_Voting_Rights": "Oy Hakkı Sayısı",
+    "start": "Başlat"
+  },
+  "retro_categorize": {
+    "categorize": "Kategorize Et",
+    "give_up": "Vazgeç",
+    "create": "Oluştur",
+    "enter_title": "Başlık Giriniz"
+  },
+  "retro_comment": {
+    "give_up": "Vazgeç",
+    "send": "Gönder",
+    "comment": "Yorum"
+  },
+  "retro_vote": {
+    "voting_right": "Oylama Hakkı",
+    "comments": "Yorumlar",
+    "vote": "Oy Ver"
+  },
+  "retro_report": {
+    "finish_the_workshop": "Atölyeyi Bitir",
+    "create_pdf": "Pdf Oluştur",
+    "title": "YÖNETİCİ ÖZETİ",
+    "topic": "Konu",
+    "Priority_Ideas": "Öncellikli Fikirler",
+    "report": "Rapor",
+    "Other_Ideas": "Diğer Fikirler",
+    "report_subtitle": "Raporun bu bölümünde atölye çalışmasında ele alınan her bir konuya ait öneriler, sonunda yapılan oylama sonuçlarına bağlı olarak “öncelikli” olarak tanımlanan fikirler ve her bir fikir için verilen oy sayıları özetlenmiştir.",
+    "footer_title": "Bu bölümünde atölye çalışmasının sonunda ortaya çıkan fikirler, bu fikirlere ait yorumlar, her bir fikire ait oylama sonuçları sunulmuştur.",
+    "completed_message": "Atölyemiz sona ermiştir. Katılımınız için teşekkür ederiz."
+  },
+  "sidebar": {
+    "invite_link": "Davet Linki",
+    "announcement": "Duyuru",
+    "active_participants": "Aktif Katılımcılar",
+    "send": "Gönder"
+  },
+  "tab_header": {
+    "select_topic": "Konu Seç",
+    "Choose_Template": "Şablon Seç",
+    "Develop_an_Idea": "Fikir Geliştir",
+    "categorize": "Kategorize Et",
+    "comment": "Yorum Yap",
+    "vote": "Oyla",
+    "report": "Raporla"
+  },
+  "navbar": {
+    "welcome": "Hoşgeldin",
+    "announcements": "Duyurular"
+  },
+  "image_upload": {
+    "load": "Yükle"
+  },
+  "common": {
+    "copy_success": "Başarılı bir şekilde kopyalandı.",
+    "copy_fail": "Link kopyalanamadı.",
+    "title": "Başlık",
+    "title_required": "Başlık giriniz",
+    "categorize": "Kategorize Et",
+    "comment_right": "Yorum Hakkı",
+    "comment": "Yorum",
+    "logout": "Çıkış Yap",
+    "company": "Şirket",
+    "category_validation": "Farklı başlıktaki fikirler kategorilendirilemez.",
+    "select_category": "Kategori seçiniz",
+    "success": "Başarılı",
+    "operation_success": "İşlem Başarılı",
+    "fail": "Başarısız",
+    "operation_fail": "İşlem sırasında hata oluştu",
+    "warning": "Uyarı",
+    "topic_not_found": "Herhangi bir konu bulunamadı",
+    "topic_create_request": "Şimdi konu oluşturmak ister misin?",
+    "template_not_found": "Herhangi bir şablon bulunamadı",
+    "template_create_request": "Şimdi şablon oluşturmak ister misin?",
+    "confirm_delete": "Silmek istediğinizden emin misiniz?",
+    "retro_complete": "Retro tamamlandı. Üyelerin sistemden cıkışı sağlandı",
+    "agree": "Gizlilik Sözleşmesi 'ni okudum ve kabul ediyorum.",
+    "agree_validation": "Sözleşmeyi seçiniz",
+    "yes": "Evet",
+    "no": "Hayır",
+    "save": "Kaydet",
+    "update":"Güncelle",
+    "cancel": "İptal",
+    "maximum_leader": "Maksimum lider sayısına ulaştınız",
+    "maximum_member": "Maksimum üye sayısına ulaştınız"
+  },
+  "menu": {
+    "copy_fail": "Link kopyalanamadı.",
+    "dashboard": "Anasayfa",
+    "retros": "Atölye",
+    "templates": "Şablonlar",
+    "topics": "Konular",
+    "companys": "Şirketler",
+    "users": "Kullanıcılar",
+    "superadmins": "Super Adminler",
+    "admins": "Adminler"
+  }
+}

@@ -74,7 +74,6 @@ export class GroupsComponent implements OnInit {
       .subscribe(
         (res) => {
           this.groups = res;
-          console.log("this.groups", this.groups);
         },
         (error) => {
           this.alertifyService.error();
@@ -83,7 +82,6 @@ export class GroupsComponent implements OnInit {
   }
 
   getUserLeader() {
-    console.log("this.userService.currentUserValue", this.userService.currentUserValue);
     return this.userService.currentUserValue.company ? this.userService.currentUserValue.company.retroCount : 0;
   }
 

@@ -4,34 +4,44 @@ import { Observable } from "rxjs";
 import { environment } from "../../environments/environment";
 import { UserService } from "./user.service";
 import swal from "sweetalert2";
+import { TranslateService } from "@ngx-translate/core";
 
 @Injectable()
 export class AlertifyService {
+    /**
+     *
+     */
+    constructor(
+        private translate:TranslateService
+    ) {
+      
+
+    }
 
     success(){
         swal({
-            title: "Başarılı",
-            text: "İşlem Başarılı",
+            title:this.translate.instant("common.success"),
+            text:this.translate.instant("common.operation_success"),
             type: "success",
-            timer:2000
+            timer:2500
           })
     }
 
     error(){
         swal({
-            title: "Başarısız",
-            text: "İşlem sırasında hata oluştu",
+            title:this.translate.instant("common.fail"),
+            text:this.translate.instant("common.operation_fail"),
             type: "error",
-            timer:2000
+            timer:2500
           })
     }
 
     warning(msg){
         swal({
-            title: "Uyarı",
+            title:this.translate.instant("common.warning"),
             text:msg,
             type: "warning",
-            timer:2000
+            timer:2500
           })
     }
 

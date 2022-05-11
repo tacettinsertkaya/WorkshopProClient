@@ -1,0 +1,55 @@
+
+
+<ul class="header__retro-navigation tab-progress custom-slider-main" #widgetsContent role="tablist" >
+  <li class="navigation-item active">
+    <a class="navigation-link template subject"     [class.active]="isActive('/current/subject')"
+    (click)="clickTab('/current/subject',true)"
+      >
+      {{ 'tab_header.select_topic' | translate }}
+    </a>
+  </li>
+  <li class="navigation-item">
+    <a class="navigation-link  template"    [class.active]="isActive('/current/template')"
+      (click)="clickTab('/current/template',true)"
+     >
+     {{ 'tab_header.Choose_Template' | translate }}
+    </a>
+  </li>
+
+  <li class="navigation-item">
+    <a class="navigation-link  brainstorm"    [class.active]="isActive('/current/brainstorm')"
+      (click)="clickTab('/current/brainstorm',true)"
+      >
+      {{ 'tab_header.Develop_an_Idea' | translate }}
+    </a>
+  </li>
+  <li class="navigation-item">
+  
+    <a class="navigation-link  categorize"   [class.active]="isActive('/current/categorize')"
+      (click)="clickTab('/current/categorize',true)"
+      >
+      {{ 'tab_header.categorize' | translate }}
+    </a>
+  </li>
+  <li class="navigation-item">
+    <a class="navigation-link  categorize"  [class.active]="isActive('/current/comment')"
+      (click)="clickTab('/current/comment',true)">
+      {{ 'tab_header.comment' | translate }}
+    </a>
+  </li>
+
+  <li class="navigation-item">
+    <a class="navigation-link  comment"     [class.active]="isActive('/current/vote')"
+      (click)="clickTab('/current/vote',true)">
+      {{ 'tab_header.vote' | translate }}
+    </a>
+  </li>
+
+  <li class="navigation-item">
+    <a class="navigation-link  vote report finish"   [class.active]="isActive('/current/report')"
+      (click)="clickTab('/current/report',true)"
+      >
+      {{ 'tab_header.report' | translate }}
+    </a>
+  </li>
+</ul>

@@ -21,19 +21,19 @@
   " (click)="selectTemplate(template.id)" [ngClass]="{ active: selectTemplateId == template.id }">
       <div class="card box-shadow card-theme d-flex justify-content-center align-items-center">
         <h3 class="card-title mb-2 mt-2 text-secondary mini-btn">
-          <span class="align-baseline" *ngFor="let detail of template.templateDetail; let j = index">
+          <span class="align-baseline m-1" *ngFor="let detail of template.templateDetail; let j = index">
             {{ detail.header }}
           </span>
         </h3>
       </div>
     </a>
-    <a *ngIf="
+    <a  [class.disabled]="isUser"  *ngIf="
     template.templateDetail.length == 1 &&
     template.templateDetail[0].header == ''
   " (click)="selectTemplate(template.id)" [ngClass]="{ active: selectTemplateId == template.id }">
       <div class="card box-shadow card-theme d-flex justify-content-center align-items-center">
         <h3 class="card-title mb-2 mt-2 text-secondary">|
-          <span class="align-baseline" >
+          <span class="align-baseline m-1" >
             Şablonsuz devam et 
           </span>
         </h3>
@@ -74,15 +74,15 @@
            
             <div class="template-title-group" *ngFor="let header of headers; let i = index">
               <div class="form-group">
-                <label>Başlık</label>
+                <label>{{ 'common.title' | translate }}</label>
                 <input type="text" class="form-control" [(ngModel)]="header.header" name="header_{{ header.order }}"
-                  placeholder="Başlık Giriniz" />
+                  placeholder="{{ 'common.title_required' | translate }}" />
               </div>
               <div class="template-title-group__utils">
                 <div class="form-group">
                   <label>Sıra</label>
                   <select class="form-control" (change)="changeSort()" [(ngModel)]="header.order"
-                    name="order_{{ header.order }}" placeholder="India">
+                    name="order_{{ header.order }}" placeholder="Sıra">
                     <option *ngFor="let i of orderlist; let i = index" [value]="i">
                       {{ i }}
                     </option>
@@ -102,10 +102,10 @@
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
             data-dismiss="modal">
-            Vazgeç
+            {{ 'common.cancel' | translate}}
           </button>
           <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-            Kaydet
+            {{ 'common.save' | translate}}
           </button>
         </div>
       </div>

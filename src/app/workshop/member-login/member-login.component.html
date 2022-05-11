@@ -1,10 +1,10 @@
-<div class="create-retro d-flex justify-content-end m-5" style="background-image: url('assets/img/retro-bg.png')">
+<div class="create-retro d-flex justify-content-end  login">
   <form [formGroup]="loginForm" (ngSubmit)="logIn()" class="create-retro__form">
 
 
-    <h1 class="text-center mb-5">GİRİŞ</h1>
+    <h1 class="text-center mb-5">{{'member_login.title' | translate}}</h1>
 
-    <div class="form-group " [ngClass]="{ 'input-group-focus': focus === true }">
+    <!-- <div class="form-group " [ngClass]="{ 'input-group-focus': focus === true }">
 
       <label for="username">Takma Ad</label>
       <input [disabled]="isFailed" (blur)="clearError()" (focus)="clearError()" type="text" formControlName="alias"
@@ -13,20 +13,21 @@
       <div
         *ngIf="(loginForm.get('alias').invalid && ( loginForm.get('alias').touched) || loginForm.get('alias').dirty)">
         <small *ngIf="loginForm.get('alias').errors?.required" class="text-danger">Takma ad giriniz</small>
+        <small *ngIf="loginForm.get('alias').errors?.pattern" class="text-danger">Takma ad için sadece ingilizce karakterler giriniz</small>
       </div>
-    </div>
+    </div> -->
 
 
 
     <div class="form-group " >
 
-      <label for="username">Ad</label>
+      <label for="username">{{ 'member_login.name' | translate }}</label>
       <input [disabled]="isFailed" (blur)="clearError()" (focus)="clearError()" type="text" formControlName="name"
         class="form-control"  />
 
       <div
         *ngIf="(loginForm.get('name').invalid && ( loginForm.get('name').touched) || loginForm.get('name').dirty)">
-        <small *ngIf="loginForm.get('name').errors?.required" class="text-danger">Ad giriniz</small>
+        <small *ngIf="loginForm.get('name').errors?.required" class="text-danger">{{ 'member_login.name_validation' | translate }}</small>
       </div>
     </div>
 
@@ -34,25 +35,45 @@
 
     <div class="form-group " >
 
-      <label for="username">Soyad</label>
+      <label for="username">{{ 'member_login.surname' | translate }}</label>
       <input [disabled]="isFailed" (blur)="clearError()" (focus)="clearError()" type="text" formControlName="surname"
         class="form-control"  />
 
       <div
         *ngIf="(loginForm.get('surname').invalid && ( loginForm.get('surname').touched) || loginForm.get('surname').dirty)">
-        <small *ngIf="loginForm.get('surname').errors?.required" class="text-danger">Soyad giriniz</small>
+        <small *ngIf="loginForm.get('surname').errors?.required" class="text-danger">{{ 'member_login.surname_validation' | translate }}</small>
+      </div>
+    </div>
+
+    <div class="form-group " [ngClass]="{ 'input-group-focus': focus === true }">
+
+      <label class="checkbox-theme">
+
+
+        <span class="checkbox-theme__pseudo-control"></span>
+        <input class="checkbox-theme__control" formControlName="isAgree" type="checkbox">
+        <span>
+          <i class="fa fa-check"></i>
+            <a href="https://joyologyindex.com/dosyalar/kvkt.pdf" >  <span> {{'common.agree' | translate}} </span></a>
+        </span>
+
+      </label>
+      <div
+        *ngIf="(loginForm.get('isAgree').invalid && submitted)">
+        <small *ngIf="loginForm.get('isAgree').errors?.required" class="text-danger">
+          {{ 'common.agree_validation' | translate }}
+        </small>
       </div>
     </div>
 
 
-
     <div class="d-flex justify-content-end">
       <button type="submit" [disabled]="isFailed"
-        class="btn btn-theme btn-vertical-padding btn-horizontal-padding">GİRİŞ YAP</button>
+        class="btn btn-theme btn-vertical-padding btn-horizontal-padding">{{'login.login' | translate}}</button>
     </div>
 
     <p class="text-center text-danger" *ngIf="errorMessage">
-      {{errorMessage}}
+      {{ 'login.login_failed' | translate }}
     </p>
   </form>
 </div>

@@ -1,0 +1,73 @@
+<app-tab-header></app-tab-header>
+
+<div class="d-flex justify-content-end mb-3 mt-3">
+    <button class="btn btn-theme" *ngIf="!isUser" type="button" data-toggle="modal" data-target="#addModal">
+      <span>{{ 'retro_subject.add_subject' | translate }}</span>
+  
+    </button>
+  </div>
+  
+  <div class="row">
+    <div class="col-sm-4" *ngFor="let subject of subjects; let i = index">
+      <div class="mb-3 card card-theme box-shadow" >
+        <a href="javascript:;" *ngIf="isCheckOwner(subject)" class="corner-button" (click)="removeSubject(subject.id)"><i class="fa fa-times-circle fa-2x text-danger"></i></a>
+        <a [class.disabled]="isUser" (click)="selectSubject(subject)" [ngClass]="{ active: selectSubjectId == subject.id }">
+          <div class="card-body">
+            <h3 class="card-title">{{ subject.subjectTitle }}</h3>
+            <p class="card-description">
+              {{subject.subjectDescription? subject.subjectDescription:'-'}}
+            </p>
+          </div>
+        </a>
+      </div>
+    </div>
+  </div>
+  
+  
+  <div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle"
+    aria-hidden="true">
+    <form #templateForm="ngForm" (ngSubmit)="saveSubject()">
+      <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLongTitle">  {{  getTitle()  }} </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+  
+            <div class="form-group">
+              <label>{{ 'retro_subject.company' | translate }}</label>
+              <select class="form-control" disabled [(ngModel)]="subject.companyId"
+                [ngModelOptions]="{ standalone: true }">
+                <option value="" selected>{{ 'retro_subject.select_company' | translate }}</option>
+                <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
+  
+              </select>
+  
+            </div>
+            <div class="form-group">
+              <label>{{ 'retro_subject.hood' | translate }}</label>
+              <input style="max-height: max-content" rows="10" class="form-control textarea"
+                [(ngModel)]="subject.subjectTitle" [ngModelOptions]="{ standalone: true }" />
+            </div>
+            <div class="form-group">
+              <label for="exampleFormControlTextarea1">{{ 'retro_subject.detail' | translate }}</label>
+              <textarea class="form-control" style="height: auto !important;" [(ngModel)]="subject.subjectDescription" [ngModelOptions]="{ standalone: true }" id="exampleFormControlTextarea1" rows="3"></textarea>
+            </div>
+            
+  
+          </div>
+          <div class="modal-footer d-flex align-items-center">
+            <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
+              data-dismiss="modal">{{ 'common.cancel' | translate }}
+            </button>
+            <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
+              {{ 'common.save' | translate }}
+            </button>
+          </div>
+        </div>
+      </div>
+    </form>
+  </div>

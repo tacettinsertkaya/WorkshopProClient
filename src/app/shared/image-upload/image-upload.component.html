@@ -1,0 +1,17 @@
+<div class="row">
+  <div class="col-sm-12">
+    
+    <input id="imagePath"  #file type="file" accept="image/*" multiple placeholder="Upload file(-s)"
+      (change)="onFilesSelected($event)" class="d-none" />
+
+      <button type="button" class="btn btn-outline-theme  btn-block" (click)="file.click()">{{ 'image_upload.load' | translate }}</button>
+  </div>
+</div>
+
+<div class="row"  style="margin-top:20px;" *ngIf="imageList.length>0 && isPreview">
+  <div class="col-sm-4" *ngFor="let p of imageList">
+    <img class="img-thumbnail" [src]="p" style="width: 100%;height: 100%; max-width: 200px; max-height: 200px;" />
+  </div>
+</div>
+     
+  

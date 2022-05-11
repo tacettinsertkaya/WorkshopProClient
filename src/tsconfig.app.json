@@ -5,6 +5,7 @@
     "moduleResolution": "node",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "skipLibCheck": true,
     "target": "es5",
     "lib": [
       "es2016",
@@ -14,6 +15,9 @@
     "module": "es2015",
     "baseUrl": "",
     "types": []
+  },
+  "angularCompilerOptions": {
+    "enableIvy": false
   },
   "exclude": [
     "test.ts",

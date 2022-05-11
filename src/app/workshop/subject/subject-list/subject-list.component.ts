@@ -13,6 +13,7 @@ import { CompanyService } from "app/services/company.service";
 import { Company } from "app/models/company";
 import { SubjectFilter } from "app/models/dto/subject-filter";
 import { AlertifyService } from "app/services/alertify.service";
+import { TranslateService } from "@ngx-translate/core";
 
 declare var $: any;
 
@@ -35,6 +36,7 @@ export class SubjectListComponent implements OnInit {
   constructor(
     private subjectService: SubjectsService,
     private sharedService: SharedService,
+    private translate:TranslateService,
     private authService: UserService,
     private chatService: ChatService,
     private alertifyService: AlertifyService,
@@ -42,12 +44,17 @@ export class SubjectListComponent implements OnInit {
     private _ngZone: NgZone
   ) {
     this.subscribeToCurrentRetroEvents();
+    this.getSelectedSubjectEvents();
+  
     this.sharedService.retroRight.subscribe((right: RetroConfigration) => {
+    
       this.retroRight = right;
     });
+    
     this.sharedService.currentRetro.subscribe((retro: Retro) => {
       this.retro = retro;
     });
+    
   }
   ngOnInit() {
    
@@ -61,14 +68,16 @@ export class SubjectListComponent implements OnInit {
   selectSubject(subject: any) {
     this.sharedService.selectSubject.next(subject);
     this.sharedService.isShowSubject.next(false);
-    this.sharedService.tabSource.next(".select-template");
+    this.sharedService.tabSource.next("/retro/template");
     if(this.authService.hasRole("Leader")){
-  
+      
+     
       let retro=new Retro();
       retro.id=this.retroRight.retroId;
       retro.state=2;
-      retro.currentPage="/select-template"
-      this.chatService.setCurrentRetro(retro);
+      retro.currentPage="/retro/template";
+      retro.templateId=this.retro.templateId? this.retro.templateId:"";
+      // this.chatService.setCurrentRetro(retro);
       let selectSubjectDto=new SubjectDto();
       selectSubjectDto.id=subject.id;
       selectSubjectDto.subjectTitle=subject.subjectTitle;
@@ -90,13 +99,25 @@ export class SubjectListComponent implements OnInit {
       if(this.authService.hasRole("Member")) {
 
         this.sharedService.currentRetro.next(retro);
-        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+        this.sharedService.tabSource.next(retro.currentPage);
       }
          
 
     });
   });
 }
+
+private getSelectedSubjectEvents(): void {
+  this.chatService.subjectReceived.subscribe((subject: Subject) => {
+    this._ngZone.run(() => {
+    
+        this.sharedService.selectSubjectSetValue(subject);
+        
+
+    });
+  });
+}
+
 
 getAllCompany() {
 
@@ -117,7 +138,7 @@ getAllCompany() {
   getSubjects() {
     let filter=new SubjectFilter();
     filter.companyId=this.authService.currentUserValue.companyId;
-    filter.retroId=this.retroRight.retroId;
+    // filter.retroId=this.retroRight.retroId;
 
     this.subjectService
       .getAllSubject(filter)
@@ -212,14 +233,15 @@ getAllCompany() {
   showSwal(type, id = 0) {
     if (type == "warning-message-and-confirmation") {
       swal({
-        title: "Herhangi bir konu bulunamadı",
-        text: "Şimdi konu oluşturmak ister misin?",
+        title: this.translate.instant("common.topic_not_found") ,
+        text: this.translate.instant("common.topic_create_request"), 
+     
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
         buttonsStyling: false,
       }).then((result) => {
         if (result.value) {
@@ -229,14 +251,15 @@ getAllCompany() {
     }
     if (type == "warning-message-and-confirmation-delete") {
       swal({
-        title: "Uyarı",
-        text: "Silmek istediğinizden emin misiniz?",
+        title: this.translate.instant("common.warning"),
+        text: this.translate.instant("common.confirm_delete"),
+
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {
         if (result.value) {
           this.removeSubject(id);

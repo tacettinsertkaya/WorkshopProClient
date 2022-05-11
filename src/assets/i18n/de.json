@@ -1,0 +1,254 @@
+{
+  "login": {
+    "title": "Anmelden ",
+    "username": "Benutzername ",
+    "surname": "Nachname",
+    "username_validation": "Benutzername eingeben ",
+    "password": "Passwort",
+    "password_validation": "Passwort eingeben ",
+    "login": "Anmelden",
+    "login_failed":"Benutzername oder Passwort ist falsch"
+
+  },
+  "member_login": {
+    "title": "Anmelden",
+    "name":"Name",
+    "name_validation":"Name erforderlich",
+    "surname":"Nachname",
+    "surname_required":"Nachname erforderlich"
+  },
+
+  "company": {
+    "title": "Unternehmen",
+    "add_company": "Unternehmen hinzufügen",
+    "edit_company":"Unternehmen bearbeiten",    
+    "maximum_leader": "Leiter-Limit",
+    "maximum_retro": "Retro-Limit",
+    "transactions": "Aktionen",
+    "company_name": "Name des Unternehmens",
+    "give_up": "Abbrechen",
+    "save": "Speichern",
+    "company_logo": "Firmenlogo"
+  },
+
+  "admin": {
+    "title": "Administratoren",
+    "add_admin": "Administrator hinzufügen ",
+    "edit_admin": "Admin bearbeiten",     
+    "username": "Benutzername ",
+    "password": "Passwort ",
+    "email": "E-mail",
+    "company": "Unternehmen",
+    "transactions": "Aktionen",
+    "give_up": "Abbrechen ",
+    "new_password": "Neues Passwort",
+    "password_again": "Passwort wiederholen",
+    "save": "Speichern",
+    "status": "Status",
+    "status_required": "Status erforderlich"
+  },
+
+  "super_admin": {
+    "title": "Superadministrator",
+    "add_super_admin": "Superadministrator hinzufügen",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "transactions": "Aktionen",
+    "email": "E-mail",
+    "status": "Status",
+    "status_required": "Status erforderlich"
+  },
+
+  "user_management": {
+    "title": "Benutzer",
+    "add_user": "Benutzer hinzufügen",
+    "edit_user": "Benutzer bearbeiten",
+    "leader_right": "Leiter-Limit",
+    "number_of_retro": "Retro-Limit",
+    "leader": "Leiter",
+    "member": "Mitglied",
+    "username": "Benutzername",
+    "password": "Passwort",
+    "status": "Status",
+    "status_required": "Status erforderlich",
+    "transactions": "Aktionen",
+    "select_company": "Firma auswählen",
+    "company": "Unternehmen",
+    "give_up": "Abbrechen",
+    "save": "Speichern"
+  },
+
+  "subject": {
+    "title": "Themen",
+    "add_subject": "Thema hinzufügen",
+    "edit_subject": "Thema bearbeiten",
+    "subject": "Untertan",
+    "transactions": "Aktionen",
+    "select_company": "Firma auswählen",
+    "hood": "Titel",
+    "detail": "Details",
+    "give_up": "Abbrechen",
+    "save": "Speichern ",
+    "leader": "Leiter",
+    "close": "Schließen",
+    "startdate":"Start Datum",
+    "enddate":"Endtermin",
+    "time":"Uhrzeit",
+    "minute":"Minute"
+
+  },
+
+  "templates": {
+    "title": "Layouts",
+    "add_template": "Layout hinzufügen",
+    "add_new_template": "Neues Layout hinzufügen",
+    "select_company": "Firma auswählen",
+    "desk": "Bestellen",
+    "give_up": "Abbrechen",
+    "save": "Speichern",
+    "template_not_found":"Layout nicht gefunden",
+    "wanttocreatetemplate":"Möchten Sie ein Layout erstellen?"
+
+  },
+
+  "retro_start": {
+    "title": "Retro Starten",
+    "number_of_idea_Rights": "Idee Limit",
+    "number_of_Comments": "Kommentar Limit",
+    "number_of_Voting_Rights": "Abstimmungslimit",
+    "start": "Start"
+  },
+
+  "retro_subject": {
+    "add_subject": "Thema hinzufügen",
+    "select_company": "Firma auswählen",
+    "company": "Unternehmen",
+    "hood": "Titel",
+    "detail": "Details",
+    "give_up": "Abbrechen",
+    "save": "Speichern"
+  },
+
+  "retro_template": {
+    "add_template": "Layout hinzufügen",
+    "continue_without_template": "Weiter ohne Layout",
+    "add_new_template": "Neues Layout hinzufügen",
+    "company": "Unternehmen",
+    "add_company": "Firma hinzufügen",
+    "hood": "Titel",
+    "desk": "Bestellen",
+    "give_up": "Abbrechen",
+    "save": "Speichern"
+  },
+
+  "retro_brainstrom": {
+    "number_of_idea_Rights": "Verbleibende Kommentare"
+  },
+
+  "retro_categorize": {
+    "categorize": "Kategorisieren",
+    "give_up": "Abbrechen",
+    "create": "Erstellen",
+    "enter_title": "Titel eingeben"
+  },
+
+  "retro_comment": {
+    "give_up": "Abbrechen",
+    "send": "Senden",
+    "comment": "Kommentieren"
+  },
+
+  "retro_vote": {
+    "voting_right": "Verbleibende Abstimmungen",
+    "comments": "Komments",
+    "vote": "Abstimmen"
+  },
+
+  "retro_report": {
+    "finish_the_workshop": "Beende die Retro",
+    "create_pdf": "PDF erstellen",
+    "title": "Zusammenfassung",
+    "topic": "Thema",
+    "Priority_Ideas": "Vorrangige Ideen",
+    "report": "Bericht",
+    "Other_Ideas": "Andere Ideen",
+    "report_subtitle":"In diesem Abschnitt des Berichts werden die Vorschläge für jedes Thema, die je nach Abstimmungsergebnis als 'vorrangig' eingestuften Ideen und die Anzahl der für jede Idee abgegebenen Stimmen zusammengefasst.",
+    "footer_title":"In diesem Abschnitt werden die Ideen, die sich am Ende des Workshops herauskristallisierten, die Kommentare zu diesen Ideen und die Abstimmungsergebnisse für jede Idee vorgestellt.",
+    "completed_message":"Unser Workshop ist beendet. Wir danken Ihnen für Ihre Teilnahme."
+
+  },
+
+  "sidebar": {
+    "invite_link": "Link zum Einladen",
+    "announcement": "Ankündigung",
+    "active_participants": "Aktive Teilnehmer",
+    "send": "Senden"
+  },
+
+  "tab_header": {
+    "select_topic": "Themen",
+    "Choose_Template": "Layouts ",
+    "Develop_an_Idea": "Brainstorming",
+    "categorize": "Kategorisieren ",
+    "comment": "Kommentieren",
+    "vote": "Abstimmen",
+    "report": "Bericht"
+  },
+
+  "navbar": {
+    "welcome": "Willkommen",
+    "announcements": "Ankündigungen"
+  },
+
+  "image_upload": {
+    "load": "Hochladen"
+  },
+  
+  "common":{
+    "copy_success":"Erfolgreich kopiert",
+    "copy_fail":"Kopieren fehlgeschlagen",
+    "title":"Titel",
+    "title_required":"Titel eingeben",
+    "categorize":"Kategorisieren",
+    "comment_right":"Kommentar rechts",
+    "comment":"Kommentar",
+    "company": "Unternehmen",
+    "logout": "Ausloggen",
+
+    "category_validation": "Ideen unter verschiedenen Titeln können nicht kategorisiert werden.",
+    "select_category": "Kategorie auswählen",
+    "success": "Erfolg",
+    "operation_success": "Aktion erfolgreich",
+    "faild": "Fehler",
+    "operation_fail": "Während des Vorgangs ist ein Fehler aufgetreten",
+    "warning": "Warnung",
+    "topic_not_found":"Thema nicht gefunden",
+    "topic_create_request":"Möchten Sie jetzt ein Thema erstellen?",
+    "template_not_found":"Layout nicht gefunden",
+    "template_create_request":"Möchten Sie jetzt ein Layout erstellen?",
+    "confirm_delete":"Sind Sie sicher, dass Sie löschen möchten?",
+    "retro_complete":"Unser Workshop ist beendet. Wir danken Ihnen für Ihre Teilnahme.",
+    "agree":"Ich habe die Datenschutzerklärung gelesen und akzeptiere sie.",
+    "agree_validation":"Bedingungen zustimmen, um fortzufahren.",
+    "yes":"Ja",
+    "no":"Nein",
+    "save":"Speichern",
+    "cancel":"Abbrechen",
+    "maximum_leader":"Sie haben das Leader-Limit erreicht.",
+    "maximum_member": "Sie haben das Mitgliederlimit erreicht."
+
+  },
+  "menu":{
+   
+    "copy_fail":"Link konnte nicht kopiert werden.",
+    "dashboard":"Zuhause",
+    "retros":"Retro",
+    "templates":"Layout",
+    "topics":"Themen",
+    "companys":"Unternehmen",
+    "users":"Benutzer",
+    "superadmins":"Superadministrator",
+    "admins":"Administratoren"
+  }
+   
+}

@@ -13,6 +13,7 @@ import { CompanyService } from 'app/services/company.service';
 import { Company } from 'app/models/company';
 import { TemplateFilter } from 'app/models/dto/template-filter';
 import { AlertifyService } from 'app/services/alertify.service';
+import { TranslateService } from '@ngx-translate/core';
 
 declare var $: any;
 
@@ -45,6 +46,7 @@ export class TemplatesComponent implements OnInit {
   constructor(
     private templateService: TemplateService,
     private companyService:CompanyService,
+    private translate:TranslateService,
     private templateDetailService: TemplateDetailService,
     private sharedService: SharedService,
     private alertifyService: AlertifyService,
@@ -94,7 +96,7 @@ export class TemplatesComponent implements OnInit {
       this._ngZone.run(() => {
         
         if(this.authService.hasRole("Member")) 
-        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+        this.sharedService.tabSource.next(retro.currentPage);
   
       });
     });
@@ -107,7 +109,6 @@ export class TemplatesComponent implements OnInit {
       .subscribe(
         (res) => {
           this.template = res;
-          console.log(" this.template", this.template);
           $('#editModal').modal('show');
         },
         (error) => {
@@ -134,7 +135,7 @@ export class TemplatesComponent implements OnInit {
   selectTemplate(templateId) {
     localStorage.setItem('templateId', templateId);
     this.sharedService.messageSource.next(templateId);
-    this.sharedService.tabSource.next('.brainstorm');
+    this.sharedService.tabSource.next('/retro/brainstorm');
 
 
     
@@ -143,14 +144,14 @@ export class TemplatesComponent implements OnInit {
   showSwal(type, id = 0) {
     if (type == 'warning-message-and-confirmation') {
       swal({
-        title: 'Herhangi bir şablon bulunamadı',
-        text: 'Şimdi şablon oluşturmak ister misin?',
+        title: this.translate.instant("templates.template_not_found"),
+        text: this.translate.instant("templates.wanttocreatetemplate"),
         type: 'warning',
         showCancelButton: true,
         confirmButtonClass: 'btn btn-success',
         cancelButtonClass: 'btn btn-danger',
-        confirmButtonText: 'Evet',
-        cancelButtonText: 'Hayır',
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
         buttonsStyling: false,
       }).then((result) => {
         if (result.value) {
@@ -160,14 +161,15 @@ export class TemplatesComponent implements OnInit {
     }
     if (type == 'warning-message-and-confirmation-delete') {
       swal({
-        title: 'Uyarı',
-        text: 'Silmek istediğinizden emin misiniz?',
+        title: this.translate.instant("common.warning"),
+        text: this.translate.instant("common.confirm_delete"),
+
         type: 'warning',
         showCancelButton: true,
         confirmButtonClass: 'btn btn-success',
         cancelButtonClass: 'btn btn-danger',
-        confirmButtonText: 'Evet',
-        cancelButtonText: 'Hayır',
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {
         if (result.value) {
           this.deleteTemplate(id);
@@ -179,7 +181,8 @@ export class TemplatesComponent implements OnInit {
   getTemplateList() {
    let filter=new TemplateFilter();
    filter.companyId=this.authService.currentUserValue.companyId;
-
+   filter.isAdmin=true;
+   
     this.templateService
       .getAllTemplate(filter)
       .pipe(first())
@@ -222,9 +225,7 @@ export class TemplatesComponent implements OnInit {
   }
 
   removeUpdateHeader(i: number) {
-    console.log(" this.template", this.template);
     this.template.templateDetail.splice(i, 1);
-    console.log(" this.template2", this.template);
   }
 
   saveTemplate() {

@@ -1,26 +1,27 @@
 <div class="d-flex align-items-center justify-content-between  mb-3  mt-4 users-header ">
   
-  <h3 class=" mb-0">Kullanıcılar</h3>
+  <h3 class=" mb-0">{{ 'user_management.title' | translate }}</h3>
   <button class="btn btn-theme btn-vertical-padding btn-horizontal-padding-md" (click)="newUser()">
-    Kullanıcı Ekle
+    {{ 'user_management.add_user' | translate }}  
   </button>
 </div>
 <div class="d-flex align-items-center justify-content-between mb-2 users-header ">
   <div class="users-details">
-    <span class="pill-title mr-2 text-bold"
-      [ngClass]="{'text-success': getUserLeader()>0, 'text-danger':getUserLeader()<=0 }">Lider Hakkı: {{ getUserLeader()
-      }}</span>
     <span class="pill-title text-bold"
-      [ngClass]="{'text-success': getUserMember()>0, 'text-danger':getUserMember()<=0 }">Üye Hakkı: {{ getUserMember()
+      [ngClass]="{'text-success': getLeaderCount()>0, 'text-danger':getLeaderCount()<=0 }">{{ 'user_management.leader_right' | translate }}      {{ getLeaderCount()
       }}</span>
+    <span class="pill-title mr-2 text-bold"
+      [ngClass]="{'text-success': getUserLeader()>0, 'text-danger':getUserLeader()<=0 }">{{ 'user_management.number_of_retro' | translate }} {{ getUserLeader()
+      }}</span>
+    
   </div>
   <div class="add-user">
     <div class="form-group" style="margin-right: 0 !important;">
 
       <select class="form-control" (change)="changeUserType()" [(ngModel)]="userType"
         [ngModelOptions]="{ standalone: true }">
-        <option value="Leader">Lider</option>
-        <option value="Member">Üye</option>
+        <option value="Leader">{{ 'user_management.leader' | translate }}  </option>
+        <option value="Member">{{ 'user_management.member' | translate }}</option>
       </select>
 
     </div>
@@ -33,10 +34,10 @@
     <table class="table w-100 table-theme">
       <thead>
         <tr>
-          <th>Kullanıcı Adı</th>
-          <th>Şifre</th>
-          <th>Statü</th>
-          <th  class="text-center">İşlemler</th>
+          <th>{{ 'user_management.username' | translate }}</th>
+          <th>{{ 'user_management.password' | translate }}</th>
+          <th>{{ 'user_management.status' | translate }}</th>
+          <th  class="text-center">{{ 'user_management.transactions' | translate }}</th>
         </tr>
       </thead>
       <tbody>
@@ -72,7 +73,7 @@
     <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title" id="exampleModalLongTitle"> {{ isUpdate ? "Kullanıcı Güncelle" : "Kullanıcı Ekle" }}
+          <h5 class="modal-title" id="exampleModalLongTitle">   {{ getTitle() }}
           </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
@@ -81,34 +82,34 @@
         <div class="modal-body">
           <form action="#">
             <div class="form-group">
-              <label>Şirket</label>
+              <label>{{ 'user_management.company' | translate }}</label>
               <select class="form-control" disabled [(ngModel)]="user.companyId"
                 [ngModelOptions]="{ standalone: true }">
-                <option value="" selected>Şirket Seçiniz</option>
+                <option value="" selected>{{ 'user_management.select_company' | translate }}</option>
                 <option [value]="company.id" *ngFor="let company of companys">{{company.companyName}}</option>
 
               </select>
             </div>
             <div class="form-group">
-              <label>Kullanıcı Adı</label>
+              <label>{{ 'user_management.username' | translate }}</label>
               <input style="max-height: max-content" rows="10" class="form-control textarea" [(ngModel)]="user.userName"
                 [ngModelOptions]="{ standalone: true }" />
             </div>
 
             <div class="form-group">
-              <label>Şifre</label>
+              <label>{{ 'user_management.password' | translate }}</label>
               <input type="text" style="max-height: max-content" rows="10" class="form-control"
                 [(ngModel)]="user.rawPassword" [ngModelOptions]="{ standalone: true }" />
             </div>
 
             <div class="form-group">
-              <label>Statü</label>
+              <label>{{ 'user_management.status' | translate }}</label>
 
               <select class="form-control" disabled [(ngModel)]="user.statu" [ngModelOptions]="{ standalone: true }">
                 <option value="" selected>Statü Seçiniz</option>
 
-                <option value="Leader">Lider</option>
-                <option value="Member">Üye</option>
+                <option value="Leader">{{ 'user_management.leader' | translate }}</option>
+                <option value="Member">{{ 'user_management.member' | translate }}</option>
               </select>
 
             </div>
@@ -116,10 +117,10 @@
         </div>
         <div class="modal-footer d-flex align-items-center">
           <button type="button" class="btn btn-default btn-outline-theme btn-block btn-vertical-padding"
-            data-dismiss="modal">Vazgeç
+            data-dismiss="modal">    {{ 'common.cancel' | translate }}
           </button>
           <button type="submit" class="btn btn-theme btn-block mt-0 btn-vertical-padding justify-content-center">
-            Kaydet
+          {{ 'common.save' | translate }}
           </button>
         </div>
       </div>

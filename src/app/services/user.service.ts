@@ -14,6 +14,11 @@ import { UserResetPassword } from '../models/user-reset-password';
 import { ResolveStart, Router } from '@angular/router';
 import { Role } from 'app/models/role';
 import { UserFilter } from 'app/models/dto/user-filter';
+import * as firebase from 'firebase';
+import { snapshotToArray } from "app/helpers/firebase-helper";
+import { TranslateService } from '@ngx-translate/core';
+import { CultureInfo } from 'assets/i18n/culture-info';
+import * as _ from 'lodash';
 
 @Injectable(
   {
@@ -24,9 +29,34 @@ export class UserService {
   private currentUserSubject: BehaviorSubject<AuthenticateResponse>;
   public currentUser: Observable<AuthenticateResponse>;
 
-  constructor(private http: HttpClient, private baseService: BaseService, private router: Router) {
+  private currentRetroIdSubject: BehaviorSubject<string>;
+  public currentRetroId: Observable<string>;
+
+  public currentLangSubject: BehaviorSubject<string>;
+  public currentLang: Observable<string>;
+
+
+  public langJsonDataSubject: BehaviorSubject<any>;
+  public langJsonData: Observable<any>;
+
+
+
+  constructor(private http: HttpClient,private translateService: TranslateService, private baseService: BaseService, private router: Router) {
     this.currentUserSubject = new BehaviorSubject<AuthenticateResponse>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
+
+    this.currentRetroIdSubject = new BehaviorSubject<string>(JSON.parse(localStorage.getItem('currentRetroId')));
+    this.currentRetroId = this.currentRetroIdSubject.asObservable();
+
+    
+
+    this.currentLangSubject = new BehaviorSubject<string>(JSON.parse(localStorage.getItem('currentLang') || '{}'));
+    this.currentLang = this.currentLangSubject.asObservable();
+
+
+    this.langJsonDataSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('langData') || '{}'));
+    this.langJsonData = this.langJsonDataSubject.asObservable();
+
 
   }
 
@@ -34,10 +64,89 @@ export class UserService {
     return this.currentUserSubject.value;
   }
 
+  public get currentRetroIdValue(): string {
+    if (this.currentRetroIdSubject.value) {
+      return this.currentRetroIdSubject.value;
+    }
+    else {
+      this.currentRetroIdSubject = new BehaviorSubject<string>(JSON.parse(localStorage.getItem('currentRetroId')));
+      return this.currentRetroIdSubject.value;
+    }
+  }
+
+   //LANG DATA
+   public langJsonSetValue(value: any) {
+
+    localStorage.setItem('langData', JSON.stringify(value))
+    this.langJsonDataSubject.next(value);
+  }
+
+
+  public get langJsonValue(): any {
+
+    if (!this.langJsonDataSubject.value) {
+      this.langJsonDataSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('langData') || '{}'));
+    }
+
+    return this.langJsonDataSubject.value;
+
+
+  }
+  
+  //USER LANG
+
+  public langConvert(prop: string) {
+
+    let data = _.get(this.langJsonValue, prop);;
+    return data;
+  }
+
+
+  public get currentLangValue(): string {
+    if (!this.translateService.currentLang) {
+      if (!this.currentLangSubject.value) {
+        this.currentLangSubject = new BehaviorSubject<string>(JSON.parse(localStorage.getItem('currentLang') || '{}'));
+      }
+
+      return this.currentLangSubject.value;
+    }
+    else {
+      return this.translateService.currentLang;
+    }
+
+  }
+
+
+
+  
+  public currentLangSetValue(value: any) {
+    let cultureCode = this.cultureCode(value);
+    localStorage.setItem('currentLang', JSON.stringify(value))
+    localStorage.setItem('currentCultureLang', JSON.stringify(cultureCode))
+    this.currentLangSubject.next(value);
+
+  }
+
+
+  cultureCode(value: string) {
+
+    let lang = CultureInfo.find(p => p.twoLetterLangCode == value);
+    if (lang)
+      return lang.cultureInfoCode;
+    else
+      return "";
+  }
+
   // tslint:disable-next-line:typedef
   public currentUserSetValue(value) {
     this.currentUserSubject.next(value);
     localStorage.setItem('currentUser', JSON.stringify(value));
+
+  }
+
+  public currentRetroIdSetValue(value) {
+    this.currentRetroIdSubject.next(value);
+    localStorage.setItem('currentRetroId', JSON.stringify(value));
 
   }
 
@@ -61,7 +170,7 @@ export class UserService {
         return false;
       }
     }
-    else{
+    else {
       return false;
     }
   }
@@ -148,8 +257,8 @@ export class UserService {
     );
   }
 
-   // tslint:disable-next-line:typedef
-   getUserByRetro(id: string) {
+  // tslint:disable-next-line:typedef
+  getUserByRetro(id: string) {
     return this.baseService.get<User>(
       id,
       environment.serverBaseUrl,
@@ -168,7 +277,7 @@ export class UserService {
 
 
   // tslint:disable-next-line:typedef
-  getAllUser(userFilter:UserFilter) {
+  getAllUser(userFilter: UserFilter) {
     return this.baseService.post<User[]>(userFilter,
       environment.serverBaseUrl,
       EndPoints.USERS + '/GetAllUser'
@@ -204,9 +313,28 @@ export class UserService {
 
   // tslint:disable-next-line:typedef
   logout() {
+    let currentUser = this.currentUserValue;
     localStorage.removeItem('currentUser');
     localStorage.removeItem('token');
+    localStorage.removeItem('currentRetroId');
 
     this.currentUserSubject.next(null);
+
+    if (currentUser) {
+
+      var leadsRef = firebase.default.database().ref('onlineuser/');
+      leadsRef.on('value', function (snapshot) {
+        var data = snapshotToArray(snapshot);
+        var filterUser = data.filter(p => p.userId == currentUser.userId);
+        if (filterUser.length > 0) {
+          filterUser.forEach(p => {
+            firebase.default.database().ref('onlineuser/' + p.key).remove();
+
+          })
+        }
+      });
+    }
+
+
   }
 }

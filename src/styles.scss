@@ -3,8 +3,18 @@
  * Main scss file written or workshop pro application
  */
  @import "assets/scss/main.scss";
-
-
+.report-header__title{
+  text-transform: capitalize;
+}
+ 
+ .full-username{
+  max-width:200px;display: -webkit-box;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  color:white  !important;
+  overflow-x: hidden;
+ }
 
   [data-notify="progressbar"] {
     margin-bottom: 0px;
@@ -15,6 +25,10 @@
     height: 5px;
   }
 
+  .mt-50{
+    margin-top:50px !important;
+  }
+  
   .mini-btn {display:flex;align-items: center;flex-wrap: wrap;
     span {font-size: 14px;font-weight: 500;background-color: #2E3448;color: white;padding: 4px 7px;text-align: center;border-radius: 4px;margin-right: 5px;cursor: pointer;}
 }
@@ -32,3 +46,103 @@
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.5); 
 }
+
+.card-custom-borderless .form-control:focus {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
+}
+
+.login{
+  background-image: url('assets/img/login-bg-2.jpg');
+}
+
+.side-bar-mini{
+  color: #95A5DC;
+    font-size: 1.1rem;
+}
+
+.corner-button{
+ position: absolute;
+ top: -10px;
+ right: -10px;
+ display: none;
+}
+
+.card-theme:hover .corner-button{
+   display: block;
+}
+
+.corner-button-template{
+  position: absolute;
+  top: -10px;
+  right: 0px;
+  display: none;
+  z-index: 9999;
+}
+
+.corner-item:hover .corner-button-template{
+   display: block;
+}
+
+
+.dropdown-width {
+  width: 200px;
+  left: 10%;
+  top:10%;
+  // transform: translate(-50%,50%) !important;
+}
+.dropdown-width .dropdown-item {
+  white-space: normal;
+}
+.card-description{
+  // word-break: break-all ;
+  padding-right: 7px;
+}
+
+.custom-slider-main{
+     
+  scroll-behavior: smooth;
+}
+
+a.disabled {
+  pointer-events: none;
+  cursor: default;
+}
+
+a {
+  cursor: pointer;
+}
+
+.checkbox-theme__pseudo-control {flex-shrink: 0;}
+.checkbox-theme__control + span span {word-break: break-all;}
+.btn-icon-text {display: flex;align-items: center;justify-content: center;}
+.btn-icon-text i {font-size: 15px;}
+@media (min-width: 577px) {
+  .btn-responsive {justify-content: flex-end;}
+  .btn-icon-text i{display: none;}
+  .login{
+    background-image: url('assets/img/login-bg-2.jpg');
+  }
+  .btn-list-comment{
+    display: flex;
+  }
+
+
+}
+@media (max-width: 576px) {
+  login-cmp h1 {font-size: 32px;}
+  .btn-responsive {justify-content: center;}
+  .btn-icon-text span {display: none;}
+  body .mobile-brainstorm {width: 100%;max-width: 100%;flex: 0 0 100%;margin-top: 15px;}
+  body .mobile-brainstorm textarea {height: 65px !important;}
+  .login{
+    background-image: url('assets/img/mobil-login-bg.jpeg');
+  }
+  .btn-list-comment{
+    display: none;
+  }
+}
+
+
+

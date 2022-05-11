@@ -11,6 +11,11 @@ import { CompanyService } from "app/services/company.service";
 import { Company } from "app/models/company";
 import { SubjectFilter } from "app/models/dto/subject-filter";
 import { AlertifyService } from "app/services/alertify.service";
+import { RetroUserReport } from "app/models/dto/retro-user-report";
+import { RetroConfigurationService } from "app/services/retro-configuration";
+import { ReportFile } from "app/models/dto/report-file";
+import * as moment from 'moment'
+import { TranslateService } from "@ngx-translate/core";
 
 declare var $: any;
 
@@ -23,17 +28,21 @@ export class SubjectComponent implements OnInit {
   subjects: Array<Subject> = [];
   subject: Subject = new Subject();
   isUpdate: boolean = false;
-  isUser:boolean=false;
+  isUser: boolean = false;
 
   companys: Array<Company> = [];
   companyId: string = '';
-  
+
+  retroList: Array<RetroUserReport> = [];
+  showOverlay = false;
 
   constructor(
     private subjectService: SubjectsService,
     private authService: UserService,
     private sharedService: SharedService,
+    private translate: TranslateService,
     private alertifyService: AlertifyService,
+    private retroConfigurationService: RetroConfigurationService,
     private chatService: ChatService,
     private companyService: CompanyService,
     private _ngZone: NgZone,
@@ -48,50 +57,122 @@ export class SubjectComponent implements OnInit {
   }
 
   existUser() {
-    this.isUser=this.authService.hasRole("Member");
- }
+    this.isUser = this.authService.hasRole("Member");
+  }
 
 
- getAllCompany() {
+  getAllCompany() {
 
 
-  this.companyService
-    .getAllCompany()
-    .pipe(first())
-    .subscribe(
-      (res) => {
-        this.companys = res;
-      },
-      (error) => {
-       this.alertifyService.error();
-      }
-    );
-}
+    this.companyService
+      .getAllCompany()
+      .pipe(first())
+      .subscribe(
+        (res) => {
+          this.companys = res;
+        },
+        (error) => {
+          this.alertifyService.error();
+        }
+      );
+  }
 
 
- private subscribeToCurrentRetroEvents(): void {
-  this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
-    this._ngZone.run(() => {
-      if(this.authService.hasRole("Member")) {
-        this.sharedService.tabSource.next("."+retro.currentPage.replace("/",""));
+  private subscribeToCurrentRetroEvents(): void {
+    this.chatService.currentRetroReceived.subscribe((retro: Retro) => {
+      this._ngZone.run(() => {
+        if (this.authService.hasRole("Member")) {
+          this.sharedService.tabSource.next(retro.currentPage);
 
-      }
-           
+        }
+
+      });
     });
-  });
-}
+  }
+
+
+  getDate(startDate: Date, endDate: Date) {
+    var date1: any = new Date(moment(endDate).format());
+    var date2: any = new Date(moment(startDate).format());
+
+    let diffMs = (date1 - date2); // milliseconds
+    let diffDays = Math.floor(diffMs / 86400000); // days
+    let diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+    let diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000);
+
+    if (diffMins < 0)
+      return 0;
+
+    return diffMins;
+    // let diff = {
+    //   seconds: 0,
+    //   minutes: diffMins,
+    //   hours: diffHrs,
+    //   days: diffDays,
+    // };
+
+    // return diff;
+  }
+
+
+
+  getRetro(subjectId: string) {
+
+    this.subjectService
+      .getRetroListBySubject(subjectId)
+      .pipe(first())
+      .subscribe(
+        (res) => {
+          this.retroList = res;
+          console.log("this.retrolist", this.retroList);
+
+
+
+
+          $('#retroModal').modal('show');
+        },
+        (error) => {
+          this.alertifyService.error();
+
+        }
+      );
+  }
+  getRetroReport(retroId: string) {
+
+    this.showOverlay = true;
+
+
+    let data = new ReportFile();
+    data.retroId = retroId;
+
+    this.retroConfigurationService.getRetroUserReport(data).subscribe((data) => {
+      let blob = new Blob([data], { type: 'application/pdf' });
+      var downloadURL = window.URL.createObjectURL(data);
+      var link = document.createElement('a');
+      link.href = downloadURL;
+      link.download = "report.pdf";
+      link.click();
+      this.showOverlay = false;
+
+    });
+
+
+
+  }
 
 
   getSubjects() {
-    let filter=new SubjectFilter();
-    filter.companyId=this.authService.currentUserValue.companyId;
-     
+    let filter = new SubjectFilter();
+    filter.companyId = this.authService.currentUserValue.companyId;
+    filter.isAdmin = true;
+
     this.subjectService
       .getAllSubject(filter)
       .pipe(first())
       .subscribe(
         (res) => {
           this.subjects = res;
+
         },
         (error) => {
           this.alertifyService.error();
@@ -110,6 +191,10 @@ export class SubjectComponent implements OnInit {
         $("#addModal").modal("show");
       });
   }
+
+
+
+
   removeSubject(subjectId: any) {
     this.subjectService
       .delete(subjectId)
@@ -127,17 +212,25 @@ export class SubjectComponent implements OnInit {
       );
   }
 
+  getTitle() {
+    if (this.isUpdate)
+      return this.translate.instant('subject.edit_subject')
+    else
+      return this.translate.instant('subject.add_subject');
+  }
+
   saveSubject() {
     let data = this.subject;
     this.subject.subjectTitle = this.subject.subjectTitle.replace(
       /[\t\r\n]/g,
       ""
     );
-    
+
+    console.log("data", data);
 
     if (!this.isUpdate) {
-      data.createRole='Admin';
-      data.userId=this.authService.currentUserValue.userId;
+      data.createRole = 'Admin';
+      data.userId = this.authService.currentUserValue.userId;
       this.subjectService
         .create(data)
         .pipe(first())
@@ -157,7 +250,7 @@ export class SubjectComponent implements OnInit {
           }
         );
     } else {
-      
+
       this.subjectService
         .update(data)
         .pipe(first())
@@ -182,14 +275,14 @@ export class SubjectComponent implements OnInit {
   showSwal(type, id = 0) {
     if (type == "warning-message-and-confirmation") {
       swal({
-        title: "Herhangi bir şablon bulunamadı",
-        text: "Şimdi şablon oluşturmak ister misin?",
+        title: this.translate.instant("templates.template_not_found"),
+        text: this.translate.instant("templates.wanttocreatetemplate"),
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
         buttonsStyling: false,
       }).then((result) => {
         if (result.value) {
@@ -199,14 +292,14 @@ export class SubjectComponent implements OnInit {
     }
     if (type == "warning-message-and-confirmation-delete") {
       swal({
-        title: "Uyarı",
-        text: "Silmek istediğinizden emin misiniz?",
+        title: this.translate.instant('common.warning'),
+        text: this.translate.instant('common.confirm_delete'),
         type: "warning",
         showCancelButton: true,
         confirmButtonClass: "btn btn-success",
         cancelButtonClass: "btn btn-danger",
-        confirmButtonText: "Evet",
-        cancelButtonText: "Hayır",
+        confirmButtonText: this.translate.instant("common.yes"),
+        cancelButtonText: this.translate.instant("common.no"),
       }).then((result) => {
         if (result.value) {
           this.removeSubject(id);

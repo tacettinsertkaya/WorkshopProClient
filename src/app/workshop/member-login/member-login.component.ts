@@ -21,6 +21,11 @@ import { Group } from 'app/models/group';
 import { SharedService } from 'app/services/shared.service';
 import { AlertifyService } from 'app/services/alertify.service';
 
+import * as firebase from 'firebase';
+import { snapshotToArray } from "app/helpers/firebase-helper";
+import { FirebaseOnlineUser } from 'app/models/firebase-online-user';
+import { GuidGenerator } from 'app/helpers/guid-generator';
+
 declare var $: any;
 @Component({
   moduleId: module.id,
@@ -42,7 +47,7 @@ export class MemberLoginComponent implements OnInit {
   // tslint:disable-next-line:no-inferrable-types
   returnUrl: string = '';
   error = '';
-  errorMessage='';
+  errorMessage = '';
 
   loginForm: FormGroup;
   id: string = "";
@@ -50,6 +55,7 @@ export class MemberLoginComponent implements OnInit {
   createdUser: User;
   userRight: UserRight;
   isFailed = false;
+  currentRetro: Retro = new Retro();
 
   constructor(private element: ElementRef,
     private formBuilder: FormBuilder,
@@ -66,16 +72,29 @@ export class MemberLoginComponent implements OnInit {
     this.nativeElement = element.nativeElement;
     this.sidebarVisible = false;
     this.id = this.route.snapshot.params.id;
-
+    localStorage.removeItem("currentRetroId");
+    this.userService.currentRetroIdSetValue(this.id);
     this.userService.logout();
 
-    if (this.id != undefined && this.userService.hasRole("Member")) {
-      this.router.navigate(["/retro", this.id]);
-    }
+    this.getRetro();
 
-    if (this.userService.currentUserValue) {
-      this.router.navigateByUrl('/');
-    }
+  }
+
+  getRetro() {
+    firebase.default.database().ref('currentpath/').orderByChild("id").equalTo(this.id).limitToLast(1).on('value', (resp: any) => {
+
+      var data = snapshotToArray(resp);
+      if (data.length > 0 && data[0].id == this.id) {
+        let currentPage = data[0].currentPage;
+
+        if (currentPage == "/current/finish") {
+          this.router.navigate([currentPage])
+        }
+
+      }
+
+
+    });
 
   }
 
@@ -83,21 +102,23 @@ export class MemberLoginComponent implements OnInit {
   loginAddForm() {
     this.loginForm = this.formBuilder.group({
 
-      alias:  ['',
-      [
-        Validators.required,
+      alias: [''],
+      name: ['',
+        [
+          Validators.required,
+          // Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // <-- Allow letters and numbers only
 
-      ]],
-      name:  ['',
-      [
-        Validators.required,
 
-      ]],
-      surname:  ['',
-      [
-        Validators.required,
+        ]],
+      surname: ['',
+        [
+          Validators.required,
+          // Validators.pattern('^(?=.*[a-zA-Z])[a-zA-Z0-9]+$'), // <-- Allow letters and numbers only
 
-      ]]
+
+        ]],
+        isAgree: [null,[Validators.required,Validators.requiredTrue]]
+
     });
   }
   checkFullPageBackgroundImage() {
@@ -139,7 +160,6 @@ export class MemberLoginComponent implements OnInit {
       .subscribe(
         (rights) => {
           this.userRight = rights;
-
         },
         (error) => {
           this.error = error;
@@ -165,7 +185,10 @@ export class MemberLoginComponent implements OnInit {
           filter.leaderId = this.createdUser.id;
           filter.state = 0;
           this.getAllGroup(filter);
-         this.getCurrentUserRetro(this.id);
+
+          this.retroConfigurationService.getCurrentRetro(this.id).subscribe(res => {
+            this.currentRetro = res;
+          })
         },
         (error) => {
           this.error = error;
@@ -174,13 +197,7 @@ export class MemberLoginComponent implements OnInit {
       );
   }
 
-  getCurrentUserRetro(id){
-    this.retroConfigurationService.getCurrentRetro(id) .pipe(first())
-    .subscribe(
-      (retro) => {
-        this.sharedService.currentRetroSetValue(retro);
-      });
-  }
+
 
 
 
@@ -203,8 +220,7 @@ export class MemberLoginComponent implements OnInit {
       .subscribe(
         (res) => {
           this.groups = res.filter(p => p.group.state == 0 || p.group.state == 1);
-          console.log(" this.groups", this.groups);
-          if (this.groups.length>0) {
+          if (this.groups.length > 0) {
             if (this.groups[0].group.memberCount <= 0) {
               this.isFailed = true;
               swal(
@@ -226,7 +242,7 @@ export class MemberLoginComponent implements OnInit {
 
         },
         (error) => {
-           this.alertifyService.error();
+          this.alertifyService.error();
         }
       );
   }
@@ -246,7 +262,7 @@ export class MemberLoginComponent implements OnInit {
       let data = Object.assign({}, this.loginForm.value);
 
       let user = new User();
-      user.userName = data.alias;
+      user.userName =new  GuidGenerator().newGuid();
       user.name = data.name;
       user.surname = data.surname;
       user.email = data.alias + moment().format() + '@gmail.com';
@@ -257,15 +273,16 @@ export class MemberLoginComponent implements OnInit {
       this.userService.create(user).pipe(first())
         .subscribe((res) => {
 
-      
 
-          this.login.username = user.userName;
+
+          this.login.username = res.userName;
           this.login.password = user.rawPassword;
-          this.login.alias=data.alias;
+          this.login.alias = data.alias;
+
           let rightData = new UserRight();
           rightData.commentRight = this.userRight.commentRight;
           rightData.ideaRight = this.userRight.ideaRight;
-          rightData.retroId = this.userRight.retroId;
+          rightData.retroId = this.currentRetro.id;
           rightData.userId = res.id;
           rightData.voteRight = this.userRight.voteRight;
 
@@ -278,7 +295,7 @@ export class MemberLoginComponent implements OnInit {
             .pipe(first())
             .subscribe(
               (rights) => {
-     
+
 
 
                 this.userService
@@ -286,12 +303,42 @@ export class MemberLoginComponent implements OnInit {
                   .pipe(first())
                   .subscribe(
                     (userRes) => {
+
                       localStorage.setItem('currentUser', JSON.stringify(userRes));
                       localStorage.setItem('token', userRes.token);
-                      this.sharedService.tabSource.next("");
 
+                      this.userService.currentRetroIdSetValue(this.id);
                       this.userService.currentUserSetValue(userRes);
-                      this.router.navigate(["/retro", this.id]);
+
+
+                      let onlineUser = new FirebaseOnlineUser();
+                      onlineUser.userId = userRes.userId;
+                      onlineUser.userName = userRes.userName;
+                      onlineUser.name = userRes.name;
+                      onlineUser.surname = userRes.surname;
+                      onlineUser.retroId = this.currentRetro.id;
+
+
+                      const newMessage = firebase.default.database().ref('onlineuser/').push();
+                      newMessage.set(onlineUser);
+
+
+
+                      firebase.default.database().ref('currentpath/').orderByChild("id").equalTo(this.id).limitToLast(1).on('value', (resp: any) => {
+
+                        var data = snapshotToArray(resp);
+                        if (data.length > 0) {
+                          let currentPage = data[0].currentPage;
+                          let retroId = data[0].id;
+                      
+
+                          if (currentPage != "/current/finish" && retroId == this.id)
+                            this.router.navigate([currentPage])
+
+
+                        }
+                      });
+
 
                     },
                     (error) => {
@@ -310,16 +357,16 @@ export class MemberLoginComponent implements OnInit {
 
 
         },
-        (error)=>{
-          this.errorMessage="Bu takma ad daha önce alınmıştır.Lütfen farklı bir takma ad deneyiniz.";
-        }
-        
+          (error) => {
+            this.errorMessage = "Bu takma ad daha önce alınmıştır.Lütfen farklı bir takma ad deneyiniz.";
+          }
+
         );
     }
   }
 
-  clearError(){
-    this.errorMessage='';
+  clearError() {
+    this.errorMessage = '';
   }
 
 

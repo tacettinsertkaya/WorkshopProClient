@@ -5,4 +5,5 @@ export class Subject {
   subjectDescription: string;
   userId:string;
   createRole:string="Admin";
+  isDelete:boolean=false;
 }

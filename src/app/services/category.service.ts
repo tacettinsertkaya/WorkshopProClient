@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { BaseService } from "./base.service";
 import { environment } from "../../environments/environment";
 import { EndPoints } from "./end-points";
-import { Category } from "../models/Category";
+import { Category } from "../models/category";
 import { isNullOrUndefined } from "util";
 import { CategorizedMessage } from "app/models/dto/categorized-message";
 

@@ -6,7 +6,7 @@ import { SharedService } from "app/services/shared.service";
 import swal from "sweetalert2";
 import { UserService } from "app/services/user.service";
 import { User } from "app/models/user";
-import { Company } from "app/models/Company";
+import { Company } from "app/models/company";
 import { CompanyService } from "app/services/company.service";
 import { AlertifyService } from "app/services/alertify.service";
 import { UploadService } from "app/services/upload.service";

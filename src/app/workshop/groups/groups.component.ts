@@ -12,7 +12,7 @@ import { Retro } from 'app/models/retro';
 import { CompanyService } from 'app/services/company.service';
 import { Company } from 'app/models/company';
 import { User } from 'app/models/user';
-import { Group } from 'app/models/Group';
+import { Group } from 'app/models/group';
 import { GroupService } from 'app/services/group.service';
 import { UserFilter } from 'app/models/dto/user-filter';
 import { GroupFilter } from 'app/models/dto/group-filter';

@@ -4,7 +4,7 @@ import { HttpClient } from "@angular/common/http";
 import { BaseService } from "./base.service";
 import { environment } from "../../environments/environment";
 import { EndPoints } from "./end-points";
-import { Company } from "../models/Company";
+import { Company } from "../models/company";
 import { isNullOrUndefined } from "util";
 
 @Injectable()

@@ -1,8 +1,8 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
-import { APP_BASE_HREF, CommonModule } from "@angular/common";
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
+import { CommonModule } from "@angular/common";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 import { AppComponent } from "./app.component";
@@ -16,7 +16,7 @@ import { AdminLayoutComponent } from "./layouts/admin/admin-layout.component";
 import { AuthLayoutComponent } from "./layouts/auth/auth-layout.component";
 import { AppRoutes } from "./app.routing";
 
-import { HttpClient, HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
+import {  HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 
 import { BrowserModule } from '@angular/platform-browser';
 
@@ -37,16 +37,14 @@ import { MessageService } from "./services/message.service";
 import { MemberLoginComponent } from "./workshop/member-login/member-login.component";
 import { RetroConfigurationService } from "./services/retro-configuration";
 import { GroupService } from "./services/group.service";
-import { DatetimePipe } from './pipes/datetime.pipe';
 import { SharedService } from "./services/shared.service";
 import { AlertifyService } from "./services/alertify.service";
 import * as firebase from 'firebase';
-import { PagesModule } from "./pages/pages.module";
 import { DashboardComponent } from "./workshop/dashboard/dashboard.component";
 import { RetroFinishComponent } from "./workshop/retro-finish/retro-finish.component";
 
-import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
-import {TranslateHttpLoader} from '@ngx-translate/http-loader';
+import { TranslateLoader, TranslateModule } from '@ngx-translate/core';
+import { TranslateHttpLoader } from '@ngx-translate/http-loader';
 
 const config = {
   apiKey: 'AIzaSyAj0b-wjz8RPScqbslxU7ByFBKOk-B37jw',

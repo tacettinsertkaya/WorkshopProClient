@@ -13,7 +13,6 @@ import { Subject } from "app/models/subject";
 import { CompanyService } from "app/services/company.service";
 import { Company } from "app/models/company";
 import { TemplateFilter } from "app/models/dto/template-filter";
-import { NotifierService } from "angular-notifier";
 import { AlertifyService } from "app/services/alertify.service";
 import { SubjectsService } from "app/services/subject.service";
 import { RetroConfigurationService } from "app/services/retro-configuration";
@@ -54,7 +53,6 @@ export class RetroTemplateComponent implements OnInit {
   /**
    *
    */
-  private readonly notifier: NotifierService;
   constructor(
     private templateService: TemplateService,
     private companyService: CompanyService,

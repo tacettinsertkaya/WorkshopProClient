@@ -1,7 +1,6 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from "@angular/core";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { RouterModule } from "@angular/router";
-import { HttpModule } from "@angular/http";
 import { APP_BASE_HREF, CommonModule } from "@angular/common";
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from "@angular/forms";
 import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
@@ -33,7 +32,6 @@ import { UserRoleDirective } from "./workshop/directive/user-role-directive.dire
 
 import { LoaderInterceptorService } from './helpers/loaderinceptor.service';
 import { LoaderComponent } from "./workshop/loader/loader.component";
-import { NgxSpinnerModule } from "ngx-spinner";
 import { ChatService } from "./services/chat.service";
 import { MessageService } from "./services/message.service";
 import { MemberLoginComponent } from "./workshop/member-login/member-login.component";
@@ -51,8 +49,8 @@ import {TranslateLoader, TranslateModule} from '@ngx-translate/core';
 import {TranslateHttpLoader} from '@ngx-translate/http-loader';
 
 const config = {
-  apiKey: 'AIzaSyDZqPnzXZbtXQUH7umv30cAPL3bJLYiPC8',
-  databaseURL: 'https://workshoppro3-default-rtdb.europe-west1.firebasedatabase.app/'
+  apiKey: 'AIzaSyAj0b-wjz8RPScqbslxU7ByFBKOk-B37jw',
+  databaseURL: 'https://workshoppro-75580-default-rtdb.firebaseio.com'
 };
 
 
@@ -66,14 +64,12 @@ firebase.default.initializeApp(config);
     ReactiveFormsModule, 
     RouterModule.forRoot(AppRoutes, { useHash: true, relativeLinkResolution: 'legacy' }),
     NgbModule,
-    HttpModule,
     HttpClientModule,
     SidebarModule,
     NavbarModule,
     FooterModule,
     FixedPluginModule,
     BrowserModule,
-    NgxSpinnerModule,
     TranslateModule.forRoot({
       loader: {
           provide: TranslateLoader,
